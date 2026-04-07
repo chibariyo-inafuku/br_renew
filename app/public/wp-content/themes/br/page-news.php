@@ -9,7 +9,8 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_posts_for_category_slug( 'news-s', 10 );
+	$list_page_url = get_permalink( get_the_ID() );
+	$q             = br_query_posts_for_category_slug( 'news-s', 10 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>
@@ -37,7 +38,7 @@ while ( have_posts() ) :
 				<?php endwhile; ?>
 			</ul>
 			<?php
-			br_the_pagination( $q, get_permalink() );
+			br_the_pagination( $q, $list_page_url );
 			wp_reset_postdata();
 		else :
 			?>

@@ -9,7 +9,8 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_portfolio_for_list_term( 'project-s', 12 );
+	$list_page_url = get_permalink( get_the_ID() );
+	$q             = br_query_portfolio_for_list_term( 'project-s', 12 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>
@@ -42,7 +43,7 @@ while ( have_posts() ) :
 				<?php endwhile; ?>
 			</ul>
 			<?php
-			br_the_pagination( $q, get_permalink() );
+			br_the_pagination( $q, $list_page_url );
 			wp_reset_postdata();
 		else :
 			?>
