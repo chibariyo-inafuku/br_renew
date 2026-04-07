@@ -38,7 +38,7 @@ function br_register_portfolio_post_type() {
 		'description'         => __( 'Portfolio projects', 'br' ),
 		'labels'              => $labels,
 		'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'custom-fields' ),
-		'taxonomies'          => array( 'project-categories' ),
+		'taxonomies'          => array( 'project-categories', 'portfolio-list' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -58,7 +58,6 @@ function br_register_portfolio_post_type() {
 
 	register_post_type( 'portfolio', $args );
 }
-add_action( 'init', 'br_register_portfolio_post_type', 0 );
 
 /**
  * Register project categories taxonomy.
@@ -96,4 +95,56 @@ function br_register_project_categories() {
 		)
 	);
 }
-add_action( 'init', 'br_register_project_categories', 0 );
+add_action( 'init', 'br_register_project_categories', -1 );
+
+/**
+ * Taxonomy for assigning portfolio items to WORKS vs PROJECT listing pages (term slugs: works-s, project-s).
+ */
+function br_register_portfolio_list_taxonomy() {
+	if ( taxonomy_exists( 'portfolio-list' ) ) {
+		return;
+	}
+
+	$labels = array(
+		'name'              => _x( 'Portfolio lists', 'taxonomy general name', 'br' ),
+		'singular_name'     => _x( 'Portfolio list', 'taxonomy singular name', 'br' ),
+		'search_items'      => __( 'Search lists', 'br' ),
+		'all_items'         => __( 'All lists', 'br' ),
+		'parent_item'       => __( 'Parent list', 'br' ),
+		'parent_item_colon' => __( 'Parent list:', 'br' ),
+		'edit_item'         => __( 'Edit list', 'br' ),
+		'update_item'       => __( 'Update list', 'br' ),
+		'add_new_item'      => __( 'Add New list', 'br' ),
+		'new_item_name'     => __( 'New list name', 'br' ),
+		'menu_name'         => __( 'Portfolio lists', 'br' ),
+	);
+
+	register_taxonomy(
+		'portfolio-list',
+		array( 'portfolio' ),
+		array(
+			'hierarchical'      => true,
+			'labels'            => $labels,
+			'public'            => false,
+			'show_ui'           => true,
+			'show_in_nav_menus' => false,
+			'show_admin_column' => true,
+			'show_in_rest'      => true,
+			'query_var'         => false,
+			'rewrite'           => false,
+		)
+	);
+}
+add_action( 'init', 'br_register_portfolio_list_taxonomy', -1 );
+
+/**
+ * Ensure portfolio-list is attached when portfolio CPT is registered elsewhere (e.g. Pe Core).
+ */
+function br_ensure_portfolio_list_linked() {
+	if ( taxonomy_exists( 'portfolio-list' ) && post_type_exists( 'portfolio' ) ) {
+		register_taxonomy_for_object_type( 'portfolio-list', 'portfolio' );
+	}
+}
+add_action( 'init', 'br_ensure_portfolio_list_linked', 11 );
+
+add_action( 'init', 'br_register_portfolio_post_type', 0 );

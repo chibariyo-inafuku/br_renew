@@ -119,14 +119,14 @@ function br_get_query_paged() {
 }
 
 /**
- * WP_Query for blog posts on a static page: uses category slug matching the page slug when that category exists.
+ * WP_Query for posts filtered by standard category slug (NEWS/BLOG/SERVICE fixed pages).
  *
- * @param string $page_slug Page slug (e.g. news, blog, service).
- * @param int    $per_page  Posts per page.
+ * @param string $category_slug Category slug (e.g. news-s, blogs, services).
+ * @param int    $per_page      Posts per page.
  * @return WP_Query
  */
-function br_query_posts_for_page( $page_slug, $per_page = 10 ) {
-	$cat = get_term_by( 'slug', $page_slug, 'category' );
+function br_query_posts_for_category_slug( $category_slug, $per_page = 10 ) {
+	$cat = get_term_by( 'slug', sanitize_title( $category_slug ), 'category' );
 	$args = array(
 		'post_type'      => 'post',
 		'posts_per_page' => (int) $per_page,
@@ -135,23 +135,40 @@ function br_query_posts_for_page( $page_slug, $per_page = 10 ) {
 	);
 	if ( $cat instanceof WP_Term ) {
 		$args['cat'] = (int) $cat->term_id;
+	} else {
+		$args['post__in'] = array( 0 );
 	}
 	return new WP_Query( $args );
 }
 
 /**
- * WP_Query for portfolio list on a static page.
+ * WP_Query for portfolio items on WORKS / PROJECT pages (taxonomy portfolio-list).
  *
- * @param int $per_page Posts per page.
+ * @param string $term_slug Term slug (e.g. works-s, project-s).
+ * @param int    $per_page  Posts per page.
  * @return WP_Query
  */
-function br_query_portfolio_for_page( $per_page = 12 ) {
-	return new WP_Query(
-		array(
-			'post_type'      => 'portfolio',
-			'posts_per_page' => (int) $per_page,
-			'paged'          => br_get_query_paged(),
-			'post_status'    => 'publish',
-		)
+function br_query_portfolio_for_list_term( $term_slug, $per_page = 12 ) {
+	$term_slug = sanitize_title( $term_slug );
+	$base      = array(
+		'post_type'      => 'portfolio',
+		'posts_per_page' => (int) $per_page,
+		'paged'          => br_get_query_paged(),
+		'post_status'    => 'publish',
 	);
+
+	if ( $term_slug === '' || ! taxonomy_exists( 'portfolio-list' ) ) {
+		$base['post__in'] = array( 0 );
+		return new WP_Query( $base );
+	}
+
+	$base['tax_query'] = array(
+		array(
+			'taxonomy' => 'portfolio-list',
+			'field'    => 'slug',
+			'terms'    => $term_slug,
+		),
+	);
+
+	return new WP_Query( $base );
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Fixed page: /news/ (slug `news`). Lists `post` items; uses category `news` when it exists.
+ * Fixed page: /news/ (slug `news`). Lists `post` items in category slug `news-s`.
  *
  * @package br
  */
@@ -9,7 +9,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_posts_for_page( 'news', 10 );
+	$q = br_query_posts_for_category_slug( 'news-s', 10 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>

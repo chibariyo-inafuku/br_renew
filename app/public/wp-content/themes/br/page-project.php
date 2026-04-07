@@ -1,8 +1,6 @@
 <?php
 /**
- * Static page slug: project
- *
- * Same portfolio grid as works; use page content for a distinct intro or split content in the editor.
+ * Fixed page: /project/ (slug `project`). Lists `portfolio` with taxonomy `portfolio-list` term `project-s`.
  *
  * @package br
  */
@@ -11,7 +9,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_portfolio_for_page( 12 );
+	$q = br_query_portfolio_for_list_term( 'project-s', 12 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>

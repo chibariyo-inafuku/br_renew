@@ -1,6 +1,6 @@
 <?php
 /**
- * Static page slug: works
+ * Fixed page: /works/ (slug `works`). Lists `portfolio` with taxonomy `portfolio-list` term `works-s`.
  *
  * @package br
  */
@@ -9,7 +9,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_portfolio_for_page( 12 );
+	$q = br_query_portfolio_for_list_term( 'works-s', 12 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>

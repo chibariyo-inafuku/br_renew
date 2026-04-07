@@ -1,6 +1,6 @@
 <?php
 /**
- * Static page slug: blog
+ * Fixed page: /blog/ (slug `blog`). Lists `post` items in category slug `blogs`.
  *
  * @package br
  */
@@ -9,7 +9,7 @@ get_header();
 
 while ( have_posts() ) :
 	the_post();
-	$q = br_query_posts_for_page( 'blog', 10 );
+	$q = br_query_posts_for_category_slug( 'blogs', 10 );
 	?>
 <main id="main" class="br-main br-container">
 	<article <?php post_class( 'br-page' ); ?>>
