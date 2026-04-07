@@ -1,0 +1,13 @@
+BR テーマ切り替えチェックリスト（まずステージングで実施）
+
+1. テーマを切り替える前に、データベースと wp-content をバックアップする。
+2. 管理画面「外観 → テーマ」で「BR」テーマを有効化する。
+3. Advanced Custom Fields はテーマ内でフィールドをコード登録しない。管理画面「ACF → フィールドグループ」で新規グループを作成し、表示場所を「投稿タイプ」が「portfolio」と等しいに設定する。次のフィールド名で追加する（テーマのテンプレートがこの名前を参照する）: フィールド名 br_summary（タイプはテキストエリア推奨）、フィールド名 br_external_url（タイプは URL）。既存データは同じフィールド名ならそのまま表示される。
+4. 「設定 → パーマリンク」で「変更を保存」をクリックする（リライトルールを再生成）。
+5. 「外観 → メニュー」で「プライマリメニュー」を割り当て、必要なら「フッターメニュー」も割り当てる。
+6. 次のスラッグで固定ページが存在することを確認する: about, faq, news, blog, service, works, project, recruit, contact。
+7. NEWS / BLOG / SERVICE の一覧: 絞り込み表示にしたい場合は同名のカテゴリ（news, blog, service）を作成する。なければそれらのページでは全投稿が表示される。
+8. 「ツール → BR gallery migration」を、旧 ACF Photo Gallery（メタキー `image_gallery`）を使っていた場合に 1 回実行する。portfolio 単体ページを確認したうえで、navz-photo-gallery プラグインを無効化してよい。
+9. 準備ができたら Nayla 向けプラグインを無効化する: Elementor、Redux、Pe Core（portfolio が表示されることを確認してから。Pe Core をオフにすると BR テーマが CPT を登録する）、Nayla Elementor Extension、WooCommerce など。Advanced Custom Fields と Contact Form 7 は必要に応じて有効のままにする。
+10. Elementor に依存していた固定ページは、ブロックエディタまたはページ本文の HTML で作り直す。
+11. 動作確認: 単一投稿、単一 portfolio、`/portfolio/` アーカイブ、`/works/`、`/project/`、`/recruit/` と `/contact/` のフォーム。
