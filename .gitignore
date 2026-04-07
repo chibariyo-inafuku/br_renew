@@ -4,6 +4,12 @@
 /*
 !.gitignore
 
+# Cursor project rules (share site structure / conventions with the team)
+!.cursor/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
 !app/
 /app/*
 !/app/public/
