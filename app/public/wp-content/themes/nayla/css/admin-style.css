@@ -1,0 +1,410 @@
+#redux-header {
+    border: none !important;
+    background: #191b1d !important
+}
+
+.toplevel_page_pe-redux_options #wpcontent {
+    padding-left: 0
+}
+
+.wrap.redux-wrap-div {
+    margin-left: 0;
+    margin-top: -18px;
+}
+
+.redux-container .ui-button,
+.control-section-redux .ui-button,
+.control-panel-redux .ui-button,
+.redux-metabox .ui-button {
+    background: #ebebeb !important;
+    border-radius: 0 !important;
+    padding: 15px 35px;
+    font-size: 13px;
+}
+
+.redux-container .ui-buttonset .ui-state-active,
+.control-section-redux .ui-buttonset .ui-state-active,
+.control-panel-redux .ui-buttonset .ui-state-active,
+.redux-metabox .ui-buttonset .ui-state-active {
+    background: #191b1d !important;
+    color: #fff !important;
+    border-color: #191b1d !important;
+    box-shadow: none !important;
+}
+
+.redux-sidebar .redux-group-menu li {
+    background: #191b1d;
+    border-top: 1px solid;
+}
+
+.redux-container .redux-sidebar .redux-group-menu li a {
+    padding: 15px 4px 15px 14px;
+}
+
+.redux-container .redux-sidebar .redux-group-menu li.active a {
+    background: #ebebeb !important;
+    color: #191b1d !important;
+}
+
+.redux-container .redux-sidebar .redux-group-menu li a:hover {
+    background: #ebebeb !important;
+    color: #191b1d !important
+}
+
+.redux-container .redux-group-tab h3 {
+    border: none !important
+}
+
+div#section-archive-post {
+    margin-top: 25px
+}
+
+.redux-container-switch .switch-options label {
+    padding: 5px 15px;
+    margin: 0 !important;
+    position: relative;
+    z-index: 2;
+    background: none !important;
+    border: none !important;
+    transition: color .2s ease, opacity .2s ease;
+    opacity: .4
+}
+
+.redux-container-switch .cb-enable.selected {
+    background: none !important;
+    border: none !important;
+    color: #fff;
+    box-shadow: none !important;
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+    outline: none !important;
+}
+
+.redux-container-switch .cb-disable {
+    border: none !important
+}
+
+
+.redux-container-switch .switch-options {
+    min-height: 30px;
+    margin-right: 0 !important;
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin: 0;
+    background: #f5f5f5;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, .3);
+}
+
+.redux-container-switch .switch-options::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: #191b1d;
+    border-radius: 20px;
+    transition: transform .3s ease;
+}
+
+.switch-options.sw-disabled::after {
+    transform: translateX(100%)
+}
+
+.switch-options.sw-enabled::after {
+    transform: translateX(0%)
+}
+
+.redux-container-switch .cb-disable.selected {
+    color: #fff;
+    background: none !important;
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.block-editor .edit-post-sidebar .acf-fields > .acf-field {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+li.redux-image-select {
+    width: 47%;
+    display: block;
+    float: left;
+    box-sizing: content-box;
+}
+
+li.redux-image-select:first-child {
+    margin-right: 3% !important;
+}
+
+
+.redux-image-select span {
+    color: #000;
+    text-align: center;
+    display: block;
+    font-size: 25px;
+    font-weight: 600;
+    margin-top: 10px;
+    letter-spacing: -0.03em;
+}
+
+.redux-image-select {
+    background: none !important
+}
+
+.wp-core-ui .redux-container .button,
+.wp-core-ui .redux-container .button-secondary {
+    border-color: #191b1d !important;
+    color: #191b1d !important;
+}
+
+.wp-core-ui .redux-container .button-primary {
+    color: #fff !important;
+    background: #191b1d !important;
+}
+
+.redux-container .redux-sidebar .redux-group-menu li.activeChild.hasSubSections a {
+    background-color: #fff !important;
+    color: #191b1d !important;
+}
+
+.redux-container .redux-sidebar .redux-group-menu li .subsection .redux-group-tab-link-li .redux-group-tab-link-a:hover {
+    color: #fff !important
+}
+
+.redux-container .redux-sidebar .redux-group-menu li.active a:hover {
+    color: unset !important
+}
+
+.redux-container-multi_text a.redux-multi-text-remove.deletion {
+    color: #878787;
+    font-size: 12px;
+}
+
+.redux-container-multi_text a.redux-multi-text-remove.deletion:hover {
+    color: #000;
+    background: none !important;
+    text-decoration: underline;
+}
+
+.cb-enable.label {
+    border: none;
+}
+
+.nayla-theme-status {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 25px;
+    background: #fff;
+    float: left;
+    box-sizing: border-box;
+    transition: opacity .3s ease;
+    position: relative;
+    margin-top: 15px
+}
+
+
+.nayla-theme-status::after {
+    content: "\e8fb";
+    font-family: eicons;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 50px;
+    transform: translate(-50%, -50%);
+    line-height: 1em;
+    height: 1em;
+    width: 1em;
+    animation-name: checking;
+    animation-play-state: running;
+    animation-iteration-count: infinite;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none
+}
+
+.nayla-theme-status.checking::after {
+    opacity: 1 !important
+}
+
+@keyframes checking {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.nayla-theme-status.checking {
+    opacity: .3
+}
+
+.theme-status-info {
+    display: block;
+    float: left;
+    width: 40%;
+}
+
+.theme-status-info p {
+    max-width: 70%
+}
+
+h2.tna {
+    margin-top: 0;
+    color: red;
+}
+
+.nayla-theme-status.active h2.tna {
+    color: green
+}
+
+.nayla-activate {
+    width: 60%;
+    display: block;
+    float: left;
+}
+
+.code-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.code-wrap input[type="password"],
+.code-wrap input[type="text"] {
+    width: 100%;
+    border: none;
+    background: #ebebeb;
+    padding: 0.75em 2em;
+    border-radius: 35px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    font-size: 1em;
+}
+
+.activated-code-hold {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+
+.nayla-theme-status.active .activated-code-hold::after {
+    content: "\e8a8";
+    font-family: 'eicons';
+    position: absolute;
+    top: 50%;
+    right: 0.5em;
+    transform: translate(-50% , -50%);
+    font-size: 1.5em;
+}
+
+.nayla-theme-status.active .activate-button {
+    opacity: .3;
+    pointer-events: none
+}
+
+.code-wrap button {
+    width: 20%;
+    line-height: 2;
+    border: none;
+    padding: 0.75em 2em;
+    border-radius: 35px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    text-transform: uppercase;
+    background: #191919;
+    color: #fff;
+    transition: all .4s ease;
+    cursor: pointer
+}
+
+.code-wrap button:hover {
+    background: #ebebeb;
+    color: #191919
+}
+
+.contents-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    margin-top: 2em;
+    margin-left: 1em;
+}
+
+p.act-warning {
+    display: block;
+    width: 100%;
+    color: red;
+}
+
+p.act-warning.success {
+    color: green
+}
+
+.cont-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.code-wrap input[type="text"]:focus {
+    box-shadow: none;
+}
+
+.contents-wrap label,
+.contents-wrap input,
+.contents-wrap input:focus {
+    border: none;
+    background: none;
+    outline: none;
+    pointer-events: none;
+    user-select: none;
+        text-transform: uppercase;
+}
+
+.contents-wrap label {
+    text-transform: unset;
+    opacity: .7;
+}
+
+
+
+.nayla-settings-disabled {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: .5;
+    z-index: 1;
+}
+
+.nsd-warn {
+    color: #fff;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: #fff;
+    color: #191919;
+    padding: 2.5em;
+}
+
+.ocdi__theme-about-screenshots {
+    -webkit-box-flex: 5;
+    -ms-flex: 5;
+    flex: 5;
+    margin-right: 30px;
+}
