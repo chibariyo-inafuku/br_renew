@@ -172,3 +172,141 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12 ) {
 
 	return new WP_Query( $base );
 }
+
+/**
+ * Permalink for a published page by path slug, or empty string.
+ *
+ * @param string $slug Page slug (e.g. works, contact).
+ * @return string
+ */
+function br_get_page_permalink_by_slug( $slug ) {
+	$slug = sanitize_title( (string) $slug );
+	if ( $slug === '' ) {
+		return '';
+	}
+	$page = get_page_by_path( $slug, OBJECT, 'page' );
+	if ( ! $page instanceof WP_Post || $page->post_status !== 'publish' ) {
+		return '';
+	}
+	return get_permalink( $page );
+}
+
+/**
+ * Escaped permalink for a page slug, or "#" if the page is missing (static nav markup).
+ *
+ * @param string $slug Page slug.
+ * @return string
+ */
+function br_page_href( $slug ) {
+	$url = br_get_page_permalink_by_slug( $slug );
+	return esc_url( $url !== '' ? $url : '#' );
+}
+
+/**
+ * WP_Query for a fixed number of posts by category slug (front page teasers; no pagination).
+ *
+ * @param string $category_slug Category slug (e.g. news-s, blogs, services).
+ * @param int    $limit         Max posts.
+ * @return WP_Query
+ */
+function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4 ) {
+	$category_slug = sanitize_title( (string) $category_slug );
+	$limit         = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
+	$limit         = max( 1, $limit );
+
+	$cat = get_term_by( 'slug', $category_slug, 'category' );
+	$args = array(
+		'post_type'              => 'post',
+		'posts_per_page'         => $limit,
+		'paged'                  => 1,
+		'post_status'            => 'publish',
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+	);
+	if ( $cat instanceof WP_Term ) {
+		$args['cat'] = (int) $cat->term_id;
+	} else {
+		$args['post__in'] = array( 0 );
+	}
+	return new WP_Query( $args );
+}
+
+/**
+ * WP_Query for portfolio teasers (front page; no pagination).
+ *
+ * @param string $term_slug Term slug (works-s, project-s).
+ * @param int    $limit     Max posts.
+ * @return WP_Query
+ */
+function br_query_portfolio_for_list_term_limited( $term_slug, $limit = 8 ) {
+	$term_slug = sanitize_title( (string) $term_slug );
+	$limit     = (int) apply_filters( 'br_home_portfolio_limit_' . $term_slug, $limit );
+	$limit     = max( 1, $limit );
+
+	$base = array(
+		'post_type'              => 'portfolio',
+		'posts_per_page'         => $limit,
+		'paged'                  => 1,
+		'post_status'            => 'publish',
+		'no_found_rows'          => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+	);
+
+	if ( $term_slug === '' || ! taxonomy_exists( 'portfolio-list' ) ) {
+		$base['post__in'] = array( 0 );
+		return new WP_Query( $base );
+	}
+
+	$base['tax_query'] = array(
+		array(
+			'taxonomy' => 'portfolio-list',
+			'field'    => 'slug',
+			'terms'    => $term_slug,
+		),
+	);
+
+	return new WP_Query( $base );
+}
+
+/**
+ * First project-categories term name for portfolio cards (badge), or empty.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_portfolio_card_category_label( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+	$terms = get_the_terms( $post_id, 'project-categories' );
+	if ( ! $terms || is_wp_error( $terms ) ) {
+		return '';
+	}
+	$term = array_shift( $terms );
+	return $term instanceof WP_Term ? $term->name : '';
+}
+
+/**
+ * Default / filterable copy for the home template (hero, concept, CTA).
+ *
+ * @return array<string, string>
+ */
+function br_home_get_copy() {
+	$defaults = array(
+		'hero_line_1'       => __( 'マーケティングプロモーションに、', 'br' ),
+		'hero_line_2'       => __( 'AIという武器を。', 'br' ),
+		'hero_lead'         => __( '期待を超えるクオリティとスピードで、マーケティングの常識を塗り替える。', 'br' ),
+		'hero_cta'          => __( 'お問い合わせはこちら', 'br' ),
+		'concept_tagline_en' => __( 'Creativity endures. Innovation evolves.', 'br' ),
+		'concept_heading'   => __( '創造は、奪われない。進化する。', 'br' ),
+		'concept_body'      => __( "AIは、すべてを変えた。\nスピードも、クオリティも、常識も。\n\nそして今、「クリエイターは必要なのか」という問いが生まれた。\n\n答えは、ひとつじゃない。\n奪われるのか。\nそれとも、進化するのか。\n\n選ぶのは、私たちだ。\nAIと共に、創造は次のステージへ。", 'br' ),
+		'cta_title_jp'      => __( 'お問い合わせ', 'br' ),
+		'cta_title_en'      => __( 'CONTACT', 'br' ),
+		'cta_lead'          => __( 'ビジネスの成果を加速させる、AIという武器を共に。', 'br' ),
+		'cta_button'        => __( 'お問い合わせはこちら', 'br' ),
+	);
+	return apply_filters( 'br_home_copy', $defaults );
+}
