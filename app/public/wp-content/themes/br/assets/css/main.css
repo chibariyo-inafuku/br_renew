@@ -375,6 +375,23 @@ body.admin-bar .br-header--sidebar {
 	display: block;
 }
 
+.br-card__image.br-hover-cycle {
+	position: relative;
+}
+
+.br-card__image.br-hover-cycle .br-hover-cycle__img {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 0.25s ease;
+	z-index: 0;
+}
+
+.br-card__image.br-hover-cycle .br-hover-cycle__img.is-active {
+	opacity: 1;
+	z-index: 1;
+}
+
 .br-card__title {
 	font-size: 1.17vw;
 	margin: 1.17vw 1.17vw 0.22vw;

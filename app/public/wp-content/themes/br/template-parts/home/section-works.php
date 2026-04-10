@@ -32,13 +32,21 @@ if ( ! $q->have_posts() ) {
 				?>
 				<li class="br-home__works-item">
 					<a class="br-home__works-card" href="<?php the_permalink(); ?>">
-						<?php if ( has_post_thumbnail() ) : ?>
+						<?php
+						if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-home__works-card-image' ) ) :
+							if ( has_post_thumbnail() ) :
+								?>
 							<div class="br-home__works-card-image">
 								<?php the_post_thumbnail( 'medium_large' ); ?>
 							</div>
-						<?php else : ?>
+								<?php
+							else :
+								?>
 							<div class="br-home__works-card-image br-home__works-card-image--placeholder" aria-hidden="true"></div>
-						<?php endif; ?>
+								<?php
+							endif;
+						endif;
+						?>
 						<div class="br-home__works-card-overlay">
 							<?php if ( $badge !== '' ) : ?>
 								<span class="br-home__works-card-badge"><?php echo esc_html( $badge ); ?></span>

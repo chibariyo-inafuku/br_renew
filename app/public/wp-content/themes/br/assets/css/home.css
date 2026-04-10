@@ -509,8 +509,26 @@
 	transition: transform 0.35s ease;
 }
 
-.br-home__works-card:hover .br-home__works-card-image img,
-.br-home__works-card:focus .br-home__works-card-image img {
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 0.25s ease, transform 0.35s ease;
+	z-index: 0;
+}
+
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+	opacity: 1;
+	z-index: 1;
+}
+
+.br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
+.br-home__works-card:focus .br-home__works-card-image:not(.br-hover-cycle) img {
+	transform: scale(1.04);
+}
+
+.br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__works-card:focus .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	transform: scale(1.04);
 }
 
@@ -521,12 +539,22 @@
 .br-home__works-card-overlay {
 	position: absolute;
 	inset: 0;
+	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	gap: 0.59vw;
 	padding: 1.17vw;
 	background: linear-gradient(transparent 20%, var(--br-home-card-overlay));
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease;
+}
+
+.br-home__works-card:hover .br-home__works-card-overlay,
+.br-home__works-card:focus-within .br-home__works-card-overlay {
+	opacity: 1;
+	pointer-events: auto;
 }
 
 .br-home__works-card-badge {

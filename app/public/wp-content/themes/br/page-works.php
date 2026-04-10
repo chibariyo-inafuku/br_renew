@@ -28,7 +28,9 @@ while ( have_posts() ) :
 					?>
 					<li class="br-card">
 						<a class="br-card__link" href="<?php the_permalink(); ?>">
-							<?php if ( has_post_thumbnail() ) : ?>
+							<?php
+							if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-card__image' ) && has_post_thumbnail() ) :
+								?>
 								<div class="br-card__image"><?php the_post_thumbnail( 'medium_large' ); ?></div>
 							<?php endif; ?>
 							<h2 class="br-card__title"><?php the_title(); ?></h2>

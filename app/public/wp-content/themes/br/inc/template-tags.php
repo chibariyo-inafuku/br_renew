@@ -41,6 +41,135 @@ function br_get_portfolio_gallery_ids( $post_id ) {
 }
 
 /**
+ * Collect image attachment IDs from block editor inner blocks (recursive).
+ *
+ * @param array[] $blocks Parsed blocks.
+ * @return int[]
+ */
+function br_collect_image_ids_from_blocks( $blocks ) {
+	$ids = array();
+	if ( ! is_array( $blocks ) ) {
+		return $ids;
+	}
+	foreach ( $blocks as $block ) {
+		if ( ! is_array( $block ) ) {
+			continue;
+		}
+		$name  = isset( $block['blockName'] ) ? (string) $block['blockName'] : '';
+		$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+
+		if ( 'core/image' === $name && ! empty( $attrs['id'] ) ) {
+			$ids[] = (int) $attrs['id'];
+		} elseif ( 'core/gallery' === $name && ! empty( $attrs['ids'] ) && is_array( $attrs['ids'] ) ) {
+			foreach ( $attrs['ids'] as $gid ) {
+				$ids[] = (int) $gid;
+			}
+		} elseif ( 'core/cover' === $name && ! empty( $attrs['id'] ) ) {
+			$ids[] = (int) $attrs['id'];
+		}
+
+		if ( ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+			$ids = array_merge( $ids, br_collect_image_ids_from_blocks( $block['innerBlocks'] ) );
+		}
+	}
+	return $ids;
+}
+
+/**
+ * Image attachment IDs embedded in post content (blocks + classic wp-image class), in discovery order.
+ *
+ * @param int $post_id Post ID.
+ * @return int[] Valid image attachment IDs.
+ */
+function br_get_portfolio_content_image_ids( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return array();
+	}
+
+	$content = get_post_field( 'post_content', $post_id );
+	if ( ! is_string( $content ) || $content === '' ) {
+		return array();
+	}
+
+	$from_blocks = br_collect_image_ids_from_blocks( parse_blocks( $content ) );
+
+	if ( preg_match_all( '/\bwp-image-(\d+)\b/', $content, $m ) ) {
+		$from_regex = array_map( 'intval', $m[1] );
+	} else {
+		$from_regex = array();
+	}
+
+	$seen   = array();
+	$merged = array();
+	foreach ( array_merge( $from_blocks, $from_regex ) as $id ) {
+		$id = (int) $id;
+		if ( $id <= 0 || isset( $seen[ $id ] ) ) {
+			continue;
+		}
+		$seen[ $id ] = true;
+		if ( wp_attachment_is_image( $id ) ) {
+			$merged[] = $id;
+		}
+	}
+
+	return $merged;
+}
+
+/**
+ * Print stacked images for hover cycling when there are enough frames (featured + content, or 2+ content-only).
+ * When a featured image exists, it is the default visible layer; body images follow without duplicating the thumb.
+ *
+ * @param int    $post_id         Post ID.
+ * @param string $wrapper_classes Classes for the wrapper (br-hover-cycle is appended).
+ * @return bool True if markup was printed.
+ */
+function br_the_portfolio_hover_cycle_stack( $post_id, $wrapper_classes ) {
+	$post_id     = (int) $post_id;
+	$content_ids = br_get_portfolio_content_image_ids( $post_id );
+	$thumb_id    = (int) get_post_thumbnail_id( $post_id );
+
+	if ( $thumb_id > 0 ) {
+		$rest = array_values(
+			array_filter(
+				$content_ids,
+				static function ( $id ) use ( $thumb_id ) {
+					return (int) $id !== $thumb_id;
+				}
+			)
+		);
+		if ( $rest === array() ) {
+			return false;
+		}
+		$ids = array_merge( array( $thumb_id ), $rest );
+	} else {
+		if ( count( $content_ids ) < 2 ) {
+			return false;
+		}
+		$ids = $content_ids;
+	}
+
+	printf(
+		'<div class="%s">',
+		esc_attr( trim( $wrapper_classes . ' br-hover-cycle' ) )
+	);
+	foreach ( $ids as $i => $att_id ) {
+		$class = 'br-hover-cycle__img' . ( 0 === $i ? ' is-active' : '' );
+		$attr  = array(
+			'class'   => $class,
+			'loading' => 0 === $i ? 'eager' : 'lazy',
+		);
+		if ( $i > 0 ) {
+			$attr['alt']           = '';
+			$attr['aria-hidden'] = 'true';
+		}
+		echo wp_get_attachment_image( $att_id, 'medium_large', false, $attr ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+	echo '</div>';
+	return true;
+}
+
+/**
  * Optional short summary for portfolio (ACF or legacy meta keys).
  *
  * @param int $post_id Post ID.

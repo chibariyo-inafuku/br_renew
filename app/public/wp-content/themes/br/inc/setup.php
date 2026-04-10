@@ -77,6 +77,16 @@ function br_enqueue_assets() {
 		BR_VERSION
 	);
 
+	if ( is_front_page() || is_page( 'works' ) ) {
+		wp_enqueue_script(
+			'br-portfolio-card-hover-cycle',
+			$theme_uri . '/assets/js/portfolio-card-hover-cycle.js',
+			array(),
+			BR_VERSION,
+			true
+		);
+	}
+
 	if ( is_front_page() ) {
 		wp_enqueue_style(
 			'br-swiper',
