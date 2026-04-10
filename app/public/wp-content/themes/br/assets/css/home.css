@@ -184,6 +184,14 @@
 	margin: 0;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+	html.br-home-js .br-home__hero-text .br-home__hero-title-line,
+	html.br-home-js .br-home__hero-text .br-home__hero-lead,
+	html.br-home-js .br-home__hero-text .br-home__hero-cta {
+		visibility: hidden;
+	}
+}
+
 /* -------------------------------------------------------------------------
    Buttons
    ------------------------------------------------------------------------- */

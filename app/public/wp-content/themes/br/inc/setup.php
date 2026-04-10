@@ -114,6 +114,28 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
+
+		wp_enqueue_script(
+			'br-gsap',
+			'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
+			array(),
+			'3.12.5',
+			true
+		);
+		wp_enqueue_script(
+			'br-gsap-scrolltrigger',
+			'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
+			array( 'br-gsap' ),
+			'3.12.5',
+			true
+		);
+		wp_enqueue_script(
+			'br-home-gsap',
+			$theme_uri . '/assets/js/home-gsap.js',
+			array( 'br-gsap-scrolltrigger', 'br-home-rail' ),
+			BR_VERSION,
+			true
+		);
 	}
 
 	if ( ! class_exists( 'WPCF7' ) ) {
@@ -136,6 +158,16 @@ function br_enqueue_assets() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
+
+/**
+ * Early marker for home GSAP hero prep (avoids flash of unstyled hero text when motion is allowed).
+ */
+function br_home_gsap_html_class() {
+	if ( is_front_page() ) {
+		echo '<script>document.documentElement.classList.add("br-home-js");</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'br_home_gsap_html_class', 2 );
 
 /**
  * Content width for embeds and images.
