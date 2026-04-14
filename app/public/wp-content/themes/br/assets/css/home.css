@@ -959,6 +959,88 @@
 }
 
 /* -------------------------------------------------------------------------
+   Parallax strip (between Project and News) — earth img + GSAP; centered quote
+   ------------------------------------------------------------------------- */
+.br-home__parallax {
+	position: relative;
+	background-color: #254a9d;
+	color: #fff;
+}
+
+.br-home__parallax-scene {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-height: clamp(15rem, 41.67vw, 38rem);
+}
+
+.br-home__parallax-globe-wrap {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	pointer-events: none;
+	transform-origin: 50% 100%;
+}
+
+/* contain: 画像全体（半球の曲線〜下端）を欠けさせず表示。cover は上下でクリップしやすい */
+.br-home__parallax-globe {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center bottom;
+	display: block;
+}
+
+.br-home__parallax-inner {
+	position: relative;
+	z-index: 2;
+	flex: 1 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+	overflow-x: hidden;
+	min-height: clamp(15rem, 41.67vw, 38rem);
+	padding-left: var(--br-home-gutter);
+	padding-right: var(--br-home-gutter);
+	padding-top: clamp(1.5rem, 3.33vw, 3rem);
+	padding-bottom: clamp(1.5rem, 3.33vw, 3rem);
+	box-sizing: border-box;
+}
+
+.br-home__parallax-quote {
+	margin: 0 auto;
+	width: max-content;
+	white-space: nowrap;
+	text-align: center;
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	/*
+	 * 1行固定の英文幅 ≒ font-size × 24（MuseoModerno 400 + 字間の経験値）。
+	 * 利用可能幅 ≒ 100vw − 左右ガター（.br-home__parallax-inner と同じ変数）→ 見切れ防止。
+	 */
+	font-size: clamp(
+		0.7rem,
+		calc((100vw - 2 * var(--br-home-gutter)) / 24),
+		2.875rem
+	);
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
+	color: #fff;
+	text-shadow: 0 0.14em 0.35em rgba(1, 16, 26, 0.45);
+}
+
+/* Match GSAP from-state (scale + y; see home-gsap.js). */
+html.br-home-js .br-home__parallax-globe-wrap {
+	transform: scale(0.55) translateY(13.75rem);
+}
+
+/* -------------------------------------------------------------------------
    News — capture: wide gutter, top-aligned media object, heading → CTA space
    ------------------------------------------------------------------------- */
 .br-home__section--news {

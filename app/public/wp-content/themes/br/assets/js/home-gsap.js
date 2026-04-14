@@ -118,6 +118,37 @@
 			}
 		}
 
+		var parallax = root.querySelector('.br-home__parallax');
+		if (parallax) {
+			var parallaxScene = parallax.querySelector('.br-home__parallax-scene');
+			var globeWrap = parallax.querySelector('.br-home__parallax-globe-wrap');
+			var parallaxTrigger = parallaxScene || parallax;
+			if (globeWrap) {
+				gsap.set(globeWrap, {
+					transformOrigin: '50% 100%',
+					scale: 0.55,
+					y: '13.75rem',
+				});
+			}
+			var earthTl = gsap.timeline({
+				scrollTrigger: {
+					trigger: parallaxTrigger,
+					start: 'top bottom',
+					end: 'bottom top',
+					scrub: true,
+					invalidateOnRefresh: true,
+				},
+			});
+			if (globeWrap) {
+				earthTl.fromTo(
+					globeWrap,
+					{ scale: 0.55, y: '13.75rem' },
+					{ scale: 2.24, y: '-4rem', duration: 1, ease: 'none' },
+					0
+				);
+			}
+		}
+
 		var concept = root.querySelector('.br-home__concept');
 		if (concept) {
 			var conceptText = concept.querySelector('.br-home__concept-text');
