@@ -607,13 +607,23 @@
 
 .br-home__section--works-band > .br-container,
 .br-home__section--project-band > .br-container,
-.br-home__section--blog-band > .br-container {
+.br-home__section--blog-band > .br-container,
+.br-home__section--service-band > .br-container {
 	gap: clamp(2rem, 4.44vw, 4.5rem);
+}
+
+/* Service — medium blue band, carousel (capture) */
+.br-home__section--service-band {
+	background: #4088c5;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
 }
 
 .br-home__works-heading,
 .br-home__project-heading,
-.br-home__blog-heading {
+.br-home__blog-heading,
+.br-home__service-heading {
 	margin: 0;
 	padding-left: clamp(0rem, 2.78vw, 2.5rem);
 	padding-right: clamp(0rem, 2.78vw, 2.5rem);
@@ -621,7 +631,8 @@
 
 .br-home__works-title,
 .br-home__project-title,
-.br-home__blog-title {
+.br-home__blog-title,
+.br-home__service-title {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
@@ -631,7 +642,8 @@
 
 .br-home__works-title-en,
 .br-home__project-title-en,
-.br-home__blog-title-en {
+.br-home__blog-title-en,
+.br-home__service-title-en {
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
 	font-size: clamp(2rem, 3.89vw, 3.5rem);
 	font-weight: 700;
@@ -641,7 +653,8 @@
 
 .br-home__works-title-jp,
 .br-home__project-title-jp,
-.br-home__blog-title-jp {
+.br-home__blog-title-jp,
+.br-home__service-title-jp {
 	font-size: clamp(0.875rem, 1.11vw, 1rem);
 	font-weight: 400;
 	line-height: 1.4;
@@ -688,7 +701,8 @@
 
 .br-home__works-footer,
 .br-home__project-footer,
-.br-home__blog-footer {
+.br-home__blog-footer,
+.br-home__service-footer {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -854,61 +868,94 @@
 }
 
 /* -------------------------------------------------------------------------
-   Service — Swiper rail cards (not Blog)
+   Service — Swiper rail (band: image + white copy, no white card chrome)
    ------------------------------------------------------------------------- */
-.br-home__service-card {
-	width: 25.77vw;
-	max-width: 100%;
+/* ~3 full slides + ~85% of 4th (capture): (track − 3× gap) / 3.85 — cqi = carousel width (main column) */
+.br-home__section--service-band .br-home__swiper {
+	container-type: inline-size;
+	container-name: service-swiper;
 }
 
-.br-home__service-card-link {
+.br-home__section--service-band .br-home__service-card {
+	width: calc((100cqi - 3 * 1.17vw) / 3.85);
+	max-width: 100%;
+	min-width: 0;
+}
+
+@supports not (width: 1cqi) {
+	.br-home__section--service-band .br-home__service-card {
+		width: calc((100vw - 5.85vw) / 3.85);
+	}
+}
+
+.br-home__section--service-band .br-home__service-card-link {
 	display: block;
 	height: 100%;
 	text-decoration: none;
-	color: inherit;
-	border-radius: 0.59vw;
+	color: #fff;
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.br-home__section--service-band .br-home__service-card-media {
+	aspect-ratio: 4 / 3;
+	background: rgba(255, 255, 255, 0.12);
 	overflow: hidden;
-	background: #fff;
-	box-shadow: 0 0.29vw 1.76vw rgba(1, 16, 26, 0.08);
-	border: 1px solid rgba(1, 16, 26, 0.06);
-	transition: box-shadow 0.2s ease, transform 0.2s ease;
+	border-radius: clamp(0.375rem, 0.556vw, 0.5rem);
 }
 
-.br-home__service-card-link:hover,
-.br-home__service-card-link:focus {
-	box-shadow: 0 0.59vw 2.34vw rgba(1, 16, 26, 0.12);
-	transform: translateY(-2px);
-}
-
-.br-home__service-card-media {
-	aspect-ratio: 16 / 10;
-	background: #e2e8f0;
-	overflow: hidden;
-}
-
-.br-home__service-card-media img {
+.br-home__section--service-band .br-home__service-card-media img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: transform 0.35s ease;
 }
 
-.br-home__service-card-body {
-	padding: 1.17vw;
+.br-home__section--service-band .br-home__service-card-link:hover .br-home__service-card-media img,
+.br-home__section--service-band .br-home__service-card-link:focus .br-home__service-card-media img {
+	transform: scale(1.12);
 }
 
-.br-home__service-card-title {
-	margin: 0 0 0.59vw;
-	font-size: var(--br-home-text-card-title);
-	line-height: 1.35;
-	color: var(--br-home-ink);
-}
-
-.br-home__service-card-text {
+.br-home__section--service-band .br-home__service-card-body {
+	padding: clamp(0.75rem, 1.11vw, 1rem) 0 0;
 	margin: 0;
-	font-size: var(--br-home-text-small);
-	line-height: 1.6;
-	color: var(--br-home-ink-muted);
+}
+
+.br-home__section--service-band .br-home__service-card-title {
+	margin: 0 0 clamp(0.375rem, 0.56vw, 0.5rem);
+	font-size: clamp(0.9375rem, 1.17vw, 1.0625rem);
+	font-weight: 700;
+	line-height: 1.35;
+	letter-spacing: 0.02em;
+	color: #fff;
+}
+
+.br-home__section--service-band .br-home__service-card-text {
+	margin: 0;
+	font-size: clamp(0.8125rem, 0.97vw, 0.875rem);
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+/* Carousel arrows on band: white ring, transparent fill */
+.br-home__section--service-band .br-home__rail-btn {
+	border-color: #fff;
+	background: transparent;
+	color: #fff;
+}
+
+.br-home__section--service-band .br-home__rail-btn:hover,
+.br-home__section--service-band .br-home__rail-btn:focus {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+
+.br-home__section--service-band .br-home__rail-btn:focus-visible {
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
 }
 
 /* -------------------------------------------------------------------------
@@ -1004,7 +1051,7 @@
 .br-home__news-media {
 	flex: 0 0 auto;
 	width: clamp(5.5rem, 8.333vw, 7.5rem);
-	aspect-ratio: 120 / 88;
+	aspect-ratio: 4 / 3;
 	border-radius: clamp(0.375rem, 0.556vw, 0.5rem);
 	overflow: hidden;
 	background: #e8edf2;

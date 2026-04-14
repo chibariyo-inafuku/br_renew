@@ -336,12 +336,18 @@ function br_page_href( $slug ) {
  *
  * @param string $category_slug Category slug (e.g. news-s, blogs, services).
  * @param int    $limit         Max posts.
+ * @param string $order         Sort direction for `orderby` date: 'DESC' (newest first, default) or 'ASC' (oldest first).
  * @return WP_Query
  */
-function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4 ) {
+function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $order = 'DESC' ) {
 	$category_slug = sanitize_title( (string) $category_slug );
 	$limit         = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
 	$limit         = max( 1, $limit );
+
+	$order = strtoupper( (string) $order );
+	if ( $order !== 'ASC' && $order !== 'DESC' ) {
+		$order = 'DESC';
+	}
 
 	$cat = get_term_by( 'slug', $category_slug, 'category' );
 	$args = array(
@@ -349,6 +355,8 @@ function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4 ) 
 		'posts_per_page'         => $limit,
 		'paged'                  => 1,
 		'post_status'            => 'publish',
+		'orderby'                => 'date',
+		'order'                  => $order,
 		'no_found_rows'          => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => true,
