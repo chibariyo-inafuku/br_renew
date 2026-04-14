@@ -321,6 +321,23 @@ function br_get_page_permalink_by_slug( $slug ) {
 }
 
 /**
+ * First Contact Form 7 shortcode string from the published Contact page content, or empty.
+ *
+ * @return string
+ */
+function br_get_contact_page_cf7_shortcode() {
+	$page = get_page_by_path( 'contact', OBJECT, 'page' );
+	if ( ! $page instanceof WP_Post || $page->post_status !== 'publish' ) {
+		return '';
+	}
+	$content = (string) $page->post_content;
+	if ( preg_match( '/\[contact-form-7[^\]]*\]/i', $content, $m ) ) {
+		return $m[0];
+	}
+	return '';
+}
+
+/**
  * Escaped permalink for a page slug, or "#" if the page is missing (static nav markup).
  *
  * @param string $slug Page slug.
@@ -427,7 +444,7 @@ function br_get_portfolio_card_category_label( $post_id ) {
 }
 
 /**
- * Default / filterable copy for the home template (hero, concept, CTA).
+ * Default / filterable copy for the home template (hero, concept).
  *
  * @return array<string, string>
  */
@@ -440,10 +457,7 @@ function br_home_get_copy() {
 		'concept_tagline_en' => __( 'Creativity endures. Innovation evolves.', 'br' ),
 		'concept_heading'   => __( '創造は、奪われない。進化する。', 'br' ),
 		'concept_body'      => __( "AIは、すべてを変えた。\nスピードも、クオリティも、常識も。\n\nそして今、「クリエイターは必要なのか」という問いが生まれた。\n\n答えは、ひとつじゃない。\n奪われるのか。\nそれとも、進化するのか。\n\n選ぶのは、私たちだ。\nAIと共に、創造は次のステージへ。", 'br' ),
-		'cta_title_jp'      => __( 'お問い合わせ', 'br' ),
-		'cta_title_en'      => __( 'CONTACT', 'br' ),
-		'cta_lead'          => __( 'ビジネスの成果を加速させる、AIという武器を共に。', 'br' ),
-		'cta_button'        => __( 'お問い合わせはこちら', 'br' ),
 	);
-	return apply_filters( 'br_home_copy', $defaults );
+	$filtered = apply_filters( 'br_home_copy', $defaults );
+	return is_array( $filtered ) ? array_merge( $defaults, $filtered ) : $defaults;
 }

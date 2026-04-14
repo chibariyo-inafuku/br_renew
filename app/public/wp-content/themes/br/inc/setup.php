@@ -77,6 +77,23 @@ function br_enqueue_assets() {
 		BR_VERSION
 	);
 
+	$load_br_cf7 = false;
+	if ( class_exists( 'WPCF7' ) ) {
+		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact' ) );
+		if ( ! $load_br_cf7 ) {
+			global $post;
+			$load_br_cf7 = $post && has_shortcode( (string) $post->post_content, 'contact-form-7' );
+		}
+		if ( $load_br_cf7 ) {
+			wp_enqueue_style(
+				'br-cf7',
+				$theme_uri . '/assets/css/cf7.css',
+				array( 'br-main' ),
+				BR_VERSION
+			);
+		}
+	}
+
 	if ( is_front_page() || is_page( 'works' ) ) {
 		wp_enqueue_script(
 			'br-portfolio-card-hover-cycle',
@@ -94,10 +111,14 @@ function br_enqueue_assets() {
 			array(),
 			null
 		);
+		$home_style_deps = array( 'br-main', 'br-swiper' );
+		if ( $load_br_cf7 ) {
+			$home_style_deps[] = 'br-cf7';
+		}
 		wp_enqueue_style(
 			'br-home',
 			$theme_uri . '/assets/css/home.css',
-			array( 'br-main', 'br-swiper' ),
+			$home_style_deps,
 			BR_VERSION
 		);
 		wp_enqueue_script(
@@ -135,25 +156,6 @@ function br_enqueue_assets() {
 			array( 'br-gsap-scrolltrigger', 'br-home-rail' ),
 			BR_VERSION,
 			true
-		);
-	}
-
-	if ( ! class_exists( 'WPCF7' ) ) {
-		return;
-	}
-
-	$load_cf7 = is_page( array( 'recruit', 'contact' ) );
-	if ( ! $load_cf7 ) {
-		global $post;
-		$load_cf7 = $post && has_shortcode( (string) $post->post_content, 'contact-form-7' );
-	}
-
-	if ( $load_cf7 ) {
-		wp_enqueue_style(
-			'br-cf7',
-			$theme_uri . '/assets/css/cf7.css',
-			array( 'br-main' ),
-			BR_VERSION
 		);
 	}
 }
