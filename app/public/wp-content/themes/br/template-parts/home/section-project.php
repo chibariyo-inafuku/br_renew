@@ -1,73 +1,69 @@
 <?php
 /**
- * Home: Project portfolio rail — Swiper carousel.
+ * Home: Project portfolio grid — same behavior as Works; landscape aspect only.
  *
  * @package br
  */
 
-$q    = br_query_portfolio_for_list_term_limited( 'project-s', 6 );
+$q    = br_query_portfolio_for_list_term_limited( 'project-s', 8 );
 $more = br_get_page_permalink_by_slug( 'project' );
 if ( ! $q->have_posts() ) {
 	wp_reset_postdata();
 	return;
 }
 ?>
-<section class="br-home__section br-home__section--project">
+<section class="br-home__section br-home__section--project br-home__section--project-band br-home__project">
 	<div class="br-container">
-		<header class="br-home__section-head br-home__section-head--with-nav">
-			<h2 class="br-home__section-title">
-				<span class="br-home__section-title-en"><?php esc_html_e( 'Project', 'br' ); ?></span>
-				<span class="br-home__section-title-jp"><?php esc_html_e( '/ プロジェクト紹介', 'br' ); ?></span>
+		<header class="br-home__project-heading br-home__section-head">
+			<h2 class="br-home__project-title">
+				<span class="br-home__project-title-en"><?php esc_html_e( 'Project', 'br' ); ?></span>
+				<span class="br-home__project-title-jp"><?php esc_html_e( '/ プロジェクト紹介', 'br' ); ?></span>
 			</h2>
-			<div class="br-home__section-head-right">
-				<div class="br-home__rail-nav" role="group" aria-label="<?php esc_attr_e( 'Scroll projects', 'br' ); ?>">
-					<button type="button" class="br-home__rail-btn swiper-button-prev">
-						<span class="screen-reader-text"><?php esc_html_e( 'Previous', 'br' ); ?></span>
-						<span aria-hidden="true">&#8592;</span>
-					</button>
-					<button type="button" class="br-home__rail-btn swiper-button-next">
-						<span class="screen-reader-text"><?php esc_html_e( 'Next', 'br' ); ?></span>
-						<span aria-hidden="true">&#8594;</span>
-					</button>
-				</div>
-				<?php if ( $more !== '' ) : ?>
-					<a class="br-home__btn br-home__btn--accent" href="<?php echo esc_url( $more ); ?>"><?php esc_html_e( 'See More', 'br' ); ?></a>
-				<?php endif; ?>
-			</div>
 		</header>
-		<div class="swiper br-home__swiper">
-			<div class="swiper-wrapper">
-				<?php
-				while ( $q->have_posts() ) :
-					$q->the_post();
-					$pid   = get_the_ID();
-					$badge = br_get_portfolio_card_category_label( $pid );
-					$sum   = br_get_portfolio_summary( $pid );
-					$text  = $sum !== '' ? wp_trim_words( $sum, 22 ) : wp_trim_words( get_the_title(), 12 );
-					?>
-					<article class="swiper-slide br-home__project-card">
-						<a class="br-home__project-card-link" href="<?php the_permalink(); ?>">
-							<div class="br-home__project-card-media">
-								<?php
-								if ( has_post_thumbnail() ) {
-									the_post_thumbnail( 'medium_large' );
-								}
-								?>
+		<ul class="br-home__project-grid">
+			<?php
+			while ( $q->have_posts() ) :
+				$q->the_post();
+				$pid   = get_the_ID();
+				$badge = br_get_portfolio_card_category_label( $pid );
+				?>
+				<li class="br-home__project-item">
+					<a class="br-home__project-card" href="<?php the_permalink(); ?>">
+						<div class="br-home__project-card-media">
+							<?php
+							if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-home__project-card-image' ) ) :
+								if ( has_post_thumbnail() ) :
+									?>
+							<div class="br-home__project-card-image">
+								<?php the_post_thumbnail( 'medium_large' ); ?>
 							</div>
-							<div class="br-home__project-card-body">
-								<?php if ( $badge !== '' ) : ?>
-									<span class="br-home__project-card-badge"><?php echo esc_html( $badge ); ?></span>
-								<?php endif; ?>
-								<h3 class="br-home__project-card-title"><?php the_title(); ?></h3>
-								<?php if ( $sum !== '' ) : ?>
-									<p class="br-home__project-card-text"><?php echo esc_html( $text ); ?></p>
-								<?php endif; ?>
-							</div>
-						</a>
-					</article>
-				<?php endwhile; ?>
+									<?php
+								else :
+									?>
+							<div class="br-home__project-card-image br-home__project-card-image--placeholder" aria-hidden="true"></div>
+									<?php
+								endif;
+							endif;
+							?>
+						</div>
+						<div class="br-home__project-card-overlay">
+							<?php if ( $badge !== '' ) : ?>
+								<span class="br-home__project-card-badge"><?php echo esc_html( $badge ); ?></span>
+							<?php endif; ?>
+							<span class="br-home__project-card-title"><?php the_title(); ?></span>
+						</div>
+					</a>
+				</li>
+			<?php endwhile; ?>
+		</ul>
+		<?php if ( $more !== '' ) : ?>
+			<div class="br-home__project-footer">
+				<a class="br-home__btn br-home__btn--works-cta" href="<?php echo esc_url( $more ); ?>">
+					<span class="br-home__btn-dot" aria-hidden="true"></span>
+					<span class="br-home__btn-label"><?php esc_html_e( 'View All Project', 'br' ); ?></span>
+				</a>
 			</div>
-		</div>
+		<?php endif; ?>
 	</div>
 </section>
 <?php

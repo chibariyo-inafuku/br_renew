@@ -184,7 +184,9 @@
 		}
 
 		var workItems = gsap.utils.toArray(
-			root.querySelectorAll('.br-home__works-item, .br-home__works-footer')
+			root.querySelectorAll(
+				'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer'
+			)
 		);
 		if (workItems.length) {
 			gsap.set(workItems, { autoAlpha: 0, y: 36 });
