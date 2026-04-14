@@ -597,20 +597,31 @@
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
 }
 
+/* Blog: dark navy band — distinct from Works (#0f3568) and Project (#3b82c5). */
+.br-home__section--blog-band {
+	background: #143a5c;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
 .br-home__section--works-band > .br-container,
-.br-home__section--project-band > .br-container {
+.br-home__section--project-band > .br-container,
+.br-home__section--blog-band > .br-container {
 	gap: clamp(2rem, 4.44vw, 4.5rem);
 }
 
 .br-home__works-heading,
-.br-home__project-heading {
+.br-home__project-heading,
+.br-home__blog-heading {
 	margin: 0;
 	padding-left: clamp(0rem, 2.78vw, 2.5rem);
 	padding-right: clamp(0rem, 2.78vw, 2.5rem);
 }
 
 .br-home__works-title,
-.br-home__project-title {
+.br-home__project-title,
+.br-home__blog-title {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
@@ -619,7 +630,8 @@
 }
 
 .br-home__works-title-en,
-.br-home__project-title-en {
+.br-home__project-title-en,
+.br-home__blog-title-en {
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
 	font-size: clamp(2rem, 3.89vw, 3.5rem);
 	font-weight: 700;
@@ -628,7 +640,8 @@
 }
 
 .br-home__works-title-jp,
-.br-home__project-title-jp {
+.br-home__project-title-jp,
+.br-home__blog-title-jp {
 	font-size: clamp(0.875rem, 1.11vw, 1rem);
 	font-weight: 400;
 	line-height: 1.4;
@@ -637,7 +650,8 @@
 }
 
 .br-home__works-grid,
-.br-home__project-grid {
+.br-home__project-grid,
+.br-home__blog-grid {
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -651,26 +665,30 @@
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.br-home__project-grid {
+.br-home__project-grid,
+.br-home__blog-grid {
 	grid-template-columns: repeat(4, minmax(0, 1fr));
 	/* Figma Frame 12: gap 8px @ 1440 → 8/1440*100 vw */
 	gap: clamp(0.375rem, 0.556vw, 0.5rem);
 }
 
 .br-home__works-item,
-.br-home__project-item {
+.br-home__project-item,
+.br-home__blog-item {
 	min-width: 0;
 }
 
 @media (max-width: 62rem) {
 	.br-home__works-grid,
-	.br-home__project-grid {
+	.br-home__project-grid,
+	.br-home__blog-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 .br-home__works-footer,
-.br-home__project-footer {
+.br-home__project-footer,
+.br-home__blog-footer {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -680,7 +698,8 @@
 }
 
 .br-home__works-card,
-.br-home__project-card {
+.br-home__project-card,
+.br-home__blog-card {
 	position: relative;
 	display: block;
 	min-width: 0;
@@ -695,26 +714,30 @@
 	aspect-ratio: 1 / 1;
 }
 
-/* Project: same hover/cycle as Works; Figma card frame 296×229. */
-.br-home__project-card {
+/* Project + Blog: same hover/cycle; Figma card frame 296×229. */
+.br-home__project-card,
+.br-home__blog-card {
 	aspect-ratio: 296 / 229;
 }
 
 .br-home__works-card-media,
-.br-home__project-card-media {
+.br-home__project-card-media,
+.br-home__blog-card-media {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
 }
 
 .br-home__works-card-image,
-.br-home__project-card-image {
+.br-home__project-card-image,
+.br-home__blog-card-image {
 	position: absolute;
 	inset: 0;
 }
 
 .br-home__works-card-image img,
-.br-home__project-card-image img {
+.br-home__project-card-image img,
+.br-home__blog-card-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -723,7 +746,8 @@
 }
 
 .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img,
-.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img {
+.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img,
+.br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img {
 	position: absolute;
 	inset: 0;
 	opacity: 0;
@@ -732,7 +756,8 @@
 }
 
 .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
-.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	opacity: 1;
 	z-index: 1;
 }
@@ -740,19 +765,24 @@
 .br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
 .br-home__works-card:focus .br-home__works-card-image:not(.br-hover-cycle) img,
 .br-home__project-card:hover .br-home__project-card-image:not(.br-hover-cycle) img,
-.br-home__project-card:focus .br-home__project-card-image:not(.br-hover-cycle) img {
+.br-home__project-card:focus .br-home__project-card-image:not(.br-hover-cycle) img,
+.br-home__blog-card:hover .br-home__blog-card-image:not(.br-hover-cycle) img,
+.br-home__blog-card:focus .br-home__blog-card-image:not(.br-hover-cycle) img {
 	transform: scale(1.04);
 }
 
 .br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__works-card:focus .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__project-card:hover .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
-.br-home__project-card:focus .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+.br-home__project-card:focus .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card:hover .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card:focus .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	transform: scale(1.04);
 }
 
 .br-home__works-card-image--placeholder,
-.br-home__project-card-image--placeholder {
+.br-home__project-card-image--placeholder,
+.br-home__blog-card-image--placeholder {
 	background: linear-gradient(135deg, #cbd5e1, #94a3b8);
 }
 
@@ -787,6 +817,21 @@
 	pointer-events: none;
 }
 
+.br-home__blog-card-overlay {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+	padding: clamp(0.75rem, 1.11vw, 1rem);
+	background: rgba(20, 58, 92, 0.88);
+	pointer-events: none;
+}
+
 .br-home__works-card-badge,
 .br-home__project-card-badge {
 	align-self: flex-start;
@@ -800,7 +845,8 @@
 }
 
 .br-home__works-card-title,
-.br-home__project-card-title {
+.br-home__project-card-title,
+.br-home__blog-card-title {
 	font-size: clamp(0.8125rem, 0.97vw, 0.875rem);
 	font-weight: 700;
 	line-height: 1.8;
@@ -808,16 +854,14 @@
 }
 
 /* -------------------------------------------------------------------------
-   Service / blog cards in Swiper
+   Service — Swiper rail cards (not Blog)
    ------------------------------------------------------------------------- */
-.br-home__service-card,
-.br-home__blog-card {
+.br-home__service-card {
 	width: 25.77vw;
 	max-width: 100%;
 }
 
-.br-home__service-card-link,
-.br-home__blog-card-link {
+.br-home__service-card-link {
 	display: block;
 	height: 100%;
 	text-decoration: none;
@@ -831,35 +875,29 @@
 }
 
 .br-home__service-card-link:hover,
-.br-home__blog-card-link:hover,
-.br-home__service-card-link:focus,
-.br-home__blog-card-link:focus {
+.br-home__service-card-link:focus {
 	box-shadow: 0 0.59vw 2.34vw rgba(1, 16, 26, 0.12);
 	transform: translateY(-2px);
 }
 
-.br-home__service-card-media,
-.br-home__blog-card-media {
+.br-home__service-card-media {
 	aspect-ratio: 16 / 10;
 	background: #e2e8f0;
 	overflow: hidden;
 }
 
-.br-home__service-card-media img,
-.br-home__blog-card-media img {
+.br-home__service-card-media img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
 }
 
-.br-home__service-card-body,
-.br-home__blog-card-body {
+.br-home__service-card-body {
 	padding: 1.17vw;
 }
 
-.br-home__service-card-title,
-.br-home__blog-card-title {
+.br-home__service-card-title {
 	margin: 0 0 0.59vw;
 	font-size: var(--br-home-text-card-title);
 	line-height: 1.35;
@@ -870,13 +908,6 @@
 	margin: 0;
 	font-size: var(--br-home-text-small);
 	line-height: 1.6;
-	color: var(--br-home-ink-muted);
-}
-
-.br-home__blog-card-date {
-	display: block;
-	margin-bottom: 0.37vw;
-	font-size: var(--br-home-text-small);
 	color: var(--br-home-ink-muted);
 }
 
