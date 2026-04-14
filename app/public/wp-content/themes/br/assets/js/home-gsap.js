@@ -227,6 +227,28 @@
 			});
 		}
 
+		var newsLead = gsap.utils.toArray(
+			root.querySelectorAll('.br-home__news-heading, .br-home__news-cta-wrap')
+		);
+		if (newsLead.length) {
+			gsap.set(newsLead, { autoAlpha: 0, y: 28 });
+			ScrollTrigger.batch(newsLead, {
+				start: 'top 90%',
+				interval: 0.08,
+				onEnter: function (batch) {
+					gsap.to(batch, {
+						autoAlpha: 1,
+						y: 0,
+						duration: 0.55,
+						stagger: 0.08,
+						ease: 'power2.out',
+						overwrite: true,
+					});
+				},
+				once: true,
+			});
+		}
+
 		var newsItems = gsap.utils.toArray(root.querySelectorAll('.br-home__news-item'));
 		if (newsItems.length) {
 			gsap.set(newsItems, { autoAlpha: 0, y: 30 });
