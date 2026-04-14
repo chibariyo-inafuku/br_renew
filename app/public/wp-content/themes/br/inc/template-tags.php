@@ -427,7 +427,7 @@ function br_home_get_copy() {
 	$defaults = array(
 		'hero_line_1'       => __( 'マーケティングプロモーションに、', 'br' ),
 		'hero_line_2'       => __( 'AIという武器を。', 'br' ),
-		'hero_lead'         => __( '期待を超えるクオリティとスピードで、マーケティングの常識を塗り替える。', 'br' ),
+		'hero_lead'         => __( '期待を超えるクオリティとスピードで価値を創る、AIクリエイティブスタジオ。', 'br' ),
 		'hero_cta'          => __( 'お問い合わせはこちら', 'br' ),
 		'concept_tagline_en' => __( 'Creativity endures. Innovation evolves.', 'br' ),
 		'concept_heading'   => __( '創造は、奪われない。進化する。', 'br' ),

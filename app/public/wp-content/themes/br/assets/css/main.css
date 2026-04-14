@@ -293,9 +293,9 @@ body.admin-bar .br-header--sidebar {
 	}
 }
 
-/* Main + footer: right column (avoid flex stretch + margin overflow) */
+/* Main + footer: right column (main may shrink so wide children do not overflow viewport) */
 .br-main {
-	flex: 1 0 auto;
+	flex: 1 1 auto;
 	margin-left: var(--br-sidebar-w);
 	width: calc(100% - var(--br-sidebar-w));
 	max-width: none;
