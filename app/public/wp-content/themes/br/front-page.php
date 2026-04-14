@@ -13,7 +13,7 @@ while ( have_posts() ) :
 <main id="main" class="br-main br-home">
 	<?php
 	get_template_part( 'template-parts/home/section', 'hero' );
-	get_template_part( 'template-parts/home/section', 'concept' );
+	//get_template_part( 'template-parts/home/section', 'concept' );
 	get_template_part( 'template-parts/home/section', 'works' );
 	get_template_part( 'template-parts/home/section', 'service' );
 	get_template_part( 'template-parts/home/section', 'project' );
