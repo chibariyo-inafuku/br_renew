@@ -91,6 +91,14 @@ function br_enqueue_assets() {
 		true
 	);
 
+	wp_enqueue_script(
+		'br-svg-heading-inview',
+		$theme_uri . '/assets/js/svg-heading-inview.js',
+		array(),
+		BR_VERSION,
+		true
+	);
+
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
 		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact' ) );

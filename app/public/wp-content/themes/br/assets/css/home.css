@@ -789,6 +789,30 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	color: #fff;
 }
 
+/* Works SVG heading: same font-size as former .br-home__works-title-en (no viewBox font-size / max-height shrink). */
+.br-home__works-title .br-svg-heading {
+	gap: 0;
+}
+
+.br-home__works-title .br-svg-heading__svg {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	overflow: visible;
+	line-height: 0;
+}
+
+.br-home__works-title .br-svg-heading__text {
+	font-size: clamp(2rem, 3.89vw, 3.5rem);
+	font-weight: 700;
+}
+
+/* Pull JP line up under the tighter SVG box (viewBox + inline SVG gap). */
+.br-home__works-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(-0.35rem, -0.5vw, -0.125rem);
+}
+
 .br-home__works-grid,
 .br-home__project-grid,
 .br-home__blog-grid {

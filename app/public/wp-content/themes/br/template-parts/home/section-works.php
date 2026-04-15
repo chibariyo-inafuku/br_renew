@@ -2,6 +2,10 @@
 /**
  * Home: Works teaser grid — Figma 準拠.
  *
+ * br-svg-heading: To reuse the animated H2 on a fixed page, copy the entire <h2>…</h2>
+ * block below. Keep data-br-svg-heading; set an ancestor color (e.g. white on dark).
+ * Theme assets: main.css (.br-svg-heading*) + svg-heading-inview.js (enqueued globally).
+ *
  * @package br
  */
 
@@ -15,10 +19,24 @@ if ( ! $q->have_posts() ) {
 <section class="br-home__section br-home__section--works br-home__section--works-band br-home__works br-home__section--band-reveal br-home__band-reveal--up">
 	<div class="br-container">
 		<div class="br-home__band-reveal-inner">
+		<!-- br-svg-heading: copy this <h2> block; optional class br-svg-heading--on-light on light backgrounds. -->
 		<header class="br-home__works-heading br-home__section-head">
 			<h2 class="br-home__works-title">
-				<span class="br-home__works-title-en">Works</span>
-				<span class="br-home__works-title-jp">/ 実績紹介</span>
+				<span class="screen-reader-text">Works / 実績紹介</span>
+				<div class="br-svg-heading" data-br-svg-heading>
+					<svg
+						class="br-svg-heading__svg"
+						aria-hidden="true"
+						viewBox="0 0 640 102"
+						preserveAspectRatio="xMinYMin meet"
+						focusable="false"
+					>
+						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Works</text>
+					</svg>
+					<div class="br-svg-heading__sub-wrap">
+						<span class="br-home__works-title-jp br-svg-heading__sub">/ 実績紹介</span>
+					</div>
+				</div>
 			</h2>
 		</header>
 		<ul class="br-home__works-grid">

@@ -788,3 +788,137 @@ a.br-footer__privacy:focus,
 	color: #6d7981;
 	opacity: 1;
 }
+
+/* -------------------------------------------------------------------------
+   Screen reader only (fixed pages + pasted br-svg-heading blocks; also in home.css on TOP)
+   ------------------------------------------------------------------------- */
+.screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Reusable SVG stroke heading (inview via data-br-svg-heading + JS).
+   Paste markup from section-works.php; colors follow parent color / modifiers.
+   ------------------------------------------------------------------------- */
+@keyframes br-svg-heading-stroke {
+	0% {
+		stroke-dashoffset: 1280;
+		fill: transparent;
+	}
+
+	70% {
+		stroke-dashoffset: 0;
+		fill: transparent;
+	}
+
+	100% {
+		stroke-dashoffset: 0;
+		fill: currentColor;
+		stroke-width: 0;
+	}
+}
+
+@keyframes br-svg-heading-sub {
+	from {
+		opacity: 0;
+		transform: translate3d(0, calc(100% + clamp(0.5rem, 1.5vw, 1.25rem)), 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+.br-svg-heading {
+	--br-svg-heading-duration: 2.5s;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	min-width: 0;
+	color: inherit;
+}
+
+.br-svg-heading--on-light {
+	color: var(--br-text);
+}
+
+.br-svg-heading__svg {
+	display: block;
+	width: min(100%, 44.44vw);
+	height: auto;
+	max-width: 100%;
+}
+
+.br-svg-heading__text {
+	font-family: "MuseoModerno", "Inter", system-ui, sans-serif;
+	paint-order: stroke fill;
+	fill: currentColor;
+	stroke: currentColor;
+	stroke-width: clamp(0.03125rem, 0.069vw, 0.09375rem);
+	stroke-dasharray: 1280;
+	stroke-dashoffset: 0;
+	stroke-linejoin: round;
+}
+
+.br-svg-heading__sub-wrap {
+	margin-top: 0;
+	overflow: hidden;
+	width: 100%;
+	min-width: 0;
+	/* Mask so the line slides up from below the band. */
+	padding-bottom: clamp(0.0625rem, 0.14vw, 0.125rem);
+}
+
+.br-svg-heading:not(.is-inview) .br-svg-heading__text {
+	fill: transparent;
+	stroke: currentColor;
+	stroke-width: clamp(0.03125rem, 0.069vw, 0.09375rem);
+	stroke-dasharray: 1280;
+	stroke-dashoffset: 1280;
+}
+
+.br-svg-heading:not(.is-inview) .br-svg-heading__sub {
+	opacity: 0;
+	transform: translate3d(0, calc(100% + clamp(0.5rem, 1.5vw, 1.25rem)), 0);
+}
+
+.br-svg-heading__sub {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.br-svg-heading.is-inview .br-svg-heading__text {
+	animation: br-svg-heading-stroke var(--br-svg-heading-duration) cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+.br-svg-heading.is-inview .br-svg-heading__sub {
+	animation: br-svg-heading-sub 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	animation-delay: var(--br-svg-heading-duration);
+	animation-fill-mode: backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-svg-heading .br-svg-heading__text {
+		fill: currentColor;
+		stroke: none;
+		stroke-width: 0;
+		stroke-dashoffset: 0;
+		animation: none;
+	}
+
+	.br-svg-heading .br-svg-heading__sub {
+		opacity: 1;
+		transform: none;
+		animation: none;
+	}
+}
