@@ -77,6 +77,20 @@ function br_enqueue_assets() {
 		BR_VERSION
 	);
 
+	wp_enqueue_style(
+		'br-lenis',
+		'https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.css',
+		array( 'br-main' ),
+		'1.2.3'
+	);
+	wp_enqueue_script(
+		'br-lenis',
+		'https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.min.js',
+		array(),
+		'1.2.3',
+		true
+	);
+
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
 		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact' ) );
@@ -153,11 +167,23 @@ function br_enqueue_assets() {
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-gsap-scrolltrigger', 'br-home-rail' ),
+			array( 'br-gsap-scrolltrigger', 'br-home-rail', 'br-lenis-init' ),
 			BR_VERSION,
 			true
 		);
 	}
+
+	$lenis_init_deps = array( 'br-lenis' );
+	if ( is_front_page() ) {
+		$lenis_init_deps[] = 'br-gsap-scrolltrigger';
+	}
+	wp_enqueue_script(
+		'br-lenis-init',
+		$theme_uri . '/assets/js/lenis-init.js',
+		$lenis_init_deps,
+		BR_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
 

@@ -20,6 +20,7 @@ while ( have_posts() ) :
 	get_template_part( 'template-parts/home/section', 'news' );
 	get_template_part( 'template-parts/home/section', 'blog' );
 	get_template_part( 'template-parts/home/section', 'service' );
+	get_template_part( 'template-parts/home/section', 'palarax' );
 	get_template_part( 'template-parts/home/section', 'cta' );
 
 	$content = get_post()->post_content;

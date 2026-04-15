@@ -608,18 +608,18 @@ body.admin-bar .br-header--sidebar {
 	font-weight: 600;
 }
 
-/* Footer */
+/* Footer — Figma: left brand + vertical socials; right 3 columns; bottom privacy + copyright */
 .br-footer {
 	margin-top: auto;
 	padding: 5.86vw 3.15vw 2.93vw;
-	font-size: 0.95vw;
+	font-size: clamp(0.8125rem, 0.95vw, 1rem);
 	color: rgba(255, 255, 255, 0.82);
 	background: #000000;
 	border-top: none;
 }
 
 .br-footer a {
-	color: inherit;
+	color: #fff;
 	text-decoration: none;
 }
 
@@ -628,58 +628,97 @@ body.admin-bar .br-header--sidebar {
 	text-decoration: underline;
 }
 
-.br-footer__grid {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr);
-	gap: 2.93vw;
-	padding-bottom: 2.93vw;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+.br-footer__top {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: clamp(1.25rem, 3.2vw, 2.75rem);
+	padding-bottom: clamp(1.25rem, 2.9vw, 2.75rem);
 }
 
-@media (min-width: 40rem) {
-	.br-footer__grid {
-		grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
-		align-items: start;
-	}
-}
-
-.br-footer__col--brand {
+.br-footer__brand {
 	min-width: 0;
+	flex: 0 1 auto;
+	max-width: 100%;
 }
 
-.br-footer__title {
-	font-weight: 700;
-	font-size: 1.32vw;
-	color: #fff;
+.br-footer__logo-link {
+	display: inline-block;
+	text-decoration: none;
 }
 
-.br-footer .custom-logo-link img {
-	max-height: 2.93vw;
-	width: auto;
+.br-footer__logo-link:hover,
+.br-footer__logo-link:focus {
+	text-decoration: none;
+}
+
+/* Match header logo scale (.br-header .custom-logo-link img) */
+.br-footer__logo-img {
+	display: block;
 	height: auto;
+	max-height: min(clamp(2.5rem, 4.5vw, 4rem), 26vh);
+	max-width: 100%;
+	width: auto;
+	object-fit: contain;
 }
 
 .br-footer__social {
 	list-style: none;
-	margin: 1.46vw 0 0;
+	margin: clamp(0.75rem, 1.46vw, 1.25rem) 0 0;
 	padding: 0;
 	display: flex;
-	flex-wrap: wrap;
-	gap: 0.73vw 1.17vw;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.35rem, 0.55vw, 0.5rem);
+}
+
+.br-footer__social a {
+	text-decoration: underline;
+}
+
+.br-footer__social a:hover,
+.br-footer__social a:focus {
+	text-decoration: underline;
 }
 
 .br-footer__nav-cols {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.71vw), 1fr));
-	gap: 1.76vw;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	align-items: flex-start;
+	gap: clamp(1.25rem, 3.5vw, 5rem);
 	min-width: 0;
+	flex: 1 1 auto;
+}
+
+@media (max-width: 36rem) {
+	.br-footer__nav-cols {
+		flex-basis: 100%;
+		justify-content: flex-start;
+	}
+}
+
+.br-footer__nav-col {
+	flex: 0 1 auto;
+	min-width: min(100%, 9.5rem);
 }
 
 .br-footer__nav-heading {
-	margin: 0 0 0.73vw;
-	font-size: 1.02vw;
-	font-weight: 600;
+	display: inline-block;
+	margin: 0 0 clamp(0.4rem, 0.73vw, 0.65rem);
+	font-size: clamp(0.875rem, 1.02vw, 1.0625rem);
+	font-weight: 700;
 	color: #fff;
+	opacity: 1;
+	text-decoration: none;
+}
+
+.br-footer__nav-heading:hover,
+.br-footer__nav-heading:focus {
+	color: #fff;
+	opacity: 1;
+	text-decoration: none;
 }
 
 .br-footer__nav-list {
@@ -688,20 +727,64 @@ body.admin-bar .br-header--sidebar {
 	padding: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 0.44vw;
+	gap: clamp(0.25rem, 0.44vw, 0.4rem);
+}
+
+.br-footer__nav-prefix {
+	font-weight: inherit;
+	opacity: inherit;
 }
 
 .br-footer__nav-list a {
 	font-weight: 400;
-	opacity: 0.92;
+	color: #fff;
+	opacity: 1;
+	text-decoration: none;
+}
+
+.br-footer__nav-list a:hover,
+.br-footer__nav-list a:focus {
+	color: #fff;
+	opacity: 1;
+	text-decoration: none;
 }
 
 .br-footer__bottom {
-	padding-top: 1.46vw;
-	padding-bottom: 1.76vw;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: clamp(0.75rem, 1.5vw, 1.25rem);
+	padding-top: clamp(0.75rem, 1.46vw, 1.25rem);
+	padding-bottom: clamp(0.65rem, 1.76vw, 1.1rem);
+}
+
+.br-footer__bottom-left {
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+/* Must beat `.br-footer a` (0,1,1): include type + class */
+a.br-footer__privacy,
+.br-footer a.br-footer__privacy {
+	color: #6d7981;
+	text-decoration: underline;
+}
+
+a.br-footer__privacy:hover,
+a.br-footer__privacy:focus,
+.br-footer a.br-footer__privacy:hover,
+.br-footer a.br-footer__privacy:focus {
+	color: #6d7981;
+	text-decoration: underline;
 }
 
 .br-footer__copy {
 	margin: 0;
-	opacity: 0.75;
+	margin-left: auto;
+	text-align: right;
+	max-width: min(100%, 36rem);
+	font-size: clamp(0.6875rem, 0.78vw, 0.8125rem);
+	line-height: 1.5;
+	color: #6d7981;
+	opacity: 1;
 }

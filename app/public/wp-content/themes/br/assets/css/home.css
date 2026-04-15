@@ -1033,11 +1033,112 @@
 	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
 	color: #fff;
 	text-shadow: 0 0.14em 0.35em rgba(1, 16, 26, 0.45);
+	will-change: clip-path;
+}
+
+html:not(.br-home-js) .br-home__parallax-quote {
+	clip-path: none;
+}
+
+html.br-home-js .br-home__parallax-quote {
+	clip-path: inset(100% 0 0 0);
 }
 
 /* Match GSAP from-state (scale + y; see home-gsap.js). */
 html.br-home-js .br-home__parallax-globe-wrap {
 	transform: scale(0.55) translateY(13.75rem);
+}
+
+/* -------------------------------------------------------------------------
+   Palarax strip (Service–CTA) — office image + scroll-driven overlay + tagline
+   ------------------------------------------------------------------------- */
+.br-home__section.br-home__palarax {
+	padding-top: calc(var(--br-home-space-section-y) * 0.65);
+	padding-bottom: calc(var(--br-home-space-section-y) * 0.65);
+}
+
+.br-home__palarax {
+	position: relative;
+	overflow: hidden;
+	color: #fff;
+	min-height: clamp(9.75rem, 27.09vw, 24.7rem);
+}
+
+.br-home__palarax-media {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image: var(--br-palarax-image);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.br-home__palarax-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background-color: #254a9d;
+	pointer-events: none;
+}
+
+.br-home__palarax-inner {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	isolation: isolate;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+	padding-left: var(--br-home-gutter);
+	padding-right: var(--br-home-gutter);
+	padding-top: clamp(0.975rem, 2.165vw, 1.95rem);
+	padding-bottom: clamp(0.975rem, 2.165vw, 1.95rem);
+	box-sizing: border-box;
+}
+
+.br-home__palarax-text-clip {
+	width: 100%;
+	max-width: min(100%, 90vw);
+	flex-shrink: 0;
+}
+
+.br-home__palarax-tagline {
+	margin: 0;
+	text-align: center;
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	font-size: clamp(
+		0.7rem,
+		calc((100vw - 2 * var(--br-home-gutter)) / 28),
+		2.5rem
+	);
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
+	color: #fff;
+	text-wrap: balance;
+	text-shadow: 0 0.14em 0.35em rgba(1, 16, 26, 0.45);
+	will-change: clip-path;
+}
+
+/* No JS / reduced motion: readable static hero state */
+html:not(.br-home-js) .br-home__palarax-overlay {
+	opacity: 0.8;
+}
+
+html:not(.br-home-js) .br-home__palarax-tagline {
+	clip-path: none;
+}
+
+/* GSAP sets opacity / clip-path inline; pre-script paint matches hidden state */
+html.br-home-js .br-home__palarax-overlay {
+	opacity: 0;
+}
+
+html.br-home-js .br-home__palarax-tagline {
+	clip-path: inset(100% 0 0 0);
 }
 
 /* -------------------------------------------------------------------------

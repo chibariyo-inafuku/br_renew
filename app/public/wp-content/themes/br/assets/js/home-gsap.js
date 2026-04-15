@@ -147,6 +147,77 @@
 					0
 				);
 			}
+
+			var parallaxQuote = parallax.querySelector('.br-home__parallax-quote');
+			if (parallaxQuote) {
+				gsap.set(parallaxQuote, { clipPath: 'inset(100% 0 0 0)' });
+			}
+			var parallaxQuoteTl = gsap.timeline({
+				scrollTrigger: {
+					trigger: parallax,
+					start: 'top bottom',
+					end: 'center center',
+					scrub: true,
+					invalidateOnRefresh: true,
+				},
+			});
+			if (parallaxQuote) {
+				parallaxQuoteTl.to(
+					parallaxQuote,
+					{ clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'none' },
+					0
+				);
+			}
+		}
+
+		var palarax = root.querySelector('.br-home__palarax');
+		if (palarax) {
+			var palaraxMedia = palarax.querySelector('.br-home__palarax-media');
+			var palaraxOverlay = palarax.querySelector('.br-home__palarax-overlay');
+			var palaraxTagline = palarax.querySelector('.br-home__palarax-tagline');
+			/* Shorter scrub than full viewport pass: overlay + text finish by section center */
+			if (palaraxMedia) {
+				gsap.set(palaraxMedia, {
+					backgroundPositionX: '50%',
+					backgroundPositionY: '28%',
+				});
+			}
+			if (palaraxOverlay) {
+				gsap.set(palaraxOverlay, { opacity: 0 });
+			}
+			if (palaraxTagline) {
+				gsap.set(palaraxTagline, { clipPath: 'inset(100% 0 0 0)' });
+			}
+			var palaraxTl = gsap.timeline({
+				scrollTrigger: {
+					trigger: palarax,
+					start: 'top bottom',
+					end: 'center center',
+					scrub: true,
+					invalidateOnRefresh: true,
+				},
+			});
+			if (palaraxOverlay) {
+				palaraxTl.to(
+					palaraxOverlay,
+					{ opacity: 0.8, duration: 1, ease: 'none' },
+					0
+				);
+			}
+			if (palaraxMedia) {
+				palaraxTl.to(
+					palaraxMedia,
+					{ backgroundPositionY: '72%', duration: 1, ease: 'none' },
+					0
+				);
+			}
+			if (palaraxTagline) {
+				palaraxTl.to(
+					palaraxTagline,
+					{ clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'none' },
+					0
+				);
+			}
 		}
 
 		var concept = root.querySelector('.br-home__concept');
@@ -319,5 +390,14 @@
 		}
 
 		scheduleRefresh();
+
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () {
+				ScrollTrigger.refresh();
+			});
+		}
+		window.addEventListener('load', function () {
+			ScrollTrigger.refresh();
+		});
 	}, root);
 })();
