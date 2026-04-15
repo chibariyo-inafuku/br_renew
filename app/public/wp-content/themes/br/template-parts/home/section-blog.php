@@ -12,8 +12,9 @@ if ( ! $q->have_posts() ) {
 	return;
 }
 ?>
-<section class="br-home__section br-home__section--blog br-home__section--blog-band br-home__blog">
+<section class="br-home__section br-home__section--blog br-home__section--blog-band br-home__blog br-home__section--band-reveal br-home__band-reveal--left">
 	<div class="br-container">
+		<div class="br-home__band-reveal-inner">
 		<header class="br-home__blog-heading br-home__section-head">
 			<h2 class="br-home__blog-title">
 				<span class="br-home__blog-title-en"><?php esc_html_e( 'Blog', 'br' ); ?></span>
@@ -60,6 +61,7 @@ if ( ! $q->have_posts() ) {
 				</a>
 			</div>
 		<?php endif; ?>
+		</div>
 	</div>
 </section>
 <?php

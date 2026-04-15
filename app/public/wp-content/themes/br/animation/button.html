@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Hop Dot Animation - Left Slide Bg</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&family=M+PLUS+Rounded+1c:wght@800&display=swap');
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            font-family: 'Inter', 'M PLUS Rounded 1c', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* 画像に基づいたボタンの基本デザイン */
+        .hop-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            padding: 1.25rem 2.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 1.25rem;
+            cursor: pointer;
+            border: none;
+            overflow: hidden;
+            background-color: #0070c0; /* ベースの青色 */
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 1;
+        }
+
+        /* ホバー時の背景色（左からスライドインに変更） */
+        .hop-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #01101A; /* 指定のダークネイビー */
+            transform: translateX(-100%); /* 初期状態は左側に隠す */
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .hop-btn:hover::before {
+            transform: translateX(0); /* ホバーで左からスライドして全画面表示 */
+        }
+
+        .hop-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(1, 16, 26, 0.3);
+        }
+
+        /* ドットの親（水平移動用） */
+        .dot-mover {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 14px;
+            height: 14px;
+            margin-right: 1.25rem;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 実際の白い点（垂直ジャンプ用） */
+        .dot {
+            width: 14px;
+            height: 14px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            /* Y軸方向への跳躍を定義 */
+            transition: transform 0.9s linear(
+                0, 0, 
+                -35px 12.5%, 0 25%, 
+                -35px 37.5%, 0 50%, 
+                -35px 62.5%, 0 75%, 
+                -35px 87.5%, 0 100%
+            );
+        }
+
+        /* テキストラッパー（左移動用） */
+        .text-container {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            white-space: nowrap;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .char {
+            display: inline-block;
+            position: relative;
+            transform-origin: bottom;
+            transition: transform 0.2s ease;
+        }
+
+        /* --- ホバー時の状態定義 --- */
+
+        .hop-btn:hover .dot-mover {
+            transform: translateX(var(--travel-distance));
+        }
+
+        .hop-btn:hover .dot {
+            transform: translateY(0); 
+        }
+
+        .char.stepped {
+            transform: scaleY(0.85) translateY(2px);
+        }
+
+        .hop-btn:hover .text-container {
+            transform: translateX(var(--text-slide-distance));
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="mb-16 text-center">
+        <h1 class="text-3xl font-extrabold mb-4 text-slate-800 tracking-tight">Dot Hop & Left Slide</h1>
+        <p class="text-slate-500">背景色が左からスライドインするように変更しました。</p>
+    </header>
+
+    <div class="flex flex-col gap-10 items-center w-full max-w-4xl px-4">
+        
+        <div class="flex flex-col items-center gap-4">
+            <button class="hop-btn" data-text="View All Works">
+                <span class="dot-mover">
+                    <span class="dot"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.hop-btn').forEach(button => {
+            const text = button.getAttribute('data-text');
+            const mover = button.querySelector('.dot-mover');
+            
+            const textContainer = document.createElement('div');
+            textContainer.className = 'text-container';
+
+            [...text].forEach((char, index) => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char === ' ' ? '\u00A0' : char; 
+                textContainer.appendChild(span);
+            });
+
+            button.appendChild(textContainer);
+
+            // アニメーションに必要な動的距離を計算
+            const updateDistances = () => {
+                const textWidth = textContainer.offsetWidth;
+                const dotWidth = mover.offsetWidth;
+                const dotStyle = window.getComputedStyle(mover);
+                const dotMarginRight = parseFloat(dotStyle.marginRight);
+
+                // ドット移動距離：テキスト全体の幅 + 最初のマージン
+                button.style.setProperty('--travel-distance', `${textWidth + dotMarginRight}px`);
+                // テキスト移動距離：ドットの幅 + マージン分を左へ
+                button.style.setProperty('--text-slide-distance', `${-(dotWidth + dotMarginRight)}px`);
+            };
+
+            updateDistances();
+            window.addEventListener('resize', updateDistances);
+
+            // 文字が踏まれた際の沈み込みエフェクト
+            let stepInterval;
+            const chars = textContainer.querySelectorAll('.char');
+            
+            const triggerSteppedEffect = (isReverse = false) => {
+                let i = isReverse ? chars.length - 1 : 0;
+                const stepTime = 900 / chars.length;
+                
+                clearInterval(stepInterval);
+                stepInterval = setInterval(() => {
+                    const condition = isReverse ? i >= 0 : i < chars.length;
+                    if (condition) {
+                        chars[i].classList.add('stepped');
+                        const currentIndex = i;
+                        setTimeout(() => chars[currentIndex].classList.remove('stepped'), 200);
+                        isReverse ? i-- : i++;
+                    } else {
+                        clearInterval(stepInterval);
+                    }
+                }, stepTime);
+            };
+
+            button.addEventListener('mouseenter', () => triggerSteppedEffect(false));
+            button.addEventListener('mouseleave', () => triggerSteppedEffect(true));
+        });
+    </script>
+</body>
+</html>

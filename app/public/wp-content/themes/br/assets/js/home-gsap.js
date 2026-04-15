@@ -266,7 +266,11 @@
 			}
 		}
 
-		var sectionHeads = gsap.utils.toArray(root.querySelectorAll('.br-home__section-head'));
+		var sectionHeads = gsap.utils
+			.toArray(root.querySelectorAll('.br-home__section-head'))
+			.filter(function (el) {
+				return !el.closest('.br-home__section--band-reveal');
+			});
 		if (sectionHeads.length) {
 			gsap.set(sectionHeads, { autoAlpha: 0, y: 28 });
 			ScrollTrigger.batch(sectionHeads, {
@@ -285,11 +289,15 @@
 			});
 		}
 
-		var workItems = gsap.utils.toArray(
-			root.querySelectorAll(
-				'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer, .br-home__blog-item, .br-home__blog-footer, .br-home__service-footer'
+		var workItems = gsap.utils
+			.toArray(
+				root.querySelectorAll(
+					'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer, .br-home__blog-item, .br-home__blog-footer, .br-home__service-footer'
+				)
 			)
-		);
+			.filter(function (el) {
+				return !el.closest('.br-home__section--band-reveal');
+			});
 		if (workItems.length) {
 			gsap.set(workItems, { autoAlpha: 0, y: 36 });
 			ScrollTrigger.batch(workItems, {
@@ -309,7 +317,11 @@
 			});
 		}
 
-		var railSlides = gsap.utils.toArray(root.querySelectorAll('.br-home__swiper .swiper-slide'));
+		var railSlides = gsap.utils
+			.toArray(root.querySelectorAll('.br-home__swiper .swiper-slide'))
+			.filter(function (el) {
+				return !el.closest('.br-home__section--band-reveal');
+			});
 		if (railSlides.length) {
 			gsap.set(railSlides, { autoAlpha: 0, y: 32 });
 			ScrollTrigger.batch(railSlides, {
@@ -328,6 +340,23 @@
 				once: true,
 			});
 		}
+
+		/* Band background slide + inner reveal (see home.css). ~match sample IO rootMargin -25% */
+		var bandRevealSections = gsap.utils.toArray(
+			root.querySelectorAll('.br-home__section--band-reveal')
+		);
+		bandRevealSections.forEach(function (section) {
+			ScrollTrigger.create({
+				trigger: section,
+				start: 'top 75%',
+				onEnter: function () {
+					section.classList.add('is-active');
+				},
+				onLeaveBack: function () {
+					section.classList.remove('is-active');
+				},
+			});
+		});
 
 		var newsLead = gsap.utils.toArray(
 			root.querySelectorAll('.br-home__news-heading, .br-home__news-cta-wrap')

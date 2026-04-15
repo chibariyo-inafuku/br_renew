@@ -86,6 +86,15 @@
 	gap: var(--br-home-space-section-gap);
 }
 
+/* Band-reveal sections: column layout lives on inner wrapper */
+.br-home__section > .br-container > .br-home__band-reveal-inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--br-home-space-section-gap);
+	min-width: 0;
+	width: 100%;
+}
+
 .br-home__section--tint {
 	background: var(--br-home-band-tint);
 }
@@ -580,6 +589,124 @@
 }
 
 /* -------------------------------------------------------------------------
+   Band scroll-reveal (Works / Project / Blog / Service) — liquid motion tokens
+   ------------------------------------------------------------------------- */
+.br-home__section--works-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--project-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--blog-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--service-band > .br-container > .br-home__band-reveal-inner {
+	gap: clamp(2rem, 4.44vw, 4.5rem);
+}
+
+html.br-home-js .br-home__section--band-reveal {
+	--br-home-band-reveal-duration: 1s;
+	--br-home-band-reveal-ease: cubic-bezier(0.25, 1, 0.5, 1);
+	position: relative;
+	overflow: hidden;
+	color: #fff;
+}
+
+/* Under color before ::before slides in (br-home-js only) */
+html.br-home-js .br-home__section--band-reveal.br-home__section--works-band,
+html.br-home-js .br-home__section--band-reveal.br-home__section--blog-band {
+	background: #4088c5;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--project-band,
+html.br-home-js .br-home__section--band-reveal.br-home__section--service-band {
+	background: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--works-band {
+	--br-home-band-reveal-slide: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--project-band {
+	--br-home-band-reveal-slide: #3b82c5;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--blog-band {
+	--br-home-band-reveal-slide: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--service-band {
+	--br-home-band-reveal-slide: #4088c5;
+}
+
+html.br-home-js .br-home__section--band-reveal::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: var(--br-home-band-reveal-slide);
+	pointer-events: none;
+	transition: transform var(--br-home-band-reveal-duration) var(--br-home-band-reveal-ease);
+}
+
+html.br-home-js .br-home__band-reveal--up::before {
+	transform: translateY(100%);
+}
+
+html.br-home-js .br-home__band-reveal--right::before {
+	transform: translateX(100%);
+}
+
+html.br-home-js .br-home__band-reveal--left::before {
+	transform: translateX(-100%);
+}
+
+html.br-home-js .br-home__section--band-reveal.is-active::before {
+	transform: translate(0, 0);
+}
+
+html.br-home-js .br-home__section--band-reveal > .br-container {
+	position: relative;
+	z-index: 2;
+}
+
+html.br-home-js .br-home__section--band-reveal .br-home__band-reveal-inner {
+	opacity: 0;
+	transform: translateY(clamp(1rem, 2.08vw, 1.875rem));
+	transition:
+		opacity 0.8s ease,
+		transform 0.8s ease;
+	transition-delay: 0.4s;
+}
+
+html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-inner {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__section--band-reveal.br-home__section--works-band {
+		background: #0f3568 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--project-band {
+		background: #3b82c5 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--blog-band {
+		background: #0f3568 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--service-band {
+		background: #4088c5 !important;
+	}
+
+	.br-home__section--band-reveal::before {
+		display: none !important;
+	}
+
+	.br-home__section--band-reveal .br-home__band-reveal-inner {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+/* -------------------------------------------------------------------------
    Works + Project — band grid (Works 3-col, Project 4-col; overlay optional)
    ------------------------------------------------------------------------- */
 .br-home__section--works-band {
@@ -597,9 +724,9 @@
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
 }
 
-/* Blog: dark navy band — distinct from Works (#0f3568) and Project (#3b82c5). */
+/* Blog: same deep blue as Works (#0f3568). */
 .br-home__section--blog-band {
-	background: #143a5c;
+	background: #0f3568;
 	color: #fff;
 	padding-top: clamp(2.5rem, 5.56vw, 5rem);
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);

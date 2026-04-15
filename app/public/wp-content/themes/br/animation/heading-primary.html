@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuseoModerno Writing Animation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Google Fonts: MuseoModerno を読み込み */
+        @import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@600&family=Noto+Sans+JP:wght@400&display=swap');
+
+        :root {
+            --text-color: #0f172a; /* 画像に近い濃紺 */
+            --bg-color: #f8fafc;   /* 清潔感のある白 */
+            --duration: 2.5s;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 10%;
+            width: 100%;
+        }
+
+        /* メインのNews部分 */
+        .svg-text {
+            font-family: 'MuseoModerno', cursive;
+            font-size: 120px;
+            font-weight: 600;
+            fill: transparent;
+            stroke: var(--text-color);
+            stroke-width: 1.5;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            /* 書き順アニメーション */
+            animation: draw-stroke var(--duration) cubic-bezier(0.45, 0, 0.55, 1) forwards;
+        }
+
+        @keyframes draw-stroke {
+            0% {
+                stroke-dashoffset: 1000;
+                fill: transparent;
+            }
+            70% {
+                stroke-dashoffset: 0;
+                fill: transparent;
+            }
+            100% {
+                stroke-dashoffset: 0;
+                fill: var(--text-color);
+                stroke-width: 0;
+            }
+        }
+
+        /* サブテキスト（/ 事業紹介） */
+        .sub-text-wrapper {
+            margin-top: -10px;
+            overflow: hidden;
+        }
+
+        .sub-text {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 28px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+            /* Newsが書き終わる頃に表示 */
+            animation: slide-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation-delay: calc(var(--duration) * 0.7);
+        }
+
+        .slash {
+            font-weight: 300;
+            font-size: 32px;
+        }
+
+        @keyframes slide-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* リプレイボタン */
+        #replay-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        #replay-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+
+    <button id="replay-btn" onclick="location.reload()">REPLAY ANIMATION</button>
+
+    <div class="container">
+        <!-- SVGを使用することでフォントの輪郭アニメーションを実現 -->
+        <svg viewBox="0 0 500 140" width="500" height="140">
+            <text x="0" y="110" class="svg-text">News</text>
+        </svg>
+
+        <div class="sub-text-wrapper">
+            <div class="sub-text">
+                <span class="slash">/</span>
+                <span>事業紹介</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SVGのパスの長さを自動計算して最適化する（オプション）
+        window.onload = () => {
+            const textElement = document.querySelector('.svg-text');
+            // 実際のテキストの長さに合わせてdasharrayを調整するとより正確になります
+            // 今回は汎用的な1000で設定していますが、文字数に応じて微調整可能です
+        };
+    </script>
+</body>
+</html>
