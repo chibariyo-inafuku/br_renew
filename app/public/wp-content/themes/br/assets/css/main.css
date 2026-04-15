@@ -854,9 +854,11 @@ a.br-footer__privacy:focus,
 
 .br-svg-heading__svg {
 	display: block;
-	width: min(100%, 44.44vw);
+	width: min(44.44vw, 100vw);
 	height: auto;
-	max-width: 100%;
+	max-width: none;
+	overflow: visible;
+	line-height: 0;
 }
 
 .br-svg-heading__text {

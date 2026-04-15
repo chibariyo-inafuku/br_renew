@@ -27,7 +27,7 @@ if ( ! $q->have_posts() ) {
 					<svg
 						class="br-svg-heading__svg"
 						aria-hidden="true"
-						viewBox="0 0 640 102"
+						viewBox="0 0 720 102"
 						preserveAspectRatio="xMinYMin meet"
 						focusable="false"
 					>

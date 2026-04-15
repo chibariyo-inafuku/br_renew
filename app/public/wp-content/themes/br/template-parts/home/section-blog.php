@@ -17,8 +17,21 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__band-reveal-inner">
 		<header class="br-home__blog-heading br-home__section-head">
 			<h2 class="br-home__blog-title">
-				<span class="br-home__blog-title-en">Blog</span>
-				<span class="br-home__blog-title-jp">/ ブログ</span>
+				<span class="screen-reader-text">Blog / ブログ</span>
+				<div class="br-svg-heading" data-br-svg-heading>
+					<svg
+						class="br-svg-heading__svg"
+						aria-hidden="true"
+						viewBox="0 0 720 102"
+						preserveAspectRatio="xMinYMin meet"
+						focusable="false"
+					>
+						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Blog</text>
+					</svg>
+					<div class="br-svg-heading__sub-wrap">
+						<span class="br-home__blog-title-jp br-svg-heading__sub">/ ブログ</span>
+					</div>
+				</div>
 			</h2>
 		</header>
 		<ul class="br-home__blog-grid">

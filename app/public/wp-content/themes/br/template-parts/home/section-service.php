@@ -17,8 +17,21 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__band-reveal-inner">
 		<header class="br-home__service-heading br-home__section-head br-home__section-head--with-nav">
 			<h2 class="br-home__service-title">
-				<span class="br-home__service-title-en">Service</span>
-				<span class="br-home__service-title-jp">/ 実績紹介</span>
+				<span class="screen-reader-text">Service / 実績紹介</span>
+				<div class="br-svg-heading" data-br-svg-heading>
+					<svg
+						class="br-svg-heading__svg"
+						aria-hidden="true"
+						viewBox="0 0 720 102"
+						preserveAspectRatio="xMinYMin meet"
+						focusable="false"
+					>
+						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Service</text>
+					</svg>
+					<div class="br-svg-heading__sub-wrap">
+						<span class="br-home__service-title-jp br-svg-heading__sub">/ 実績紹介</span>
+					</div>
+				</div>
 			</h2>
 			<div class="br-home__section-head-right">
 				<div class="br-home__rail-nav" role="group" aria-label="<?php esc_attr_e( 'Scroll services', 'br' ); ?>">

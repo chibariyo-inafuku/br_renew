@@ -754,6 +754,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	margin: 0;
 	padding-left: clamp(0rem, 2.78vw, 2.5rem);
 	padding-right: clamp(0rem, 2.78vw, 2.5rem);
+	overflow: visible;
 }
 
 .br-home__works-title,
@@ -765,6 +766,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	flex-direction: column;
 	align-items: flex-start;
 	gap: clamp(0.125rem, 0.28vw, 0.25rem);
+	overflow: visible;
 }
 
 .br-home__works-title-en,
@@ -789,27 +791,53 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	color: #fff;
 }
 
-/* Works SVG heading: same font-size as former .br-home__works-title-en (no viewBox font-size / max-height shrink). */
-.br-home__works-title .br-svg-heading {
+/*
+ * Band + News SVG headings: match former *-title-en size; inherit section color on bands,
+ * explicit ink on News (currentColor for stroke/fill).
+ */
+.br-home__works-title .br-svg-heading,
+.br-home__project-title .br-svg-heading,
+.br-home__blog-title .br-svg-heading,
+.br-home__service-title .br-svg-heading {
 	gap: 0;
 }
 
-.br-home__works-title .br-svg-heading__svg {
+.br-home__news-title .br-svg-heading {
+	gap: 0;
+	color: var(--br-home-ink);
+}
+
+.br-home__works-title .br-svg-heading__svg,
+.br-home__project-title .br-svg-heading__svg,
+.br-home__blog-title .br-svg-heading__svg,
+.br-home__service-title .br-svg-heading__svg,
+.br-home__news-title .br-svg-heading__svg {
 	display: block;
-	width: auto;
-	max-width: 100%;
+	/*
+	 * Viewport-based width (not % of narrow grid/flex parent) so News + Service match band headings.
+	 * Cap at 100vw so small viewports never exceed the screen.
+	 */
+	width: min(44.44vw, 100vw);
+	max-width: none;
 	height: auto;
 	overflow: visible;
 	line-height: 0;
 }
 
-.br-home__works-title .br-svg-heading__text {
+.br-home__works-title .br-svg-heading__text,
+.br-home__project-title .br-svg-heading__text,
+.br-home__blog-title .br-svg-heading__text,
+.br-home__service-title .br-svg-heading__text,
+.br-home__news-title .br-svg-heading__text {
 	font-size: clamp(2rem, 3.89vw, 3.5rem);
 	font-weight: 700;
 }
 
-/* Pull JP line up under the tighter SVG box (viewBox + inline SVG gap). */
-.br-home__works-title .br-svg-heading__sub-wrap {
+.br-home__works-title .br-svg-heading__sub-wrap,
+.br-home__project-title .br-svg-heading__sub-wrap,
+.br-home__blog-title .br-svg-heading__sub-wrap,
+.br-home__service-title .br-svg-heading__sub-wrap,
+.br-home__news-title .br-svg-heading__sub-wrap {
 	margin-top: clamp(-0.35rem, -0.5vw, -0.125rem);
 }
 
@@ -1318,6 +1346,7 @@ html.br-home-js .br-home__palarax-tagline {
 	grid-row: 1;
 	padding-left: clamp(0rem, 1.67vw, 1.5rem);
 	padding-right: clamp(0rem, 0.56vw, 0.5rem);
+	overflow: visible;
 }
 
 .br-home__news-title {
@@ -1326,6 +1355,7 @@ html.br-home-js .br-home__palarax-tagline {
 	flex-direction: column;
 	align-items: flex-start;
 	gap: clamp(0.25rem, 0.42vw, 0.375rem);
+	overflow: visible;
 }
 
 .br-home__news-title-en {

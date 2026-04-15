@@ -358,9 +358,7 @@
 			});
 		});
 
-		var newsLead = gsap.utils.toArray(
-			root.querySelectorAll('.br-home__news-heading, .br-home__news-cta-wrap')
-		);
+		var newsLead = gsap.utils.toArray(root.querySelectorAll('.br-home__news-cta-wrap'));
 		if (newsLead.length) {
 			gsap.set(newsLead, { autoAlpha: 0, y: 28 });
 			ScrollTrigger.batch(newsLead, {

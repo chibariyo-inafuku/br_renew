@@ -17,8 +17,21 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__news-layout">
 			<header class="br-home__news-heading">
 				<h2 class="br-home__news-title">
-					<span class="br-home__news-title-en">News</span>
-					<span class="br-home__news-title-jp">/ 事業紹介</span>
+					<span class="screen-reader-text">News / 事業紹介</span>
+					<div class="br-svg-heading" data-br-svg-heading>
+						<svg
+							class="br-svg-heading__svg"
+							aria-hidden="true"
+							viewBox="0 0 720 102"
+							preserveAspectRatio="xMinYMin meet"
+							focusable="false"
+						>
+							<text class="br-svg-heading__text" x="0" y="86" font-weight="700">News</text>
+						</svg>
+						<div class="br-svg-heading__sub-wrap">
+							<span class="br-home__news-title-jp br-svg-heading__sub">/ 事業紹介</span>
+						</div>
+					</div>
 				</h2>
 			</header>
 			<ul class="br-home__news-list">
