@@ -62,9 +62,13 @@ if ( ! $q->have_posts() ) {
 			</ul>
 			<?php if ( $more !== '' ) : ?>
 			<div class="br-home__news-cta-wrap">
-				<a class="br-home__btn br-home__btn--news-cta" href="<?php echo esc_url( $more ); ?>">
-					<span class="br-home__btn-dot" aria-hidden="true"></span>
-					<span class="br-home__btn-label"><?php esc_html_e( 'View All News', 'br' ); ?></span>
+				<a
+					class="br-hop-btn br-hop-btn--inverted"
+					href="/news/"
+					data-text="View All News"
+					aria-label="View All News"
+				>
+					<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
 				</a>
 			</div>
 			<?php endif; ?>

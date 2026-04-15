@@ -33,11 +33,15 @@ $vid  = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
 				</h1>
 				<p class="br-home__hero-lead"><?php echo esc_html( $copy['hero_lead'] ); ?></p>
 			</div>
-			<?php if ( $cta !== '' ) : ?>
+			<?php if ( $cta !== '' && $copy['hero_cta'] !== '' ) : ?>
 				<p class="br-home__hero-cta">
-					<a class="br-home__btn br-home__btn--hero" href="<?php echo esc_url( $cta ); ?>">
-						<span class="br-home__btn-dot" aria-hidden="true"></span>
-						<span class="br-home__btn-label"><?php echo esc_html( $copy['hero_cta'] ); ?></span>
+					<a
+						class="br-hop-btn"
+						href="<?php echo esc_url( $cta ); ?>"
+						data-text="<?php echo esc_attr( $copy['hero_cta'] ); ?>"
+						aria-label="<?php echo esc_attr( $copy['hero_cta'] ); ?>"
+					>
+						<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
 					</a>
 				</p>
 			<?php endif; ?>

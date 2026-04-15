@@ -157,6 +157,13 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
+		wp_enqueue_script(
+			'br-home-hop-button',
+			$theme_uri . '/assets/js/home-hop-button.js',
+			array(),
+			BR_VERSION,
+			true
+		);
 
 		wp_enqueue_script(
 			'br-gsap',

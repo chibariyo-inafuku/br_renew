@@ -77,9 +77,13 @@ if ( ! $q->have_posts() ) {
 		</ul>
 		<?php if ( $more !== '' ) : ?>
 			<div class="br-home__works-footer">
-				<a class="br-home__btn br-home__btn--works-cta" href="<?php echo esc_url( $more ); ?>">
-					<span class="br-home__btn-dot" aria-hidden="true"></span>
-					<span class="br-home__btn-label"><?php esc_html_e( 'View All Works', 'br' ); ?></span>
+				<a
+					class="br-hop-btn"
+					href="<?php echo esc_url( $more ); ?>"
+					data-text="<?php echo esc_attr( __( 'View All Works', 'br' ) ); ?>"
+					aria-label="<?php echo esc_attr( __( 'View All Works', 'br' ) ); ?>"
+				>
+					<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
 				</a>
 			</div>
 		<?php endif; ?>
