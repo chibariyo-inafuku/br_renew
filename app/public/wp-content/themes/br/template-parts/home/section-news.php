@@ -17,8 +17,8 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__news-layout">
 			<header class="br-home__news-heading">
 				<h2 class="br-home__news-title">
-					<span class="br-home__news-title-en"><?php esc_html_e( 'News', 'br' ); ?></span>
-					<span class="br-home__news-title-jp"><?php esc_html_e( '/ 事業紹介', 'br' ); ?></span>
+					<span class="br-home__news-title-en">News</span>
+					<span class="br-home__news-title-jp">/ 事業紹介</span>
 				</h2>
 			</header>
 			<ul class="br-home__news-list">

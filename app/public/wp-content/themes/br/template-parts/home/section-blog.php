@@ -17,8 +17,8 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__band-reveal-inner">
 		<header class="br-home__blog-heading br-home__section-head">
 			<h2 class="br-home__blog-title">
-				<span class="br-home__blog-title-en"><?php esc_html_e( 'Blog', 'br' ); ?></span>
-				<span class="br-home__blog-title-jp"><?php esc_html_e( '/ ブログ', 'br' ); ?></span>
+				<span class="br-home__blog-title-en">Blog</span>
+				<span class="br-home__blog-title-jp">/ ブログ</span>
 			</h2>
 		</header>
 		<ul class="br-home__blog-grid">

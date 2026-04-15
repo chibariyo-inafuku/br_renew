@@ -17,8 +17,8 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__band-reveal-inner">
 		<header class="br-home__works-heading br-home__section-head">
 			<h2 class="br-home__works-title">
-				<span class="br-home__works-title-en"><?php esc_html_e( 'Works', 'br' ); ?></span>
-				<span class="br-home__works-title-jp"><?php esc_html_e( '/ 実績紹介', 'br' ); ?></span>
+				<span class="br-home__works-title-en">Works</span>
+				<span class="br-home__works-title-jp">/ 実績紹介</span>
 			</h2>
 		</header>
 		<ul class="br-home__works-grid">

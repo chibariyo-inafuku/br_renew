@@ -17,8 +17,8 @@ if ( ! $q->have_posts() ) {
 		<div class="br-home__band-reveal-inner">
 		<header class="br-home__service-heading br-home__section-head br-home__section-head--with-nav">
 			<h2 class="br-home__service-title">
-				<span class="br-home__service-title-en"><?php esc_html_e( 'Service', 'br' ); ?></span>
-				<span class="br-home__service-title-jp"><?php esc_html_e( '/ 実績紹介', 'br' ); ?></span>
+				<span class="br-home__service-title-en">Service</span>
+				<span class="br-home__service-title-jp">/ 実績紹介</span>
 			</h2>
 			<div class="br-home__section-head-right">
 				<div class="br-home__rail-nav" role="group" aria-label="<?php esc_attr_e( 'Scroll services', 'br' ); ?>">
