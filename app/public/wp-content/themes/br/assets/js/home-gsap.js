@@ -398,22 +398,37 @@
 			});
 		}
 
+		/* CTA: omit heading (SVG + IO) so GSAP does not hide it while svg-heading-inview runs. */
 		var ctaInner = root.querySelector('.br-home__cta-inner');
-		if (ctaInner && ctaInner.children.length) {
-			var ctaKids = gsap.utils.toArray(ctaInner.children);
-			gsap.set(ctaKids, { autoAlpha: 0, y: 30 });
-			gsap.to(ctaKids, {
-				autoAlpha: 1,
-				y: 0,
-				duration: 0.58,
-				stagger: 0.1,
-				ease: 'power2.out',
-				scrollTrigger: {
-					trigger: ctaInner,
-					start: 'top 86%',
-					toggleActions: 'play none none none',
-				},
-			});
+		if (ctaInner) {
+			var ctaForm = ctaInner.querySelector('.br-home__cta-col--form');
+			var ctaCopy = ctaInner.querySelector('.br-home__cta-col--copy');
+			var ctaFade = [];
+			if (ctaCopy) {
+				ctaFade = ctaFade.concat(
+					gsap.utils.toArray(
+						ctaCopy.querySelectorAll('.br-home__cta-body, .br-home__cta-urgent')
+					)
+				);
+			}
+			if (ctaForm) {
+				ctaFade.push(ctaForm);
+			}
+			if (ctaFade.length) {
+				gsap.set(ctaFade, { autoAlpha: 0, y: 30 });
+				gsap.to(ctaFade, {
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.58,
+					stagger: 0.1,
+					ease: 'power2.out',
+					scrollTrigger: {
+						trigger: ctaInner,
+						start: 'top 86%',
+						toggleActions: 'play none none none',
+					},
+				});
+			}
 		}
 
 		scheduleRefresh();

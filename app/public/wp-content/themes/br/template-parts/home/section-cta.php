@@ -15,9 +15,26 @@ $cf7_shortcode = br_get_contact_page_cf7_shortcode();
 	<div class="br-container">
 		<div class="br-home__cta-inner">
 			<div class="br-home__cta-col br-home__cta-col--copy">
-				<p class="br-home__cta-label-slash">/ お問い合わせ</p>
-				<h2 class="br-home__cta-title-en">Contact</h2>
-				
+				<!-- br-svg-heading: JP line uses .br-svg-heading--sub-from-left (slide from left). -->
+				<header class="br-home__cta-heading">
+					<h2 class="br-home__cta-title">
+						<span class="screen-reader-text">Contact / お問い合わせ</span>
+						<div class="br-svg-heading br-svg-heading--sub-from-left" data-br-svg-heading>
+							<div class="br-svg-heading__sub-wrap">
+								<span class="br-home__cta-label-slash br-svg-heading__sub">/ お問い合わせ</span>
+							</div>
+							<svg
+								class="br-svg-heading__svg"
+								aria-hidden="true"
+								viewBox="0 0 720 102"
+								preserveAspectRatio="xMinYMin meet"
+								focusable="false"
+							>
+								<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Contact</text>
+							</svg>
+						</div>
+					</h2>
+				</header>
 				<p class="br-home__cta-body">サービスに関するご相談、お見積りのご依頼など、お気軽にお問い合わせください。AIのプロフェッショナルが最適な提案をさせていただきます。</p>
 				<div class="br-home__cta-urgent" role="group" aria-label="お急ぎの方はこちら">
 					<p class="br-home__cta-urgent-label">お急ぎの方はこちら</p>

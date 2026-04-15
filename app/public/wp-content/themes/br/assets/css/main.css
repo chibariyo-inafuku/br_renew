@@ -838,6 +838,18 @@ a.br-footer__privacy:focus,
 	}
 }
 
+@keyframes br-svg-heading-sub-from-left {
+	from {
+		opacity: 0;
+		transform: translate3d(calc(-100% - clamp(0.5rem, 1.5vw, 1.25rem)), 0, 0);
+	}
+
+	to {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
 .br-svg-heading {
 	--br-svg-heading-duration: 2.5s;
 	display: flex;
@@ -907,6 +919,22 @@ a.br-footer__privacy:focus,
 	animation: br-svg-heading-sub 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 	animation-delay: var(--br-svg-heading-duration);
 	animation-fill-mode: backwards;
+}
+
+/* JP / sub line: horizontal reveal (e.g. home CTA). */
+.br-svg-heading--sub-from-left .br-svg-heading__sub-wrap {
+	overflow-x: hidden;
+	overflow-y: visible;
+	padding-bottom: 0;
+	padding-right: clamp(0.0625rem, 0.14vw, 0.125rem);
+}
+
+.br-svg-heading.br-svg-heading--sub-from-left:not(.is-inview) .br-svg-heading__sub {
+	transform: translate3d(calc(-100% - clamp(0.5rem, 1.5vw, 1.25rem)), 0, 0);
+}
+
+.br-svg-heading.br-svg-heading--sub-from-left.is-inview .br-svg-heading__sub {
+	animation-name: br-svg-heading-sub-from-left;
 }
 
 @media (prefers-reduced-motion: reduce) {
