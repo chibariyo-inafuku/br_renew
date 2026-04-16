@@ -43,37 +43,13 @@ if ( ! $q->have_posts() ) {
 			<?php
 			while ( $q->have_posts() ) :
 				$q->the_post();
-				$pid   = get_the_ID();
-				$badge = br_get_portfolio_card_category_label( $pid );
-				?>
-				<li class="br-home__works-item">
-					<a class="br-home__works-card" href="<?php the_permalink(); ?>">
-						<div class="br-home__works-card-media">
-							<?php
-							if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-home__works-card-image' ) ) :
-								if ( has_post_thumbnail() ) :
-									?>
-							<div class="br-home__works-card-image">
-								<?php the_post_thumbnail( 'medium_large' ); ?>
-							</div>
-									<?php
-								else :
-									?>
-							<div class="br-home__works-card-image br-home__works-card-image--placeholder" aria-hidden="true"></div>
-									<?php
-								endif;
-							endif;
-							?>
-						</div>
-						<div class="br-home__works-card-overlay">
-							<?php if ( $badge !== '' ) : ?>
-								<span class="br-home__works-card-badge"><?php echo esc_html( $badge ); ?></span>
-							<?php endif; ?>
-							<span class="br-home__works-card-title"><?php the_title(); ?></span>
-						</div>
-					</a>
-				</li>
-			<?php endwhile; ?>
+				get_template_part(
+					'template-parts/portfolio/works',
+					'home-card',
+					array( 'post_id' => (int) get_the_ID() )
+				);
+			endwhile;
+			?>
 		</ul>
 		<?php if ( $more !== '' ) : ?>
 			<div class="br-home__works-footer">

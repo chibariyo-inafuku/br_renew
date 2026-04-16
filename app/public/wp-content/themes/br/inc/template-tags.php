@@ -190,10 +190,12 @@ function br_get_portfolio_summary( $post_id ) {
 /**
  * Print pagination for main or custom WP_Query loops.
  *
- * @param WP_Query|null $query      Query object. Defaults to main query.
- * @param string        $page_permalink Optional. Permalink of the static page when using a custom query (fixes /page/N/ on pages).
+ * @param WP_Query|null        $query           Query object. Defaults to main query.
+ * @param string               $page_permalink Optional. Permalink of the static page when using a custom query (fixes /page/N/ on pages).
+ * @param array<string,mixed>  $add_args       Optional. Query args merged into each page link (e.g. array( 'works_cat' => 'ai-avatar' )).
+ * @param array<string,string> $labels         Optional. `prev_text` / `next_text` overrides (e.g. arrow glyphs for Works Figma pagination).
  */
-function br_the_pagination( $query = null, $page_permalink = '' ) {
+function br_the_pagination( $query = null, $page_permalink = '', $add_args = array(), $labels = array() ) {
 	if ( ! $query instanceof WP_Query ) {
 		global $wp_query;
 		$query = $wp_query;
@@ -212,18 +214,40 @@ function br_the_pagination( $query = null, $page_permalink = '' ) {
 		$current = 1;
 	}
 
+	$prev_text = __( 'Previous', 'br' );
+	$next_text = __( 'Next', 'br' );
+	if ( is_array( $labels ) ) {
+		if ( isset( $labels['prev_text'] ) && is_string( $labels['prev_text'] ) && $labels['prev_text'] !== '' ) {
+			$prev_text = $labels['prev_text'];
+		}
+		if ( isset( $labels['next_text'] ) && is_string( $labels['next_text'] ) && $labels['next_text'] !== '' ) {
+			$next_text = $labels['next_text'];
+		}
+	}
+
 	$args = array(
 		'total'     => $total,
 		'current'   => $current,
 		'mid_size'  => 2,
-		'prev_text' => __( 'Previous', 'br' ),
-		'next_text' => __( 'Next', 'br' ),
+		'prev_text' => $prev_text,
+		'next_text' => $next_text,
 		'type'      => 'list',
 	);
 
 	if ( $page_permalink !== '' ) {
 		$args['base']   = trailingslashit( $page_permalink ) . 'page/%#%/';
 		$args['format'] = '';
+	}
+
+	$add_args = is_array( $add_args ) ? $add_args : array();
+	$add_args = array_filter(
+		$add_args,
+		static function ( $v ) {
+			return $v !== null && $v !== '';
+		}
+	);
+	if ( $add_args !== array() ) {
+		$args['add_args'] = $add_args;
 	}
 
 	$links = paginate_links( $args );
@@ -271,13 +295,125 @@ function br_query_posts_for_category_slug( $category_slug, $per_page = 10 ) {
 }
 
 /**
+ * Optional slug order for Works category nav (child theme: filter `br_works_category_nav_slug_order`).
+ *
+ * @return string[]
+ */
+function br_works_category_nav_slug_order() {
+	$order = apply_filters( 'br_works_category_nav_slug_order', array() );
+	return is_array( $order ) ? array_values( array_filter( array_map( 'sanitize_title', $order ) ) ) : array();
+}
+
+/**
+ * `project-categories` terms that appear on at least one published portfolio in the works-s list.
+ *
+ * @return WP_Term[]
+ */
+function br_get_works_list_project_category_terms() {
+	if ( ! taxonomy_exists( 'project-categories' ) || ! taxonomy_exists( 'portfolio-list' ) ) {
+		return array();
+	}
+
+	$list_q = new WP_Query(
+		array(
+			'post_type'              => 'portfolio',
+			'post_status'            => 'publish',
+			'posts_per_page'         => -1,
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => true,
+			'tax_query'              => array(
+				array(
+					'taxonomy' => 'portfolio-list',
+					'field'    => 'slug',
+					'terms'    => 'works-s',
+				),
+			),
+		)
+	);
+	$post_ids = $list_q->posts;
+	if ( ! is_array( $post_ids ) || $post_ids === array() ) {
+		return array();
+	}
+
+	$terms = wp_get_object_terms(
+		$post_ids,
+		'project-categories',
+		array(
+			'orderby' => 'name',
+			'order'   => 'ASC',
+		)
+	);
+	if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
+		return array();
+	}
+
+	$by_id = array();
+	foreach ( $terms as $t ) {
+		if ( $t instanceof WP_Term ) {
+			$by_id[ (int) $t->term_id ] = $t;
+		}
+	}
+	$terms = array_values( $by_id );
+
+	$order_slugs = br_works_category_nav_slug_order();
+	if ( $order_slugs === array() ) {
+		usort(
+			$terms,
+			static function ( $a, $b ) {
+				return strcasecmp( $a->name, $b->name );
+			}
+		);
+		return $terms;
+	}
+
+	$pos = array_flip( $order_slugs );
+	usort(
+		$terms,
+		static function ( $a, $b ) use ( $pos ) {
+			$pa = isset( $pos[ $a->slug ] ) ? (int) $pos[ $a->slug ] : 9999;
+			$pb = isset( $pos[ $b->slug ] ) ? (int) $pos[ $b->slug ] : 9999;
+			if ( $pa !== $pb ) {
+				return $pa <=> $pb;
+			}
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $terms;
+}
+
+/**
+ * Permalink for the Works page with optional pagination and category query arg.
+ *
+ * @param int    $paged            Page number (1 = no /page/N/ segment).
+ * @param string $works_cat_slug Optional. `project-categories` slug; empty = all.
+ * @return string Empty if the Works page is missing.
+ */
+function br_get_works_page_list_url( $paged = 1, $works_cat_slug = '' ) {
+	$base = br_get_page_permalink_by_slug( 'works' );
+	if ( $base === '' ) {
+		return '';
+	}
+	$paged = (int) $paged;
+	$url   = $paged > 1 ? trailingslashit( $base ) . 'page/' . $paged . '/' : $base;
+	$slug  = sanitize_title( (string) $works_cat_slug );
+	if ( $slug !== '' ) {
+		$url = add_query_arg( 'works_cat', $slug, $url );
+	}
+	return $url;
+}
+
+/**
  * WP_Query for portfolio items on WORKS / PROJECT pages (taxonomy portfolio-list).
  *
- * @param string $term_slug Term slug (e.g. works-s, project-s).
- * @param int    $per_page  Posts per page.
+ * @param string $term_slug               Term slug (e.g. works-s, project-s).
+ * @param int    $per_page                Posts per page.
+ * @param string $project_category_slug Optional. `project-categories` term slug (AND with list term). Unknown slug yields empty results.
  * @return WP_Query
  */
-function br_query_portfolio_for_list_term( $term_slug, $per_page = 12 ) {
+function br_query_portfolio_for_list_term( $term_slug, $per_page = 12, $project_category_slug = '' ) {
 	$term_slug = sanitize_title( $term_slug );
 	$base      = array(
 		'post_type'      => 'portfolio',
@@ -291,13 +427,32 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12 ) {
 		return new WP_Query( $base );
 	}
 
-	$base['tax_query'] = array(
-		array(
-			'taxonomy' => 'portfolio-list',
-			'field'    => 'slug',
-			'terms'    => $term_slug,
-		),
+	$list_clause = array(
+		'taxonomy' => 'portfolio-list',
+		'field'    => 'slug',
+		'terms'    => $term_slug,
 	);
+
+	$project_category_slug = sanitize_title( (string) $project_category_slug );
+
+	if ( $project_category_slug !== '' && taxonomy_exists( 'project-categories' ) ) {
+		$pc_term = get_term_by( 'slug', $project_category_slug, 'project-categories' );
+		if ( ! $pc_term instanceof WP_Term ) {
+			$base['post__in'] = array( 0 );
+			return new WP_Query( $base );
+		}
+		$base['tax_query'] = array(
+			'relation' => 'AND',
+			$list_clause,
+			array(
+				'taxonomy' => 'project-categories',
+				'field'    => 'slug',
+				'terms'    => $project_category_slug,
+			),
+		);
+	} else {
+		$base['tax_query'] = array( $list_clause );
+	}
 
 	return new WP_Query( $base );
 }

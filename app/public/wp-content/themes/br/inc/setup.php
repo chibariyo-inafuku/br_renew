@@ -52,7 +52,7 @@ function br_setup() {
 add_action( 'after_setup_theme', 'br_setup' );
 
 /**
- * Inner listing templates that share the same card scroll effects as the front page.
+ * Inner listing templates that share GSAP scroll-card effects (br-card grids). Not used on /works/ (home-style cards + CTA .br-home).
  *
  * @return bool
  */
@@ -60,7 +60,7 @@ function br_loads_inner_scroll_card_assets() {
 	if ( is_front_page() ) {
 		return false;
 	}
-	return is_page( array( 'works', 'project', 'news', 'blog', 'service' ) )
+	return is_page( array( 'project', 'news', 'blog', 'service' ) )
 		|| is_post_type_archive( 'portfolio' )
 		|| is_tax( 'project-categories' );
 }
@@ -148,7 +148,7 @@ function br_enqueue_assets() {
 
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
-		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact', 'about' ) );
+		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact', 'about', 'works' ) );
 		if ( ! $load_br_cf7 ) {
 			global $post;
 			$load_br_cf7 = $post && has_shortcode( (string) $post->post_content, 'contact-form-7' );
@@ -220,6 +220,25 @@ function br_enqueue_assets() {
 		wp_enqueue_style(
 			'br-about',
 			$theme_uri . '/assets/css/about.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'works' ) ) {
+		$works_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$works_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$works_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-works',
+			$theme_uri . '/assets/css/works.css',
 			array( 'br-home' ),
 			BR_VERSION
 		);
