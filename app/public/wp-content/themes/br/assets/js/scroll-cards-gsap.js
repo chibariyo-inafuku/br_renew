@@ -105,11 +105,22 @@
 			root.querySelectorAll('.br-home__section--band-reveal')
 		);
 		bandRevealSections.forEach(function (section) {
-			var bandCards = gsap.utils.toArray(
-				section.querySelectorAll(
-					'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer, .br-home__blog-item, .br-home__blog-footer, .br-home__service-footer, .br-home__swiper .swiper-slide'
+			var isWorksBand = section.classList.contains('br-home__section--works-band');
+			var bandCards = gsap.utils
+				.toArray(
+					section.querySelectorAll(
+						'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer, .br-home__blog-item, .br-home__blog-footer, .br-home__service-footer, .br-home__swiper .swiper-slide'
+					)
 				)
-			);
+				.filter(function (el) {
+					if (isWorksBand) {
+						return (
+							!el.classList.contains('br-home__works-item') &&
+							!el.classList.contains('br-home__works-footer')
+						);
+					}
+					return true;
+				});
 			if (bandCards.length) {
 				gsap.set(bandCards, { y: BAND_CARD_Y_IN, scale: BAND_CARD_SCALE_IN });
 			}
@@ -138,6 +149,41 @@
 				},
 			});
 		});
+
+		var worksBand = root.querySelector('.br-home__section--works-band');
+		if (worksBand) {
+			var worksGrid = worksBand.querySelector('.br-home__works-grid');
+			var worksRevealEls = worksGrid
+				? gsap.utils.toArray(worksGrid.querySelectorAll('.br-home__works-item'))
+				: [];
+			var worksFooterForReveal = worksBand.querySelector('.br-home__works-footer');
+			if (worksFooterForReveal) {
+				worksRevealEls.push(worksFooterForReveal);
+			}
+			if (worksGrid && worksRevealEls.length) {
+				gsap.set(worksRevealEls, {
+					autoAlpha: 0,
+					y: CARD_Y_IN,
+					scale: CARD_SCALE_IN,
+				});
+				ScrollTrigger.create({
+					trigger: worksGrid,
+					start: 'top 88%',
+					once: true,
+					onEnter: function () {
+						gsap.to(worksRevealEls, {
+							autoAlpha: 1,
+							y: 0,
+							scale: 1,
+							duration: CARD_DURATION,
+							stagger: INNER_CARD_STAGGER,
+							ease: CARD_EASE,
+							overwrite: true,
+						});
+					},
+				});
+			}
+		}
 
 		var newsList = root.querySelector('.br-home__news-list');
 		var newsItemsOrdered = newsList
