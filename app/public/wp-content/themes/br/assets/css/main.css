@@ -11,10 +11,10 @@
 	--br-surface-soft: #f6f6f6;
 	--br-accent: #0071bc;
 	--br-accent-hover: #005a99;
-	--br-max: 72rem;
+	--br-max: 1226px;
 	--br-space: 1.17vw;
-	/* Figma header: 140px @ 1440 */
-	--br-sidebar-w: 9.722vw;
+	/* PC sidebar: min 140px, scales with 9.722vw above that (~140px @ 1440) */
+	--br-sidebar-w: max(140px, 9.722vw);
 	/* ~100px inset from bottom of sidebar @ 1440 (liquid) */
 	--br-sidebar-bottom-inset: 6.944vw;
 }
@@ -69,6 +69,39 @@ body {
 	margin-right: auto;
 	padding-left: var(--br-space);
 	padding-right: var(--br-space);
+}
+
+@media (min-width: 901px) {
+	.br-container {
+		padding-left: calc(var(--br-space) * 2);
+		padding-right: calc(var(--br-space) * 2);
+	}
+}
+
+/* Inner pages: home CTA partial (.br-home) inherits .br-home .br-container max-width:none — match main column */
+body:not(.home) .br-main .br-home .br-container {
+	width: 100%;
+	max-width: var(--br-max);
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: var(--br-space);
+	padding-right: var(--br-space);
+}
+
+@media (min-width: 901px) {
+	body:not(.home) .br-main .br-home .br-container {
+		padding-left: calc(var(--br-space) * 2);
+		padding-right: calc(var(--br-space) * 2);
+	}
+}
+
+/* Inner pages (SP): widen horizontal gutter — base .br-container uses 1.17vw which is too tight <768px */
+@media (max-width: 768px) {
+	body:not(.home) .br-container,
+	body:not(.home) .br-main .br-home .br-container {
+		padding-left: clamp(18px, 5.56vw, 28px);
+		padding-right: clamp(18px, 5.56vw, 28px);
+	}
 }
 
 /* Header — left fixed sidebar (desktop) */
@@ -228,9 +261,14 @@ html.br-nav-open .br-header__menu-x {
 	width: 100%;
 }
 
-/* Desktop sidebar: pin nav+CTA block above bottom inset (no column scroll) */
+/* Desktop sidebar: pin nav+CTA to panel bottom */
 @media (min-width: 769px) {
+	.br-header--sidebar {
+		min-width: 140px;
+	}
+
 	.br-header--sidebar .br-header__bottom {
+		flex-shrink: 0;
 		margin-top: auto;
 	}
 
@@ -248,11 +286,10 @@ html.br-nav-open .br-header__menu-x {
 	width: 100%;
 }
 
-.br-header__cta {
+/* Contact — .br-hop-btn エフェクト（hop-btn.css）＋ヘッダー寸法 */
+.br-header__cta.br-hop-btn {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 0;
+	justify-content: flex-start;
 	min-width: 7.5vw;
 	width: 100%;
 	max-width: 100%;
@@ -261,29 +298,8 @@ html.br-nav-open .br-header__menu-x {
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 1.75;
-	text-decoration: none;
-	color: #fff;
-	background: var(--br-accent);
-	/* Figma: 8px @ 1440 */
+	box-sizing: border-box;
 	border-radius: 0.556vw;
-	border: none;
-	transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.br-header__cta:hover,
-.br-header__cta:focus {
-	background: #005a99;
-	color: #fff;
-}
-
-.br-header__cta-dot {
-	display: inline-block;
-	width: 0.417vw;
-	height: 0.417vw;
-	background: #fff;
-	/* Figma: 3px @ 1440 */
-	border-radius: 0.208vw;
-	flex-shrink: 0;
 }
 
 .br-header__title {
@@ -437,43 +453,41 @@ body.admin-bar .br-header--sidebar {
 		touch-action: none;
 	}
 
-	.br-header--sidebar {
-		position: relative;
-		top: auto;
-		left: auto;
-		width: 100%;
-		height: auto;
-		max-height: none;
-		overflow: visible;
-		border-right: none;
-		border-bottom: 1px solid var(--br-line);
-	}
-
-	/* Non-TOP mobile: cancel desktop admin-bar offset only */
-	body.admin-bar:not(.home) .br-header--sidebar {
-		top: auto;
-		height: auto;
-	}
-
-	/* TOP: fixed bar over hero — transparent + white hamburger until hero leaves view */
-	body.home .br-header--sidebar {
+	/* SP: fixed top bar (all pages with JS); no-JS stays in flow below */
+	html.br-header-js .br-header--sidebar {
 		position: fixed;
 		top: 0;
 		left: 0;
 		right: 0;
 		z-index: 1000;
+		width: 100%;
+		height: auto;
+		min-height: 0;
+		max-height: none;
+		overflow: visible;
+		border-right: none;
+		border-bottom: 1px solid var(--br-line);
+		background: var(--br-bg);
+		box-sizing: border-box;
 		transition:
 			background-color 0.28s ease,
 			border-color 0.28s ease,
 			box-shadow 0.28s ease;
 	}
 
-	body.admin-bar.home .br-header--sidebar {
+	body.admin-bar html.br-header-js .br-header--sidebar {
 		top: 46px;
-		/* Override desktop admin-bar full-height sidebar (see body.admin-bar .br-header--sidebar) */
+	}
+
+	html:not(.br-header-js) .br-header--sidebar {
+		position: relative;
+		top: auto;
+		left: auto;
+		right: auto;
+		z-index: auto;
+		width: 100%;
 		height: auto;
-		min-height: 0;
-		max-height: none;
+		background: var(--br-bg);
 	}
 
 	html:not(.br-header--past-hero) body.home .br-header--sidebar,
@@ -741,13 +755,14 @@ body.admin-bar .br-header--sidebar {
 	.br-header__contact {
 		width: 100%;
 		align-self: stretch;
+		align-items: center;
 		min-width: 0;
 		padding-top: clamp(1rem, 3.2vw, 1.5rem);
 		margin-top: clamp(0.25rem, 1vw, 0.5rem);
 	}
 
-	.br-header--sidebar .br-header__cta {
-		align-self: flex-start;
+	.br-header--sidebar .br-header__cta.br-hop-btn {
+		align-self: center;
 		width: auto;
 		min-width: 0;
 		max-width: 100%;
@@ -758,13 +773,24 @@ body.admin-bar .br-header--sidebar {
 	}
 
 	.br-header__tel {
-		font-size: 13px;
+		width: 100%;
+		text-align: center;
+		font-size: 16px;
 	}
 
 	.br-main,
 	.br-footer {
 		margin-left: 0;
 		width: 100%;
+	}
+
+	/* Inner pages: offset for fixed header (TOP hero stays full-bleed) */
+	body:not(.home) .br-main {
+		padding-top: clamp(3.5rem, 16vw, 4.75rem);
+	}
+
+	body.admin-bar:not(.home) .br-main {
+		padding-top: calc(46px + clamp(3.25rem, 12vw, 4rem));
 	}
 }
 
@@ -1417,5 +1443,34 @@ a.br-footer__privacy:focus,
 		opacity: 1;
 		transform: none;
 		animation: none;
+	}
+}
+
+/* -------------------------------------------------------------------------
+   Sub-page scroll reveal — [data-br-subpage-reveal] + .is-inview (subpage-reveal-inview.js)
+   ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+	html.br-subpage-reveal-armed main.br-main:not(.br-home) [data-br-subpage-reveal] {
+		transition:
+			opacity 0.85s cubic-bezier(0.18, 1, 0.32, 1),
+			transform 0.95s cubic-bezier(0.18, 1, 0.32, 1);
+	}
+
+	html.br-subpage-reveal-armed main.br-main:not(.br-home) [data-br-subpage-reveal]:not(.is-inview) {
+		opacity: 0;
+		transform: translate3d(0, clamp(40px, 8.33vw, 120px), 0);
+	}
+
+	html.br-subpage-reveal-armed main.br-main:not(.br-home) [data-br-subpage-reveal].is-inview {
+		opacity: 1;
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.br-subpage-reveal-armed main.br-main:not(.br-home) [data-br-subpage-reveal] {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
 	}
 }

@@ -102,9 +102,13 @@ document.documentElement.classList.add('br-header-js');
 						</ul>
 					</nav>
 					<div class="br-header__contact">
-						<a class="br-header__cta" href="<?php echo $br_contact_href; ?>">
-							<span class="br-header__cta-label"><?php esc_html_e( 'Contact', 'br' ); ?></span>
-							<span class="br-header__cta-dot" aria-hidden="true"></span>
+						<a
+							class="br-header__cta br-hop-btn br-hop-btn--inverted"
+							href="<?php echo $br_contact_href; ?>"
+							data-text="<?php echo esc_attr__( 'Contact', 'br' ); ?>"
+							aria-label="<?php esc_attr_e( 'Contact', 'br' ); ?>"
+						>
+							<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
 						</a>
 						<p class="br-header__tel">
 							<a class="br-header__tel-link" href="tel:+81524858626"><?php echo esc_html__( '052-485-8626', 'br' ); ?></a>

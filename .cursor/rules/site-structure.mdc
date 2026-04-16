@@ -1,5 +1,5 @@
 ---
-description: サイトの URL 構成、WordPress のページ種別、投稿 post とカスタム投稿 portfolio の一覧まわり
+description: サイトの URL 構成、下層トンマナ・スクロール演出（About / subpage-reveal ベース）、WordPress のページ種別、投稿 post とカスタム投稿 portfolio の一覧まわり
 alwaysApply: true
 ---
 
@@ -11,7 +11,14 @@ alwaysApply: true
 - **Figma URL**: https://www.figma.com/design/rVgoyV2LcflfpFj4KQzoZI/BlueR%E3%82%B5%E3%82%A4%E3%83%88%E3%83%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%82%A2%E3%83%AB?node-id=92-3193
 - **デザインキー**: ディープネイビー（インク）とアクセントブルーのコントラスト、モダンなサンセリフタイポグラフィ。色の正は Figma のスタイル／変数に従い、実装ではテーマの CSS 変数（`--br-ink`, `--br-accent` 等）と同一トークンを用いる。
 
+## 2. 固定ページの h1（ページタイトル）
 
+- **1 ページ 1 `h1`**: 固定ページの主タイトルは **`h1` を 1 つだけ**置く（ページ先頭のヒーロー／見出しブロック）。
+- **マークアップ**: TOP の Works セクション（[`template-parts/home/section-works.php`](app/public/wp-content/themes/br/template-parts/home/section-works.php)）と同じ **`br-svg-heading`** ブロックを使う。`data-br-svg-heading`、`<svg>` 内の英字 `<text class="br-svg-heading__text">`、`.br-svg-heading__sub-wrap` 内の日本語サブ（`br-svg-heading__sub`）の構成を踏襲し、`main.css`（`.br-svg-heading*`）＋`home.css`（`.br-home__works-title` 周りのサイズ・ブレークポイント）＋`svg-heading-inview.js` でフォントとインビュー演出を TOP と揃える。
+- **クラス**: 見出しラッパーに **`br-home__works-heading` `br-home__section-head`**、**`h1` に `br-home__works-title`**、サブ行に **`br-home__works-title-jp` `br-svg-heading__sub`** を付与し、TOP の帯セクションと同一のタイポスケールを再利用する。
+- **背景がライト**（白〜薄グレー）の固定ページでは、ルートに **`br-svg-heading--on-light`** を付与する。`home.css` の帯向け白文字指定を打ち消すため、当該ページ用スタイルシート（例: `about.css`）で SVG の `currentColor` を **`var(--br-ink)`** にし、日本語サブは適宜 **muted 系の色**（例: `#43526a`）に上書きする。
+- **アクセシビリティ**: 英題＋日題を **`span.screen-reader-text`** にまとめて入れ、視覚表示と重複読み上げを避ける。ページ内の **`section` の `aria-labelledby`** は **`h1` の `id`** を参照する。
+- **下層ページでの具体例**: 上記パターンの実装・余白・SP タイポの **お手本は `/about/`（セクション 7）** とする。
 
 ## 3. タイポグラフィ規定
 - **フォント**: 明朝体（Serif）は一切使用しない。
@@ -37,11 +44,23 @@ alwaysApply: true
 ## 5. 実装スタックへの指示
 - **WordPress テーマ（本リポジトリ）**: レイアウト用スタイルでは `clamp` / `vw` / `%` を優先し、タイポはテーマ方針に従い **px**（＋ブレークポイント別 px）を用いる。
 - **Layout**: `flex` および `grid` を用い、画像とテキストが重なるレイアウトも `vw` ベースのマイナスマージン等でリキッドに対応させる。
+- **テンプレート内の固定文言**: コピー・見出し・ラベルなど**テーマで固定する日本語／英語テキスト**は、`esc_html_e()` / `__()` / `_e()` 等で i18n ラップせず、**PHP テンプレートまたは HTML に直書き**する（読みやすさ・編集しやすさ優先）。
+- **テンプレート内の固定リンク・画像パス**: サイト内ページへの `href` やテーマ配下の画像 URL は、`br_page_href()` や `get_template_directory_uri()` の連結など**動的生成にせず**、本ドキュメントのサイトマップ一覧に合わせた**ルート相対パスを直書き**する（例: `/contact/`、`/wp-content/themes/br/assets/...`）。**動的・外部入力**（投稿本文・ACF・クエリ結果など）の出力には従来どおり `esc_url()` / `esc_attr()` / `esc_html()` / `wp_kses_post()` 等を使う。
 
 ## 6. AIへの特別制約
 - **レイアウト・非タイポの数値**: Figma の px は `(px値 / 1440) * 100` の `vw` 化や `clamp` を優先してよい。
 - **`font-size`**: **px 固定**を前提とする（可変の `vw` / `clamp` による文字サイズスケールは使わない）。狭いビューでは `@media` で別 px を切り替えてよい。
 - レイアウトについては、ブレークポイントの切り替えより **全域での流動**を優先してよい（タイポを除く）。
+
+## 7. 下層ページのトンマナ（ベース: About `/about/`）
+
+**他の下層固定ページ・一覧・詳細を実装・調整するときの正は、About ページとする。** Figma の個別ノードに加え、既に About で固めた見え方・余白・SP 挙動に揃える。
+
+- **テンプレート**: [`page-about.php`](app/public/wp-content/themes/br/page-about.php) — ヒーロー（`h1` + `br-svg-heading--on-light` + 日英 `screen-reader-text`）、パンくず、ページ内アンカー、セクション分割、Overview 表・地図・プロモなどの **HTML 構造とクラス命名のお手本**。
+- **スタイル**: [`about.css`](app/public/wp-content/themes/br/assets/css/about.css) — 当ページスコープ（`.br-main.br-about` 配下）の **リキッド（`clamp` / `vw`）と SP（`@media (max-width: 768px)`）のタイポ段階** の出方。別ページでは BEM 接頭辞をページ用に変えてよいが、**階層・トークン（`var(--br-ink)` 等）・本文 14px / リード見出し 18px 級の SP 比率**は About に合わせる。
+- **共通レイアウト**: 全下層で共有の `.br-container` 左右ガターなどは [`main.css`](app/public/wp-content/themes/br/assets/css/main.css)（例: `body:not(.home)` の SP ガター）。About 専用の上書きが必要なときだけ `about.css` に書く。
+- **スクロール演出（ブロックの下から浮き上がり）**: 下層の **標準**。主要セクション等に **`data-br-subpage-reveal`** を付与。ビュー入りで **`is-inview`** が付く（[`subpage-reveal-inview.js`](app/public/wp-content/themes/br/assets/js/subpage-reveal-inview.js)）。**スタイル**は [`main.css`](app/public/wp-content/themes/br/assets/css/main.css) 末尾の「Sub-page scroll reveal」（`html.br-subpage-reveal-armed` で初期フラッシュ抑制、**`prefers-reduced-motion`** で無効）。**対象 DOM**は `main.br-main:not(.br-home)` 配下のみ（TOP の `br-main br-home` には当てない）。**読み込み**: [`inc/setup.php`](app/public/wp-content/themes/br/inc/setup.php) で **`! is_front_page()`** のとき `br-subpage-reveal-inview` を enqueue（About 専用ではない）。実装のお手本は [`page-about.php`](app/public/wp-content/themes/br/page-about.php) の属性の付け方。
+- **新規下層ページの手順（目安）**: `page-*.php` を About のセマンティクスに寄せる → 主要ブロックに `data-br-subpage-reveal` を付ける（不要なら省略可）→ ページ用 CSS を `about.css` のブロック構成・メディアクエリ境界に揃える → 差分はそのページのスコープクラス（例: `.br-faq`）に閉じる。
 
 
 

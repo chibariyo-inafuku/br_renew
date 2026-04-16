@@ -101,6 +101,20 @@ function br_enqueue_assets() {
 	);
 
 	wp_enqueue_style(
+		'br-hop-btn',
+		$theme_uri . '/assets/css/hop-btn.css',
+		array( 'br-main' ),
+		BR_VERSION
+	);
+	wp_enqueue_script(
+		'br-home-hop-button',
+		$theme_uri . '/assets/js/home-hop-button.js',
+		array(),
+		BR_VERSION,
+		true
+	);
+
+	wp_enqueue_style(
 		'br-lenis',
 		'https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.css',
 		array( 'br-main' ),
@@ -121,6 +135,16 @@ function br_enqueue_assets() {
 		BR_VERSION,
 		true
 	);
+
+	if ( ! is_front_page() ) {
+		wp_enqueue_script(
+			'br-subpage-reveal-inview',
+			$theme_uri . '/assets/js/subpage-reveal-inview.js',
+			array(),
+			BR_VERSION,
+			true
+		);
+	}
 
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
@@ -156,7 +180,7 @@ function br_enqueue_assets() {
 			array(),
 			null
 		);
-		$home_style_deps = array( 'br-main', 'br-swiper' );
+		$home_style_deps = array( 'br-main', 'br-hop-btn', 'br-swiper' );
 		if ( $load_br_cf7 ) {
 			$home_style_deps[] = 'br-cf7';
 		}
@@ -180,17 +204,10 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
-		wp_enqueue_script(
-			'br-home-hop-button',
-			$theme_uri . '/assets/js/home-hop-button.js',
-			array(),
-			BR_VERSION,
-			true
-		);
 	}
 
 	if ( is_page( 'about' ) ) {
-		$about_home_deps = array( 'br-main' );
+		$about_home_deps = array( 'br-main', 'br-hop-btn' );
 		if ( $load_br_cf7 ) {
 			$about_home_deps[] = 'br-cf7';
 		}

@@ -4,12 +4,8 @@
 (function () {
 	'use strict';
 
-	var root = document.querySelector('.br-home');
-	if (!root) {
-		return;
-	}
-
-	var buttons = root.querySelectorAll('.br-hop-btn');
+	/* TOP の .br-home 内だけでなく、About プロモなどドキュメント上のすべての .br-hop-btn を対象 */
+	var buttons = document.querySelectorAll('.br-hop-btn');
 	if (!buttons.length) {
 		return;
 	}
