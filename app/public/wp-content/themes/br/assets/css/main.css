@@ -869,6 +869,20 @@ body.admin-bar .br-header--sidebar {
 	gap: 1.46vw;
 }
 
+/* Inner listing pages: initial state before scroll-cards-gsap.js (reduced motion = no hiding). */
+@media (prefers-reduced-motion: no-preference) {
+	html.br-scroll-cards-js #main.br-main .br-card {
+		opacity: 0;
+		transform: translateY(clamp(1.25rem, 1.94vw, 2.25rem));
+	}
+
+	html.br-scroll-cards-js #main.br-main .br-page__header,
+	html.br-scroll-cards-js #main.br-main .br-archive-header {
+		opacity: 0;
+		transform: translateY(clamp(1rem, 1.94vw, 1.75rem));
+	}
+}
+
 .br-card__link {
 	display: block;
 	text-decoration: none;

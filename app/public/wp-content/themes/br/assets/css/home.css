@@ -1462,10 +1462,10 @@ html.br-home-js .br-home__palarax-tagline {
 .br-home__news-layout {
 	display: grid;
 	/*
-	 * Lead column must be wide enough for .br-svg-heading__svg (640px) like band sections;
-	 * former clamp(..., 26vw, 24rem) capped ~384px and shrunk the News heading only.
+	 * Lead column: wide enough for .br-svg-heading__svg (640px) at native scale like band sections,
+	 * without max(55vw, 40rem) which forced ~640px minimum and crushed column 2.
 	 */
-	grid-template-columns: minmax(0, clamp(12rem, max(55vw, 40rem), 48rem)) minmax(0, 1fr);
+	grid-template-columns: minmax(0, clamp(16rem, 36vw, 40rem)) minmax(0, 1fr);
 	grid-template-rows: auto auto;
 	/* Wide gutter between lead and list (capture) */
 	column-gap: clamp(2.25rem, 8.33vw, 7.5rem);

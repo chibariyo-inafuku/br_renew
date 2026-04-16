@@ -52,6 +52,29 @@ function br_setup() {
 add_action( 'after_setup_theme', 'br_setup' );
 
 /**
+ * Inner listing templates that share the same card scroll effects as the front page.
+ *
+ * @return bool
+ */
+function br_loads_inner_scroll_card_assets() {
+	if ( is_front_page() ) {
+		return false;
+	}
+	return is_page( array( 'works', 'project', 'news', 'blog', 'service' ) )
+		|| is_post_type_archive( 'portfolio' )
+		|| is_tax( 'project-categories' );
+}
+
+/**
+ * Whether GSAP + ScrollTrigger (and Lenis sync) are loaded.
+ *
+ * @return bool
+ */
+function br_loads_gsap_bundle() {
+	return is_front_page() || br_loads_inner_scroll_card_assets();
+}
+
+/**
  * Enqueue scripts and styles.
  */
 function br_enqueue_assets() {
@@ -164,7 +187,9 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
+	}
 
+	if ( br_loads_gsap_bundle() ) {
 		wp_enqueue_script(
 			'br-gsap',
 			'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
@@ -179,17 +204,35 @@ function br_enqueue_assets() {
 			'3.12.5',
 			true
 		);
+	}
+
+	if ( is_front_page() ) {
+		wp_enqueue_script(
+			'br-scroll-cards-gsap',
+			$theme_uri . '/assets/js/scroll-cards-gsap.js',
+			array( 'br-gsap-scrolltrigger', 'br-lenis-init' ),
+			BR_VERSION,
+			true
+		);
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-gsap-scrolltrigger', 'br-home-rail', 'br-lenis-init' ),
+			array( 'br-scroll-cards-gsap', 'br-home-rail' ),
+			BR_VERSION,
+			true
+		);
+	} elseif ( br_loads_inner_scroll_card_assets() ) {
+		wp_enqueue_script(
+			'br-scroll-cards-gsap',
+			$theme_uri . '/assets/js/scroll-cards-gsap.js',
+			array( 'br-gsap-scrolltrigger', 'br-lenis-init' ),
 			BR_VERSION,
 			true
 		);
 	}
 
 	$lenis_init_deps = array( 'br-lenis' );
-	if ( is_front_page() ) {
+	if ( br_loads_gsap_bundle() ) {
 		$lenis_init_deps[] = 'br-gsap-scrolltrigger';
 	}
 	wp_enqueue_script(
@@ -219,6 +262,16 @@ function br_home_gsap_html_class() {
 	}
 }
 add_action( 'wp_head', 'br_home_gsap_html_class', 2 );
+
+/**
+ * Early paint state for inner listing scroll cards (matches home GSAP prep).
+ */
+function br_scroll_cards_html_class() {
+	if ( br_loads_inner_scroll_card_assets() ) {
+		echo '<script>document.documentElement.classList.add("br-scroll-cards-js");</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'br_scroll_cards_html_class', 2 );
 
 /**
  * Content width for embeds and images.

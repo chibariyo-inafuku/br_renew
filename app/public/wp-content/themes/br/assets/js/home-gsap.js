@@ -1,5 +1,6 @@
 /**
- * GSAP + ScrollTrigger — front page (.br-home) only.
+ * GSAP + ScrollTrigger — front page (.br-home): hero, parallax, concept, CTA.
+ * Card grid scroll-in lives in scroll-cards-gsap.js (shared with inner listings).
  */
 (function () {
 	'use strict';
@@ -266,136 +267,8 @@
 			}
 		}
 
-		var sectionHeads = gsap.utils
-			.toArray(root.querySelectorAll('.br-home__section-head'))
-			.filter(function (el) {
-				return !el.closest('.br-home__section--band-reveal');
-			});
-		if (sectionHeads.length) {
-			gsap.set(sectionHeads, { autoAlpha: 0, y: 28 });
-			ScrollTrigger.batch(sectionHeads, {
-				start: 'top 88%',
-				onEnter: function (batch) {
-					gsap.to(batch, {
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.62,
-						stagger: 0.06,
-						ease: 'power2.out',
-						overwrite: true,
-					});
-				},
-				once: true,
-			});
-		}
-
-		var workItems = gsap.utils
-			.toArray(
-				root.querySelectorAll(
-					'.br-home__works-item, .br-home__works-footer, .br-home__project-item, .br-home__project-footer, .br-home__blog-item, .br-home__blog-footer, .br-home__service-footer'
-				)
-			)
-			.filter(function (el) {
-				return !el.closest('.br-home__section--band-reveal');
-			});
-		if (workItems.length) {
-			gsap.set(workItems, { autoAlpha: 0, y: 36 });
-			ScrollTrigger.batch(workItems, {
-				start: 'top 90%',
-				interval: 0.1,
-				onEnter: function (batch) {
-					gsap.to(batch, {
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.55,
-						stagger: 0.07,
-						ease: 'power2.out',
-						overwrite: true,
-					});
-				},
-				once: true,
-			});
-		}
-
-		var railSlides = gsap.utils
-			.toArray(root.querySelectorAll('.br-home__swiper .swiper-slide'))
-			.filter(function (el) {
-				return !el.closest('.br-home__section--band-reveal');
-			});
-		if (railSlides.length) {
-			gsap.set(railSlides, { autoAlpha: 0, y: 32 });
-			ScrollTrigger.batch(railSlides, {
-				start: 'top 91%',
-				interval: 0.08,
-				onEnter: function (batch) {
-					gsap.to(batch, {
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.52,
-						stagger: 0.06,
-						ease: 'power2.out',
-						overwrite: true,
-					});
-				},
-				once: true,
-			});
-		}
-
-		/* Band background slide + inner reveal (see home.css). ~match sample IO rootMargin -25% */
-		var bandRevealSections = gsap.utils.toArray(
-			root.querySelectorAll('.br-home__section--band-reveal')
-		);
-		bandRevealSections.forEach(function (section) {
-			ScrollTrigger.create({
-				trigger: section,
-				start: 'top 75%',
-				onEnter: function () {
-					section.classList.add('is-active');
-				},
-				onLeaveBack: function () {
-					section.classList.remove('is-active');
-				},
-			});
-		});
-
-		var newsLead = gsap.utils.toArray(root.querySelectorAll('.br-home__news-cta-wrap'));
-		if (newsLead.length) {
-			gsap.set(newsLead, { autoAlpha: 0, y: 28 });
-			ScrollTrigger.batch(newsLead, {
-				start: 'top 90%',
-				interval: 0.08,
-				onEnter: function (batch) {
-					gsap.to(batch, {
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.55,
-						stagger: 0.08,
-						ease: 'power2.out',
-						overwrite: true,
-					});
-				},
-				once: true,
-			});
-		}
-
-		var newsItems = gsap.utils.toArray(root.querySelectorAll('.br-home__news-item'));
-		if (newsItems.length) {
-			gsap.set(newsItems, { autoAlpha: 0, y: 30 });
-			ScrollTrigger.batch(newsItems, {
-				start: 'top 90%',
-				interval: 0.1,
-				onEnter: function (batch) {
-					gsap.to(batch, {
-						autoAlpha: 1,
-						y: 0,
-						duration: 0.55,
-						stagger: 0.08,
-						ease: 'power2.out',
-						overwrite: true,
-					});
-				},
-				once: true,
-			});
+		if (typeof window.brInitHomeScrollCardEffects === 'function') {
+			window.brInitHomeScrollCardEffects(gsap, ScrollTrigger, root, scheduleRefresh);
 		}
 
 		/* CTA: omit heading (SVG + IO) so GSAP does not hide it while svg-heading-inview runs. */

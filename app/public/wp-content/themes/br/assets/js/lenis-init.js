@@ -1,5 +1,5 @@
 /**
- * Lenis smooth scroll — site-wide; GSAP ScrollTrigger sync on front page.
+ * Lenis smooth scroll — site-wide; GSAP ScrollTrigger sync when GSAP is enqueued (home + card listings).
  */
 (function () {
 	'use strict';
