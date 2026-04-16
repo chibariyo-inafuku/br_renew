@@ -513,7 +513,7 @@
 	object-fit: cover;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
 	.br-home__concept-row {
 		flex-direction: column;
 	}
@@ -680,7 +680,7 @@
 .br-home__section--project-band > .br-container > .br-home__band-reveal-inner,
 .br-home__section--blog-band > .br-container > .br-home__band-reveal-inner,
 .br-home__section--service-band > .br-container > .br-home__band-reveal-inner {
-	gap: clamp(2rem, 4.44vw, 4.5rem);
+	gap: clamp(0rem, 4.44vw, 4.5rem);
 }
 
 html.br-home-js .br-home__section--band-reveal {
@@ -918,12 +918,54 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	font-weight: 700;
 }
 
+/*
+ * Band SVG headings — SP only: larger English line + JP subline (PC: shared rules above).
+ * Works / Project / Blog / Service / News. CTA Contact block: separate @media after .br-home__cta-title base.
+ */
+@media (max-width: 768px) {
+	.br-home__works-title .br-svg-heading__svg,
+	.br-home__project-title .br-svg-heading__svg,
+	.br-home__blog-title .br-svg-heading__svg,
+	.br-home__service-title .br-svg-heading__svg,
+	.br-home__news-title .br-svg-heading__svg {
+		width: min(100%, 100vw);
+	}
+
+	.br-home__works-title .br-svg-heading__text,
+	.br-home__project-title .br-svg-heading__text,
+	.br-home__blog-title .br-svg-heading__text,
+	.br-home__service-title .br-svg-heading__text,
+	.br-home__news-title .br-svg-heading__text {
+		font-size: clamp(7rem, 17vw, 13.5rem);
+	}
+
+	.br-home__works-title-jp,
+	.br-home__project-title-jp,
+	.br-home__blog-title-jp,
+	.br-home__service-title-jp,
+	.br-home__news-title-jp {
+		font-size: clamp(0.75rem, 2.07vw, 1.17rem);
+		line-height: 1.45;
+	}
+}
+
 .br-home__works-title .br-svg-heading__sub-wrap,
 .br-home__project-title .br-svg-heading__sub-wrap,
 .br-home__blog-title .br-svg-heading__sub-wrap,
 .br-home__service-title .br-svg-heading__sub-wrap,
 .br-home__news-title .br-svg-heading__sub-wrap {
 	margin-top: clamp(-0.35rem, -0.5vw, -0.125rem);
+}
+
+/* SP: large SVG text + tight negative margin caused JP line to overlap English; add fluid gap. */
+@media (max-width: 768px) {
+	.br-home__works-title .br-svg-heading__sub-wrap,
+	.br-home__project-title .br-svg-heading__sub-wrap,
+	.br-home__blog-title .br-svg-heading__sub-wrap,
+	.br-home__service-title .br-svg-heading__sub-wrap,
+	.br-home__news-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.75rem, 3.5vw, 2rem);
+	}
 }
 
 .br-home__works-grid,
@@ -933,7 +975,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	margin: 0;
 	padding: 0;
 	display: grid;
-	gap: clamp(0.75rem, 1.46vw, 1.25rem);
+	gap: clamp(0.0rem, 1.46vw, 1.25rem);
 	width: 100%;
 	min-width: 0;
 }
@@ -955,7 +997,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	min-width: 0;
 }
 
-@media (max-width: 62rem) {
+@media (max-width: 992px) {
 	.br-home__works-grid,
 	.br-home__project-grid,
 	.br-home__blog-grid {
@@ -963,7 +1005,22 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	}
 }
 
-.br-home__works-footer,
+/* Works: show 8 cards on narrow viewports (query returns 9; hide last on SP) */
+@media (max-width: 768px) {
+	.br-home__section--works-band .br-home__works-item:nth-child(9) {
+		display: none;
+	}
+}
+
+.br-home__works-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-left: clamp(0rem, 2.78vw, 2.5rem);
+	padding-right: clamp(0rem, 2.78vw, 2.5rem);
+}
+
 .br-home__project-footer,
 .br-home__blog-footer,
 .br-home__service-footer {
@@ -1548,7 +1605,7 @@ html.br-home-js .br-home__palarax-tagline {
 	color: var(--br-home-ink);
 }
 
-@media (max-width: 62rem) {
+@media (max-width: 992px) {
 	.br-home__news-layout {
 		display: flex;
 		flex-direction: column;
@@ -1664,6 +1721,29 @@ html.br-home-js .br-home__palarax-tagline {
 	margin-top: 0;
 	margin-bottom: clamp(-0.65rem, -1.8vw, -0.125rem);
 	line-height: 1;
+}
+
+/* CTA Contact SVG: same SP scale as band headings (must follow base .br-home__cta-title rules). */
+@media (max-width: 768px) {
+	.br-home__cta-title .br-svg-heading__svg {
+		width: min(100%, 100vw);
+		/* Cancel desktop negative pull-up; JP sub is above SVG — needs clear gap on SP */
+		margin-top: clamp(0.5rem, 2.2vw, 1rem);
+	}
+
+	.br-home__cta-title .br-svg-heading__text {
+		font-size: clamp(7rem, 17vw, 13.5rem);
+	}
+
+	.br-home__cta-title .br-home__cta-label-slash {
+		font-size: clamp(0.75rem, 2.07vw, 1.17rem);
+		line-height: 1.45;
+	}
+
+	.br-home__cta-title .br-svg-heading__sub-wrap {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
 }
 
 .br-home__cta-lead {
@@ -1878,7 +1958,7 @@ html.br-home-js .br-home__palarax-tagline {
 	margin-left: 0.2em;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
 	.br-home__cta-inner {
 		grid-template-columns: 1fr;
 		/* Stacked: match .br-home__news-layout flex gap */
@@ -1900,7 +1980,19 @@ html.br-home-js .br-home__palarax-tagline {
 /* -------------------------------------------------------------------------
    Mobile adjustments — fluid type/spacing tokens (narrow viewports)
    ------------------------------------------------------------------------- */
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
+	/* Works / Project / Blog / Service / News / CTA — extra horizontal inset (SP) */
+	.br-home__section--works-band,
+	.br-home__section--project-band,
+	.br-home__section--blog-band,
+	.br-home__section--service-band,
+	.br-home__section--news,
+	.br-home__section--cta {
+		padding-left: clamp(0.75rem, 3vw, 1.25rem);
+		padding-right: clamp(0.75rem, 3vw, 1.25rem);
+		box-sizing: border-box;
+	}
+
 	.br-home {
 		--br-home-text-hero: clamp(1.75rem, 7vw, 2.75rem);
 		--br-home-text-lead: clamp(0.9375rem, 3.5vw, 1.125rem);
@@ -1937,6 +2029,44 @@ html.br-home-js .br-home__palarax-tagline {
 
 	.br-home__hero-copy {
 		max-width: none;
+	}
+
+	/* Hop CTA: center on SP (band footers + hero + news) */
+	.br-home__project-footer,
+	.br-home__blog-footer,
+	.br-home__service-footer {
+		justify-content: center;
+	}
+
+	.br-home__hero-cta {
+		display: flex;
+		justify-content: center;
+	}
+
+	.br-home__news-cta-wrap {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	/* Service Swiper: slidesPerView 1.3 on SP — card fills slide width set by Swiper */
+	.br-home__section--service-band .br-home__service-card {
+		width: 100%;
+		max-width: none;
+	}
+
+	/* Service: carousel prev/next — larger tap targets, slightly below heading */
+	.br-home__section--service-band .br-home__rail-nav {
+		margin-top: clamp(0.65rem, 2.5vw, 1.125rem);
+		gap: clamp(0.5rem, 2.2vw, 0.85rem);
+	}
+
+	.br-home__section--service-band .br-home__rail-btn {
+		width: clamp(2.875rem, 12vw, 3.5rem);
+		height: clamp(2.875rem, 12vw, 3.5rem);
+		font-size: clamp(1.0625rem, 4.2vw, 1.35rem);
 	}
 }
 

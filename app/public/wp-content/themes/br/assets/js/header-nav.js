@@ -10,7 +10,7 @@
 		return;
 	}
 
-	var mq = window.matchMedia('(max-width: 48rem)');
+	var mq = window.matchMedia('(max-width: 768px)');
 	var closeEls = panel.querySelectorAll('[data-br-nav-close]');
 
 	function isMobile() {
@@ -121,5 +121,54 @@
 		document.addEventListener('DOMContentLoaded', initMobileAria);
 	} else {
 		initMobileAria();
+	}
+})();
+
+/**
+ * TOP: over hero = transparent bar + white hamburger; past hero = white bar + #0f3568 lines.
+ * Other pages: always "past hero" (solid + dark icon).
+ */
+(function () {
+	'use strict';
+
+	var root = document.documentElement;
+	var hero = document.querySelector('.br-home__section--hero');
+
+	function setPastHero(on) {
+		root.classList.toggle('br-header--past-hero', on);
+	}
+
+	function initHeroState() {
+		var body = document.body;
+		if (!body.classList.contains('home') || !hero) {
+			setPastHero(true);
+			return;
+		}
+
+		if (typeof IntersectionObserver === 'undefined') {
+			setPastHero(true);
+			return;
+		}
+
+		var io = new IntersectionObserver(
+			function (entries) {
+				entries.forEach(function (entry) {
+					setPastHero(!entry.isIntersecting);
+				});
+			},
+			{
+				root: null,
+				rootMargin: '0px',
+				threshold: 0,
+			}
+		);
+
+		io.observe(hero);
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initHeroState);
+	} else {
+		initHeroState();
 	}
 })();

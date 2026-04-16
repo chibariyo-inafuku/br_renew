@@ -107,7 +107,7 @@ body {
 	box-sizing: border-box;
 }
 
-/* Logo row + mobile-only hamburger (button hidden ≥48.001rem) */
+/* Logo row + mobile-only hamburger (button hidden ≥769px) */
 .br-header__bar {
 	display: flex;
 	flex-direction: column;
@@ -136,7 +136,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	gap: clamp(0.28rem, 0.83vw, 0.35rem);
-	width: clamp(1.35rem, 3.75vw, 1.5rem);
+	width: clamp(2.025rem, 5.625vw, 2.25rem);
 	height: clamp(1rem, 2.78vw, 1.125rem);
 }
 
@@ -150,16 +150,38 @@ body {
 	transform-origin: center;
 }
 
-html.br-nav-open .br-header__menu-bar:nth-child(1) {
-	transform: translateY(calc(clamp(0.28rem, 0.83vw, 0.35rem) + clamp(0.09rem, 0.21vw, 0.125rem))) rotate(45deg);
+/* Open state: hide bars, show thin × (see .br-header__menu-x) */
+html.br-nav-open .br-header__menu-bars {
+	display: none;
 }
 
-html.br-nav-open .br-header__menu-bar:nth-child(2) {
-	opacity: 0;
+html.br-nav-open .br-header__menu-x {
+	display: block;
 }
 
-html.br-nav-open .br-header__menu-bar:nth-child(3) {
-	transform: translateY(calc(-1 * (clamp(0.28rem, 0.83vw, 0.35rem) + clamp(0.09rem, 0.21vw, 0.125rem)))) rotate(-45deg);
+.br-header__menu-x {
+	display: none;
+	position: relative;
+	width: clamp(2rem, 8vw, 2.75rem);
+	height: clamp(2rem, 8vw, 2.75rem);
+}
+
+.br-header__menu-x-line {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: clamp(1.6rem, 7vw, 2.35rem);
+	height: clamp(0.055rem, 0.16vw, 0.09rem);
+	background: currentColor;
+	border-radius: 0.0625rem;
+}
+
+.br-header__menu-x-line:first-child {
+	transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.br-header__menu-x-line:last-child {
+	transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -201,9 +223,13 @@ html.br-nav-open .br-header__menu-bar:nth-child(3) {
 }
 
 /* Desktop sidebar: pin nav+CTA block above bottom inset (no column scroll) */
-@media (min-width: 48.001rem) {
+@media (min-width: 769px) {
 	.br-header--sidebar .br-header__bottom {
 		margin-top: auto;
+	}
+
+	.br-header__drawer-brand {
+		display: none;
 	}
 }
 
@@ -261,11 +287,19 @@ html.br-nav-open .br-header__menu-bar:nth-child(3) {
 	color: inherit;
 }
 
+.br-header__logo-desktop {
+	display: block;
+}
+
+.br-header__logo-mobile {
+	display: none;
+}
+
 .br-header .custom-logo-link img,
 .br-header__logo .br-header__logo-img {
 	display: block;
 	height: auto;
-	max-height: min(clamp(2.5rem, 4.5vw, 4rem), 26vh);
+	max-height: min(clamp(2.125rem, 3.9vw, 3.5rem), 22vh);
 	max-width: 100%;
 	width: auto;
 	object-fit: contain;
@@ -391,7 +425,7 @@ body.admin-bar .br-header--sidebar {
 }
 
 /* Collapse sidebar: top bar + hamburger / overlay panel */
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
 	html.br-header-js.br-nav-open {
 		overflow: hidden;
 		touch-action: none;
@@ -409,18 +443,83 @@ body.admin-bar .br-header--sidebar {
 		border-bottom: 1px solid var(--br-line);
 	}
 
-	body.admin-bar .br-header--sidebar {
+	/* Non-TOP mobile: cancel desktop admin-bar offset only */
+	body.admin-bar:not(.home) .br-header--sidebar {
 		top: auto;
 		height: auto;
+	}
+
+	/* TOP: fixed bar over hero — transparent + white hamburger until hero leaves view */
+	body.home .br-header--sidebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1000;
+		transition:
+			background-color 0.28s ease,
+			border-color 0.28s ease,
+			box-shadow 0.28s ease;
+	}
+
+	body.admin-bar.home .br-header--sidebar {
+		top: 46px;
+		/* Override desktop admin-bar full-height sidebar (see body.admin-bar .br-header--sidebar) */
+		height: auto;
+		min-height: 0;
+		max-height: none;
+	}
+
+	html:not(.br-header--past-hero) body.home .br-header--sidebar,
+	html:not(.br-header--past-hero) body.home .br-header__sidebar-inner {
+		background: transparent;
+	}
+
+	html:not(.br-header--past-hero) body.home .br-header--sidebar {
+		border-bottom-color: transparent;
+		box-shadow: none;
+	}
+
+	html.br-header--past-hero body.home .br-header--sidebar {
+		background: var(--br-bg);
+		border-bottom: 1px solid var(--br-line);
+	}
+
+	html:not(.br-header--past-hero) body.home .br-header__menu-toggle {
+		color: #fff;
+	}
+
+	html.br-header--past-hero .br-header__menu-toggle {
+		color: #0f3568;
+	}
+
+	/* Open overlay: × lines always #0f3568 (overrides white hamburger over hero) */
+	html.br-nav-open body.home .br-header__menu-toggle {
+		color: #0f3568;
 	}
 
 	.br-header__sidebar-inner {
 		height: auto;
 		min-height: 0;
-		padding: clamp(0.75rem, 2.08vw, 1rem) var(--br-space);
+		/* Left inset slightly larger than right so logo bar breathes (liquid) */
+		padding: clamp(0.5rem, 1.5vw, 0.75rem) var(--br-space) clamp(0.5rem, 1.5vw, 0.75rem)
+			clamp(1.1rem, 3.2vw, 1.75rem);
 		flex-direction: column;
 		align-items: stretch;
 		gap: 0;
+	}
+
+	.br-header__logo-desktop {
+		display: none !important;
+	}
+
+	.br-header__logo-mobile {
+		display: block;
+	}
+
+	.br-header .custom-logo-link img,
+	.br-header__logo .br-header__logo-img {
+		max-height: min(clamp(1.75rem, 3.1vw, 2.875rem), 19vh);
 	}
 
 	.br-header__wrap {
@@ -447,8 +546,30 @@ body.admin-bar .br-header--sidebar {
 		display: inline-flex;
 		position: relative;
 		z-index: 100003;
-		min-width: min(100%, clamp(2.75rem, 12vw, 3rem));
-		min-height: clamp(2.75rem, 12vw, 3rem);
+		min-width: min(100%, clamp(2.5rem, 10vw, 2.75rem));
+		min-height: clamp(2.5rem, 10vw, 2.75rem);
+		padding: clamp(0.25rem, 0.85vw, 0.4rem);
+		margin-right: clamp(0.35rem, 2.2vw, 0.85rem);
+		transition:
+			color 0.28s ease,
+			transform 0.28s ease;
+	}
+
+	/* Overlay open: close control fixed top-right above drawer */
+	html.br-header-js.br-nav-open .br-header__menu-toggle {
+		position: fixed;
+		top: clamp(0.45rem, 1.8vw, 0.85rem);
+		right: clamp(0.5rem, 2.8vw, 1.1rem);
+		left: auto;
+		bottom: auto;
+		margin: 0;
+		z-index: 100050;
+		min-width: clamp(2.5rem, 10vw, 3rem);
+		min-height: clamp(2.5rem, 10vw, 3rem);
+	}
+
+	html.br-header-js.br-nav-open body.admin-bar .br-header__menu-toggle {
+		top: calc(46px + clamp(0.35rem, 1.5vw, 0.65rem));
 	}
 
 	html:not(.br-header-js) .br-header__menu-toggle {
@@ -505,11 +626,13 @@ body.admin-bar .br-header--sidebar {
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		width: min(100%, clamp(17.5rem, 88vw, 24rem));
+		/* Partial-width drawer (~62–64vw); left side shows page + backdrop */
+		width: min(100%, clamp(17.5rem, 64vw, 26rem));
+		max-width: 100%;
 		margin-top: 0;
 		margin-left: auto;
-		padding: clamp(1.25rem, 4.2vw, 2rem) clamp(1rem, 3.5vw, 1.5rem) clamp(1.5rem, 5vw, 2.25rem);
-		gap: clamp(1.25rem, 4vw, 2rem);
+		padding: clamp(3.25rem, 12vw, 4.25rem) clamp(1.25rem, 4.5vw, 2rem) clamp(1.75rem, 5.5vw, 2.5rem);
+		gap: clamp(1.35rem, 4.5vw, 2rem);
 		overflow-y: auto;
 		overflow-x: hidden;
 		background: var(--br-bg);
@@ -517,6 +640,29 @@ body.admin-bar .br-header--sidebar {
 		transform: translateX(100%);
 		transition: transform 0.28s ease;
 		-webkit-overflow-scrolling: touch;
+	}
+
+	.br-header__drawer-brand {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		padding: 0 0 clamp(0.35rem, 1.5vw, 0.75rem);
+	}
+
+	.br-header__drawer-logo-link {
+		display: inline-block;
+		line-height: 0;
+		text-decoration: none;
+	}
+
+	.br-header__drawer-logo-img {
+		display: block;
+		height: auto;
+		max-height: min(clamp(2.5rem, 9vw, 3.5rem), 26vh);
+		max-width: 100%;
+		width: auto;
+		object-fit: contain;
 	}
 
 	html.br-header-js.br-nav-open .br-header__bottom {
@@ -567,36 +713,42 @@ body.admin-bar .br-header--sidebar {
 		flex-wrap: nowrap;
 		align-items: flex-start;
 		gap: 0;
-		font-size: clamp(0.875rem, 2.6vw, 1rem);
+		font-size: clamp(1.0625rem, 4.2vw, 1.25rem);
+		font-weight: 500;
 	}
 
 	.br-header--sidebar .br-nav__list li {
-		padding: clamp(0.35rem, 1.1vw, 0.5rem) 0;
+		padding: clamp(0.2rem, 0.9vw, 0.35rem) 0;
 		width: 100%;
 	}
 
 	.br-header--sidebar .br-nav__link {
 		display: block;
-		min-height: clamp(2.75rem, 9vw, 3rem);
-		padding: clamp(0.35rem, 1vw, 0.5rem) 0;
-		line-height: 1.35;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
+		min-height: 0;
+		padding: clamp(0.55rem, 2vw, 0.85rem) 0;
+		line-height: 1.55;
+		text-transform: none;
+		letter-spacing: 0.02em;
+		color: #0f172a;
 	}
 
 	.br-header__contact {
 		width: 100%;
 		align-self: stretch;
 		min-width: 0;
-		padding-top: clamp(0.75rem, 2.5vw, 1rem);
-		border-top: 1px solid var(--br-line);
+		padding-top: clamp(1rem, 3.2vw, 1.5rem);
+		margin-top: clamp(0.25rem, 1vw, 0.5rem);
 	}
 
 	.br-header--sidebar .br-header__cta {
-		width: 100%;
+		align-self: flex-start;
+		width: auto;
 		min-width: 0;
-		padding: clamp(0.5rem, 1.5vw, 0.65rem) clamp(0.75rem, 2.2vw, 1rem);
-		font-size: clamp(0.8125rem, 2.4vw, 0.9375rem);
+		max-width: 100%;
+		padding: clamp(0.5rem, 1.75vw, 0.65rem) clamp(1.35rem, 4.5vw, 2rem);
+		font-size: clamp(0.9375rem, 3.2vw, 1.0625rem);
+		font-weight: 700;
+		border-radius: clamp(0.4rem, 1.4vw, 0.55rem);
 	}
 
 	.br-header__tel {
@@ -644,7 +796,7 @@ body.admin-bar .br-header--sidebar {
 	font-size: 0.95vw;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
 	body {
 		font-size: clamp(0.9375rem, 2.8vw, 1.0625rem);
 		line-height: 1.65;
@@ -905,7 +1057,7 @@ body.admin-bar .br-header--sidebar {
 .br-footer__logo-img {
 	display: block;
 	height: auto;
-	max-height: min(clamp(2.5rem, 4.5vw, 4rem), 26vh);
+	max-height: min(clamp(2.125rem, 3.9vw, 3.5rem), 22vh);
 	max-width: 100%;
 	width: auto;
 	object-fit: contain;
@@ -940,7 +1092,7 @@ body.admin-bar .br-header--sidebar {
 	flex: 1 1 auto;
 }
 
-@media (max-width: 36rem) {
+@media (max-width: 576px) {
 	.br-footer__nav-cols {
 		flex-basis: 100%;
 		justify-content: flex-start;
