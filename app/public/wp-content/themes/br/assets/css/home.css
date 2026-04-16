@@ -833,6 +833,12 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	padding-right: clamp(0rem, 2.78vw, 2.5rem);
 }
 
+@media (min-width: 769px) {
+	.br-home__works-footer {
+		justify-content: flex-end;
+	}
+}
+
 .br-home__project-footer,
 .br-home__blog-footer,
 .br-home__service-footer {
@@ -1625,6 +1631,7 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__section--cta .wpcf7 form > p {
 	margin: 0 0 clamp(0.75rem, 1.11vw, 1rem);
+	font-size: 14px;
 }
 
 .br-home__section--cta .wpcf7 form > p:last-of-type {
@@ -1761,10 +1768,20 @@ html.br-home-js .br-home__palarax-tagline {
 	line-height: 1.65;
 }
 
+/* 「必須」ラベル（CF7 本文の <span class="必須"> 等）— 青地・白字のピル */
+.br-home__section--cta .wpcf7 span.必須,
 .br-home__section--cta .wpcf7 span.required {
-	color: var(--br-home-accent);
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 0.45em;
+	padding: clamp(0.125rem, 0.21vw, 0.1875rem) clamp(0.35rem, 0.42vw, 0.4375rem);
+	font-size: 11px;
 	font-weight: 600;
-	margin-left: 0.2em;
+	line-height: 1.2;
+	color: #fff;
+	background-color: var(--br-home-accent);
+	border-radius: clamp(0.1875rem, 0.28vw, 0.25rem);
+	letter-spacing: 0.04em;
 }
 
 @media (max-width: 768px) {

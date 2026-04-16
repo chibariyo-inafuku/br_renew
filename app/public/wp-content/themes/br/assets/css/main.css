@@ -261,10 +261,43 @@ html.br-nav-open .br-header__menu-x {
 	width: 100%;
 }
 
-/* Desktop sidebar: pin nav+CTA to panel bottom */
+/* Desktop sidebar: pin nav+CTA to panel bottom; layout tokens fixed @1440 (no vw) */
 @media (min-width: 769px) {
+	:root {
+		--br-sidebar-w: 140px;
+		--br-sidebar-bottom-inset: 100px;
+	}
+
 	.br-header--sidebar {
 		min-width: 140px;
+	}
+
+	.br-header__sidebar-inner {
+		padding: 40px 16px var(--br-sidebar-bottom-inset);
+	}
+
+	.br-header__bottom {
+		gap: 26px;
+	}
+
+	.br-header__contact {
+		gap: 10px;
+	}
+
+	.br-header__cta.br-hop-btn {
+		min-width: 108px;
+		padding: 8px 24px 8px 12px;
+		border-radius: 8px;
+	}
+
+	.br-header--sidebar .br-nav__list li {
+		padding: 8px 0;
+	}
+
+	.br-header--sidebar .br-nav__list .sub-menu {
+		margin: 5px 0 0;
+		padding: 0 0 0 11px;
+		gap: 5px;
 	}
 
 	.br-header--sidebar .br-header__bottom {
@@ -317,11 +350,12 @@ html.br-nav-open .br-header__menu-x {
 	display: none;
 }
 
+/* PC: logo height fixed (no vw); SP overrides in max-width:768 block */
 .br-header .custom-logo-link img,
 .br-header__logo .br-header__logo-img {
 	display: block;
 	height: auto;
-	max-height: min(clamp(2.125rem, 3.9vw, 3.5rem), 22vh);
+	max-height: 56px;
 	max-width: 100%;
 	width: auto;
 	object-fit: contain;
@@ -376,7 +410,7 @@ html.br-nav-open .br-header__menu-x {
 
 .br-header--sidebar .br-nav__list li {
 	/* Figma: 8px vertical @ 1440 */
-	padding: 0.556vw 0;
+	padding: 10px 0;
 	width: 100%;
 }
 
@@ -539,7 +573,7 @@ body.admin-bar .br-header--sidebar {
 
 	.br-header .custom-logo-link img,
 	.br-header__logo .br-header__logo-img {
-		max-height: min(clamp(1.75rem, 3.1vw, 2.875rem), 19vh);
+		max-height: min(clamp(3.75rem, 3.1vw, 2.875rem), 19vh);
 	}
 
 	.br-header__wrap {
@@ -590,6 +624,23 @@ body.admin-bar .br-header--sidebar {
 
 	html.br-header-js.br-nav-open body.admin-bar .br-header__menu-toggle {
 		top: calc(46px + clamp(0.35rem, 1.5vw, 0.65rem));
+	}
+
+	/*
+	 * × を position:fixed にするとフローから外れバーが潰れる。min-height で padding を二重に足すと閉じ時より高くなるため、
+	 * 閉じ時トグルと同じ border-box 寸法の不可視プレースホルダで幅・高さだけ確保する。
+	 */
+	html.br-header-js.br-nav-open .br-header__bar::after {
+		content: '';
+		display: block;
+		flex: 0 0 auto;
+		align-self: center;
+		box-sizing: border-box;
+		width: min(100%, clamp(2.5rem, 10vw, 2.75rem));
+		height: clamp(2.5rem, 10vw, 2.75rem);
+		margin-right: clamp(0.35rem, 2.2vw, 0.85rem);
+		visibility: hidden;
+		pointer-events: none;
 	}
 
 	html:not(.br-header-js) .br-header__menu-toggle {
@@ -877,10 +928,6 @@ body.admin-bar .br-header--sidebar {
 		font-size: 14px;
 	}
 
-	.br-footer__nav-heading {
-		font-size: 14px;
-	}
-
 	.br-footer__copy {
 		font-size: 11px;
 	}
@@ -1136,7 +1183,7 @@ body.admin-bar .br-header--sidebar {
 .br-footer__logo-img {
 	display: block;
 	height: auto;
-	max-height: min(clamp(2.125rem, 3.9vw, 3.5rem), 22vh);
+	max-height: min(clamp(4.125rem, 3.9vw, 3.5rem), 22vh);
 	max-width: 100%;
 	width: auto;
 	object-fit: contain;
@@ -1183,21 +1230,23 @@ body.admin-bar .br-header--sidebar {
 	min-width: min(100%, 9.5rem);
 }
 
-.br-footer__nav-heading {
-	display: inline-block;
-	margin: 0 0 clamp(0.4rem, 0.73vw, 0.65rem);
-	font-size: 16px;
-	font-weight: 700;
+/* Column title + list: same weight, size (inherit .br-footer), hover */
+.br-footer__nav-cols a {
+	font-size: inherit;
+	font-weight: 400;
 	color: #fff;
-	opacity: 1;
 	text-decoration: none;
 }
 
-.br-footer__nav-heading:hover,
-.br-footer__nav-heading:focus {
+.br-footer__nav-cols a:hover,
+.br-footer__nav-cols a:focus {
 	color: #fff;
-	opacity: 1;
-	text-decoration: none;
+	text-decoration: underline;
+}
+
+.br-footer__nav-heading {
+	display: inline-block;
+	margin: 0 0 clamp(0.4rem, 0.73vw, 0.65rem);
 }
 
 .br-footer__nav-list {
@@ -1211,21 +1260,6 @@ body.admin-bar .br-header--sidebar {
 
 .br-footer__nav-prefix {
 	font-weight: inherit;
-	opacity: inherit;
-}
-
-.br-footer__nav-list a {
-	font-weight: 400;
-	color: #fff;
-	opacity: 1;
-	text-decoration: none;
-}
-
-.br-footer__nav-list a:hover,
-.br-footer__nav-list a:focus {
-	color: #fff;
-	opacity: 1;
-	text-decoration: none;
 }
 
 .br-footer__bottom {

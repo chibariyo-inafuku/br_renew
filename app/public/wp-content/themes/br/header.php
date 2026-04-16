@@ -9,6 +9,16 @@ $br_contact_url  = function_exists( 'br_get_page_permalink_by_slug' ) ? br_get_p
 $br_contact_href = ( $br_contact_url !== '' ) ? esc_url( $br_contact_url ) : esc_url( '#' );
 $br_fallback_logo    = get_template_directory_uri() . '/assets/images/br-header-logo.png';
 $br_fallback_logo_sp = get_template_directory_uri() . '/assets/images/br-header-logo-sp.png';
+$br_drawer_logo_src    = $br_fallback_logo;
+if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
+	$br_custom_logo_id = (int) get_theme_mod( 'custom_logo' );
+	if ( $br_custom_logo_id ) {
+		$br_custom_logo_url = wp_get_attachment_image_url( $br_custom_logo_id, 'full' );
+		if ( is_string( $br_custom_logo_url ) && $br_custom_logo_url !== '' ) {
+			$br_drawer_logo_src = $br_custom_logo_url;
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -81,10 +91,10 @@ document.documentElement.classList.add('br-header-js');
 				<div class="br-header__backdrop" data-br-nav-close tabindex="-1" aria-hidden="true"></div>
 				<div class="br-header__bottom">
 					<div class="br-header__drawer-brand">
-						<a class="br-header__drawer-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+						<a class="custom-logo-link br-header__drawer-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 							<img
-								class="br-header__drawer-logo-img"
-								src="<?php echo esc_url( $br_fallback_logo_sp ); ?>"
+								class="custom-logo br-header__drawer-logo-img"
+								src="<?php echo esc_url( $br_drawer_logo_src ); ?>"
 								alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
 								loading="lazy"
 								decoding="async"

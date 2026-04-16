@@ -34,11 +34,11 @@ $privacy_href = ( $privacy_url !== '' ) ? esc_url( $privacy_url ) : '';
 					/>
 				</a>
 				<ul class="br-footer__social" aria-label="Social links">
-					<li><a href="<?php echo esc_url( '#' ); ?>">X</a></li>
-					<li><a href="<?php echo esc_url( '#' ); ?>">Facebook</a></li>
-					<li><a href="<?php echo esc_url( '#' ); ?>">Instagram</a></li>
-					<li><a href="<?php echo esc_url( '#' ); ?>">YouTube</a></li>
-					<li><a href="<?php echo esc_url( '#' ); ?>">AI CREATIVE BASE</a></li>
+					<li><a href="<?php echo esc_url( 'https://x.com/BlueR_CEO' ); ?>">X</a></li>
+					<li><a href="<?php echo esc_url( 'https://www.facebook.com/yoshinori.okumura.77' ); ?>">Facebook</a></li>
+					<li><a href="<?php echo esc_url( 'https://www.instagram.com/okumura.y_bluer_ceo/' ); ?>">Instagram</a></li>
+					<li><a href="<?php echo esc_url( 'https://www.youtube.com/@bluer0222?si=TOrcTEMFt4Hq_DPr' ); ?>">YouTube</a></li>
+					<li><a href="<?php echo esc_url( 'https://ai.blue-r.co.jp/' ); ?>">AI CREATIVE BASE</a></li>
 				</ul>
 			</div>
 			<nav class="br-footer__nav-cols" aria-label="Footer navigation">
