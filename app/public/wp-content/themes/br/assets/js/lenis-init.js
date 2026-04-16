@@ -16,6 +16,8 @@
 		smoothWheel: true,
 	});
 
+	window.brLenis = lenis;
+
 	function raf(time) {
 		lenis.raf(time);
 		window.requestAnimationFrame(raf);

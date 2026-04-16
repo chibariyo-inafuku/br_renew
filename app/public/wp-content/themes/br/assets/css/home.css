@@ -1898,9 +1898,28 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 /* -------------------------------------------------------------------------
-   Mobile adjustments
+   Mobile adjustments — fluid type/spacing tokens (narrow viewports)
    ------------------------------------------------------------------------- */
 @media (max-width: 48rem) {
+	.br-home {
+		--br-home-text-hero: clamp(1.75rem, 7vw, 2.75rem);
+		--br-home-text-lead: clamp(0.9375rem, 3.5vw, 1.125rem);
+		--br-home-text-section-en: clamp(1.5rem, 5.5vw, 2.125rem);
+		--br-home-text-section-jp: clamp(0.8125rem, 2.6vw, 0.9375rem);
+		--br-home-text-body: clamp(0.9375rem, 2.8vw, 1.0625rem);
+		--br-home-text-card-title: clamp(0.9375rem, 2.9vw, 1.0625rem);
+		--br-home-text-small: clamp(0.75rem, 2.2vw, 0.875rem);
+		--br-home-text-concept-en: clamp(0.8125rem, 2.5vw, 0.9375rem);
+		--br-home-text-concept-h: clamp(1.5rem, 5vw, 2rem);
+		--br-home-text-cta-en: clamp(2rem, 8vw, 3rem);
+
+		--br-home-space-section-y: clamp(2.25rem, 7vw, 3.5rem);
+		--br-home-space-block: clamp(0.75rem, 2.5vw, 1.25rem);
+		--br-home-space-gap-grid: clamp(1rem, 3.5vw, 1.75rem);
+		--br-home-space-gap-rail: clamp(0.75rem, 2.5vw, 1.25rem);
+		--br-home-space-section-gap: clamp(2rem, 6vw, 3rem);
+	}
+
 	.br-home__section--hero {
 		margin-left: 0;
 		width: 100%;
@@ -1913,7 +1932,7 @@ html.br-home-js .br-home__palarax-tagline {
 	.br-home__hero-text {
 		flex-direction: column;
 		align-items: stretch;
-		gap: 1.17vw;
+		gap: clamp(0.75rem, 2.5vw, 1.25rem);
 	}
 
 	.br-home__hero-copy {

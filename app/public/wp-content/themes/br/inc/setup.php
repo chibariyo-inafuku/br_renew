@@ -199,6 +199,14 @@ function br_enqueue_assets() {
 		BR_VERSION,
 		true
 	);
+
+	wp_enqueue_script(
+		'br-header-nav',
+		$theme_uri . '/assets/js/header-nav.js',
+		array( 'br-lenis-init' ),
+		BR_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
 
