@@ -51,10 +51,16 @@ if ( ! $q->have_posts() ) {
 				<?php
 				while ( $q->have_posts() ) :
 					$q->the_post();
-					$pid = get_the_ID();
+					$pid        = get_the_ID();
+					$card_href  = br_get_service_card_permalink( $pid );
+					$card_blank = br_service_card_link_opens_new_tab( $pid );
 					?>
 					<article class="swiper-slide br-home__service-card">
-						<a class="br-home__service-card-link" href="<?php the_permalink(); ?>">
+						<a
+							class="br-home__service-card-link"
+							href="<?php echo esc_url( $card_href ); ?>"
+							<?php echo $card_blank ? ' target="_blank" rel="noopener noreferrer"' : ''; ?>
+						>
 							<div class="br-home__service-card-media">
 								<?php
 								if ( has_post_thumbnail() ) {

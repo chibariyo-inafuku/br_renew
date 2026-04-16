@@ -10,37 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Attachment IDs for portfolio gallery: prefers migrated meta, then legacy ACF Photo Gallery (`image_gallery`).
- *
- * @param int $post_id Post ID.
- * @return int[] Attachment IDs in order.
- */
-function br_get_portfolio_gallery_ids( $post_id ) {
-	$post_id = (int) $post_id;
-	if ( $post_id <= 0 ) {
-		return array();
-	}
-
-	$migrated = get_post_meta( $post_id, 'br_gallery_attachment_ids', true );
-	if ( is_array( $migrated ) && $migrated !== array() ) {
-		return array_map( 'intval', array_filter( $migrated ) );
-	}
-	if ( is_string( $migrated ) && $migrated !== '' ) {
-		$ids = array_map( 'intval', array_filter( explode( ',', $migrated ) ) );
-		if ( $ids ) {
-			return $ids;
-		}
-	}
-
-	$legacy = get_post_meta( $post_id, 'image_gallery', true );
-	if ( is_string( $legacy ) && $legacy !== '' ) {
-		return array_map( 'intval', array_filter( explode( ',', $legacy ) ) );
-	}
-
-	return array();
-}
-
-/**
  * Collect image attachment IDs from block editor inner blocks (recursive).
  *
  * @param array[] $blocks Parsed blocks.
@@ -406,6 +375,727 @@ function br_get_works_page_list_url( $paged = 1, $works_cat_slug = '' ) {
 }
 
 /**
+ * Optional slug order for Project category nav (child theme: filter `br_project_category_nav_slug_order`).
+ *
+ * @return string[]
+ */
+function br_project_category_nav_slug_order() {
+	$order = apply_filters( 'br_project_category_nav_slug_order', array() );
+	return is_array( $order ) ? array_values( array_filter( array_map( 'sanitize_title', $order ) ) ) : array();
+}
+
+/**
+ * `project-categories` terms that appear on at least one published portfolio in the project-s list.
+ *
+ * @return WP_Term[]
+ */
+function br_get_project_list_project_category_terms() {
+	if ( ! taxonomy_exists( 'project-categories' ) || ! taxonomy_exists( 'portfolio-list' ) ) {
+		return array();
+	}
+
+	$list_q = new WP_Query(
+		array(
+			'post_type'              => 'portfolio',
+			'post_status'            => 'publish',
+			'posts_per_page'         => -1,
+			'fields'                 => 'ids',
+			'no_found_rows'          => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => true,
+			'tax_query'              => array(
+				array(
+					'taxonomy' => 'portfolio-list',
+					'field'    => 'slug',
+					'terms'    => 'project-s',
+				),
+			),
+		)
+	);
+	$post_ids = $list_q->posts;
+	if ( ! is_array( $post_ids ) || $post_ids === array() ) {
+		return array();
+	}
+
+	$terms = wp_get_object_terms(
+		$post_ids,
+		'project-categories',
+		array(
+			'orderby' => 'name',
+			'order'   => 'ASC',
+		)
+	);
+	if ( is_wp_error( $terms ) || ! is_array( $terms ) ) {
+		return array();
+	}
+
+	$by_id = array();
+	foreach ( $terms as $t ) {
+		if ( $t instanceof WP_Term ) {
+			$by_id[ (int) $t->term_id ] = $t;
+		}
+	}
+	$terms = array_values( $by_id );
+
+	$order_slugs = br_project_category_nav_slug_order();
+	if ( $order_slugs === array() ) {
+		usort(
+			$terms,
+			static function ( $a, $b ) {
+				return strcasecmp( $a->name, $b->name );
+			}
+		);
+		return $terms;
+	}
+
+	$pos = array_flip( $order_slugs );
+	usort(
+		$terms,
+		static function ( $a, $b ) use ( $pos ) {
+			$pa = isset( $pos[ $a->slug ] ) ? (int) $pos[ $a->slug ] : 9999;
+			$pb = isset( $pos[ $b->slug ] ) ? (int) $pos[ $b->slug ] : 9999;
+			if ( $pa !== $pb ) {
+				return $pa <=> $pb;
+			}
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $terms;
+}
+
+/**
+ * Permalink for the Project page with optional pagination and category query arg.
+ *
+ * @param int    $paged               Page number (1 = no /page/N/ segment).
+ * @param string $project_cat_slug Optional. `project-categories` slug; empty = all.
+ * @return string Empty if the Project page is missing.
+ */
+function br_get_project_page_list_url( $paged = 1, $project_cat_slug = '' ) {
+	$base = br_get_page_permalink_by_slug( 'project' );
+	if ( $base === '' ) {
+		return '';
+	}
+	$paged = (int) $paged;
+	$url   = $paged > 1 ? trailingslashit( $base ) . 'page/' . $paged . '/' : $base;
+	$slug  = sanitize_title( (string) $project_cat_slug );
+	if ( $slug !== '' ) {
+		$url = add_query_arg( 'project_cat', $slug, $url );
+	}
+	return $url;
+}
+
+/**
+ * Optional slug order for Blog category nav under `blogs` (child theme: filter `br_blog_category_nav_slug_order`).
+ *
+ * @return string[]
+ */
+function br_blog_category_nav_slug_order() {
+	$order = apply_filters( 'br_blog_category_nav_slug_order', array() );
+	return is_array( $order ) ? array_values( array_filter( array_map( 'sanitize_title', $order ) ) ) : array();
+}
+
+/**
+ * Direct child categories of `blogs` that have at least one published post.
+ *
+ * @return WP_Term[]
+ */
+function br_get_blog_list_nav_category_terms() {
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return array();
+	}
+
+	$children = get_terms(
+		array(
+			'taxonomy'   => 'category',
+			'parent'     => (int) $blogs->term_id,
+			'hide_empty' => true,
+			'orderby'    => 'name',
+			'order'      => 'ASC',
+		)
+	);
+	if ( is_wp_error( $children ) || ! is_array( $children ) ) {
+		return array();
+	}
+
+	$terms = array_values(
+		array_filter(
+			$children,
+			static function ( $t ) {
+				return $t instanceof WP_Term;
+			}
+		)
+	);
+
+	$order_slugs = br_blog_category_nav_slug_order();
+	if ( $order_slugs === array() ) {
+		return $terms;
+	}
+
+	$pos = array_flip( $order_slugs );
+	usort(
+		$terms,
+		static function ( $a, $b ) use ( $pos ) {
+			$pa = isset( $pos[ $a->slug ] ) ? (int) $pos[ $a->slug ] : 9999;
+			$pb = isset( $pos[ $b->slug ] ) ? (int) $pos[ $b->slug ] : 9999;
+			if ( $pa !== $pb ) {
+				return $pa <=> $pb;
+			}
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $terms;
+}
+
+/**
+ * Permalink for the Blog page with optional pagination and category query arg.
+ *
+ * @param int    $paged            Page number (1 = no /page/N/ segment).
+ * @param string $blog_cat_slug Optional. Child `category` slug under `blogs`; empty = all in `blogs`.
+ * @return string Empty if the Blog page is missing.
+ */
+function br_get_blog_page_list_url( $paged = 1, $blog_cat_slug = '' ) {
+	$base = br_get_page_permalink_by_slug( 'blog' );
+	if ( $base === '' ) {
+		return '';
+	}
+	$paged = (int) $paged;
+	$url   = $paged > 1 ? trailingslashit( $base ) . 'page/' . $paged . '/' : $base;
+	$slug  = sanitize_title( (string) $blog_cat_slug );
+	if ( $slug !== '' && $slug !== 'blogs' ) {
+		$url = add_query_arg( 'blog_cat', $slug, $url );
+	}
+	return $url;
+}
+
+/**
+ * WP_Query for the Blog fixed page: posts in category `blogs`, optional filter by descendant category slug.
+ *
+ * @param int    $per_page          Posts per page.
+ * @param string $blog_cat_param Optional. Sanitized category slug; must be `blogs` or a descendant of `blogs`.
+ * @return WP_Query
+ */
+function br_query_posts_for_blog_page( $per_page = 12, $blog_cat_param = '' ) {
+	$per_page = max( 1, (int) $per_page );
+
+	$empty = static function () use ( $per_page ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $per_page,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return $empty();
+	}
+
+	$base = array(
+		'post_type'           => 'post',
+		'posts_per_page'      => $per_page,
+		'paged'               => br_get_query_paged(),
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+	);
+
+	$slug = sanitize_title( (string) $blog_cat_param );
+
+	if ( $slug === '' || $slug === 'blogs' ) {
+		$base['cat'] = (int) $blogs->term_id;
+		return new WP_Query( $base );
+	}
+
+	$sub = get_term_by( 'slug', $slug, 'category' );
+	if ( ! $sub instanceof WP_Term ) {
+		return $empty();
+	}
+	if ( (int) $sub->term_id === (int) $blogs->term_id ) {
+		$base['cat'] = (int) $blogs->term_id;
+		return new WP_Query( $base );
+	}
+	if ( ! term_is_ancestor_of( (int) $blogs->term_id, (int) $sub->term_id, 'category' ) ) {
+		return $empty();
+	}
+
+	$base['tax_query'] = array(
+		array(
+			'taxonomy' => 'category',
+			'field'    => 'slug',
+			'terms'    => $sub->slug,
+		),
+	);
+
+	return new WP_Query( $base );
+}
+
+/**
+ * Optional slug order for News category nav under `news-s` (child theme: filter `br_news_category_nav_slug_order`).
+ *
+ * @return string[]
+ */
+function br_news_category_nav_slug_order() {
+	$order = apply_filters( 'br_news_category_nav_slug_order', array() );
+	return is_array( $order ) ? array_values( array_filter( array_map( 'sanitize_title', $order ) ) ) : array();
+}
+
+/**
+ * Direct child categories of `news-s` that have at least one published post.
+ *
+ * @return WP_Term[]
+ */
+function br_get_news_list_nav_category_terms() {
+	$news_root = get_term_by( 'slug', 'news-s', 'category' );
+	if ( ! $news_root instanceof WP_Term ) {
+		return array();
+	}
+
+	$children = get_terms(
+		array(
+			'taxonomy'   => 'category',
+			'parent'     => (int) $news_root->term_id,
+			'hide_empty' => true,
+			'orderby'    => 'name',
+			'order'      => 'ASC',
+		)
+	);
+	if ( is_wp_error( $children ) || ! is_array( $children ) ) {
+		return array();
+	}
+
+	$terms = array_values(
+		array_filter(
+			$children,
+			static function ( $t ) {
+				return $t instanceof WP_Term;
+			}
+		)
+	);
+
+	$order_slugs = br_news_category_nav_slug_order();
+	if ( $order_slugs === array() ) {
+		return $terms;
+	}
+
+	$pos = array_flip( $order_slugs );
+	usort(
+		$terms,
+		static function ( $a, $b ) use ( $pos ) {
+			$pa = isset( $pos[ $a->slug ] ) ? (int) $pos[ $a->slug ] : 9999;
+			$pb = isset( $pos[ $b->slug ] ) ? (int) $pos[ $b->slug ] : 9999;
+			if ( $pa !== $pb ) {
+				return $pa <=> $pb;
+			}
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $terms;
+}
+
+/**
+ * Permalink for the News page with optional pagination and category query arg.
+ *
+ * @param int    $paged           Page number (1 = no /page/N/ segment).
+ * @param string $news_cat_slug Optional. Child `category` slug under `news-s`; empty = all in `news-s`.
+ * @return string Empty if the News page is missing.
+ */
+function br_get_news_page_list_url( $paged = 1, $news_cat_slug = '' ) {
+	$base = br_get_page_permalink_by_slug( 'news' );
+	if ( $base === '' ) {
+		return '';
+	}
+	$paged = (int) $paged;
+	$url   = $paged > 1 ? trailingslashit( $base ) . 'page/' . $paged . '/' : $base;
+	$slug  = sanitize_title( (string) $news_cat_slug );
+	if ( $slug !== '' && $slug !== 'news-s' ) {
+		$url = add_query_arg( 'news_cat', $slug, $url );
+	}
+	return $url;
+}
+
+/**
+ * WP_Query for the News fixed page: posts in category `news-s`, optional filter by descendant category slug.
+ *
+ * @param int    $per_page         Posts per page.
+ * @param string $news_cat_param Optional. Sanitized category slug; must be `news-s` or a descendant of `news-s`.
+ * @return WP_Query
+ */
+function br_query_posts_for_news_page( $per_page = 12, $news_cat_param = '' ) {
+	$per_page = max( 1, (int) $per_page );
+
+	$empty = static function () use ( $per_page ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $per_page,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	$news_root = get_term_by( 'slug', 'news-s', 'category' );
+	if ( ! $news_root instanceof WP_Term ) {
+		return $empty();
+	}
+
+	$base = array(
+		'post_type'           => 'post',
+		'posts_per_page'      => $per_page,
+		'paged'               => br_get_query_paged(),
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+	);
+
+	$slug = sanitize_title( (string) $news_cat_param );
+
+	if ( $slug === '' || $slug === 'news-s' ) {
+		$base['cat'] = (int) $news_root->term_id;
+		return new WP_Query( $base );
+	}
+
+	$sub = get_term_by( 'slug', $slug, 'category' );
+	if ( ! $sub instanceof WP_Term ) {
+		return $empty();
+	}
+	if ( (int) $sub->term_id === (int) $news_root->term_id ) {
+		$base['cat'] = (int) $news_root->term_id;
+		return new WP_Query( $base );
+	}
+	if ( ! term_is_ancestor_of( (int) $news_root->term_id, (int) $sub->term_id, 'category' ) ) {
+		return $empty();
+	}
+
+	$base['tax_query'] = array(
+		array(
+			'taxonomy' => 'category',
+			'field'    => 'slug',
+			'terms'    => $sub->slug,
+		),
+	);
+
+	return new WP_Query( $base );
+}
+
+/**
+ * Optional slug order for Service category nav under `services` (child theme: filter `br_service_category_nav_slug_order`).
+ *
+ * @return string[]
+ */
+function br_service_category_nav_slug_order() {
+	$order = apply_filters( 'br_service_category_nav_slug_order', array() );
+	return is_array( $order ) ? array_values( array_filter( array_map( 'sanitize_title', $order ) ) ) : array();
+}
+
+/**
+ * Direct child categories of `services` that have at least one published post.
+ *
+ * @return WP_Term[]
+ */
+function br_get_service_list_nav_category_terms() {
+	$services = get_term_by( 'slug', 'services', 'category' );
+	if ( ! $services instanceof WP_Term ) {
+		return array();
+	}
+
+	$children = get_terms(
+		array(
+			'taxonomy'   => 'category',
+			'parent'     => (int) $services->term_id,
+			'hide_empty' => true,
+			'orderby'    => 'name',
+			'order'      => 'ASC',
+		)
+	);
+	if ( is_wp_error( $children ) || ! is_array( $children ) ) {
+		return array();
+	}
+
+	$terms = array_values(
+		array_filter(
+			$children,
+			static function ( $t ) {
+				return $t instanceof WP_Term;
+			}
+		)
+	);
+
+	$order_slugs = br_service_category_nav_slug_order();
+	if ( $order_slugs === array() ) {
+		return $terms;
+	}
+
+	$pos = array_flip( $order_slugs );
+	usort(
+		$terms,
+		static function ( $a, $b ) use ( $pos ) {
+			$pa = isset( $pos[ $a->slug ] ) ? (int) $pos[ $a->slug ] : 9999;
+			$pb = isset( $pos[ $b->slug ] ) ? (int) $pos[ $b->slug ] : 9999;
+			if ( $pa !== $pb ) {
+				return $pa <=> $pb;
+			}
+			return strcasecmp( $a->name, $b->name );
+		}
+	);
+
+	return $terms;
+}
+
+/**
+ * Permalink for the Service page with optional pagination and category query arg.
+ *
+ * @param int    $paged               Page number (1 = no /page/N/ segment).
+ * @param string $service_cat_slug Optional. Child `category` slug under `services`; empty = all in `services`.
+ * @return string Empty if the Service page is missing.
+ */
+function br_get_service_page_list_url( $paged = 1, $service_cat_slug = '' ) {
+	$base = br_get_page_permalink_by_slug( 'service' );
+	if ( $base === '' ) {
+		return '';
+	}
+	$paged = (int) $paged;
+	$url   = $paged > 1 ? trailingslashit( $base ) . 'page/' . $paged . '/' : $base;
+	$slug  = sanitize_title( (string) $service_cat_slug );
+	if ( $slug !== '' && $slug !== 'services' ) {
+		$url = add_query_arg( 'service_cat', $slug, $url );
+	}
+	return $url;
+}
+
+/**
+ * WP_Query for the Service fixed page: posts in category `services`, optional filter by descendant category slug.
+ *
+ * @param int    $per_page             Posts per page.
+ * @param string $service_cat_param Optional. Sanitized category slug; must be `services` or a descendant of `services`.
+ * @return WP_Query
+ */
+function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '' ) {
+	$per_page = max( 1, (int) $per_page );
+
+	$empty = static function () use ( $per_page ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $per_page,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	$services = get_term_by( 'slug', 'services', 'category' );
+	if ( ! $services instanceof WP_Term ) {
+		return $empty();
+	}
+
+	$base = array(
+		'post_type'           => 'post',
+		'posts_per_page'      => $per_page,
+		'paged'               => br_get_query_paged(),
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => true,
+		'orderby'             => 'date',
+		'order'               => 'ASC',
+	);
+
+	$slug = sanitize_title( (string) $service_cat_param );
+
+	if ( $slug === '' || $slug === 'services' ) {
+		$base['cat'] = (int) $services->term_id;
+		return new WP_Query( $base );
+	}
+
+	$sub = get_term_by( 'slug', $slug, 'category' );
+	if ( ! $sub instanceof WP_Term ) {
+		return $empty();
+	}
+	if ( (int) $sub->term_id === (int) $services->term_id ) {
+		$base['cat'] = (int) $services->term_id;
+		return new WP_Query( $base );
+	}
+	if ( ! term_is_ancestor_of( (int) $services->term_id, (int) $sub->term_id, 'category' ) ) {
+		return $empty();
+	}
+
+	$base['tax_query'] = array(
+		array(
+			'taxonomy' => 'category',
+			'field'    => 'slug',
+			'terms'    => $sub->slug,
+		),
+	);
+
+	return new WP_Query( $base );
+}
+
+/**
+ * Whether the post is in the `blogs` category or a descendant category.
+ *
+ * @param int $post_id Post ID.
+ * @return bool
+ */
+function br_post_in_blog_category_tree( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return false;
+	}
+
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return false;
+	}
+
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return false;
+	}
+
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( $t->slug === 'blogs' || (int) $t->term_id === (int) $blogs->term_id ) {
+			return true;
+		}
+		if ( term_is_ancestor_of( (int) $blogs->term_id, (int) $t->term_id, 'category' ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Whether the post is in the `services` category or a descendant category.
+ *
+ * @param int $post_id Post ID.
+ * @return bool
+ */
+function br_post_in_service_category_tree( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return false;
+	}
+
+	$services = get_term_by( 'slug', 'services', 'category' );
+	if ( ! $services instanceof WP_Term ) {
+		return false;
+	}
+
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return false;
+	}
+
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( $t->slug === 'services' || (int) $t->term_id === (int) $services->term_id ) {
+			return true;
+		}
+		if ( term_is_ancestor_of( (int) $services->term_id, (int) $t->term_id, 'category' ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Whether the post is in the `news-s` category or a descendant category.
+ *
+ * @param int $post_id Post ID.
+ * @return bool
+ */
+function br_post_in_news_category_tree( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return false;
+	}
+
+	$news_root = get_term_by( 'slug', 'news-s', 'category' );
+	if ( ! $news_root instanceof WP_Term ) {
+		return false;
+	}
+
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return false;
+	}
+
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( $t->slug === 'news-s' || (int) $t->term_id === (int) $news_root->term_id ) {
+			return true;
+		}
+		if ( term_is_ancestor_of( (int) $news_root->term_id, (int) $t->term_id, 'category' ) ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * 提案AIシリーズ LP（Service カードの service12 差し替え先）.
+ *
+ * @return string
+ */
+function br_get_service_teian_ai_landing_url() {
+	return 'https://blue-r.co.jp/teian-ai/';
+}
+
+/**
+ * Service カードが外部 LP を指すとき（新規タブで開く）.
+ *
+ * @param int $post_id Post ID.
+ * @return bool
+ */
+function br_service_card_link_opens_new_tab( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return false;
+	}
+	$slug = get_post_field( 'post_name', $post_id );
+	return is_string( $slug ) && strtolower( $slug ) === 'service12';
+}
+
+/**
+ * Permalink for Service cards (TOP rail + /service/ grid). Slug `service12` → 提案AIシリーズ LP.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_service_card_permalink( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+
+	if ( br_service_card_link_opens_new_tab( $post_id ) ) {
+		return br_get_service_teian_ai_landing_url();
+	}
+
+	$url = get_permalink( $post_id );
+	return $url !== false ? $url : '';
+}
+
+/**
  * WP_Query for portfolio items on WORKS / PROJECT pages (taxonomy portfolio-list).
  *
  * @param string $term_slug               Term slug (e.g. works-s, project-s).
@@ -455,6 +1145,91 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12, $project_
 	}
 
 	return new WP_Query( $base );
+}
+
+/**
+ * Related Works (`portfolio-list` works-s) for a single portfolio post: same `project-categories` first, else other Works by date.
+ *
+ * @param int $post_id Current portfolio post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Works list.
+ */
+function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'portfolio',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! taxonomy_exists( 'portfolio-list' ) ) {
+		return $empty_query();
+	}
+	if ( ! has_term( 'works-s', 'portfolio-list', $post_id ) ) {
+		return $empty_query();
+	}
+
+	$base = array(
+		'post_type'              => 'portfolio',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+	);
+
+	$list_clause = array(
+		'taxonomy' => 'portfolio-list',
+		'field'    => 'slug',
+		'terms'    => 'works-s',
+	);
+
+	$pc_ids = array();
+	if ( taxonomy_exists( 'project-categories' ) ) {
+		$pc_terms = get_the_terms( $post_id, 'project-categories' );
+		if ( is_array( $pc_terms ) && ! is_wp_error( $pc_terms ) ) {
+			foreach ( $pc_terms as $t ) {
+				if ( $t instanceof WP_Term ) {
+					$pc_ids[] = (int) $t->term_id;
+				}
+			}
+		}
+	}
+
+	if ( $pc_ids !== array() ) {
+		$args            = $base;
+		$args['tax_query'] = array(
+			'relation' => 'AND',
+			$list_clause,
+			array(
+				'taxonomy' => 'project-categories',
+				'field'    => 'term_id',
+				'terms'    => $pc_ids,
+				'operator' => 'IN',
+			),
+		);
+		$related = new WP_Query( $args );
+		if ( $related->have_posts() ) {
+			return $related;
+		}
+	}
+
+	$args            = $base;
+	$args['tax_query'] = array( $list_clause );
+	return new WP_Query( $args );
 }
 
 /**

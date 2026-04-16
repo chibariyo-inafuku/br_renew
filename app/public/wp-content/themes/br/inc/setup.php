@@ -52,7 +52,7 @@ function br_setup() {
 add_action( 'after_setup_theme', 'br_setup' );
 
 /**
- * Inner listing templates that share GSAP scroll-card effects (br-card grids). Not used on /works/ (home-style cards + CTA .br-home).
+ * Inner listing templates that share GSAP scroll-card effects (br-card grids). Not used on /works/, /project/, /blog/, /service/, or /news/ (home-style cards + CTA .br-home).
  *
  * @return bool
  */
@@ -60,8 +60,7 @@ function br_loads_inner_scroll_card_assets() {
 	if ( is_front_page() ) {
 		return false;
 	}
-	return is_page( array( 'project', 'news', 'blog', 'service' ) )
-		|| is_post_type_archive( 'portfolio' )
+	return is_post_type_archive( 'portfolio' )
 		|| is_tax( 'project-categories' );
 }
 
@@ -136,19 +135,12 @@ function br_enqueue_assets() {
 		true
 	);
 
-	if ( ! is_front_page() ) {
-		wp_enqueue_script(
-			'br-subpage-reveal-inview',
-			$theme_uri . '/assets/js/subpage-reveal-inview.js',
-			array(),
-			BR_VERSION,
-			true
-		);
-	}
-
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
-		$load_br_cf7 = is_front_page() || is_page( array( 'recruit', 'contact', 'about', 'works' ) );
+		$load_br_cf7 = is_front_page()
+			|| is_page( array( 'recruit', 'contact', 'about', 'works', 'project', 'blog', 'service', 'news' ) )
+			|| is_singular( 'portfolio' )
+			|| is_singular( 'post' );
 		if ( ! $load_br_cf7 ) {
 			global $post;
 			$load_br_cf7 = $post && has_shortcode( (string) $post->post_content, 'contact-form-7' );
@@ -163,7 +155,7 @@ function br_enqueue_assets() {
 		}
 	}
 
-	if ( is_front_page() || is_page( 'works' ) ) {
+	if ( is_front_page() || is_page( array( 'works', 'project', 'blog' ) ) ) {
 		wp_enqueue_script(
 			'br-portfolio-card-hover-cycle',
 			$theme_uri . '/assets/js/portfolio-card-hover-cycle.js',
@@ -244,6 +236,160 @@ function br_enqueue_assets() {
 		);
 	}
 
+	if ( is_page( 'project' ) ) {
+		$project_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$project_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$project_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-project',
+			$theme_uri . '/assets/css/project.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'blog' ) ) {
+		$blog_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$blog_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$blog_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-blog',
+			$theme_uri . '/assets/css/blog.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'news' ) ) {
+		$news_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$news_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$news_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-news',
+			$theme_uri . '/assets/css/news.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'service' ) ) {
+		$service_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$service_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$service_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-service',
+			$theme_uri . '/assets/css/service.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_singular( 'post' ) ) {
+		global $post;
+
+		$post_single_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$post_single_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$post_single_home_deps,
+			BR_VERSION
+		);
+
+		$post_id = $post instanceof WP_Post ? (int) $post->ID : 0;
+		if ( $post_id > 0 && function_exists( 'br_post_in_blog_category_tree' ) && br_post_in_blog_category_tree( $post_id ) ) {
+			wp_enqueue_style(
+				'br-post-single',
+				$theme_uri . '/assets/css/post-single.css',
+				array( 'br-home' ),
+				BR_VERSION
+			);
+		} elseif ( $post_id > 0 && function_exists( 'br_post_in_service_category_tree' ) && br_post_in_service_category_tree( $post_id ) ) {
+			wp_enqueue_style(
+				'br-service-single',
+				$theme_uri . '/assets/css/service-single.css',
+				array( 'br-home' ),
+				BR_VERSION
+			);
+		} elseif ( $post_id > 0 && function_exists( 'br_post_in_news_category_tree' ) && br_post_in_news_category_tree( $post_id ) ) {
+			wp_enqueue_style(
+				'br-news-single',
+				$theme_uri . '/assets/css/news-single.css',
+				array( 'br-home' ),
+				BR_VERSION
+			);
+		}
+	}
+
+	if ( is_singular( 'portfolio' ) ) {
+		wp_enqueue_style(
+			'br-swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+			array(),
+			null
+		);
+		$portfolio_br_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$portfolio_br_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$portfolio_br_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-portfolio-single',
+			$theme_uri . '/assets/css/portfolio-single.css',
+			array( 'br-home', 'br-swiper' ),
+			BR_VERSION
+		);
+		wp_enqueue_script(
+			'br-swiper',
+			'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+			array(),
+			null,
+			true
+		);
+		wp_enqueue_script(
+			'br-portfolio-related-rail',
+			$theme_uri . '/assets/js/portfolio-related-rail.js',
+			array( 'br-swiper' ),
+			BR_VERSION,
+			true
+		);
+	}
+
 	if ( br_loads_gsap_bundle() ) {
 		wp_enqueue_script(
 			'br-gsap',
@@ -297,6 +443,16 @@ function br_enqueue_assets() {
 		BR_VERSION,
 		true
 	);
+
+	if ( ! is_front_page() ) {
+		wp_enqueue_script(
+			'br-subpage-reveal-inview',
+			$theme_uri . '/assets/js/subpage-reveal-inview.js',
+			array( 'br-lenis-init' ),
+			BR_VERSION,
+			true
+		);
+	}
 
 	wp_enqueue_script(
 		'br-header-nav',

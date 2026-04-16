@@ -1054,6 +1054,8 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 }
 
 .br-home__section--service-band .br-home__service-card-body {
+	/* 一旦非表示（タイトル・抜粋ブロック） */
+	display: none;
 	padding: clamp(0.75rem, 1.11vw, 1rem) 0 0;
 	margin: 0;
 }

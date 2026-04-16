@@ -26,8 +26,9 @@ while ( have_posts() ) :
 	$paged_now       = br_get_query_paged();
 	$pagination_add  = $works_cat !== '' ? array( 'works_cat' => $works_cat ) : array();
 	$all_list_url    = br_get_works_page_list_url( $paged_now, '' );
-	$page          = get_post();
-	$content       = $page instanceof WP_Post ? $page->post_content : '';
+	// Do not use $page here — it overwrites the global $page (content page number) and breaks the_content().
+	$br_listing_page = get_post();
+	$content         = $br_listing_page instanceof WP_Post ? $br_listing_page->post_content : '';
 	$has_intro     = is_string( $content ) && trim( $content ) !== '';
 	?>
 <main id="main" class="br-main br-works">
@@ -63,6 +64,10 @@ while ( have_posts() ) :
 		<div class="br-container br-works__lead-wrap">
 			<p class="br-works__lead">
 				お客様と共に歩んできた道のりの一部を掲載しています。<br>最新のテクノロジーとノウハウを駆使し、常に一歩先を行く革新的なクリエイティブを提供します。
+			</p>
+			<p></p>
+			<p class="br-works__lead">
+			下記掲載の実績の他にも契約上一般に公開できない実績がございます。<br>非公開実績の閲覧をご希望の方は、お問い合わせフォームよりお問い合わせください。
 			</p>
 		</div>
 	</section>
