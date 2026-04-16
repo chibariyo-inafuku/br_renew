@@ -29,7 +29,8 @@ html {
 body {
 	margin: 0;
 	font-family: var(--br-font);
-	font-size: 1.17vw;
+	/* Base body: ~1.17vw @ 1440 */
+	font-size: 17px;
 	line-height: 1.6;
 	color: var(--br-text);
 	background: var(--br-bg);
@@ -252,7 +253,7 @@ html.br-nav-open .br-header__menu-x {
 	max-width: 100%;
 	padding: 0.556vw 1.667vw 0.556vw 0.833vw;
 	font-family: var(--br-font);
-	font-size: clamp(0.6875rem, 0.833vw, 0.75rem);
+	font-size: 12px;
 	font-weight: 700;
 	line-height: 1.75;
 	text-decoration: none;
@@ -282,7 +283,7 @@ html.br-nav-open .br-header__menu-x {
 
 .br-header__title {
 	font-weight: 700;
-	font-size: 1.17vw;
+	font-size: 17px;
 	text-decoration: none;
 	color: inherit;
 }
@@ -310,7 +311,7 @@ html.br-nav-open .br-header__menu-x {
 	width: 100%;
 	text-align: left;
 	font-family: var(--br-font);
-	font-size: clamp(0.8125rem, 1.04vw, 1rem);
+	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.4;
 }
@@ -340,7 +341,7 @@ html.br-nav-open .br-header__menu-x {
 	align-items: flex-start;
 	gap: 0;
 	font-family: "Inter", var(--br-font);
-	font-size: clamp(0.8125rem, 0.972vw, 0.875rem);
+	font-size: 14px;
 	font-weight: 400;
 	line-height: 1;
 	letter-spacing: 0.0371em;
@@ -366,7 +367,7 @@ html.br-nav-open .br-header__menu-x {
 	display: flex;
 	flex-direction: column;
 	gap: 0.37vw;
-	font-size: 0.95vw;
+	font-size: 14px;
 }
 
 .br-nav__list a {
@@ -713,7 +714,7 @@ body.admin-bar .br-header--sidebar {
 		flex-wrap: nowrap;
 		align-items: flex-start;
 		gap: 0;
-		font-size: clamp(1.0625rem, 4.2vw, 1.25rem);
+		font-size: 18px;
 		font-weight: 500;
 	}
 
@@ -746,13 +747,13 @@ body.admin-bar .br-header--sidebar {
 		min-width: 0;
 		max-width: 100%;
 		padding: clamp(0.5rem, 1.75vw, 0.65rem) clamp(1.35rem, 4.5vw, 2rem);
-		font-size: clamp(0.9375rem, 3.2vw, 1.0625rem);
+		font-size: 16px;
 		font-weight: 700;
 		border-radius: clamp(0.4rem, 1.4vw, 0.55rem);
 	}
 
 	.br-header__tel {
-		font-size: clamp(0.8125rem, 2.4vw, 0.9375rem);
+		font-size: 13px;
 	}
 
 	.br-main,
@@ -766,7 +767,8 @@ body.admin-bar .br-header--sidebar {
 .br-article__title,
 .br-project__title,
 .br-archive-header__title {
-	font-size: 4vw;
+	/* ~4vw @ 1440 */
+	font-size: 58px;
 	line-height: 1.2;
 	margin: 0 0 1.17vw;
 }
@@ -793,12 +795,12 @@ body.admin-bar .br-header--sidebar {
 .br-article__meta,
 .br-card__meta {
 	color: var(--br-muted);
-	font-size: 0.95vw;
+	font-size: 14px;
 }
 
 @media (max-width: 768px) {
 	body {
-		font-size: clamp(0.9375rem, 2.8vw, 1.0625rem);
+		font-size: 15px;
 		line-height: 1.65;
 	}
 
@@ -806,7 +808,7 @@ body.admin-bar .br-header--sidebar {
 	.br-article__title,
 	.br-project__title,
 	.br-archive-header__title {
-		font-size: clamp(1.5rem, 5.5vw, 2rem);
+		font-size: 30px;
 		line-height: 1.25;
 		margin: 0 0 clamp(0.75rem, 2.5vw, 1rem);
 	}
@@ -817,7 +819,39 @@ body.admin-bar .br-header--sidebar {
 
 	.br-article__meta,
 	.br-card__meta {
-		font-size: clamp(0.8125rem, 2.4vw, 0.9375rem);
+		font-size: 13px;
+	}
+
+	.br-card__title {
+		font-size: 15px;
+	}
+
+	.br-card__excerpt {
+		font-size: 14px;
+	}
+
+	.br-project__summary {
+		font-size: 15px;
+	}
+
+	.br-project__gallery-item figcaption {
+		font-size: 13px;
+	}
+
+	.br-post-list__meta {
+		font-size: 13px;
+	}
+
+	.br-footer {
+		font-size: 14px;
+	}
+
+	.br-footer__nav-heading {
+		font-size: 14px;
+	}
+
+	.br-footer__copy {
+		font-size: 11px;
 	}
 }
 
@@ -883,19 +917,19 @@ body.admin-bar .br-header--sidebar {
 }
 
 .br-card__title {
-	font-size: 1.17vw;
+	font-size: 17px;
 	margin: 1.17vw 1.17vw 0.22vw;
 }
 
 .br-card__excerpt {
 	margin: 0 1.17vw 1.17vw;
-	font-size: 1.02vw;
+	font-size: 15px;
 	color: var(--br-muted);
 }
 
 /* Portfolio single */
 .br-project__summary {
-	font-size: 1.17vw;
+	font-size: 17px;
 	color: var(--br-muted);
 	margin: 0 0 1.17vw;
 }
@@ -928,7 +962,7 @@ body.admin-bar .br-header--sidebar {
 }
 
 .br-project__gallery-item figcaption {
-	font-size: 0.95vw;
+	font-size: 14px;
 	color: var(--br-muted);
 	margin-top: 0.37vw;
 }
@@ -972,7 +1006,7 @@ body.admin-bar .br-header--sidebar {
 
 .br-post-list__meta {
 	color: var(--br-muted);
-	font-size: 0.95vw;
+	font-size: 14px;
 	white-space: nowrap;
 }
 
@@ -1012,7 +1046,7 @@ body.admin-bar .br-header--sidebar {
 .br-footer {
 	margin-top: auto;
 	padding: 5.86vw 3.15vw 2.93vw;
-	font-size: clamp(0.8125rem, 0.95vw, 1rem);
+	font-size: 15px;
 	color: rgba(255, 255, 255, 0.82);
 	background: #000000;
 	border-top: none;
@@ -1107,7 +1141,7 @@ body.admin-bar .br-header--sidebar {
 .br-footer__nav-heading {
 	display: inline-block;
 	margin: 0 0 clamp(0.4rem, 0.73vw, 0.65rem);
-	font-size: clamp(0.875rem, 1.02vw, 1.0625rem);
+	font-size: 16px;
 	font-weight: 700;
 	color: #fff;
 	opacity: 1;
@@ -1183,7 +1217,7 @@ a.br-footer__privacy:focus,
 	margin-left: auto;
 	text-align: right;
 	max-width: min(100%, 36rem);
-	font-size: clamp(0.6875rem, 0.78vw, 0.8125rem);
+	font-size: 12px;
 	line-height: 1.5;
 	color: #6d7981;
 	opacity: 1;
@@ -1266,19 +1300,22 @@ a.br-footer__privacy:focus,
 
 .br-svg-heading__svg {
 	display: block;
-	width: min(44.44vw, 100vw);
+	/* ~44.44vw @ 1440 — fixed width; narrow parents shrink via max-width */
+	width: 640px;
+	max-width: 100%;
 	height: auto;
-	max-width: none;
 	overflow: visible;
 	line-height: 0;
 }
 
 .br-svg-heading__text {
 	font-family: "MuseoModerno", "Inter", system-ui, sans-serif;
+	/* ~1.2× former 56px (PC) */
+	font-size: 67px;
 	paint-order: stroke fill;
 	fill: currentColor;
 	stroke: currentColor;
-	stroke-width: clamp(0.03125rem, 0.069vw, 0.09375rem);
+	stroke-width: 1px;
 	stroke-dasharray: 1280;
 	stroke-dashoffset: 0;
 	stroke-linejoin: round;
@@ -1296,7 +1333,7 @@ a.br-footer__privacy:focus,
 .br-svg-heading:not(.is-inview) .br-svg-heading__text {
 	fill: transparent;
 	stroke: currentColor;
-	stroke-width: clamp(0.03125rem, 0.069vw, 0.09375rem);
+	stroke-width: 1px;
 	stroke-dasharray: 1280;
 	stroke-dashoffset: 1280;
 }
@@ -1335,6 +1372,17 @@ a.br-footer__privacy:focus,
 
 .br-svg-heading.br-svg-heading--sub-from-left.is-inview .br-svg-heading__sub {
 	animation-name: br-svg-heading-sub-from-left;
+}
+
+@media (max-width: 768px) {
+	.br-svg-heading__svg {
+		width: 360px;
+		max-width: 100%;
+	}
+
+	.br-svg-heading__text {
+		font-size: 112px;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

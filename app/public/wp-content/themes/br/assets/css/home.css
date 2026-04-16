@@ -1,5 +1,5 @@
 /**
- * Front page (TOP) — liquid type/spacing tokens scoped to .br-home
+ * Front page (TOP) — liquid spacing/layout tokens scoped to .br-home; typography uses px.
  *
  * @package br
  */
@@ -20,22 +20,22 @@
 }
 
 /* -------------------------------------------------------------------------
-   Home root tokens (fluid)
+   Home root tokens (layout fluid; type px @ ~1440, narrowed in SP block)
    ------------------------------------------------------------------------- */
 .br-home {
 	--br-home-gutter: 1.17vw;
 
-	--br-home-text-hero: 2.64vw;
+	--br-home-text-hero: 38px;
 	--br-home-text-hero-line-height: 1.5;
-	--br-home-text-lead: 1.32vw;
-	--br-home-text-section-en: 2.34vw;
-	--br-home-text-section-jp: 0.95vw;
-	--br-home-text-body: 1.1vw;
-	--br-home-text-card-title: 1.17vw;
-	--br-home-text-small: 0.88vw;
-	--br-home-text-concept-en: 1.02vw;
-	--br-home-text-concept-h: 2.34vw;
-	--br-home-text-cta-en: 3.51vw;
+	--br-home-text-lead: 19px;
+	--br-home-text-section-en: 34px;
+	--br-home-text-section-jp: 14px;
+	--br-home-text-body: 16px;
+	--br-home-text-card-title: 17px;
+	--br-home-text-small: 13px;
+	--br-home-text-concept-en: 15px;
+	--br-home-text-concept-h: 34px;
+	--br-home-text-cta-en: 51px;
 
 	--br-home-space-section-y: 5.86vw;
 	--br-home-space-block: 1.76vw;
@@ -206,7 +206,7 @@
 
 .br-home__hero-lead {
 	margin: 0;
-	font-size: 1.32vw;
+	font-size: 19px;
 	font-weight: 400;
 	line-height: 1.4;
 	color: #EAEAEA;
@@ -292,7 +292,7 @@
 	display: inline-flex;
 	align-items: center;
 	padding: clamp(0.75rem, 1.11vw, 1.125rem) clamp(1rem, 1.39vw, 1.5rem);
-	font-size: clamp(0.875rem, 1.04vw, 0.9375rem);
+	font-size: 15px;
 	font-weight: 700;
 	line-height: 1.4;
 	text-decoration: none;
@@ -628,7 +628,7 @@
 	background: #fff;
 	color: var(--br-home-ink);
 	cursor: pointer;
-	font-size: 1.02vw;
+	font-size: 15px;
 	line-height: 1;
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -837,8 +837,8 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__blog-heading,
 .br-home__service-heading {
 	margin: 0;
-	padding-left: clamp(0rem, 2.78vw, 2.5rem);
-	padding-right: clamp(0rem, 2.78vw, 2.5rem);
+	padding-left: clamp(0rem, 1.67vw, 1.5rem);
+    padding-right: clamp(0rem, 1.67vw, 1.5rem);
 	overflow: visible;
 }
 
@@ -859,7 +859,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__blog-title-en,
 .br-home__service-title-en {
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	font-size: clamp(2rem, 3.89vw, 3.5rem);
+	font-size: 56px;
 	font-weight: 700;
 	line-height: 1.2;
 	color: #fff;
@@ -869,7 +869,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__project-title-jp,
 .br-home__blog-title-jp,
 .br-home__service-title-jp {
-	font-size: clamp(0.875rem, 1.11vw, 1rem);
+	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.4;
 	letter-spacing: 0.08em;
@@ -898,12 +898,9 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__service-title .br-svg-heading__svg,
 .br-home__news-title .br-svg-heading__svg {
 	display: block;
-	/*
-	 * Viewport-based width (not % of narrow grid/flex parent) so News + Service match band headings.
-	 * Cap at 100vw so small viewports never exceed the screen.
-	 */
-	width: min(44.44vw, 100vw);
-	max-width: none;
+	/* Match main.css: fixed SVG width, shrink only when parent is narrower */
+	width: 640px;
+	max-width: 100%;
 	height: auto;
 	overflow: visible;
 	line-height: 0;
@@ -914,7 +911,8 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__blog-title .br-svg-heading__text,
 .br-home__service-title .br-svg-heading__text,
 .br-home__news-title .br-svg-heading__text {
-	font-size: clamp(2rem, 3.89vw, 3.5rem);
+	/* ~1.2× former 56px; matches main.css on PC */
+	font-size: 67px;
 	font-weight: 700;
 }
 
@@ -928,7 +926,8 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__blog-title .br-svg-heading__svg,
 	.br-home__service-title .br-svg-heading__svg,
 	.br-home__news-title .br-svg-heading__svg {
-		width: min(100%, 100vw);
+		width: 360px;
+		max-width: 100%;
 	}
 
 	.br-home__works-title .br-svg-heading__text,
@@ -936,7 +935,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__blog-title .br-svg-heading__text,
 	.br-home__service-title .br-svg-heading__text,
 	.br-home__news-title .br-svg-heading__text {
-		font-size: clamp(7rem, 17vw, 13.5rem);
+		font-size: 112px;
 	}
 
 	.br-home__works-title-jp,
@@ -944,7 +943,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__blog-title-jp,
 	.br-home__service-title-jp,
 	.br-home__news-title-jp {
-		font-size: clamp(0.75rem, 2.07vw, 1.17rem);
+		font-size: 14px;
 		line-height: 1.45;
 	}
 }
@@ -1173,7 +1172,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	padding: clamp(0.25rem, 0.42vw, 0.375rem) clamp(0.375rem, 0.56vw, 0.5rem);
 	border: 1px solid #fff;
 	border-radius: clamp(0.125rem, 0.28vw, 0.25rem);
-	font-size: clamp(0.5625rem, 0.69vw, 0.625rem);
+	font-size: 10px;
 	font-weight: 400;
 	line-height: 1.2;
 	letter-spacing: 0.02em;
@@ -1182,7 +1181,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__works-card-title,
 .br-home__project-card-title,
 .br-home__blog-card-title {
-	font-size: clamp(0.8125rem, 0.97vw, 0.875rem);
+	font-size: 14px;
 	font-weight: 700;
 	line-height: 1.8;
 	letter-spacing: 0.014em;
@@ -1248,7 +1247,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 
 .br-home__section--service-band .br-home__service-card-title {
 	margin: 0 0 clamp(0.375rem, 0.56vw, 0.5rem);
-	font-size: clamp(0.9375rem, 1.17vw, 1.0625rem);
+	font-size: 17px;
 	font-weight: 700;
 	line-height: 1.35;
 	letter-spacing: 0.02em;
@@ -1257,7 +1256,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 
 .br-home__section--service-band .br-home__service-card-text {
 	margin: 0;
-	font-size: clamp(0.8125rem, 0.97vw, 0.875rem);
+	font-size: 14px;
 	line-height: 1.65;
 	color: rgba(255, 255, 255, 0.92);
 }
@@ -1337,18 +1336,11 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__parallax-quote {
 	margin: 0 auto;
 	width: max-content;
+	max-width: 100%;
 	white-space: nowrap;
 	text-align: center;
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	/*
-	 * 1行固定の英文幅 ≒ font-size × 24（MuseoModerno 400 + 字間の経験値）。
-	 * 利用可能幅 ≒ 100vw − 左右ガター（.br-home__parallax-inner と同じ変数）→ 見切れ防止。
-	 */
-	font-size: clamp(
-		0.7rem,
-		calc((100vw - 2 * var(--br-home-gutter)) / 24),
-		2.875rem
-	);
+	font-size: 40px;
 	font-weight: 400;
 	line-height: 1.35;
 	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
@@ -1430,11 +1422,7 @@ html.br-home-js .br-home__parallax-globe-wrap {
 	margin: 0;
 	text-align: center;
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	font-size: clamp(
-		0.7rem,
-		calc((100vw - 2 * var(--br-home-gutter)) / 28),
-		2.5rem
-	);
+	font-size: 34px;
 	font-weight: 400;
 	line-height: 1.35;
 	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
@@ -1473,7 +1461,11 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__news-layout {
 	display: grid;
-	grid-template-columns: minmax(0, clamp(12rem, 26vw, 24rem)) minmax(0, 1fr);
+	/*
+	 * Lead column must be wide enough for .br-svg-heading__svg (640px) like band sections;
+	 * former clamp(..., 26vw, 24rem) capped ~384px and shrunk the News heading only.
+	 */
+	grid-template-columns: minmax(0, clamp(12rem, max(55vw, 40rem), 48rem)) minmax(0, 1fr);
 	grid-template-rows: auto auto;
 	/* Wide gutter between lead and list (capture) */
 	column-gap: clamp(2.25rem, 8.33vw, 7.5rem);
@@ -1502,14 +1494,14 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__news-title-en {
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	font-size: clamp(2rem, 3.89vw, 3.5rem);
+	font-size: 56px;
 	font-weight: 700;
 	line-height: 1.15;
 	color: var(--br-home-ink);
 }
 
 .br-home__news-title-jp {
-	font-size: clamp(0.875rem, 1.11vw, 1rem);
+	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.4;
 	letter-spacing: 0.08em;
@@ -1590,7 +1582,7 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__news-date {
 	display: block;
-	font-size: clamp(0.75rem, 0.83vw, 0.8125rem);
+	font-size: 13px;
 	font-weight: 400;
 	line-height: 1.35;
 	letter-spacing: 0.04em;
@@ -1598,7 +1590,7 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 .br-home__news-item-title {
-	font-size: clamp(0.8125rem, 0.97vw, 0.9375rem);
+	font-size: 15px;
 	font-weight: 700;
 	line-height: 1.55;
 	letter-spacing: 0.02em;
@@ -1693,8 +1685,8 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__cta-title .br-svg-heading__svg {
 	display: block;
-	width: min(44.44vw, 100vw);
-	max-width: none;
+	width: 640px;
+	max-width: 100%;
 	height: auto;
 	overflow: visible;
 	line-height: 0;
@@ -1703,7 +1695,8 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 .br-home__cta-title .br-svg-heading__text {
-	font-size: var(--br-home-text-cta-en);
+	/* ~1.2× CTA EN token on PC */
+	font-size: calc(1.2 * var(--br-home-text-cta-en));
 	font-weight: 700;
 	letter-spacing: 0.04em;
 }
@@ -1726,17 +1719,18 @@ html.br-home-js .br-home__palarax-tagline {
 /* CTA Contact SVG: same SP scale as band headings (must follow base .br-home__cta-title rules). */
 @media (max-width: 768px) {
 	.br-home__cta-title .br-svg-heading__svg {
-		width: min(100%, 100vw);
+		width: 360px;
+		max-width: 100%;
 		/* Cancel desktop negative pull-up; JP sub is above SVG — needs clear gap on SP */
 		margin-top: clamp(0.5rem, 2.2vw, 1rem);
 	}
 
 	.br-home__cta-title .br-svg-heading__text {
-		font-size: clamp(7rem, 17vw, 13.5rem);
+		font-size: 112px;
 	}
 
 	.br-home__cta-title .br-home__cta-label-slash {
-		font-size: clamp(0.75rem, 2.07vw, 1.17rem);
+		font-size: 14px;
 		line-height: 1.45;
 	}
 
@@ -1748,7 +1742,7 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__cta-lead {
 	margin: 0 0 clamp(0.65rem, 1.1vw, 0.875rem);
-	font-size: clamp(0.875rem, 1.11vw, 1rem);
+	font-size: 16px;
 	font-weight: 700;
 	line-height: 1.65;
 	color: var(--br-home-ink);
@@ -1769,7 +1763,7 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__cta-urgent-label {
 	margin: 0 0 clamp(0.25rem, 0.42vw, 0.35rem);
-	font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
+	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.5;
 	color: var(--br-home-accent);
@@ -1777,7 +1771,7 @@ html.br-home-js .br-home__palarax-tagline {
 
 .br-home__cta-tel {
 	margin: 0;
-	font-size: clamp(1.25rem, 1.94vw, 1.75rem);
+	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.2;
 }
@@ -1826,7 +1820,7 @@ html.br-home-js .br-home__palarax-tagline {
 .br-home__section--cta .wpcf7 legend {
 	display: block;
 	font-weight: 600;
-	font-size: clamp(0.8125rem, 0.88vw, 0.9375rem);
+	font-size: 14px;
 	margin-bottom: clamp(0.35rem, 0.42vw, 0.5rem);
 	color: var(--br-home-ink);
 }
@@ -1845,7 +1839,7 @@ html.br-home-js .br-home__palarax-tagline {
 	width: 100%;
 	padding: clamp(0.5rem, 0.69vw, 0.625rem) clamp(0.65rem, 0.83vw, 0.75rem);
 	font: inherit;
-	font-size: clamp(0.875rem, 0.95vw, 1rem);
+	font-size: 15px;
 	border: 0.069vw solid #dce1e8;
 	border-radius: clamp(0.375rem, 0.56vw, 0.5rem);
 	background: #f9fafb;
@@ -1878,7 +1872,7 @@ html.br-home-js .br-home__palarax-tagline {
 	padding: clamp(0.65rem, 0.97vw, 0.875rem) clamp(2.75rem, 4.17vw, 3.5rem)
 		clamp(0.65rem, 0.97vw, 0.875rem) clamp(0.85rem, 1.25vw, 1rem);
 	font: inherit;
-	font-size: clamp(0.875rem, 1.02vw, 1rem);
+	font-size: 16px;
 	font-weight: 600;
 	color: #fff;
 	background-color: var(--br-home-accent);
@@ -1909,7 +1903,7 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 .br-home__section--cta .wpcf7 .wpcf7-not-valid-tip {
-	font-size: clamp(0.75rem, 0.83vw, 0.875rem);
+	font-size: 12px;
 	color: #b91c1c;
 	margin-top: clamp(0.2rem, 0.28vw, 0.25rem);
 }
@@ -1978,7 +1972,7 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 /* -------------------------------------------------------------------------
-   Mobile adjustments — fluid type/spacing tokens (narrow viewports)
+   Mobile adjustments — spacing tokens fluid; typography px overrides
    ------------------------------------------------------------------------- */
 @media (max-width: 768px) {
 	/* Works / Project / Blog / Service / News / CTA — extra horizontal inset (SP) */
@@ -1994,16 +1988,16 @@ html.br-home-js .br-home__palarax-tagline {
 	}
 
 	.br-home {
-		--br-home-text-hero: clamp(1.75rem, 7vw, 2.75rem);
-		--br-home-text-lead: clamp(0.9375rem, 3.5vw, 1.125rem);
-		--br-home-text-section-en: clamp(1.5rem, 5.5vw, 2.125rem);
-		--br-home-text-section-jp: clamp(0.8125rem, 2.6vw, 0.9375rem);
-		--br-home-text-body: clamp(0.9375rem, 2.8vw, 1.0625rem);
-		--br-home-text-card-title: clamp(0.9375rem, 2.9vw, 1.0625rem);
-		--br-home-text-small: clamp(0.75rem, 2.2vw, 0.875rem);
-		--br-home-text-concept-en: clamp(0.8125rem, 2.5vw, 0.9375rem);
-		--br-home-text-concept-h: clamp(1.5rem, 5vw, 2rem);
-		--br-home-text-cta-en: clamp(2rem, 8vw, 3rem);
+		--br-home-text-hero: 28px;
+		--br-home-text-lead: 15px;
+		--br-home-text-section-en: 24px;
+		--br-home-text-section-jp: 13px;
+		--br-home-text-body: 15px;
+		--br-home-text-card-title: 15px;
+		--br-home-text-small: 12px;
+		--br-home-text-concept-en: 13px;
+		--br-home-text-concept-h: 24px;
+		--br-home-text-cta-en: 32px;
 
 		--br-home-space-section-y: clamp(2.25rem, 7vw, 3.5rem);
 		--br-home-space-block: clamp(0.75rem, 2.5vw, 1.25rem);
@@ -2066,7 +2060,75 @@ html.br-home-js .br-home__palarax-tagline {
 	.br-home__section--service-band .br-home__rail-btn {
 		width: clamp(2.875rem, 12vw, 3.5rem);
 		height: clamp(2.875rem, 12vw, 3.5rem);
-		font-size: clamp(1.0625rem, 4.2vw, 1.35rem);
+		font-size: 17px;
+	}
+
+	.br-home__hero-lead {
+		font-size: 15px;
+	}
+
+	.br-hop-btn {
+		font-size: 14px;
+	}
+
+	.br-home__rail-btn {
+		font-size: 14px;
+	}
+
+	.br-home__section--service-band .br-home__service-card-title {
+		font-size: 15px;
+	}
+
+	.br-home__section--service-band .br-home__service-card-text {
+		font-size: 13px;
+	}
+
+	.br-home__parallax-quote {
+		width: 100%;
+		max-width: 100%;
+		white-space: normal;
+		text-wrap: balance;
+		font-size: 20px;
+	}
+
+	.br-home__palarax-tagline {
+		width: 100%;
+		max-width: 100%;
+		white-space: normal;
+		text-wrap: balance;
+		font-size: 18px;
+	}
+
+	.br-home__news-date {
+		font-size: 12px;
+	}
+
+	.br-home__news-item-title {
+		font-size: 14px;
+	}
+
+	.br-home__cta-tel {
+		font-size: 24px;
+	}
+
+	.br-home__section--cta .wpcf7 label,
+	.br-home__section--cta .wpcf7 legend {
+		font-size: 13px;
+	}
+
+	.br-home__section--cta .wpcf7 input[type="text"],
+	.br-home__section--cta .wpcf7 input[type="email"],
+	.br-home__section--cta .wpcf7 input[type="tel"],
+	.br-home__section--cta .wpcf7 input[type="url"],
+	.br-home__section--cta .wpcf7 input[type="number"],
+	.br-home__section--cta .wpcf7 select,
+	.br-home__section--cta .wpcf7 textarea {
+		font-size: 14px;
+	}
+
+	.br-home__section--cta .wpcf7 input[type="submit"],
+	.br-home__section--cta .wpcf7 button[type="submit"] {
+		font-size: 15px;
 	}
 }
 
