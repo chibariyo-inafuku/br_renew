@@ -43,13 +43,13 @@
 	--br-home-space-gap-rail: 1.17vw;
 	--br-home-space-section-gap: 4.69vw;
 
-	--br-home-ink: #01101A;
+	--br-home-ink: var(--br-ink);
 	--br-home-ink-muted: #4a5568;
 	--br-home-bg: #ffffff;
-	--br-home-accent: #0071BC;
-	--br-home-accent-hover: #005a99;
-	--br-home-band-dark: #01101A;
-	--br-home-band-tint: #F6F6F6;
+	--br-home-accent: var(--br-accent);
+	--br-home-accent-hover: var(--br-accent-hover);
+	--br-home-band-dark: var(--br-ink);
+	--br-home-band-tint: var(--br-surface-soft);
 	--br-home-hero-overlay: rgba(1, 16, 26, 0.5);
 	--br-home-card-overlay: rgba(1, 16, 26, 0.82);
 

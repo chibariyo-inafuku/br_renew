@@ -5,7 +5,12 @@
 	--br-muted: #5c5c5c;
 	--br-bg: #ffffff;
 	--br-line: #e2e2e2;
-	--br-accent: #0071BC;
+	/* Figma デザイントークン（node 92-3193）— site-structure.mdc と同期 */
+	--br-ink: #01101A;
+	--br-line-muted: #dce1e8;
+	--br-surface-soft: #f6f6f6;
+	--br-accent: #0071bc;
+	--br-accent-hover: #005a99;
 	--br-max: 72rem;
 	--br-space: 1.17vw;
 	/* Figma header: 140px @ 1440 */

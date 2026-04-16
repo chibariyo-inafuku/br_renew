@@ -1,0 +1,554 @@
+/**
+ * About page — liquid layout; typography px (see .cursor/rules).
+ *
+ * @package br
+ */
+
+.br-main.br-about {
+	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-bottom: 0;
+}
+
+.br-about [id] {
+	scroll-margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* -------------------------------------------------------------------------
+   Heading + breadcrumb
+   ------------------------------------------------------------------------- */
+.br-about__heading {
+	border-bottom: 1px solid var(--br-line-muted);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+	margin-bottom: 0;
+}
+
+.br-about__heading-inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+.br-about__title-en {
+	margin: 0;
+	font-family: "MuseoModerno", system-ui, sans-serif;
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--br-ink);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.br-about__title-jp {
+	margin: 0.25rem 0 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #43526a;
+}
+
+.br-about__breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+}
+
+.br-about__breadcrumb a {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: opacity 0.2s ease;
+}
+
+.br-about__breadcrumb a:hover,
+.br-about__breadcrumb a:focus-visible {
+	opacity: 0.85;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-about__breadcrumb-sep {
+	color: #8a96a8;
+}
+
+.br-about__breadcrumb-current {
+	color: #43526a;
+}
+
+/* -------------------------------------------------------------------------
+   Anchor row
+   ------------------------------------------------------------------------- */
+.br-about__anchors {
+	padding-top: clamp(1rem, 1.67vw, 1.5rem);
+	padding-bottom: clamp(1rem, 1.67vw, 1.5rem);
+}
+
+.br-about__anchors-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: clamp(0.75rem, 1.67vw, 1.5rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.br-about__anchor-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.07;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--br-accent);
+	text-decoration: none;
+	border-bottom: 0.069vw solid transparent;
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.br-about__anchor-link:hover,
+.br-about__anchor-link:focus-visible {
+	color: var(--br-accent-hover);
+	border-bottom-color: rgba(0, 113, 188, 0.45);
+}
+
+.br-about__anchor-arrow {
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1;
+	opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------------
+   Pillars band (Philosophy–Values)
+   ------------------------------------------------------------------------- */
+.br-about__pillars-wrap {
+	position: relative;
+	background: var(--br-surface-soft);
+	overflow: hidden;
+}
+
+.br-about__pillars-bg {
+	position: absolute;
+	inset: 0;
+	background-image: var(--br-about-pillars-bg, none);
+	background-size: cover;
+	background-position: center;
+	opacity: 0.35;
+	pointer-events: none;
+}
+
+.br-about__pillars-wrap > section {
+	position: relative;
+	z-index: 1;
+}
+
+.br-about__pillars {
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2rem, 4.17vw, 3.5rem);
+}
+
+.br-about__pillar-block {
+	padding-top: clamp(2rem, 4.17vw, 3.5rem);
+	padding-bottom: clamp(2rem, 4.17vw, 3.5rem);
+}
+
+.br-about__block-head {
+	margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.br-about__heading-tertiary {
+	margin: 0;
+	font-family: "MuseoModerno", system-ui, sans-serif;
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--br-ink);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.35em;
+	text-decoration-color: rgba(1, 16, 26, 0.9);
+}
+
+.br-about__philosophy-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: clamp(1.5rem, 2.78vw, 2.5rem) clamp(1.25rem, 2.08vw, 1.875rem);
+	align-items: start;
+}
+
+.br-about__philosophy-visual {
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	overflow: hidden;
+	background: #c3c3c3;
+	min-height: clamp(12rem, 25vw, 22.5rem);
+}
+
+.br-about__philosophy-visual img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.br-about__philosophy-copy {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(1rem, 2.08vw, 2.5rem);
+	align-items: start;
+}
+
+.br-about__statement {
+	margin: 0;
+	padding: clamp(1.5rem, 2.22vw, 2rem);
+	background: rgba(255, 255, 255, 0.88);
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	min-height: clamp(5rem, 10vw, 8rem);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.br-about__statement-text {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--br-ink);
+	text-align: center;
+}
+
+.br-about__pillar-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(1.25rem, 2.08vw, 1.875rem);
+	padding-left: clamp(0rem, 5.56vw, 5rem);
+	padding-right: clamp(0rem, 5.56vw, 5rem);
+}
+
+.br-about__body {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.75;
+	color: #334155;
+}
+
+.br-about__values-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(1.25rem, 2.22vw, 2.5rem);
+	padding-left: clamp(0rem, 5.56vw, 5rem);
+	padding-right: clamp(0rem, 5.56vw, 5rem);
+}
+
+.br-about__value-card {
+	display: flex;
+	gap: clamp(0.375rem, 0.69vw, 0.5rem);
+	padding: clamp(1rem, 1.67vw, 1.5rem) clamp(1.25rem, 1.67vw, 1.5rem);
+	background: #fff;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	min-height: clamp(14rem, 22vw, 17rem);
+	box-sizing: border-box;
+}
+
+.br-about__value-line {
+	width: 4px;
+	flex-shrink: 0;
+	background: linear-gradient(180deg, var(--br-accent) 0%, rgba(0, 113, 188, 0.35) 100%);
+	border-radius: 2px;
+}
+
+.br-about__value-inner {
+	min-width: 0;
+}
+
+.br-about__value-title {
+	margin: 0 0 0.5rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--br-ink);
+}
+
+.br-about__value-body {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.7;
+	color: #43526a;
+}
+
+/* -------------------------------------------------------------------------
+   Overview
+   ------------------------------------------------------------------------- */
+.br-about__overview {
+	padding-top: clamp(3rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 4.17vw, 4rem);
+	background: #fff;
+}
+
+.br-about__overview-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: clamp(0.75rem, 1.67vw, 1.5rem);
+	margin-bottom: clamp(2rem, 3.33vw, 3rem);
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.br-about__heading-secondary {
+	margin: 0;
+	font-family: "MuseoModerno", system-ui, sans-serif;
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--br-ink);
+}
+
+.br-about__heading-sub {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #43526a;
+}
+
+.br-about__overview-panel {
+	background: #f3f4f6;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	padding: clamp(1.5rem, 2.78vw, 2.5rem);
+}
+
+.br-about__overview-table {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.br-about__overview-row {
+	display: grid;
+	grid-template-columns: minmax(0, 12rem) 1fr;
+	gap: clamp(0.75rem, 1.39vw, 1.25rem);
+	padding: clamp(0.85rem, 1.39vw, 1.125rem) 0;
+	border-bottom: 1px solid rgba(1, 16, 26, 0.08);
+}
+
+.br-about__overview-row:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.br-about__overview-row:first-child {
+	padding-top: 0;
+}
+
+.br-about__overview-row dt {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--br-ink);
+}
+
+.br-about__overview-row dd {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.65;
+	color: #334155;
+}
+
+.br-about__wp-content {
+	margin-top: clamp(2rem, 3.33vw, 3rem);
+	padding-top: clamp(1.5rem, 2.5vw, 2rem);
+	border-top: 1px solid var(--br-line-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Promos (CEO / FAQ)
+   ------------------------------------------------------------------------- */
+.br-about__promos {
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+	background: #fff;
+}
+
+.br-about__promos-inner {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: clamp(1rem, 1.39vw, 1.25rem);
+}
+
+.br-about__promo {
+	position: relative;
+	flex: 1 1 clamp(16rem, 40vw, 35rem);
+	min-height: clamp(18rem, 28vw, 21.875rem);
+	padding: clamp(1.25rem, 1.67vw, 1.5rem);
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.br-about__promo-bg {
+	position: absolute;
+	inset: 0;
+	background-image: var(--br-about-promo-bg, linear-gradient(135deg, #01101a 0%, #1e3a5f 100%));
+	background-size: cover;
+	background-position: center;
+}
+
+.br-about__promo-scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(1, 16, 26, 0.78) 0%, rgba(1, 16, 26, 0.45) 55%, rgba(1, 16, 26, 0.35) 100%);
+}
+
+.br-about__promo-content {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.5rem, 0.83vw, 0.75rem);
+	max-width: 100%;
+	height: 100%;
+}
+
+.br-about__promo-kicker {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #fff;
+}
+
+.br-about__promo-title {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 34px;
+	font-weight: 700;
+	line-height: 1.18;
+	color: #fff;
+}
+
+.br-about__promo-text {
+	margin: 0;
+	flex: 1 1 auto;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.br-about__promo-cta {
+	margin: 0;
+	padding-top: 0.25rem;
+}
+
+.br-about__promo-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem 1.25rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: #fff;
+	background: var(--br-accent);
+	text-decoration: none;
+	border-radius: clamp(0.375rem, 0.56vw, 0.5rem);
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.br-about__promo-btn:hover,
+.br-about__promo-btn:focus-visible {
+	background: var(--br-accent-hover);
+	color: #fff;
+}
+
+.br-about__promo-btn-icon {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	background: #fff;
+	border-radius: 2px;
+	flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+	.br-about__philosophy-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.br-about__philosophy-copy {
+		grid-template-columns: 1fr;
+	}
+
+	.br-about__pillar-columns {
+		grid-template-columns: 1fr;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.br-about__values-grid {
+		grid-template-columns: 1fr;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.br-about__overview-row {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	.br-about__title-en {
+		font-size: 36px;
+	}
+
+	.br-about__heading-tertiary {
+		font-size: 32px;
+	}
+
+	.br-about__heading-secondary {
+		font-size: 32px;
+	}
+
+	.br-about__promo-title {
+		font-size: 26px;
+	}
+}
