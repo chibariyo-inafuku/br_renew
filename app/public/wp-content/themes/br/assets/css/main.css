@@ -284,9 +284,20 @@ html.br-nav-open .br-header__menu-x {
 		gap: 10px;
 	}
 
+	/* PC: px 固定（ベースの vw がこのブロックより後にあり上書きされていたため、ここで完結） */
 	.br-header__cta.br-hop-btn {
-		min-width: 108px;
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+		min-width: 0;
+		width: 100%;
+		max-width: 100%;
 		padding: 8px 24px 8px 12px;
+		font-family: var(--br-font);
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 1.75;
+		box-sizing: border-box;
 		border-radius: 8px;
 	}
 
@@ -319,20 +330,22 @@ html.br-nav-open .br-header__menu-x {
 	width: 100%;
 }
 
-/* Contact — .br-hop-btn エフェクト（hop-btn.css）＋ヘッダー寸法 */
-.br-header__cta.br-hop-btn {
-	display: flex;
-	justify-content: flex-start;
-	min-width: 7.5vw;
-	width: 100%;
-	max-width: 100%;
-	padding: 0.556vw 1.667vw 0.556vw 0.833vw;
-	font-family: var(--br-font);
-	font-size: 12px;
-	font-weight: 700;
-	line-height: 1.75;
-	box-sizing: border-box;
-	border-radius: 0.556vw;
+/* Contact — SP ドロワー: リキッド。PC の px 固定は上の (min-width:769px) ブロック */
+@media (max-width: 768px) {
+	.br-header__cta.br-hop-btn {
+		display: flex;
+		justify-content: flex-start;
+		min-width: 7.5vw;
+		width: 100%;
+		max-width: 100%;
+		padding: 0.556vw 1.667vw 0.556vw 0.833vw;
+		font-family: var(--br-font);
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 1.75;
+		box-sizing: border-box;
+		border-radius: 0.556vw;
+	}
 }
 
 .br-header__title {

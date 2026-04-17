@@ -1161,7 +1161,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	white-space: nowrap;
 	text-align: center;
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	font-size: 40px;
+	font-size: 4vw;
 	font-weight: 400;
 	line-height: 1.35;
 	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
@@ -1243,7 +1243,7 @@ html.br-home-js .br-home__parallax-globe-wrap {
 	margin: 0;
 	text-align: center;
 	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
-	font-size: 34px;
+	font-size: 3.5vw;
 	font-weight: 400;
 	line-height: 1.35;
 	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
@@ -1920,7 +1920,7 @@ html.br-home-js .br-home__palarax-tagline {
 		max-width: 100%;
 		white-space: normal;
 		text-wrap: balance;
-		font-size: 20px;
+		font-size: 8vw;
 	}
 
 	.br-home__palarax-tagline {
@@ -1928,7 +1928,7 @@ html.br-home-js .br-home__palarax-tagline {
 		max-width: 100%;
 		white-space: normal;
 		text-wrap: balance;
-		font-size: 18px;
+		font-size: 6vw;
 	}
 
 	.br-home__news-date {

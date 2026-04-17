@@ -64,7 +64,7 @@ if ( ! $q->have_posts() ) {
 			<div class="br-home__news-cta-wrap">
 				<a
 					class="br-hop-btn br-hop-btn--inverted"
-					href="/news/"
+					href="./news/"
 					data-text="View All News"
 					aria-label="View All News"
 				>
