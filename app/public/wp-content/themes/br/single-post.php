@@ -90,6 +90,7 @@ while ( have_posts() ) :
 				<div class="br-post-single__content br-content">
 					<?php the_content(); ?>
 				</div>
+				<?php get_template_part( 'template-parts/post/content', 'legal-notice' ); ?>
 			</div>
 		</section>
 
@@ -130,21 +131,19 @@ while ( have_posts() ) :
 				$cat_labels[] = $t->name;
 			}
 		}
-		$cat_line  = $cat_labels !== array() ? implode( ' ・ ', $cat_labels ) : '';
-		$date_line = get_the_date( 'Y.m.d', $pid );
+		$cat_line         = $cat_labels !== array() ? implode( ' ・ ', $cat_labels ) : '';
+		$related_service_q = function_exists( 'br_query_related_service_posts' ) ? br_query_related_service_posts( $pid, 10 ) : null;
 		?>
 <main id="main" class="br-main br-service-single">
 	<article <?php post_class( 'br-service-single__article' ); ?>>
 		<section class="br-service-single__heading" aria-labelledby="br-service-single-title" data-br-subpage-reveal>
 			<div class="br-container br-service-single__heading-inner">
 				<header class="br-service-single__heading-title">
-					<p class="br-service-single__kicker">
-						<span class="br-service-single__date"><?php echo esc_html( $date_line ); ?></span>
-						<?php if ( $cat_line !== '' ) : ?>
-							<span class="br-service-single__kicker-sep" aria-hidden="true"> ・ </span>
+					<?php if ( $cat_line !== '' ) : ?>
+						<p class="br-service-single__kicker">
 							<span class="br-service-single__kicker-cats"><?php echo esc_html( $cat_line ); ?></span>
-						<?php endif; ?>
-					</p>
+						</p>
+					<?php endif; ?>
 					<h1 class="br-service-single__title" id="br-service-single-title"><?php the_title(); ?></h1>
 				</header>
 				<nav class="br-service-single__breadcrumb" aria-label="パンくず">
@@ -174,8 +173,17 @@ while ( have_posts() ) :
 				<div class="br-service-single__content br-content">
 					<?php the_content(); ?>
 				</div>
+				<?php get_template_part( 'template-parts/post/content', 'legal-notice' ); ?>
 			</div>
 		</section>
+
+		<?php
+		if ( $related_service_q instanceof WP_Query && $related_service_q->post_count > 0 ) {
+			$GLOBALS['br_section_related_service_query'] = $related_service_q;
+			get_template_part( 'template-parts/post/section', 'related-service' );
+			unset( $GLOBALS['br_section_related_service_query'] );
+		}
+		?>
 	</article>
 
 	<div class="br-home" data-br-subpage-reveal>
@@ -207,20 +215,20 @@ while ( have_posts() ) :
 			}
 		}
 		$cat_line  = $cat_labels !== array() ? implode( ' ・ ', $cat_labels ) : '';
-		$date_line = get_the_date( 'Y.m.d', $pid );
+		$pub_date  = get_the_date( 'Y.m.d', $pid );
+		$pub_w3c   = get_the_date( DATE_W3C, $pid );
+		$related_news_q = function_exists( 'br_query_related_news_posts' ) ? br_query_related_news_posts( $pid, 10 ) : null;
 		?>
 <main id="main" class="br-main br-news-single">
 	<article <?php post_class( 'br-news-single__article' ); ?>>
 		<section class="br-news-single__heading" aria-labelledby="br-news-single-title" data-br-subpage-reveal>
 			<div class="br-container br-news-single__heading-inner">
 				<header class="br-news-single__heading-title">
-					<p class="br-news-single__kicker">
-						<span class="br-news-single__date"><?php echo esc_html( $date_line ); ?></span>
-						<?php if ( $cat_line !== '' ) : ?>
-							<span class="br-news-single__kicker-sep" aria-hidden="true"> ・ </span>
+					<?php if ( $cat_line !== '' ) : ?>
+						<p class="br-news-single__kicker">
 							<span class="br-news-single__kicker-cats"><?php echo esc_html( $cat_line ); ?></span>
-						<?php endif; ?>
-					</p>
+						</p>
+					<?php endif; ?>
 					<h1 class="br-news-single__title" id="br-news-single-title"><?php the_title(); ?></h1>
 				</header>
 				<nav class="br-news-single__breadcrumb" aria-label="パンくず">
@@ -232,6 +240,10 @@ while ( have_posts() ) :
 						<li><span class="br-news-single__breadcrumb-current"><?php echo esc_html( $crumb_end ); ?></span></li>
 					</ol>
 				</nav>
+				<p class="br-news-single__meta-pub" role="group" aria-label="公開日">
+					<span class="br-news-single__meta-pub-label">公開日:</span>
+					<time class="br-news-single__meta-pub-value" datetime="<?php echo esc_attr( $pub_w3c ); ?>"><?php echo esc_html( $pub_date ); ?></time>
+				</p>
 			</div>
 		</section>
 
@@ -250,8 +262,17 @@ while ( have_posts() ) :
 				<div class="br-news-single__content br-content">
 					<?php the_content(); ?>
 				</div>
+				<?php get_template_part( 'template-parts/post/content', 'legal-notice' ); ?>
 			</div>
 		</section>
+
+		<?php
+		if ( $related_news_q instanceof WP_Query && $related_news_q->post_count > 0 ) {
+			$GLOBALS['br_section_related_news_query'] = $related_news_q;
+			get_template_part( 'template-parts/post/section', 'related-news' );
+			unset( $GLOBALS['br_section_related_news_query'] );
+		}
+		?>
 	</article>
 
 	<div class="br-home" data-br-subpage-reveal>

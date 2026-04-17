@@ -690,3 +690,29 @@
 		font-size: 13px;
 	}
 }
+
+/* -------------------------------------------------------------------------
+   Foot notice (blog / service / news singles)
+   ------------------------------------------------------------------------- */
+.br-main.br-post-single .br-post-content-foot-notice,
+.br-main.br-service-single .br-post-content-foot-notice,
+.br-main.br-news-single .br-post-content-foot-notice {
+	margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+	padding: 0;
+	max-width: 100%;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 1.75;
+	letter-spacing: 0.03em;
+	color: #43526a;
+}
+
+@media (max-width: 768px) {
+	.br-main.br-post-single .br-post-content-foot-notice,
+	.br-main.br-service-single .br-post-content-foot-notice,
+	.br-main.br-news-single .br-post-content-foot-notice {
+		font-size: 10px;
+		line-height: 1.7;
+	}
+}

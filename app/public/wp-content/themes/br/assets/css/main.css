@@ -104,6 +104,14 @@ body:not(.home) .br-main .br-home .br-container {
 	}
 }
 
+/* Singles: featured-image hero — uncap .br-container so eyecatch can use full main width */
+.br-post-single__hero > .br-container,
+.br-service-single__hero > .br-container,
+.br-news-single__hero > .br-container,
+.br-portfolio__hero > .br-container {
+	max-width: 100%;
+}
+
 /* Header — left fixed sidebar (desktop) */
 .br-header--sidebar {
 	position: fixed;
