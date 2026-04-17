@@ -1,0 +1,118 @@
+/**
+ * Lenis smooth scroll — site-wide; GSAP ScrollTrigger sync when GSAP is enqueued (home + card listings).
+ */
+(function () {
+	'use strict';
+
+	if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		return;
+	}
+
+	if (typeof window.Lenis === 'undefined') {
+		return;
+	}
+
+	var lenis = new window.Lenis({
+		smoothWheel: true,
+	});
+
+	window.brLenis = lenis;
+
+	function raf(time) {
+		lenis.raf(time);
+		window.requestAnimationFrame(raf);
+	}
+
+	if (
+		typeof window.gsap !== 'undefined' &&
+		typeof window.ScrollTrigger !== 'undefined'
+	) {
+		lenis.on('scroll', window.ScrollTrigger.update);
+		window.gsap.ticker.add(function (time) {
+			lenis.raf(time * 1000);
+		});
+		window.gsap.ticker.lagSmoothing(0);
+	} else {
+		window.requestAnimationFrame(raf);
+	}
+
+	window.addEventListener(
+		'resize',
+		function () {
+			if (typeof window.ScrollTrigger !== 'undefined') {
+				window.ScrollTrigger.refresh();
+			}
+		},
+		false
+	);
+
+	if (typeof window.ScrollTrigger !== 'undefined') {
+		window.requestAnimationFrame(function () {
+			window.ScrollTrigger.refresh();
+		});
+	}
+})();
+
+/**
+ * In-page anchors: smooth scroll via Lenis when available; otherwise native smooth (unless reduced motion).
+ * Respects CSS scroll-margin on the target (e.g. fixed header / section offset).
+ */
+(function () {
+	'use strict';
+
+	function targetFromHash(href) {
+		if (!href || href.charAt(0) !== '#' || href.length <= 1) {
+			return null;
+		}
+		var id = decodeURIComponent(href.slice(1));
+		if (!id) {
+			return null;
+		}
+		return document.getElementById(id);
+	}
+
+	function scrollMarginTop(el) {
+		var v = parseFloat(window.getComputedStyle(el).scrollMarginTop);
+		return isNaN(v) ? 0 : v;
+	}
+
+	function scrollToTarget(el) {
+		if (!el) {
+			return;
+		}
+		var offset = -scrollMarginTop(el);
+		if (window.brLenis) {
+			window.brLenis.scrollTo(el, { offset: offset });
+			return;
+		}
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+			el.scrollIntoView({ block: 'start' });
+			return;
+		}
+		el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	document.addEventListener(
+		'click',
+		function (e) {
+			var a = e.target.closest('a[href^="#"]');
+			if (!a) {
+				return;
+			}
+			var href = a.getAttribute('href');
+			if (!href || href === '#') {
+				return;
+			}
+			var target = targetFromHash(href);
+			if (!target) {
+				return;
+			}
+			e.preventDefault();
+			scrollToTarget(target);
+			if (window.history && window.history.pushState) {
+				window.history.pushState(null, '', href);
+			}
+		},
+		false
+	);
+})();

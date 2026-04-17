@@ -45,6 +45,16 @@
 	border-radius: 4px;
 }
 
+.wpcf7 input[type="submit"].button.button-block,
+.wpcf7 button[type="submit"].button.button-block,
+.wpcf7 button.button.button-block {
+	display: block;
+	width: 80%;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .wpcf7 input[type="submit"]:hover,
 .wpcf7 input[type="submit"]:focus,
 .wpcf7 button[type="submit"]:hover,
@@ -53,7 +63,7 @@
 }
 
 .wpcf7-not-valid-tip {
-	font-size: 0.875rem;
+	font-size: 14px;
 	color: #b91c1c;
 	margin-top: 0.25rem;
 }
@@ -62,7 +72,7 @@
 	margin: 1rem 0 0;
 	padding: 0.75rem 1rem;
 	border-radius: 4px;
-	font-size: 0.9375rem;
+	font-size: 15px;
 }
 
 .wpcf7-mail-sent-ok {

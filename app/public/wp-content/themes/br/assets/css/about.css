@@ -1,0 +1,1298 @@
+/**
+ * About page — liquid layout; typography px (see .cursor/rules).
+ *
+ * @package br
+ */
+
+.br-main.br-about {
+	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-bottom: 0;
+}
+
+.br-about [id] {
+	scroll-margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* -------------------------------------------------------------------------
+   Heading + breadcrumb
+   ------------------------------------------------------------------------- */
+.br-about__heading {
+	border-bottom: 1px solid var(--br-line-muted);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+	margin-bottom: 0;
+}
+
+.br-about__heading-inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+/* Page H1: same SVG heading stack + fonts as TOP Works (home.css .br-home__works-title*); colors for light background. */
+.br-about__heading-title.br-home__works-heading {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.br-about .br-home__works-title {
+	margin: 0;
+}
+
+.br-about .br-home__works-title .br-svg-heading.br-svg-heading--on-light {
+	color: var(--br-ink);
+}
+
+.br-about .br-home__works-title-jp {
+	color: #43526a;
+}
+
+/* About ヒーロー H1「About」: 画面上 56px（page-about viewBox 720 × main.css svg 幅 640 / SP 360） */
+#br-about-title .br-svg-heading__text {
+	font-size: calc(56px * 720 / 640);
+}
+
+.br-about__breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+}
+
+.br-about__breadcrumb a {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: opacity 0.2s ease;
+}
+
+.br-about__breadcrumb a:hover,
+.br-about__breadcrumb a:focus-visible {
+	opacity: 0.85;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-about__breadcrumb-sep {
+	color: #8a96a8;
+}
+
+.br-about__breadcrumb-current {
+	color: #43526a;
+}
+
+/* -------------------------------------------------------------------------
+   Anchor row
+   ------------------------------------------------------------------------- */
+.br-about__anchors {
+	padding-top: clamp(1rem, 1.67vw, 1.5rem);
+	padding-bottom: clamp(1rem, 1.67vw, 1.5rem);
+}
+
+.br-about__anchors-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: clamp(0.75rem, 1.67vw, 1.5rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.br-about__anchor-link {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.07;
+	letter-spacing: 0.12em;
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.br-about__anchor-link::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0.25rem;
+	height: max(1px, 0.069vw);
+	background: rgba(0, 113, 188, 0.45);
+	transform: scaleX(0);
+	transform-origin: left center;
+	/* Match .br-about__anchor-arrow-inner animation: br-about-anchor-arrow */
+	transition: transform 0.55s ease;
+	pointer-events: none;
+}
+
+.br-about__anchor-link:hover,
+.br-about__anchor-link:focus-visible {
+	color: var(--br-accent-hover);
+}
+
+.br-about__anchor-link:hover::after,
+.br-about__anchor-link:focus-visible::after {
+	transform: scaleX(1);
+}
+
+.br-about__anchor-arrow {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	overflow: hidden;
+	width: 1.15em;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.br-about__anchor-arrow-inner {
+	display: inline-block;
+	opacity: 0.85;
+	will-change: transform;
+}
+
+.br-about__anchor-link:hover .br-about__anchor-arrow-inner,
+.br-about__anchor-link:focus-visible .br-about__anchor-arrow-inner {
+	animation: br-about-anchor-arrow 0.55s ease forwards;
+}
+
+@keyframes br-about-anchor-arrow {
+	0% {
+		transform: translateX(0);
+		opacity: 0.85;
+	}
+	40% {
+		transform: translateX(130%);
+		opacity: 0;
+	}
+	41% {
+		transform: translateX(-130%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateX(0);
+		opacity: 0.85;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-about__anchor-link::after {
+		transition: none;
+	}
+
+	.br-about__anchor-link:hover .br-about__anchor-arrow-inner,
+	.br-about__anchor-link:focus-visible .br-about__anchor-arrow-inner {
+		animation: none;
+	}
+
+	.br-about__anchor-arrow-inner {
+		transform: none;
+	}
+}
+
+/* -------------------------------------------------------------------------
+   Pillars band (Philosophy–Values)
+   ------------------------------------------------------------------------- */
+.br-about__pillars-wrap {
+	position: relative;
+	background-color: #f6f6f6;
+	overflow: hidden;
+}
+
+.br-about__pillars-wrap > section {
+	position: relative;
+	z-index: 1;
+}
+
+.br-about__pillars {
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2rem, 4.17vw, 3.5rem);
+}
+
+.br-about__pillars--philosophy-figma {
+	background-color: #f6f6f6;
+}
+
+.br-about__pillars--philosophy-figma > .br-container {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(2rem, 2.78vw, 2.5rem);
+}
+
+.br-about__pillar-block {
+	padding-top: clamp(2rem, 4.17vw, 3.5rem);
+	padding-bottom: clamp(2rem, 4.17vw, 3.5rem);
+}
+
+.br-about__block-head {
+	margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.br-about__heading-tertiary {
+	margin: 0;
+	font-family: "MuseoModerno", system-ui, sans-serif;
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--br-ink);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.35em;
+	text-decoration-color: rgba(1, 16, 26, 0.9);
+}
+
+/* Philosophy — Figma node 409:2233 / container 440:2247 */
+.br-about__pillar-heading-block {
+	margin: 0;
+
+}
+
+/* h2 はラッパー。描画・ストロークアニメは .br-svg-heading（main.css）＋ svg-heading-inview.js */
+.br-about__heading-philosophy,
+.br-about__heading-mission,
+.br-about__heading-vision,
+.br-about__heading-values {
+	margin: 0;
+	margin-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
+	min-width: 0;
+}
+
+.br-about__heading-philosophy .br-svg-heading,
+.br-about__heading-mission .br-svg-heading,
+.br-about__heading-vision .br-svg-heading,
+.br-about__heading-values .br-svg-heading {
+	width: 100%;
+}
+
+/* Philosophy / Mission / Vision: 塗りなし枠線のみ（Figma heading-tertiary）。インビューはストローク描画のみ。 */
+@keyframes br-about-outline-svg-stroke {
+	0% {
+		stroke-dashoffset: 1280;
+		fill: transparent;
+	}
+
+	100% {
+		stroke-dashoffset: 0;
+		fill: transparent;
+		stroke: var(--br-ink);
+		stroke-width: 1px;
+	}
+}
+
+.br-about__heading-philosophy .br-svg-heading:not(.is-inview) .br-svg-heading__text,
+.br-about__heading-mission .br-svg-heading:not(.is-inview) .br-svg-heading__text,
+.br-about__heading-vision .br-svg-heading:not(.is-inview) .br-svg-heading__text,
+.br-about__heading-values .br-svg-heading:not(.is-inview) .br-svg-heading__text {
+	stroke: var(--br-ink);
+}
+
+.br-about__heading-philosophy .br-svg-heading.is-inview .br-svg-heading__text,
+.br-about__heading-mission .br-svg-heading.is-inview .br-svg-heading__text,
+.br-about__heading-vision .br-svg-heading.is-inview .br-svg-heading__text,
+.br-about__heading-values .br-svg-heading.is-inview .br-svg-heading__text {
+	animation: br-about-outline-svg-stroke var(--br-svg-heading-duration) cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-about__heading-philosophy .br-svg-heading .br-svg-heading__text,
+	.br-about__heading-mission .br-svg-heading .br-svg-heading__text,
+	.br-about__heading-vision .br-svg-heading .br-svg-heading__text,
+	.br-about__heading-values .br-svg-heading .br-svg-heading__text {
+		fill: transparent;
+		stroke: var(--br-ink);
+		stroke-width: 1px;
+		stroke-dashoffset: 0;
+		animation: none;
+	}
+}
+
+/* Pillar SVG 見出し: 画面上 48px（page-about の viewBox 幅 × main.css の svg 幅 640 / SP 360） */
+.br-about__heading-philosophy .br-svg-heading__text {
+	font-size: calc(48px * 880 / 640);
+}
+
+.br-about__heading-mission .br-svg-heading__text,
+.br-about__heading-vision .br-svg-heading__text,
+.br-about__heading-values .br-svg-heading__text {
+	font-size: calc(48px * 720 / 640);
+}
+
+/* Mission — Figma container 440:2256（縦余白は .br-about__pillar-block） */
+.br-about__mission-row {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: clamp(1.125rem, 2.08vw, 1.875rem);
+	padding-left: clamp(1.125rem, 2.08vw, 1.875rem);
+    padding-right: clamp(1.125rem, 2.08vw, 1.875rem);
+}
+
+.br-about__mission-rail {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex: 0 0 auto;
+	gap: clamp(1.5rem, 2.22vw, 2rem);
+	width: clamp(3.5rem, 4.375vw, 3.9375rem);
+	padding-top: 0.5rem;
+	padding-bottom: 0.25rem;
+}
+
+.br-about__mission-vertical-en {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.14285714285714285em;
+	color: var(--br-ink);
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	white-space: nowrap;
+}
+
+.br-about__mission-rail-line {
+	display: block;
+	width: 1px;
+	flex-shrink: 0;
+	background: #d9d9d9;
+	align-self: stretch;
+}
+
+.br-about__mission-main {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1.75rem, 2.22vw, 2rem);
+	flex: 1 1 minmax(0, 36rem);
+	min-width: 0;
+}
+
+.br-about__mission-lead {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--br-ink);
+}
+
+.br-about__mission-text {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1rem, 1.39vw, 1.25rem);
+}
+
+.br-about__mission-text p {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 18px;
+	font-weight: 500;
+	line-height: 2;
+	color: var(--br-ink);
+}
+
+/* Vision — Figma container 440:2296 */
+.br-about__vision-row {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: clamp(1.125rem, 2.08vw, 1.875rem);
+	padding-left: clamp(1.125rem, 2.08vw, 1.875rem);
+    padding-right: clamp(1.125rem, 2.08vw, 1.875rem);
+}
+
+.br-about__vision-rail {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex: 0 0 auto;
+	gap: clamp(1.5rem, 2.22vw, 2rem);
+	width: clamp(3.5rem, 4.375vw, 3.9375rem);
+	padding-top: 0.5rem;
+	padding-bottom: 0.25rem;
+}
+
+.br-about__vision-vertical-en {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.14285714285714285em;
+	color: var(--br-ink);
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	white-space: nowrap;
+}
+
+.br-about__vision-rail-line {
+	display: block;
+	width: 1px;
+	flex-shrink: 0;
+	background: #d9d9d9;
+	align-self: stretch;
+}
+
+.br-about__vision-main {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1.75rem, 2.22vw, 2rem);
+	flex: 1 1 minmax(0, 36rem);
+	min-width: 0;
+}
+
+.br-about__vision-lead {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--br-ink);
+}
+
+.br-about__vision-text {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1rem, 1.39vw, 1.25rem);
+}
+
+.br-about__vision-text p {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--br-ink);
+}
+
+.br-about__philosophy-stack {
+	display: flex;
+	flex-direction: column;
+	/* 上段（コピー＋画像）と下段（動画）のあいだ — Figma より広めの段間 */
+	gap: clamp(4rem, 6.94vw, 6.25rem);
+	padding-left: clamp(1.125rem, 2.08vw, 1.875rem);
+	padding-right: clamp(1.125rem, 2.08vw, 1.875rem);
+}
+
+/* PC: 左コピー 2 / 右スクエア画像 1 — キャプチャどおり画像はテキスト列の約半分幅 */
+.br-about__philosophy-top {
+	display: grid;
+	grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+	align-items: center;
+	column-gap: clamp(1.125rem, 2.08vw, 1.875rem);
+}
+
+.br-about__philosophy-intro {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: clamp(1.125rem, 2.08vw, 1.875rem);
+	min-width: 0;
+}
+
+.br-about__philosophy-rail {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex: 0 0 auto;
+	gap: clamp(1.5rem, 2.22vw, 2rem);
+	width: clamp(3.5rem, 4.375vw, 3.9375rem);
+	padding-top: 0.5rem;
+	padding-bottom: 0.25rem;
+}
+
+.br-about__philosophy-vertical-en {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.14285714285714285em;
+	color: var(--br-ink);
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	white-space: nowrap;
+}
+
+.br-about__philosophy-rail-line {
+	display: block;
+	width: 1px;
+	flex-shrink: 0;
+	background: #d9d9d9;
+	align-self: stretch;
+}
+
+.br-about__philosophy-maintext {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1.5rem, 2.22vw, 2rem);
+	flex: 1 1 min(0, 28rem);
+	min-width: 0;
+}
+
+.br-about__philosophy-lead {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--br-ink);
+}
+
+.br-about__philosophy-body {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(1rem, 1.39vw, 1.25rem);
+}
+
+.br-about__philosophy-body p {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--br-ink);
+}
+
+.br-about__philosophy-feature {
+	margin: 0;
+	width: 100%;
+	max-width: 100%;
+	aspect-ratio: 1 / 1;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	overflow: hidden;
+	background: #c3c3c3;
+	justify-self: end;
+	align-self: center;
+}
+
+.br-about__philosophy-feature img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (min-width: 901px) {
+	.br-about__philosophy-feature {
+		margin-right: calc(clamp(1.125rem, 2.08vw, 1.875rem) * 3);
+	}
+}
+
+.br-about__philosophy-videos {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+	/* 上段の column-gap と同じガターで左右エッジを揃える */
+	column-gap: clamp(1.125rem, 2.08vw, 1.875rem);
+	row-gap: clamp(1.5rem, 2.78vw, 2.5rem);
+}
+
+.br-about__philosophy-video-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
+}
+
+.br-about__philosophy-video-frame {
+	width: 100%;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	overflow: hidden;
+	background: #c3c3c3;
+}
+
+.br-about__philosophy-video-wrap {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	background: #0f0f0f;
+	overflow: hidden;
+	isolation: isolate;
+}
+
+/* TOP hero 動画と同趣旨: 全面に敷き、網を上に重ねる（iframe は object-fit 不可のため軽い scale でトリミング） */
+.br-about__philosophy-video-iframe {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	transform: scale(1.12);
+	transform-origin: center center;
+	pointer-events: none;
+}
+
+.br-about__philosophy-video-mesh {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background-color: transparent;
+	background-image: url("../images/home/hero-mesh.png");
+	background-repeat: repeat;
+	background-size: auto;
+	opacity: 0.5;
+}
+
+.br-about__philosophy-video-caption {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--br-ink);
+	text-align: center;
+}
+
+.br-about__pillar-columns {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(1.25rem, 2.08vw, 1.875rem);
+	padding-left: clamp(0rem, 5.56vw, 5rem);
+	padding-right: clamp(0rem, 5.56vw, 5rem);
+}
+
+.br-about__body {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.75;
+	color: #334155;
+}
+
+/* Values — Figma container 440:2325 */
+.br-about__values-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(1.5rem, 2.78vw, 2.5rem);
+	padding-left: clamp(1.125rem, 2.08vw, 1.875rem);
+    padding-right: clamp(1.125rem, 2.08vw, 1.875rem);
+}
+
+.br-about__values-card {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	gap: clamp(0.25rem, 0.42vw, 0.375rem);
+	padding: clamp(1rem, 1.11vw, 1.5rem) clamp(1.25rem, 1.67vw, 1.5rem);
+	background: #fff;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	min-height: clamp(15rem, 18.82vw, 17rem);
+	box-sizing: border-box;
+	box-shadow: 0 clamp(0.125rem, 0.28vw, 0.25rem) clamp(0.75rem, 1.39vw, 1.25rem) rgba(1, 16, 26, 0.06);
+}
+
+.br-about__values-card-rail {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	flex: 0 0 auto;
+	gap: clamp(0.75rem, 1.11vw, 1rem);
+	width: clamp(3.5rem, 4.375vw, 3.9375rem);
+	padding-top: 0.5rem;
+	padding-bottom: 0.25rem;
+}
+
+.br-about__values-card-rail-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: clamp(0.25rem, 0.35vw, 0.5rem);
+	flex: 1 1 auto;
+	min-width: 0;
+	min-height: 0;
+}
+
+.br-about__values-card-num {
+	display: block;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.00833em;
+	color: var(--br-ink);
+}
+
+.br-about__values-card-label {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+	color: var(--br-ink);
+	writing-mode: vertical-rl;
+	text-orientation: mixed;
+	white-space: nowrap;
+}
+
+.br-about__values-card-rail-line {
+	display: block;
+	width: 1px;
+	flex-shrink: 0;
+	background: #d9d9d9;
+	align-self: stretch;
+}
+
+.br-about__values-card-body {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.75rem, 1.11vw, 1rem);
+	flex: 1 1 minmax(0, 1fr);
+	align-self: center;
+	min-width: 0;
+	padding-left: clamp(0.75rem, 1.39vw, 1.25rem);
+}
+
+.br-about__values-card-heading {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.4;
+	color: var(--br-ink);
+}
+
+.br-about__values-card-copy {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+}
+
+.br-about__values-card-copy p {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.6;
+	color: var(--br-ink);
+}
+
+/* -------------------------------------------------------------------------
+   Overview
+   ------------------------------------------------------------------------- */
+.br-about__overview {
+	padding-top: clamp(3rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 4.17vw, 4rem);
+	background: #fff;
+}
+
+.br-about__overview-head {
+	margin-bottom: clamp(2rem, 3.33vw, 3rem);
+	padding-left: 0;
+	padding-right: 0;
+}
+
+/* Overview 見出し — Figma Frame 75 / heading-secondary（440:2243）: 英字 + 4px + 濃地ラベル */
+.br-about__overview-heading {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: clamp(0.125rem, 0.28vw, 0.25rem);
+	margin: 0;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
+/* Overview 英字: About ヒーロー H1 と同じ SVG ストローク→塗り（main.css）。
+ * 画面上で厳密に 48px: SVG の viewBox 幅 800 と表示幅の比で補正（640px 時 48×800/640=60） */
+.br-about__overview-heading .br-home__works-title {
+	margin: 0;
+	width: fit-content;
+	max-width: 100%;
+}
+
+.br-about__overview-heading .br-home__works-title .br-svg-heading {
+	width: auto;
+	max-width: 100%;
+}
+
+.br-about__overview-heading .br-home__works-title .br-svg-heading__text {
+	/* page-about Overview SVG: viewBox width 800; home.css で svg width 640px → 描画倍率 0.8 */
+	font-size: calc(48px * 800 / 640);
+	text-transform: none;
+}
+
+.br-about__overview-heading-pill {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.5rem, 0.69vw, 0.625rem);
+	padding: 0 clamp(0.375rem, 0.56vw, 0.5rem);
+	box-sizing: border-box;
+	background-color: var(--br-ink);
+	border-radius: clamp(0.125rem, 0.14vw, 0.25rem);
+}
+
+.br-about__overview-heading-jp {
+	display: block;
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #fff;
+}
+
+.br-about__overview-panel {
+	background: #f3f4f6;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	padding: clamp(1.5rem, 2.78vw, 2.5rem);
+}
+
+.br-about__overview-table {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.br-about__overview-row {
+	display: grid;
+	grid-template-columns: minmax(0, clamp(14rem, 24vw, 22rem)) 1fr;
+	gap: clamp(0.75rem, 1.39vw, 1.25rem);
+	padding: clamp(0.85rem, 1.39vw, 1.125rem) 0;
+	border-bottom: 1px solid rgba(1, 16, 26, 0.08);
+}
+
+.br-about__overview-row:last-child {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.br-about__overview-row:first-child {
+	padding-top: 0;
+}
+
+.br-about__overview-row dt {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--br-ink);
+}
+
+.br-about__overview-row dd {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.65;
+	color: #334155;
+}
+
+.br-about__overview-maps {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: clamp(1rem, 2.08vw, 1.5rem);
+	margin-top: clamp(1.5rem, 2.78vw, 2.25rem);
+	width: 100%;
+	min-width: 0;
+}
+
+.br-about__overview-map {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+	border-radius: clamp(0.5rem, 0.69vw, 0.75rem);
+	background: #e5e7eb;
+}
+
+.br-about__overview-map iframe {
+	position: absolute;
+	inset: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+.br-about__wp-content {
+	margin-top: clamp(2rem, 3.33vw, 3rem);
+	padding-top: clamp(1.5rem, 2.5vw, 2rem);
+	border-top: 1px solid var(--br-line-muted);
+}
+
+/* -------------------------------------------------------------------------
+   Promos (CEO / FAQ)
+   ------------------------------------------------------------------------- */
+.br-about__promos {
+	/* .br-hop-btn は hop-btn.css で var(--br-home-accent) 参照 — プロモ内で必要なら上書き */
+	--br-home-accent: var(--br-accent);
+	--br-home-accent-hover: var(--br-accent-hover);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+	background: #fff;
+}
+
+.br-about__promos-inner {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: stretch;
+	gap: clamp(1rem, 1.67vw, 1.5rem);
+	width: 100%;
+	min-width: 0;
+}
+
+.br-about__promo {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	min-height: clamp(18rem, 28vw, 21.875rem);
+	padding: clamp(1.25rem, 1.67vw, 1.5rem);
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+.br-about__promo-bg {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image: var(--br-about-promo-bg, linear-gradient(135deg, #01101a 0%, #1e3a5f 100%));
+	background-size: cover;
+	background-position: center;
+}
+
+/* Mesh overlay on promo photo (same asset as home hero) */
+.br-about__promo-mesh {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background-color: transparent;
+	background-image: url("../images/home/hero-mesh.png");
+	background-repeat: repeat;
+	background-size: auto;
+	opacity: 0.5;
+}
+
+.br-about__promo-scrim {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	background: linear-gradient(90deg, rgba(1, 16, 26, 0.78) 0%, rgba(1, 16, 26, 0.45) 55%, rgba(1, 16, 26, 0.35) 100%);
+}
+
+.br-about__promo-content {
+	position: relative;
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	align-items: flex-start;
+	flex: 1 1 auto;
+	gap: clamp(0.75rem, 1.11vw, 1rem);
+	width: 100%;
+	max-width: 100%;
+	min-height: 0;
+}
+
+.br-about__promo-head {
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+	margin: 0;
+}
+
+.br-about__promo-kicker {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #fff;
+}
+
+.br-about__promo-title {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 34px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #fff;
+}
+
+.br-about__promo-text {
+	margin: 0;
+	flex: 0 0 auto;
+	max-width: 100%;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.7;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.br-about__promo-cta {
+	margin: 0;
+	flex: 0 0 auto;
+}
+
+@media (max-width: 900px) {
+	.br-about__philosophy-top {
+		grid-template-columns: 1fr;
+		align-items: stretch;
+		row-gap: clamp(1.5rem, 2.78vw, 2.5rem);
+	}
+
+	.br-about__philosophy-intro {
+		flex-direction: column;
+		flex-wrap: wrap;
+		align-items: stretch;
+	}
+
+	.br-about__philosophy-videos {
+		grid-template-columns: 1fr;
+	}
+
+	.br-about__philosophy-rail {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 100%;
+		gap: 1rem;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.br-about__philosophy-vertical-en {
+		writing-mode: horizontal-tb;
+		white-space: normal;
+	}
+
+	.br-about__philosophy-rail-line {
+		width: 100%;
+		height: 1px;
+		align-self: stretch;
+	}
+
+	.br-about__philosophy-feature {
+		justify-self: stretch;
+		width: 100%;
+		max-width: none;
+	}
+
+	.br-about__mission-row {
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: clamp(1.5rem, 2.78vw, 2.5rem);
+	}
+
+	.br-about__mission-rail {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 100%;
+		gap: 1rem;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.br-about__mission-vertical-en {
+		writing-mode: horizontal-tb;
+		white-space: normal;
+	}
+
+	.br-about__mission-rail-line {
+		width: 100%;
+		height: 1px;
+		align-self: stretch;
+	}
+
+	.br-about__vision-row {
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: clamp(1.5rem, 2.78vw, 2.5rem);
+	}
+
+	.br-about__vision-rail {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 100%;
+		gap: 1rem;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.br-about__vision-vertical-en {
+		writing-mode: horizontal-tb;
+		white-space: normal;
+	}
+
+	.br-about__vision-rail-line {
+		width: 100%;
+		height: 1px;
+		align-self: stretch;
+	}
+
+	.br-about__values-card {
+		flex-direction: column;
+		align-items: stretch;
+		row-gap: clamp(1rem, 2.08vw, 1.25rem);
+	}
+
+	.br-about__values-card-body {
+		padding-left: 0;
+		align-self: stretch;
+		flex: 1 1 auto;
+		justify-content: center;
+		min-height: 0;
+	}
+
+	.br-about__values-card-rail {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		max-width: 100%;
+		gap: 1rem;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.br-about__values-card-rail-inner {
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+	}
+
+	.br-about__values-card-label {
+		writing-mode: horizontal-tb;
+		white-space: normal;
+	}
+
+	.br-about__values-card-rail-line {
+		width: 100%;
+		height: 1px;
+		align-self: stretch;
+	}
+
+	.br-about__pillar-columns {
+		grid-template-columns: 1fr;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.br-about__values-grid {
+		grid-template-columns: 1fr;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.br-about__overview-row {
+		grid-template-columns: 1fr;
+	}
+
+	.br-about__overview-maps {
+		grid-template-columns: 1fr;
+	}
+
+	.br-about__promos-inner {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	/* 折り返し後も PC と同様にパンくずを右端へ（単独行では space-between が効かないため） */
+	.br-about__breadcrumb {
+		margin-left: auto;
+		width: fit-content;
+		max-width: 100%;
+	}
+
+	.br-about__title-en {
+		font-size: 36px;
+	}
+
+	.br-about__heading-tertiary {
+		font-size: 32px;
+	}
+
+	#br-about-title .br-svg-heading__text {
+		font-size: calc(40px * 720 / 360);
+	}
+
+	/* main.css SP svg 幅 360px 時も画面上 48px（viewBox 幅に合わせて補正） */
+	.br-about__heading-philosophy .br-svg-heading__text {
+		font-size: calc(32px * 880 / 360);
+	}
+
+	.br-about__pillars--philosophy-figma > .br-container {
+		gap: 0;
+	}
+
+	.br-about__heading-mission .br-svg-heading__text,
+	.br-about__heading-vision .br-svg-heading__text,
+	.br-about__heading-values .br-svg-heading__text {
+		font-size: calc(32px * 720 / 360);
+	}
+
+	/* SP: home の svg width 360px × viewBox 800 → 48px 相当にするには 48×800/360 */
+	.br-about__overview-heading .br-home__works-title .br-svg-heading__text {
+		font-size: calc(32px * 800 / 360);
+	}
+
+	.br-about__philosophy-body p,
+	.br-about__mission-text p,
+	.br-about__vision-text p,
+	.br-about__values-card-copy p,
+	.br-about__overview-row dd,
+	.br-about__philosophy-video-caption {
+		font-size: 14px;
+	}
+
+	.br-about__mission-text p {
+		line-height: 1.75;
+	}
+
+	.br-about__vision-text p {
+		line-height: 1.6;
+	}
+
+	.br-about__philosophy-lead,
+	.br-about__mission-lead,
+	.br-about__vision-lead,
+	.br-about__values-card-heading {
+		font-size: 18px;
+	}
+
+	.br-about__promo-title {
+		font-size: 26px;
+	}
+}

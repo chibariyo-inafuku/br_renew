@@ -1,0 +1,177 @@
+/**
+ * Single post (services category tree) — liquid layout; typography px (post-single / portfolio-single 準拠).
+ *
+ * @package br
+ */
+
+.br-main.br-service-single {
+	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-bottom: 0;
+}
+
+.br-service-single__article {
+	margin: 0;
+	padding: 0;
+}
+
+/* -------------------------------------------------------------------------
+   Hero + breadcrumb
+   ------------------------------------------------------------------------- */
+.br-service-single__heading {
+	border-bottom: 1px solid var(--br-line-muted);
+	padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
+	margin-bottom: 0;
+}
+
+.br-service-single__heading-inner {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+.br-service-single__heading-title {
+	flex: 1 1 min(100%, 40rem);
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.br-service-single__kicker {
+	margin: 0 0 clamp(0.25rem, 0.56vw, 0.5rem);
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.45;
+	letter-spacing: 0.04em;
+	color: var(--br-accent);
+}
+
+.br-service-single__kicker-sep {
+	font-weight: 600;
+	color: var(--br-accent);
+}
+
+.br-service-single__kicker-cats {
+	font-weight: 600;
+}
+
+.br-service-single__title {
+	margin: 0 0 clamp(0.75rem, 1.67vw, 1.25rem);
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 40px;
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.06em;
+	color: var(--br-ink);
+	text-wrap: balance;
+}
+
+.br-service-single__breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+}
+
+.br-service-single__breadcrumb a {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: opacity 0.2s ease;
+}
+
+.br-service-single__breadcrumb a:hover,
+.br-service-single__breadcrumb a:focus-visible {
+	opacity: 0.85;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-service-single__breadcrumb-sep {
+	color: #8a96a8;
+}
+
+.br-service-single__breadcrumb-current {
+	color: #43526a;
+}
+
+/* -------------------------------------------------------------------------
+   Featured image
+   ------------------------------------------------------------------------- */
+.br-service-single__hero {
+	padding-top: clamp(1.5rem, 3.33vw, 3rem);
+	padding-bottom: clamp(1.5rem, 3.33vw, 3rem);
+	border-bottom: 1px solid var(--br-line-muted);
+}
+
+.br-service-single__hero-inner {
+	border-radius: clamp(0.25rem, 0.56vw, 0.5rem);
+	overflow: hidden;
+}
+
+.br-service-single__hero-inner img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* -------------------------------------------------------------------------
+   Body (editor) — reveal なし（本文は常に表示）
+   ------------------------------------------------------------------------- */
+.br-service-single__body {
+	padding-top: clamp(1.5rem, 3.33vw, 3rem);
+	padding-bottom: clamp(1.5rem, 3.33vw, 3rem);
+	border-bottom: 1px solid var(--br-line-muted);
+}
+
+.br-service-single__content.br-content {
+	max-width: min(100%, 52rem);
+	margin-left: auto;
+	margin-right: auto;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	line-height: 1.85;
+	letter-spacing: 0.04em;
+	color: var(--br-ink);
+}
+
+.br-service-single__content.br-content p {
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+
+.br-service-single__content.br-content > *:first-child {
+	margin-top: 0;
+}
+
+.br-service-single__content.br-content img {
+	max-width: 100%;
+	height: auto;
+	border-radius: clamp(0.25rem, 0.56vw, 0.5rem);
+}
+
+@media (max-width: 768px) {
+	.br-service-single__breadcrumb {
+		margin-left: auto;
+		width: fit-content;
+		max-width: 100%;
+	}
+
+	.br-service-single__title {
+		font-size: 28px;
+		line-height: 1.25;
+	}
+
+	.br-service-single__content.br-content {
+		font-size: 14px;
+		line-height: 1.8;
+	}
+}

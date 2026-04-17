@@ -1,5 +1,5 @@
 /**
- * Front page (TOP) — liquid type/spacing tokens scoped to .br-home
+ * Front page (TOP) — liquid spacing/layout tokens scoped to .br-home; typography uses px.
  *
  * @package br
  */
@@ -20,22 +20,22 @@
 }
 
 /* -------------------------------------------------------------------------
-   Home root tokens (fluid)
+   Home root tokens (layout fluid; type px @ ~1440, narrowed in SP block)
    ------------------------------------------------------------------------- */
 .br-home {
 	--br-home-gutter: 1.17vw;
 
-	--br-home-text-hero: 2.64vw;
+	--br-home-text-hero: 38px;
 	--br-home-text-hero-line-height: 1.5;
-	--br-home-text-lead: 1.32vw;
-	--br-home-text-section-en: 2.34vw;
-	--br-home-text-section-jp: 0.95vw;
-	--br-home-text-body: 1.1vw;
-	--br-home-text-card-title: 1.17vw;
-	--br-home-text-small: 0.88vw;
-	--br-home-text-concept-en: 1.02vw;
-	--br-home-text-concept-h: 2.34vw;
-	--br-home-text-cta-en: 3.51vw;
+	--br-home-text-lead: 19px;
+	--br-home-text-section-en: 34px;
+	--br-home-text-section-jp: 14px;
+	--br-home-text-body: 16px;
+	--br-home-text-card-title: 17px;
+	--br-home-text-small: 13px;
+	--br-home-text-concept-en: 15px;
+	--br-home-text-concept-h: 34px;
+	--br-home-text-cta-en: 51px;
 
 	--br-home-space-section-y: 5.86vw;
 	--br-home-space-block: 1.76vw;
@@ -43,13 +43,13 @@
 	--br-home-space-gap-rail: 1.17vw;
 	--br-home-space-section-gap: 4.69vw;
 
-	--br-home-ink: #01101A;
+	--br-home-ink: var(--br-ink);
 	--br-home-ink-muted: #4a5568;
 	--br-home-bg: #ffffff;
-	--br-home-accent: #0071BC;
-	--br-home-accent-hover: #005a99;
-	--br-home-band-dark: #01101A;
-	--br-home-band-tint: #F6F6F6;
+	--br-home-accent: var(--br-accent);
+	--br-home-accent-hover: var(--br-accent-hover);
+	--br-home-band-dark: var(--br-ink);
+	--br-home-band-tint: var(--br-surface-soft);
 	--br-home-hero-overlay: rgba(1, 16, 26, 0.5);
 	--br-home-card-overlay: rgba(1, 16, 26, 0.82);
 
@@ -86,6 +86,15 @@
 	gap: var(--br-home-space-section-gap);
 }
 
+/* Band-reveal sections: column layout lives on inner wrapper */
+.br-home__section > .br-container > .br-home__band-reveal-inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--br-home-space-section-gap);
+	min-width: 0;
+	width: 100%;
+}
+
 .br-home__section--tint {
 	background: var(--br-home-band-tint);
 }
@@ -113,46 +122,66 @@
 	z-index: 0;
 }
 
-.br-home__hero-bg-img {
+.br-home__hero-video {
 	position: absolute;
 	inset: 0;
+	z-index: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
 }
 
-.br-home__hero-bg-overlay {
+.br-home__hero-mesh {
 	position: absolute;
 	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
+	z-index: 1;
+	pointer-events: none;
+	background-color: transparent;
+	background-image: url('../images/home/hero-mesh.png');
+	background-repeat: repeat;
+	background-size: auto;
 	opacity: 0.5;
-	mix-blend-mode: multiply;
 }
 
 .br-home__hero-inner {
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	padding: 0 1.17vw 1.17vw;
+	max-width: 100%;
+	padding: 0 1.11vw 1.11vw;
 	margin-left: var(--br-sidebar-w);
+	box-sizing: border-box;
+	overflow-x: auto;
+	overflow-y: visible;
+	-webkit-overflow-scrolling: touch;
 }
 
 .br-home__hero-text {
 	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 1.11vw 23.54vw;
+	width: 100%;
+	max-width: none;
+}
+
+.br-home__hero-copy {
+	display: flex;
 	flex-direction: column;
-	gap: 1.17vw;
-	max-width: 45.83vw;
+	gap: 1.11vw;
+	flex: 1 1 auto;
+	min-width: min(100%, max-content);
+	max-width: none;
 }
 
 .br-home__hero-title {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 0.44vw;
+	gap: 0.42vw;
 	font-weight: 700;
 	letter-spacing: 0.02em;
 }
@@ -162,26 +191,33 @@
 }
 
 .br-home__hero-title-box {
-	display: inline;
+	display: inline-block;
 	background: #fff;
 	color: var(--br-home-ink);
-	padding: 0.15vw 0.59vw;
+	padding: 0.14vw 0.56vw 0.14vw 1.11vw;
 	font-size: var(--br-home-text-hero);
-	line-height: 1.5;
+	line-height: 1.2;
 	box-decoration-break: clone;
 	-webkit-box-decoration-break: clone;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow-wrap: normal;
 }
 
 .br-home__hero-lead {
 	margin: 0;
-	font-size: 1.32vw;
+	font-size: 19px;
 	font-weight: 400;
 	line-height: 1.4;
 	color: #EAEAEA;
+	white-space: nowrap;
+	word-break: keep-all;
+	overflow-wrap: normal;
 }
 
 .br-home__hero-cta {
 	margin: 0;
+	flex: 0 0 auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -249,37 +285,6 @@
 	color: #fff;
 }
 
-.br-home__btn--hero {
-	background: #fff;
-	color: var(--br-home-accent);
-	border-color: #fff;
-	padding: 1.17vw 1.46vw;
-	border-radius: 0.59vw;
-	font-size: 1.1vw;
-	font-weight: 700;
-	gap: 1.17vw;
-}
-
-.br-home__btn--hero:hover,
-.br-home__btn--hero:focus {
-	background: var(--br-home-accent);
-	color: #fff;
-	border-color: var(--br-home-accent);
-}
-
-.br-home__btn-dot {
-	display: inline-block;
-	width: 0.37vw;
-	height: 1.1vw;
-	background: var(--br-home-accent);
-	border-radius: 0.22vw;
-}
-
-.br-home__btn--hero:hover .br-home__btn-dot,
-.br-home__btn--hero:focus .br-home__btn-dot {
-	background: #fff;
-}
-
 /* -------------------------------------------------------------------------
    Concept — 2-column (Figma 準拠)
    ------------------------------------------------------------------------- */
@@ -321,7 +326,7 @@
 	object-fit: cover;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
 	.br-home__concept-row {
 		flex-direction: column;
 	}
@@ -436,7 +441,7 @@
 	background: #fff;
 	color: var(--br-home-ink);
 	cursor: pointer;
-	font-size: 1.02vw;
+	font-size: 15px;
 	line-height: 1;
 	transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -482,34 +487,410 @@
 }
 
 /* -------------------------------------------------------------------------
-   Works grid
+   Band scroll-reveal (Works / Project / Blog / Service) — liquid motion tokens
    ------------------------------------------------------------------------- */
-.br-home__works-grid {
+.br-home__section--works-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--project-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--blog-band > .br-container > .br-home__band-reveal-inner,
+.br-home__section--service-band > .br-container > .br-home__band-reveal-inner {
+	gap: clamp(0rem, 4.44vw, 4.5rem);
+}
+
+html.br-home-js .br-home__section--band-reveal {
+	--br-home-band-reveal-duration: 1s;
+	--br-home-band-reveal-ease: cubic-bezier(0.25, 1, 0.5, 1);
+	position: relative;
+	overflow: hidden;
+	color: #fff;
+}
+
+/* Under color before ::before slides in (br-home-js only) */
+html.br-home-js .br-home__section--band-reveal.br-home__section--works-band,
+html.br-home-js .br-home__section--band-reveal.br-home__section--blog-band {
+	background: #4088c5;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--project-band,
+html.br-home-js .br-home__section--band-reveal.br-home__section--service-band {
+	background: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--works-band {
+	--br-home-band-reveal-slide: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--project-band {
+	--br-home-band-reveal-slide: #3b82c5;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--blog-band {
+	--br-home-band-reveal-slide: #0f3568;
+}
+
+html.br-home-js .br-home__section--band-reveal.br-home__section--service-band {
+	--br-home-band-reveal-slide: #4088c5;
+}
+
+html.br-home-js .br-home__section--band-reveal::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background: var(--br-home-band-reveal-slide);
+	pointer-events: none;
+	transition: transform var(--br-home-band-reveal-duration) var(--br-home-band-reveal-ease);
+}
+
+html.br-home-js .br-home__band-reveal--up::before {
+	transform: translateY(100%);
+}
+
+html.br-home-js .br-home__band-reveal--right::before {
+	transform: translateX(100%);
+}
+
+html.br-home-js .br-home__band-reveal--left::before {
+	transform: translateX(-100%);
+}
+
+html.br-home-js .br-home__section--band-reveal.is-active::before {
+	transform: translate(0, 0);
+}
+
+html.br-home-js .br-home__section--band-reveal > .br-container {
+	position: relative;
+	z-index: 2;
+}
+
+html.br-home-js .br-home__section--band-reveal .br-home__band-reveal-inner {
+	opacity: 0;
+	transform: translateY(clamp(1rem, 2.08vw, 1.875rem));
+	transition:
+		opacity 0.8s ease,
+		transform 0.8s ease;
+	transition-delay: 0.4s;
+}
+
+html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-inner {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__section--band-reveal.br-home__section--works-band {
+		background: #0f3568 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--project-band {
+		background: #3b82c5 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--blog-band {
+		background: #0f3568 !important;
+	}
+
+	.br-home__section--band-reveal.br-home__section--service-band {
+		background: #4088c5 !important;
+	}
+
+	.br-home__section--band-reveal::before {
+		display: none !important;
+	}
+
+	.br-home__section--band-reveal .br-home__band-reveal-inner {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+/* -------------------------------------------------------------------------
+   Works + Project — band grid (Works 3-col, Project 4-col; overlay optional)
+   ------------------------------------------------------------------------- */
+.br-home__section--works-band {
+	background: #0f3568;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
+/* Project: lighter blue band — Figma SECTION fill #3B82C5 (node 313:3290). */
+.br-home__section--project-band {
+	background: #3b82c5;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
+/* Blog: same deep blue as Works (#0f3568). */
+.br-home__section--blog-band {
+	background: #0f3568;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
+.br-home__section--works-band > .br-container,
+.br-home__section--project-band > .br-container,
+.br-home__section--blog-band > .br-container,
+.br-home__section--service-band > .br-container {
+	gap: clamp(2rem, 4.44vw, 4.5rem);
+}
+
+/* Service — medium blue band, carousel (capture) */
+.br-home__section--service-band {
+	background: #4088c5;
+	color: #fff;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
+.br-home__works-heading,
+.br-home__project-heading,
+.br-home__blog-heading,
+.br-home__service-heading {
+	margin: 0;
+	padding-left: clamp(0rem, 1.67vw, 1.5rem);
+    padding-right: clamp(0rem, 1.67vw, 1.5rem);
+	overflow: visible;
+}
+
+.br-home__works-title,
+.br-home__project-title,
+.br-home__blog-title,
+.br-home__service-title {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.125rem, 0.28vw, 0.25rem);
+	overflow: visible;
+}
+
+.br-home__works-title-en,
+.br-home__project-title-en,
+.br-home__blog-title-en,
+.br-home__service-title-en {
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #fff;
+}
+
+.br-home__works-title-jp,
+.br-home__project-title-jp,
+.br-home__blog-title-jp,
+.br-home__service-title-jp {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #fff;
+}
+
+/*
+ * Band + News SVG headings: match former *-title-en size; inherit section color on bands,
+ * explicit ink on News (currentColor for stroke/fill).
+ */
+.br-home__works-title .br-svg-heading,
+.br-home__project-title .br-svg-heading,
+.br-home__blog-title .br-svg-heading,
+.br-home__service-title .br-svg-heading {
+	gap: 0;
+}
+
+.br-home__news-title .br-svg-heading {
+	gap: 0;
+	color: var(--br-home-ink);
+}
+
+.br-home__works-title .br-svg-heading__svg,
+.br-home__project-title .br-svg-heading__svg,
+.br-home__blog-title .br-svg-heading__svg,
+.br-home__service-title .br-svg-heading__svg,
+.br-home__news-title .br-svg-heading__svg {
+	display: block;
+	/* Match main.css: fixed SVG width, shrink only when parent is narrower */
+	width: 640px;
+	max-width: 100%;
+	height: auto;
+	overflow: visible;
+	line-height: 0;
+}
+
+.br-home__works-title .br-svg-heading__text,
+.br-home__project-title .br-svg-heading__text,
+.br-home__blog-title .br-svg-heading__text,
+.br-home__service-title .br-svg-heading__text,
+.br-home__news-title .br-svg-heading__text {
+	/* ~1.2× former 56px; matches main.css on PC */
+	font-size: 67px;
+	font-weight: 700;
+}
+
+/*
+ * Band SVG headings — SP only: larger English line + JP subline (PC: shared rules above).
+ * Works / Project / Blog / Service / News. CTA Contact block: separate @media after .br-home__cta-title base.
+ */
+@media (max-width: 768px) {
+	.br-home__works-title .br-svg-heading__svg,
+	.br-home__project-title .br-svg-heading__svg,
+	.br-home__blog-title .br-svg-heading__svg,
+	.br-home__service-title .br-svg-heading__svg,
+	.br-home__news-title .br-svg-heading__svg {
+		width: 360px;
+		max-width: 100%;
+	}
+
+	.br-home__works-title .br-svg-heading__text,
+	.br-home__project-title .br-svg-heading__text,
+	.br-home__blog-title .br-svg-heading__text,
+	.br-home__service-title .br-svg-heading__text,
+	.br-home__news-title .br-svg-heading__text {
+		font-size: 112px;
+	}
+
+	.br-home__works-title-jp,
+	.br-home__project-title-jp,
+	.br-home__blog-title-jp,
+	.br-home__service-title-jp,
+	.br-home__news-title-jp {
+		font-size: 14px;
+		line-height: 1.45;
+	}
+}
+
+.br-home__works-title .br-svg-heading__sub-wrap,
+.br-home__project-title .br-svg-heading__sub-wrap,
+.br-home__blog-title .br-svg-heading__sub-wrap,
+.br-home__service-title .br-svg-heading__sub-wrap,
+.br-home__news-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(-0.35rem, -0.5vw, -0.125rem);
+}
+
+/* SP: large SVG text + tight negative margin caused JP line to overlap English; add fluid gap. */
+@media (max-width: 768px) {
+	.br-home__works-title .br-svg-heading__sub-wrap,
+	.br-home__project-title .br-svg-heading__sub-wrap,
+	.br-home__blog-title .br-svg-heading__sub-wrap,
+	.br-home__service-title .br-svg-heading__sub-wrap,
+	.br-home__news-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.75rem, 3.5vw, 2rem);
+	}
+}
+
+.br-home__works-grid,
+.br-home__project-grid,
+.br-home__blog-grid {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(min(100%, 17.57vw), 1fr));
-	gap: var(--br-home-space-gap-grid);
+	gap: clamp(0.0rem, 1.46vw, 1.25rem);
+	width: 100%;
+	min-width: 0;
 }
 
-.br-home__works-card {
+.br-home__works-grid {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.br-home__project-grid,
+.br-home__blog-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	/* Figma Frame 12: gap 8px @ 1440 → 8/1440*100 vw */
+	gap: clamp(0.375rem, 0.556vw, 0.5rem);
+}
+
+.br-home__works-item,
+.br-home__project-item,
+.br-home__blog-item {
+	min-width: 0;
+}
+
+@media (max-width: 992px) {
+	.br-home__works-grid,
+	.br-home__project-grid,
+	.br-home__blog-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+/* Works: show 8 cards on narrow viewports (query returns 9; hide last on SP) */
+@media (max-width: 768px) {
+	.br-home__section--works-band .br-home__works-item:nth-child(9) {
+		display: none;
+	}
+}
+
+.br-home__works-footer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-left: clamp(0rem, 2.78vw, 2.5rem);
+	padding-right: clamp(0rem, 2.78vw, 2.5rem);
+}
+
+@media (min-width: 769px) {
+	.br-home__works-footer {
+		justify-content: flex-end;
+	}
+}
+
+.br-home__project-footer,
+.br-home__blog-footer,
+.br-home__service-footer {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 100%;
+	padding-left: clamp(0rem, 2.78vw, 2.5rem);
+	padding-right: clamp(0rem, 2.78vw, 2.5rem);
+}
+
+.br-home__works-card,
+.br-home__project-card,
+.br-home__blog-card {
 	position: relative;
 	display: block;
-	border-radius: 0.37vw;
+	min-width: 0;
+	border-radius: clamp(0.25rem, 0.56vw, 0.5rem);
 	overflow: hidden;
 	text-decoration: none;
 	color: #fff;
-	aspect-ratio: 4 / 3;
 	background: #e2e8f0;
 }
 
-.br-home__works-card-image {
+.br-home__works-card {
+	aspect-ratio: 1 / 1;
+}
+
+/* Project + Blog: same hover/cycle; Figma card frame 296×229. */
+.br-home__project-card,
+.br-home__blog-card {
+	aspect-ratio: 296 / 229;
+}
+
+.br-home__works-card-media,
+.br-home__project-card-media,
+.br-home__blog-card-media {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+}
+
+.br-home__works-card-image,
+.br-home__project-card-image,
+.br-home__blog-card-image {
 	position: absolute;
 	inset: 0;
 }
 
-.br-home__works-card-image img {
+.br-home__works-card-image img,
+.br-home__project-card-image img,
+.br-home__blog-card-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -517,7 +898,9 @@
 	transition: transform 0.35s ease;
 }
 
-.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img {
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img,
+.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img,
+.br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img {
 	position: absolute;
 	inset: 0;
 	opacity: 0;
@@ -525,174 +908,455 @@
 	z-index: 0;
 }
 
-.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	opacity: 1;
 	z-index: 1;
 }
 
 .br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
-.br-home__works-card:focus .br-home__works-card-image:not(.br-hover-cycle) img {
+.br-home__works-card:focus .br-home__works-card-image:not(.br-hover-cycle) img,
+.br-home__project-card:hover .br-home__project-card-image:not(.br-hover-cycle) img,
+.br-home__project-card:focus .br-home__project-card-image:not(.br-hover-cycle) img,
+.br-home__blog-card:hover .br-home__blog-card-image:not(.br-hover-cycle) img,
+.br-home__blog-card:focus .br-home__blog-card-image:not(.br-hover-cycle) img {
 	transform: scale(1.04);
 }
 
 .br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
-.br-home__works-card:focus .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+.br-home__works-card:focus .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__project-card:hover .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__project-card:focus .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card:hover .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__blog-card:focus .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	transform: scale(1.04);
 }
 
-.br-home__works-card-image--placeholder {
+.br-home__works-card-image--placeholder,
+.br-home__project-card-image--placeholder,
+.br-home__blog-card-image--placeholder {
 	background: linear-gradient(135deg, #cbd5e1, #94a3b8);
 }
 
+/* Temporary: hide badge/title on cards. To restore: delete `display: none` and set `display: flex`. */
 .br-home__works-card-overlay {
+	display: none;
 	position: absolute;
-	inset: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	z-index: 2;
-	display: flex;
 	flex-direction: column;
-	justify-content: flex-end;
-	gap: 0.59vw;
-	padding: 1.17vw;
-	background: linear-gradient(transparent 20%, var(--br-home-card-overlay));
-	opacity: 0;
+	align-items: flex-start;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+	padding: clamp(0.75rem, 1.11vw, 1rem);
+	background: rgba(15, 53, 104, 0.88);
 	pointer-events: none;
-	transition: opacity 0.25s ease;
 }
 
-.br-home__works-card:hover .br-home__works-card-overlay,
-.br-home__works-card:focus-within .br-home__works-card-overlay {
-	opacity: 1;
-	pointer-events: auto;
+.br-home__project-card-overlay {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+	padding: clamp(0.75rem, 1.11vw, 1rem);
+	background: rgba(59, 130, 197, 0.88);
+	pointer-events: none;
 }
 
-.br-home__works-card-badge {
+.br-home__blog-card-overlay {
+	display: none;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.375rem, 0.56vw, 0.5rem);
+	padding: clamp(0.75rem, 1.11vw, 1rem);
+	background: rgba(20, 58, 92, 0.88);
+	pointer-events: none;
+}
+
+.br-home__works-card-badge,
+.br-home__project-card-badge {
 	align-self: flex-start;
-	padding: 0.22vw 0.59vw;
-	border: 1px solid rgba(255, 255, 255, 0.6);
-	border-radius: 0.29vw;
-	font-size: var(--br-home-text-small);
-	font-weight: 600;
-	letter-spacing: 0.04em;
+	padding: clamp(0.25rem, 0.42vw, 0.375rem) clamp(0.375rem, 0.56vw, 0.5rem);
+	border: 1px solid #fff;
+	border-radius: clamp(0.125rem, 0.28vw, 0.25rem);
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.2;
+	letter-spacing: 0.02em;
 }
 
-.br-home__works-card-title {
-	font-size: var(--br-home-text-card-title);
-	font-weight: 600;
-	line-height: 1.35;
+.br-home__works-card-title,
+.br-home__project-card-title,
+.br-home__blog-card-title {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.8;
+	letter-spacing: 0.014em;
 }
 
 /* -------------------------------------------------------------------------
-   Service / project / blog cards in Swiper
+   Service — Swiper rail (band: image + white copy, no white card chrome)
    ------------------------------------------------------------------------- */
-.br-home__service-card,
-.br-home__project-card,
-.br-home__blog-card {
-	width: 25.77vw;
-	max-width: 100%;
+/* ~3 full slides + ~85% of 4th (capture): (track − 3× gap) / 3.85 — cqi = carousel width (main column) */
+.br-home__section--service-band .br-home__swiper {
+	container-type: inline-size;
+	container-name: service-swiper;
 }
 
-.br-home__service-card-link,
-.br-home__project-card-link,
-.br-home__blog-card-link {
+.br-home__section--service-band .br-home__service-card {
+	width: calc((100cqi - 3 * 1.17vw) / 3.85);
+	max-width: 100%;
+	min-width: 0;
+}
+
+@supports not (width: 1cqi) {
+	.br-home__section--service-band .br-home__service-card {
+		width: calc((100vw - 5.85vw) / 3.85);
+	}
+}
+
+.br-home__section--service-band .br-home__service-card-link {
 	display: block;
 	height: 100%;
 	text-decoration: none;
-	color: inherit;
-	border-radius: 0.59vw;
+	color: #fff;
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	overflow: visible;
+}
+
+.br-home__section--service-band .br-home__service-card-media {
+	aspect-ratio: 4 / 3;
+	background: rgba(255, 255, 255, 0.12);
 	overflow: hidden;
-	background: #fff;
-	box-shadow: 0 0.29vw 1.76vw rgba(1, 16, 26, 0.08);
-	border: 1px solid rgba(1, 16, 26, 0.06);
-	transition: box-shadow 0.2s ease, transform 0.2s ease;
+	border-radius: clamp(0.375rem, 0.556vw, 0.5rem);
 }
 
-.br-home__service-card-link:hover,
-.br-home__project-card-link:hover,
-.br-home__blog-card-link:hover,
-.br-home__service-card-link:focus,
-.br-home__project-card-link:focus,
-.br-home__blog-card-link:focus {
-	box-shadow: 0 0.59vw 2.34vw rgba(1, 16, 26, 0.12);
-	transform: translateY(-2px);
-}
-
-.br-home__service-card-media,
-.br-home__project-card-media,
-.br-home__blog-card-media {
-	aspect-ratio: 16 / 10;
-	background: #e2e8f0;
-	overflow: hidden;
-}
-
-.br-home__service-card-media img,
-.br-home__project-card-media img,
-.br-home__blog-card-media img {
+.br-home__section--service-band .br-home__service-card-media img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: transform 0.35s ease;
 }
 
-.br-home__service-card-body,
-.br-home__project-card-body,
-.br-home__blog-card-body {
-	padding: 1.17vw;
+.br-home__section--service-band .br-home__service-card-link:hover .br-home__service-card-media img,
+.br-home__section--service-band .br-home__service-card-link:focus .br-home__service-card-media img {
+	transform: scale(1.12);
 }
 
-.br-home__service-card-title,
-.br-home__project-card-title,
-.br-home__blog-card-title {
-	margin: 0 0 0.59vw;
-	font-size: var(--br-home-text-card-title);
-	line-height: 1.35;
-	color: var(--br-home-ink);
-}
-
-.br-home__service-card-text,
-.br-home__project-card-text {
+.br-home__section--service-band .br-home__service-card-body {
+	/* 一旦非表示（タイトル・抜粋ブロック） */
+	display: none;
+	padding: clamp(0.75rem, 1.11vw, 1rem) 0 0;
 	margin: 0;
-	font-size: var(--br-home-text-small);
-	line-height: 1.6;
-	color: var(--br-home-ink-muted);
 }
 
-.br-home__project-card-badge {
-	display: inline-block;
-	margin-bottom: 0.59vw;
-	padding: 0.15vw 0.44vw;
-	border: 1px solid var(--br-home-ink);
-	border-radius: 0.29vw;
-	font-size: var(--br-home-text-small);
-	font-weight: 600;
-	color: var(--br-home-ink);
+.br-home__section--service-band .br-home__service-card-title {
+	margin: 0 0 clamp(0.375rem, 0.56vw, 0.5rem);
+	font-size: 17px;
+	font-weight: 700;
+	line-height: 1.35;
+	letter-spacing: 0.02em;
+	color: #fff;
 }
 
-.br-home__blog-card-date {
-	display: block;
-	margin-bottom: 0.37vw;
-	font-size: var(--br-home-text-small);
-	color: var(--br-home-ink-muted);
+.br-home__section--service-band .br-home__service-card-text {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.92);
+}
+
+/* Carousel arrows on band: white ring, transparent fill */
+.br-home__section--service-band .br-home__rail-btn {
+	border-color: #fff;
+	background: transparent;
+	color: #fff;
+}
+
+.br-home__section--service-band .br-home__rail-btn:hover,
+.br-home__section--service-band .br-home__rail-btn:focus {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+
+.br-home__section--service-band .br-home__rail-btn:focus-visible {
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
 }
 
 /* -------------------------------------------------------------------------
-   News list
+   Parallax strip (between Project and News) — earth img + GSAP; centered quote
    ------------------------------------------------------------------------- */
+.br-home__parallax {
+	position: relative;
+	background-color: #254a9d;
+	color: #fff;
+}
+
+.br-home__parallax-scene {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	min-height: clamp(15rem, 41.67vw, 38rem);
+}
+
+.br-home__parallax-globe-wrap {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	pointer-events: none;
+	transform-origin: 50% 100%;
+}
+
+/* contain: 画像全体（半球の曲線〜下端）を欠けさせず表示。cover は上下でクリップしやすい */
+.br-home__parallax-globe {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	object-position: center bottom;
+	display: block;
+}
+
+.br-home__parallax-inner {
+	position: relative;
+	z-index: 2;
+	flex: 1 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+	overflow-x: hidden;
+	min-height: clamp(15rem, 41.67vw, 38rem);
+	padding-left: var(--br-home-gutter);
+	padding-right: var(--br-home-gutter);
+	padding-top: clamp(1.5rem, 3.33vw, 3rem);
+	padding-bottom: clamp(1.5rem, 3.33vw, 3rem);
+	box-sizing: border-box;
+}
+
+.br-home__parallax-quote {
+	margin: 0 auto;
+	width: max-content;
+	max-width: 100%;
+	white-space: nowrap;
+	text-align: center;
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	font-size: 4vw;
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
+	color: #fff;
+	text-shadow: 0 0.14em 0.35em rgba(1, 16, 26, 0.45);
+	will-change: clip-path;
+}
+
+html:not(.br-home-js) .br-home__parallax-quote {
+	clip-path: none;
+}
+
+html.br-home-js .br-home__parallax-quote {
+	clip-path: inset(100% 0 0 0);
+}
+
+/* Match GSAP from-state (scale + y; see home-gsap.js). */
+html.br-home-js .br-home__parallax-globe-wrap {
+	transform: scale(0.55) translateY(13.75rem);
+}
+
+/* -------------------------------------------------------------------------
+   Palarax strip (Service–CTA) — office image + scroll-driven overlay + tagline
+   ------------------------------------------------------------------------- */
+.br-home__section.br-home__palarax {
+	padding-top: calc(var(--br-home-space-section-y) * 0.65);
+	padding-bottom: calc(var(--br-home-space-section-y) * 0.65);
+}
+
+.br-home__palarax {
+	position: relative;
+	overflow: hidden;
+	color: #fff;
+	min-height: clamp(9.75rem, 27.09vw, 24.7rem);
+}
+
+.br-home__palarax-media {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	background-image: var(--br-palarax-image);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.br-home__palarax-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	background-color: #254a9d;
+	pointer-events: none;
+}
+
+.br-home__palarax-inner {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	isolation: isolate;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-width: 0;
+	padding-left: var(--br-home-gutter);
+	padding-right: var(--br-home-gutter);
+	padding-top: clamp(0.975rem, 2.165vw, 1.95rem);
+	padding-bottom: clamp(0.975rem, 2.165vw, 1.95rem);
+	box-sizing: border-box;
+}
+
+.br-home__palarax-text-clip {
+	width: 100%;
+	max-width: min(100%, 90vw);
+	flex-shrink: 0;
+}
+
+.br-home__palarax-tagline {
+	margin: 0;
+	text-align: center;
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	font-size: 3.5vw;
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: clamp(0.02em, 0.12vw, 0.06em);
+	color: #fff;
+	text-wrap: balance;
+	text-shadow: 0 0.14em 0.35em rgba(1, 16, 26, 0.45);
+	will-change: clip-path;
+}
+
+/* No JS / reduced motion: readable static hero state */
+html:not(.br-home-js) .br-home__palarax-overlay {
+	opacity: 0.8;
+}
+
+html:not(.br-home-js) .br-home__palarax-tagline {
+	clip-path: none;
+}
+
+/* GSAP sets opacity / clip-path inline; pre-script paint matches hidden state */
+html.br-home-js .br-home__palarax-overlay {
+	opacity: 0;
+}
+
+html.br-home-js .br-home__palarax-tagline {
+	clip-path: inset(100% 0 0 0);
+}
+
+/* -------------------------------------------------------------------------
+   News — capture: wide gutter, top-aligned media object, heading → CTA space
+   ------------------------------------------------------------------------- */
+.br-home__section--news {
+	background: #f7f7f7;
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+}
+
+.br-home__news-layout {
+	display: grid;
+	/*
+	 * Lead column: wide enough for .br-svg-heading__svg (640px) at native scale like band sections,
+	 * without max(55vw, 40rem) which forced ~640px minimum and crushed column 2.
+	 */
+	grid-template-columns: minmax(0, clamp(16rem, 36vw, 40rem)) minmax(0, 1fr);
+	grid-template-rows: auto auto;
+	/* Wide gutter between lead and list (capture) */
+	column-gap: clamp(2.25rem, 8.33vw, 7.5rem);
+	row-gap: clamp(1.5rem, 2.78vw, 2.5rem);
+	align-items: start;
+	min-width: 0;
+}
+
+.br-home__news-heading {
+	margin: 0;
+	grid-column: 1;
+	grid-row: 1;
+	padding-left: clamp(0rem, 1.67vw, 1.5rem);
+	padding-right: clamp(0rem, 0.56vw, 0.5rem);
+	overflow: visible;
+}
+
+.br-home__news-title {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.25rem, 0.42vw, 0.375rem);
+	overflow: visible;
+}
+
+.br-home__news-title-en {
+	font-family: 'MuseoModerno', 'Inter', system-ui, sans-serif;
+	font-size: 56px;
+	font-weight: 700;
+	line-height: 1.15;
+	color: var(--br-home-ink);
+}
+
+.br-home__news-title-jp {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: var(--br-home-ink);
+}
+
+.br-home__news-cta-wrap {
+	grid-column: 1;
+	grid-row: 2;
+	align-self: start;
+	padding-left: clamp(0rem, 1.67vw, 1.5rem);
+	margin-top: clamp(0.25rem, 0.56vw, 0.5rem);
+}
+
 .br-home__news-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	grid-column: 2;
+	grid-row: 1 / -1;
+	align-self: start;
 	display: flex;
 	flex-direction: column;
-	gap: var(--br-home-space-gap-grid);
+	gap: clamp(1.25rem, 1.67vw, 1.75rem);
+	min-width: 0;
 }
 
 .br-home__news-link {
 	display: flex;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	align-items: flex-start;
-	gap: 1.17vw;
-	padding: 1.02vw 0;
-	border-bottom: 1px solid rgba(1, 16, 26, 0.1);
+	gap: clamp(0.75rem, 0.833vw, 0.875rem);
+	padding: 0;
+	border-bottom: none;
 	text-decoration: none;
 	color: inherit;
 	transition: opacity 0.15s ease;
@@ -700,15 +1364,16 @@
 
 .br-home__news-link:hover,
 .br-home__news-link:focus {
-	opacity: 0.85;
+	opacity: 0.88;
 }
 
 .br-home__news-media {
-	flex: 0 0 8.78vw;
-	aspect-ratio: 16 / 10;
-	border-radius: 0.59vw;
+	flex: 0 0 auto;
+	width: clamp(5.5rem, 8.333vw, 7.5rem);
+	aspect-ratio: 4 / 3;
+	border-radius: clamp(0.375rem, 0.556vw, 0.5rem);
 	overflow: hidden;
-	background: #e2e8f0;
+	background: #e8edf2;
 }
 
 .br-home__news-media img {
@@ -718,96 +1383,461 @@
 	display: block;
 }
 
+.br-home__news-media-placeholder {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+}
+
 .br-home__news-body {
 	flex: 1;
 	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.375rem, 0.42vw, 0.5rem);
+	padding-top: 0.125em;
 }
 
 .br-home__news-date {
 	display: block;
-	margin-bottom: 0.37vw;
-	font-size: var(--br-home-text-small);
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: 0.04em;
 	color: var(--br-home-ink-muted);
 }
 
-.br-home__news-title {
-	font-size: var(--br-home-text-body);
-	font-weight: 600;
-	line-height: 1.45;
+.br-home__news-item-title {
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.55;
+	letter-spacing: 0.02em;
 	color: var(--br-home-ink);
 }
 
+@media (max-width: 992px) {
+	.br-home__news-layout {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.25rem, 2.22vw, 2rem);
+	}
+
+	.br-home__news-heading {
+		order: 1;
+		padding-right: 0;
+	}
+
+	.br-home__news-list {
+		order: 2;
+		grid-column: auto;
+		grid-row: auto;
+	}
+
+	.br-home__news-cta-wrap {
+		order: 3;
+		grid-column: auto;
+		grid-row: auto;
+	}
+}
+
 /* -------------------------------------------------------------------------
-   CTA
+   CTA — light band, copy + CF7 card (Figma CTA Section-sp)
    ------------------------------------------------------------------------- */
 .br-home__section--cta {
+	--br-home-cta-hpad: clamp(0rem, 1.67vw, 1.5rem);
 	position: relative;
-	text-align: center;
-	color: #fff;
-	background: var(--br-home-band-dark);
+	text-align: left;
+	color: var(--br-home-ink);
+	background: var(--br-home-band-tint);
 	overflow: hidden;
-	padding-right: 0;
-}
-
-.br-home__cta-bg {
-	position: absolute;
-	inset: 0;
-	z-index: 0;
-}
-
-.br-home__cta-bg-img {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	display: block;
-}
-
-.br-home__cta-bg-overlay {
-	position: absolute;
-	inset: 0;
-	background: rgba(1, 16, 26, 0.5);
+	/* Match NEWS band vertical rhythm */
+	padding-top: clamp(2.5rem, 5.56vw, 5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
 }
 
 .br-home__cta-inner {
 	position: relative;
 	z-index: 1;
-	max-width: 46.85vw;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	align-items: start;
+	/* row-gap; column-gap matches horizontal inset (symmetric with L/R padding) */
+	gap: clamp(1.5rem, 2.78vw, 2.5rem) var(--br-home-cta-hpad);
+	width: 100%;
+	max-width: none;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.br-home__cta-title-jp {
-	margin: 0 0 0.59vw;
-	font-size: var(--br-home-text-section-jp);
-	letter-spacing: 0.12em;
-	opacity: 0.9;
+.br-home__cta-col--copy {
+	min-width: 0;
+	padding-left: var(--br-home-cta-hpad);
+	padding-right: 0;
 }
 
-.br-home__cta-title-en {
-	margin: 0 0 var(--br-home-space-block);
-	font-size: var(--br-home-text-cta-en);
+.br-home__cta-col--form {
+	min-width: 0;
+	padding-left: 0;
+	padding-right: var(--br-home-cta-hpad);
+}
+
+.br-home__cta-heading {
+	margin: 0 0 clamp(0.75rem, 1.17vw, 1rem);
+}
+
+.br-home__cta-title {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: clamp(0.125rem, 0.28vw, 0.25rem);
+	min-width: 0;
+	width: 100%;
+	overflow: visible;
+}
+
+.br-home__cta-title .br-svg-heading {
+	gap: 0;
+	color: inherit;
+}
+
+.br-home__cta-title .br-svg-heading__svg {
+	display: block;
+	width: 640px;
+	max-width: 100%;
+	height: auto;
+	overflow: visible;
+	line-height: 0;
+	/* Pull block up: viewBox top padding + gap after JP line */
+	margin-top: clamp(-1.6rem, -5.6vw, -0.45rem);
+}
+
+.br-home__cta-title .br-svg-heading__text {
+	/* ~1.2× CTA EN token on PC */
+	font-size: calc(1.2 * var(--br-home-text-cta-en));
 	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.br-home__cta-title .br-home__cta-label-slash {
+	margin: 0;
+	font-size: var(--br-home-text-section-jp);
+	font-weight: 500;
 	line-height: 1.1;
-	letter-spacing: 0.06em;
+	letter-spacing: 0.12em;
+	color: inherit;
+}
+
+.br-home__cta-title .br-svg-heading__sub-wrap {
+	margin-top: 0;
+	margin-bottom: clamp(-0.65rem, -1.8vw, -0.125rem);
+	line-height: 1;
+}
+
+/* CTA Contact SVG: same SP scale as band headings (must follow base .br-home__cta-title rules). */
+@media (max-width: 768px) {
+	.br-home__cta-title .br-svg-heading__svg {
+		width: 360px;
+		max-width: 100%;
+		/* Cancel desktop negative pull-up; JP sub is above SVG — needs clear gap on SP */
+		margin-top: clamp(0.5rem, 2.2vw, 1rem);
+	}
+
+	.br-home__cta-title .br-svg-heading__text {
+		font-size: 112px;
+	}
+
+	.br-home__cta-title .br-home__cta-label-slash {
+		font-size: 14px;
+		line-height: 1.45;
+	}
+
+	.br-home__cta-title .br-svg-heading__sub-wrap {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
 }
 
 .br-home__cta-lead {
-	margin: 0 0 var(--br-home-space-block);
-	font-size: var(--br-home-text-lead);
+	margin: 0 0 clamp(0.65rem, 1.1vw, 0.875rem);
+	font-size: 16px;
+	font-weight: 700;
 	line-height: 1.65;
-	opacity: 0.9;
+	color: var(--br-home-ink);
 }
 
-.br-home__cta-action {
+.br-home__cta-body {
+	margin: 0 0 clamp(1.25rem, 1.67vw, 1.5rem);
+	font-size: var(--br-home-text-body);
+	line-height: 1.75;
+	color: var(--br-home-ink-muted);
+}
+
+.br-home__cta-urgent {
+	margin: 0;
+	padding-left: clamp(0.65rem, 0.83vw, 0.75rem);
+	border-left: 0.278vw solid var(--br-home-accent);
+}
+
+.br-home__cta-urgent-label {
+	margin: 0 0 clamp(0.25rem, 0.42vw, 0.35rem);
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.5;
+	color: var(--br-home-accent);
+}
+
+.br-home__cta-tel {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.br-home__cta-tel-link {
+	color: var(--br-home-accent);
+	text-decoration: none;
+	transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.br-home__cta-tel-link:hover,
+.br-home__cta-tel-link:focus-visible {
+	color: var(--br-home-accent-hover);
+}
+
+.br-home__cta-form-card {
+	min-width: 0;
+	background: #fff;
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	padding: clamp(1.25rem, 2.22vw, 2rem);
+	border: none;
+	box-shadow: none;
+}
+
+.br-home__cta-form-missing {
+	margin: 0;
+	font-size: var(--br-home-text-small);
+	color: var(--br-home-ink-muted);
+}
+
+/* CF7 — home CTA card only */
+.br-home__section--cta .wpcf7 {
+	max-width: none;
 	margin: 0;
 }
 
+.br-home__section--cta .wpcf7 form > p {
+	margin: 0 0 clamp(0.75rem, 1.11vw, 1rem);
+	font-size: 14px;
+}
+
+.br-home__section--cta .wpcf7 form > p:last-of-type {
+	margin-bottom: 0;
+}
+
+.br-home__section--cta .wpcf7 label,
+.br-home__section--cta .wpcf7 legend {
+	display: block;
+	font-weight: 600;
+	font-size: 14px;
+	margin-bottom: clamp(0.35rem, 0.42vw, 0.5rem);
+	color: var(--br-home-ink);
+}
+
+.br-home__section--cta .wpcf7 .wpcf7-list-item label {
+	font-weight: 400;
+}
+
+.br-home__section--cta .wpcf7 input[type="text"],
+.br-home__section--cta .wpcf7 input[type="email"],
+.br-home__section--cta .wpcf7 input[type="tel"],
+.br-home__section--cta .wpcf7 input[type="url"],
+.br-home__section--cta .wpcf7 input[type="number"],
+.br-home__section--cta .wpcf7 select,
+.br-home__section--cta .wpcf7 textarea {
+	width: 100%;
+	padding: clamp(0.5rem, 0.69vw, 0.625rem) clamp(0.65rem, 0.83vw, 0.75rem);
+	font: inherit;
+	font-size: 15px;
+	border: 0.069vw solid #dce1e8;
+	border-radius: clamp(0.375rem, 0.56vw, 0.5rem);
+	background: #f9fafb;
+	color: var(--br-home-ink);
+	box-sizing: border-box;
+}
+
+.br-home__section--cta .wpcf7 textarea {
+	min-height: clamp(6rem, 11.11vw, 10rem);
+	resize: vertical;
+}
+
+.br-home__section--cta .wpcf7 input::placeholder,
+.br-home__section--cta .wpcf7 textarea::placeholder {
+	opacity: 0;
+	color: transparent;
+}
+
+.br-home__section--cta .wpcf7 select {
+	appearance: auto;
+	cursor: pointer;
+}
+
+.br-home__section--cta .wpcf7 input[type="submit"],
+.br-home__section--cta .wpcf7 button[type="submit"] {
+	display: block;
+	width: 100%;
+	cursor: pointer;
+	margin-top: clamp(0.5rem, 0.83vw, 0.75rem);
+	padding: clamp(0.65rem, 0.97vw, 0.875rem) clamp(2.75rem, 4.17vw, 3.5rem)
+		clamp(0.65rem, 0.97vw, 0.875rem) clamp(0.85rem, 1.25vw, 1rem);
+	font: inherit;
+	font-size: 16px;
+	font-weight: 600;
+	color: #fff;
+	background-color: var(--br-home-accent);
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M22 2L11 13'/%3E%3Cpath d='M22 2l-7 20-4-9-9-4 20-7z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right clamp(0.85rem, 1.25vw, 1rem) center;
+	background-size: clamp(1rem, 1.39vw, 1.25rem) clamp(1rem, 1.39vw, 1.25rem);
+	border: none;
+	border-radius: clamp(0.375rem, 0.56vw, 0.5rem);
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.br-home__section--cta .wpcf7 input[type="submit"].button.button-block,
+.br-home__section--cta .wpcf7 button[type="submit"].button.button-block,
+.br-home__section--cta .wpcf7 button.button.button-block {
+	width: 80%;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.br-home__section--cta .wpcf7 input[type="submit"]:hover,
+.br-home__section--cta .wpcf7 input[type="submit"]:focus-visible,
+.br-home__section--cta .wpcf7 button[type="submit"]:hover,
+.br-home__section--cta .wpcf7 button[type="submit"]:focus-visible {
+	background-color: var(--br-home-accent-hover);
+	opacity: 1;
+}
+
+.br-home__section--cta .wpcf7 .wpcf7-not-valid-tip {
+	font-size: 12px;
+	color: #b91c1c;
+	margin-top: clamp(0.2rem, 0.28vw, 0.25rem);
+}
+
+.br-home__section--cta .wpcf7 .wpcf7-response-output {
+	margin: clamp(0.75rem, 1.11vw, 1rem) 0 0;
+}
+
+.br-home__section--cta .wpcf7 a {
+	color: var(--br-home-accent);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-home__section--cta .wpcf7 a:hover,
+.br-home__section--cta .wpcf7 a:focus-visible {
+	color: var(--br-home-accent-hover);
+}
+
+.br-home__section--cta .wpcf7 .wpcf7-list-item {
+	margin: 0.35em 0;
+}
+
+.br-home__section--cta .wpcf7 input[type="checkbox"],
+.br-home__section--cta .wpcf7 input[type="radio"] {
+	width: auto;
+	max-width: none;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0.5em 0 0;
+	accent-color: var(--br-home-accent);
+}
+
+.br-home__section--cta .wpcf7 .wpcf7-acceptance .wpcf7-list-item label,
+.br-home__section--cta .wpcf7 .wpcf7-checkbox .wpcf7-list-item label {
+	display: flex;
+	align-items: flex-start;
+	gap: clamp(0.35rem, 0.42vw, 0.5rem);
+	font-weight: 400;
+	line-height: 1.65;
+}
+
+/* 「必須」ラベル（CF7 本文の <span class="必須"> 等）— 青地・白字のピル */
+.br-home__section--cta .wpcf7 span.必須,
+.br-home__section--cta .wpcf7 span.required {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 0.45em;
+	padding: clamp(0.125rem, 0.21vw, 0.1875rem) clamp(0.35rem, 0.42vw, 0.4375rem);
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #fff;
+	background-color: var(--br-home-accent);
+	border-radius: clamp(0.1875rem, 0.28vw, 0.25rem);
+	letter-spacing: 0.04em;
+}
+
+@media (max-width: 768px) {
+	.br-home__cta-inner {
+		grid-template-columns: 1fr;
+		/* Stacked: match .br-home__news-layout flex gap */
+		gap: clamp(1.25rem, 2.22vw, 2rem);
+	}
+
+	.br-home__cta-col--form {
+		order: 2;
+		padding-left: var(--br-home-cta-hpad);
+		padding-right: var(--br-home-cta-hpad);
+	}
+
+	.br-home__cta-col--copy {
+		order: 1;
+		padding-right: var(--br-home-cta-hpad);
+	}
+}
+
 /* -------------------------------------------------------------------------
-   Mobile adjustments
+   Mobile adjustments — spacing tokens fluid; typography px overrides
    ------------------------------------------------------------------------- */
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
+	/* Works / Project / Blog / Service / News / CTA — extra horizontal inset (SP) */
+	.br-home__section--works-band,
+	.br-home__section--project-band,
+	.br-home__section--blog-band,
+	.br-home__section--service-band,
+	.br-home__section--news,
+	.br-home__section--cta {
+		padding-left: clamp(0.75rem, 3vw, 1.25rem);
+		padding-right: clamp(0.75rem, 3vw, 1.25rem);
+		box-sizing: border-box;
+	}
+
+	.br-home {
+		--br-home-text-hero: 28px;
+		--br-home-text-lead: 15px;
+		--br-home-text-section-en: 24px;
+		--br-home-text-section-jp: 13px;
+		--br-home-text-body: 15px;
+		--br-home-text-card-title: 15px;
+		--br-home-text-small: 12px;
+		--br-home-text-concept-en: 13px;
+		--br-home-text-concept-h: 24px;
+		--br-home-text-cta-en: 32px;
+
+		--br-home-space-section-y: clamp(2.25rem, 7vw, 3.5rem);
+		--br-home-space-block: clamp(0.75rem, 2.5vw, 1.25rem);
+		--br-home-space-gap-grid: clamp(1rem, 3.5vw, 1.75rem);
+		--br-home-space-gap-rail: clamp(0.75rem, 2.5vw, 1.25rem);
+		--br-home-space-section-gap: clamp(2rem, 6vw, 3rem);
+	}
+
 	.br-home__section--hero {
 		margin-left: 0;
 		width: 100%;
@@ -815,6 +1845,122 @@
 
 	.br-home__hero-inner {
 		margin-left: 0;
+	}
+
+	.br-home__hero-text {
+		flex-direction: column;
+		align-items: stretch;
+		gap: clamp(0.75rem, 2.5vw, 1.25rem);
+	}
+
+	.br-home__hero-copy {
+		max-width: none;
+	}
+
+	/* Hop CTA: center on SP (band footers + hero + news) */
+	.br-home__project-footer,
+	.br-home__blog-footer,
+	.br-home__service-footer {
+		justify-content: center;
+	}
+
+	.br-home__hero-cta {
+		display: flex;
+		justify-content: center;
+	}
+
+	.br-home__news-cta-wrap {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	/* Service Swiper: slidesPerView 1.3 on SP — card fills slide width set by Swiper */
+	.br-home__section--service-band .br-home__service-card {
+		width: 100%;
+		max-width: none;
+	}
+
+	/* Service: carousel prev/next — larger tap targets, slightly below heading */
+	.br-home__section--service-band .br-home__rail-nav {
+		margin-top: clamp(0.65rem, 2.5vw, 1.125rem);
+		gap: clamp(0.5rem, 2.2vw, 0.85rem);
+	}
+
+	.br-home__section--service-band .br-home__rail-btn {
+		width: clamp(2.875rem, 12vw, 3.5rem);
+		height: clamp(2.875rem, 12vw, 3.5rem);
+		font-size: 17px;
+	}
+
+	.br-home__hero-lead {
+		font-size: 15px;
+	}
+
+	.br-hop-btn {
+		font-size: 14px;
+	}
+
+	.br-home__rail-btn {
+		font-size: 14px;
+	}
+
+	.br-home__section--service-band .br-home__service-card-title {
+		font-size: 15px;
+	}
+
+	.br-home__section--service-band .br-home__service-card-text {
+		font-size: 13px;
+	}
+
+	.br-home__parallax-quote {
+		width: 100%;
+		max-width: 100%;
+		white-space: normal;
+		text-wrap: balance;
+		font-size: 8vw;
+	}
+
+	.br-home__palarax-tagline {
+		width: 100%;
+		max-width: 100%;
+		white-space: normal;
+		text-wrap: balance;
+		font-size: 6vw;
+	}
+
+	.br-home__news-date {
+		font-size: 12px;
+	}
+
+	.br-home__news-item-title {
+		font-size: 14px;
+	}
+
+	.br-home__cta-tel {
+		font-size: 24px;
+	}
+
+	.br-home__section--cta .wpcf7 label,
+	.br-home__section--cta .wpcf7 legend {
+		font-size: 13px;
+	}
+
+	.br-home__section--cta .wpcf7 input[type="text"],
+	.br-home__section--cta .wpcf7 input[type="email"],
+	.br-home__section--cta .wpcf7 input[type="tel"],
+	.br-home__section--cta .wpcf7 input[type="url"],
+	.br-home__section--cta .wpcf7 input[type="number"],
+	.br-home__section--cta .wpcf7 select,
+	.br-home__section--cta .wpcf7 textarea {
+		font-size: 14px;
+	}
+
+	.br-home__section--cta .wpcf7 input[type="submit"],
+	.br-home__section--cta .wpcf7 button[type="submit"] {
+		font-size: 15px;
 	}
 }
 

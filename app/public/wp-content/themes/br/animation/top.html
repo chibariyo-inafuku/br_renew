@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand AI & Marketing - Smooth Slide Page</title>
+    <style>
+        /* --- Reset & Global --- */
+        :root {
+            --color-deep: #0F3568;   /* Works, Service */
+            --color-mid: #3B82C5;    /* Project */
+            --color-vivid: #26499D;  /* Blog */
+            --animation-duration: 1.0s;
+            /* バウンドさせない、滑らかなイージングに変更 */
+            --animation-easing: cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- Header --- */
+        header {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 80px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 50px; box-sizing: border-box; z-index: 1000;
+        }
+        .header__logo { font-size: 24px; font-weight: bold; color: #fff; }
+        .header__nav ul { display: flex; gap: 20px; font-size: 12px; color: #fff; list-style: none; }
+        .header__btn { background: #fff; color: #000; padding: 8px 15px; font-weight: bold; text-decoration: none; border-radius: 4px; }
+
+        /* --- Section Core --- */
+        .section {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: #fff; /* デフォルトは白 */
+        }
+
+        .section-inner {
+            position: relative;
+            width: 1100px;
+            margin: 0 auto;
+            padding: 100px 20px;
+            z-index: 10;
+            box-sizing: border-box;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease 0.4s;
+        }
+
+        .is-active .section-inner, .static-section .section-inner {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 背景スライドレイヤー --- */
+        .js-bg-slide::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color);
+            z-index: 1;
+            transition: transform var(--animation-duration) var(--animation-easing);
+        }
+
+        /* 方向別初期位置 */
+        .slide-up::before { transform: translateY(100%); }
+        .slide-right::before { transform: translateX(100%); }
+        .slide-left::before { transform: translateX(-100%); }
+
+        .is-active::before { transform: translate(0, 0) !important; }
+
+        /* --- 共通スタイル --- */
+        .section--light { color: #fff; }
+        .section--dark { color: #333; }
+        .section-title { font-size: 36px; font-weight: bold; margin-bottom: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .img-box { width: 100%; background: rgba(0,0,0,0.1); border-radius: 4px; aspect-ratio: 4/3; }
+        .section--light .img-box { background: rgba(255,255,255,0.2); }
+        .view-more { display: inline-block; padding: 10px 25px; border: 1px solid currentColor; font-size: 14px; margin-top: 40px; text-decoration: none; }
+
+        /* 1. MV (Static) */
+        .mv { height: 100vh; background: radial-gradient(circle at center, #2e26c6 0%, #a21e42 50%, #000 100%); display: flex; align-items: center; }
+        .mv-content { margin-left: 10%; max-width: 600px; color: #fff; }
+        .mv-content h1 { font-size: 48px; margin-bottom: 20px; }
+
+        /* 3. Project 地球 */
+        .earth { position: absolute; bottom: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 400px; background: #0b4da1; border-radius: 50% 50% 0 0; z-index: 2; opacity: 0.6; }
+
+        /* 4. News / 7. Contact (Background White) */
+        .static-white { background-color: #fff !important; }
+
+        .news-item { display: flex; gap: 20px; padding: 20px 0; border-top: 1px solid #eee; }
+        .news-img { width: 80px; height: 80px; background: #eee; border-radius: 4px; }
+
+        /* 7. Contact Grid */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .submit-btn { background: #0066cc; color: #fff; border: none; padding: 15px 40px; font-weight: bold; border-radius: 4px; cursor: pointer; width: 100%; }
+
+        footer { background: #000; color: #fff; padding: 60px 50px; display: flex; justify-content: space-between; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header__logo">Brand</div>
+        <nav class="header__nav">
+            <ul>
+                <li>Works</li><li>Project</li><li>News</li><li>Blog</li><li>Service</li><li>Contact</li>
+                <li><a href="#" class="header__btn">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section static-section mv" data-color="#000000">
+        <div class="mv-content">
+            <h1>マーケティングプロモーションに、<br>AIという選択肢を。</h1>
+            <p>AI技術を活用した新しいマーケティングの可能性をご提案。</p>
+        </div>
+    </section>
+
+    <section class="section js-bg-slide slide-up section--light" data-color="#0F3568">
+        <div class="section-inner">
+            <h2 class="section-title">Works</h2>
+            <div class="grid-3">
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+                <div class="works-card"><div class="img-box"></div><p>ラベル</p></div>
+            </div>
+            <a href="#" class="view-more">View more</a>
+        </div>
+    </section>
+
+    <section class="section js-bg-slide slide-right section--light" data-color="#3B82C5">
+        <div class="section-inner">
+            <h2 class="section-title">Project</h2>
+            <div class="grid-4">
+                <div class="img-box"></div><div class="img-box"></div><div class="img-box"></div><div class="img-box"></div>
+                <div class="img-box"></div><div class="img-box"></div><div class="img-box"></div><div class="img-box"></div>
+            </div>
+            <a href="#" class="view-more">View more</a>
+        </div>
+    </section>
+
+    <section class="section static-white section--dark" data-color="#ffffff">
+        <div class="section-inner">
+            <h2 class="section-title">News</h2>
+            <div class="news-list">
+                <div class="news-item"><div class="news-img"></div><div><p>2023.10.26</p><p>AIを活用したツールの最新版を公開</p></div></div>
+                <div class="news-item"><div class="news-img"></div><div><p>2023.10.12</p><p>展示会出展のお知らせ</p></div></div>
+            </div>
+            <a href="#" class="view-more">View more</a>
+        </div>
+    </section>
+
+    <section class="section js-bg-slide slide-left section--light" data-color="#26499D">
+        <div class="section-inner">
+            <h2 class="section-title">Blog</h2>
+            <div class="grid-4">
+                <div><div class="img-box"></div><p>AI活用のポイント</p></div>
+                <div><div class="img-box"></div><p>トレンド紹介</p></div>
+                <div><div class="img-box"></div><p>最新事例</p></div>
+                <div><div class="img-box"></div><p>導入メリット</p></div>
+            </div>
+            <a href="#" class="view-more">View more</a>
+        </div>
+    </section>
+
+    <section class="section js-bg-slide slide-up section--light" data-color="#0F3568">
+        <div class="section-inner">
+            <h2 class="section-title">Service</h2>
+            <div class="grid-4">
+                <div class="img-box"></div><div class="img-box"></div><div class="img-box"></div><div class="img-box"></div>
+                <div class="img-box"></div><div class="img-box"></div><div class="img-box"></div><div class="img-box"></div>
+            </div>
+            <a href="#" class="view-more">View more</a>
+        </div>
+    </section>
+
+    <section class="section static-white section--dark" data-color="#ffffff">
+        <div class="section-inner">
+            <div class="contact-grid">
+                <div>
+                    <h2 class="section-title">Contact</h2>
+                    <p>お問い合わせ・ご相談はお気軽に。</p>
+                    <p style="margin-top:30px; font-weight:bold;">TEL 012-456-7890</p>
+                </div>
+                <form>
+                    <div class="form-group"><label>会社名</label><input type="text"></div>
+                    <div class="form-group"><label>お名前</label><input type="text"></div>
+                    <div class="form-group"><label>メールアドレス</label><input type="email"></div>
+                    <div class="form-group"><label>内容</label><textarea rows="4"></textarea></div>
+                    <button class="submit-btn">送信する</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <div style="font-size:20px; font-weight:bold;">Brand</div>
+            <p>〒000-0000 東京都港区...</p>
+        </div>
+        <p>© Brand Inc. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const sections = document.querySelectorAll(".section");
+            const colorList = Array.from(sections).map(s => s.getAttribute("data-color"));
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const index = Array.from(sections).indexOf(entry.target);
+                    
+                    if (entry.isIntersecting) {
+                        // 土台の色をセット（白背景セクションも含めて管理）
+                        if (index > 0) {
+                            entry.target.style.backgroundColor = colorList[index - 1];
+                        }
+
+                        // アニメーション実行
+                        if (entry.target.classList.contains('js-bg-slide')) {
+                            const color = entry.target.getAttribute("data-color");
+                            entry.target.style.setProperty("--bg-color", color);
+                            entry.target.classList.add("is-active");
+                        }
+                    } else if (entry.boundingClientRect.top > 0) {
+                        entry.target.classList.remove("is-active");
+                    }
+                });
+            }, { rootMargin: "-25% 0px", threshold: 0 });
+
+            sections.forEach(section => observer.observe(section));
+        });
+    </script>
+</body>
+</html>
