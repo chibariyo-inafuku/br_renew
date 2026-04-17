@@ -4,7 +4,7 @@
 (function () {
 	'use strict';
 
-	var gap = typeof window.innerWidth === 'number' ? window.innerWidth * 1.17 / 100 : 12;
+	var gap = typeof window.innerWidth === 'number' ? window.innerWidth * 1.05 / 100 : 12;
 	var reducedMotion =
 		typeof window.matchMedia === 'function' &&
 		window.matchMedia('(prefers-reduced-motion: reduce)').matches;

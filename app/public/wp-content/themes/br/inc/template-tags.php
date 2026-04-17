@@ -1148,7 +1148,7 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12, $project_
 }
 
 /**
- * Related Works (`portfolio-list` works-s) for a single portfolio post: same `project-categories` first, else other Works by date.
+ * Related Works (`portfolio-list` works-s) for a single portfolio post: all other published Works by date (no category filter).
  *
  * @param int $post_id Current portfolio post ID.
  * @param int $limit   Max posts (excluding current).
@@ -1178,7 +1178,7 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 		return $empty_query();
 	}
 
-	$base = array(
+	$args = array(
 		'post_type'              => 'portfolio',
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
@@ -1189,46 +1189,15 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => true,
-	);
-
-	$list_clause = array(
-		'taxonomy' => 'portfolio-list',
-		'field'    => 'slug',
-		'terms'    => 'works-s',
-	);
-
-	$pc_ids = array();
-	if ( taxonomy_exists( 'project-categories' ) ) {
-		$pc_terms = get_the_terms( $post_id, 'project-categories' );
-		if ( is_array( $pc_terms ) && ! is_wp_error( $pc_terms ) ) {
-			foreach ( $pc_terms as $t ) {
-				if ( $t instanceof WP_Term ) {
-					$pc_ids[] = (int) $t->term_id;
-				}
-			}
-		}
-	}
-
-	if ( $pc_ids !== array() ) {
-		$args            = $base;
-		$args['tax_query'] = array(
-			'relation' => 'AND',
-			$list_clause,
+		'tax_query'              => array(
 			array(
-				'taxonomy' => 'project-categories',
-				'field'    => 'term_id',
-				'terms'    => $pc_ids,
-				'operator' => 'IN',
+				'taxonomy' => 'portfolio-list',
+				'field'    => 'slug',
+				'terms'    => 'works-s',
 			),
-		);
-		$related = new WP_Query( $args );
-		if ( $related->have_posts() ) {
-			return $related;
-		}
-	}
+		),
+	);
 
-	$args            = $base;
-	$args['tax_query'] = array( $list_clause );
 	return new WP_Query( $args );
 }
 

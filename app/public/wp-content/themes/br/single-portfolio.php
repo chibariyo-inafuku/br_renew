@@ -64,6 +64,32 @@ while ( have_posts() ) :
 			)
 		);
 	}
+
+	$project_excerpt       = '';
+	$project_custom_meta_2 = '';
+	if ( function_exists( 'get_field' ) ) {
+		$pe_raw = get_field( 'project_excerpt', $pid );
+		$project_excerpt      = is_string( $pe_raw ) ? trim( $pe_raw ) : '';
+		$cm_raw = get_field( 'project_custom_meta_2', $pid );
+		$project_custom_meta_2 = is_string( $cm_raw ) ? trim( $cm_raw ) : '';
+	}
+
+	$post_categories = get_the_terms( $pid, 'category' );
+	if ( ! is_array( $post_categories ) || is_wp_error( $post_categories ) ) {
+		$post_categories = array();
+	} else {
+		$post_categories = array_values(
+			array_filter(
+				$post_categories,
+				static function ( $t ) {
+					return $t instanceof WP_Term;
+				}
+			)
+		);
+	}
+
+	$has_meta_lead_col = ( $project_terms !== array() || $post_categories !== array() );
+	$show_meta_strip   = ( $project_excerpt !== '' || $project_custom_meta_2 !== '' || $has_meta_lead_col );
 	?>
 <main id="main" class="br-main br-portfolio">
 	<article <?php post_class( 'br-portfolio__article' ); ?>>
@@ -126,11 +152,98 @@ while ( have_posts() ) :
 
 		<section class="br-portfolio__body" data-br-subpage-reveal>
 			<div class="br-container">
+				<?php if ( $show_meta_strip ) : ?>
+					<section class="br-portfolio__meta-strip" aria-label="プロジェクト情報">
+						<div class="br-portfolio__meta-strip-grid<?php echo $has_meta_lead_col ? '' : ' br-portfolio__meta-strip-grid--no-lead'; ?>">
+							<?php if ( $has_meta_lead_col ) : ?>
+								<div class="br-portfolio__meta-strip-col br-portfolio__meta-strip-col--lead">
+									<?php if ( $project_terms ) : ?>
+										<ul class="br-portfolio__meta-strip-project-terms">
+											<?php foreach ( $project_terms as $pc_term ) : ?>
+												<?php
+												if ( ! $pc_term instanceof WP_Term ) {
+													continue;
+												}
+												?>
+												<li class="br-portfolio__meta-strip-project-terms-item">
+													<span class="br-portfolio__meta-strip-project-terms-label"><?php echo esc_html( $pc_term->name ); ?></span>
+												</li>
+											<?php endforeach; ?>
+										</ul>
+									<?php endif; ?>
+									<?php if ( $post_categories ) : ?>
+										<h2 class="br-portfolio__meta-strip-cat-heading<?php echo $project_terms ? ' br-portfolio__meta-strip-cat-heading--after-project-tax' : ''; ?>">Categories</h2>
+										<ul class="br-portfolio__meta-strip-cats">
+											<?php foreach ( $post_categories as $cat_term ) : ?>
+												<?php
+												if ( ! $cat_term instanceof WP_Term ) {
+													continue;
+												}
+												$cat_href = get_term_link( $cat_term );
+												if ( is_wp_error( $cat_href ) ) {
+													$cat_href = '#';
+												}
+												?>
+												<li class="br-portfolio__meta-strip-cats-item">
+													<a class="br-portfolio__meta-strip-cats-link" href="<?php echo esc_url( $cat_href ); ?>"><?php echo esc_html( $cat_term->name ); ?></a>
+												</li>
+											<?php endforeach; ?>
+										</ul>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
+							<?php if ( $project_excerpt !== '' ) : ?>
+								<div class="br-portfolio__meta-strip-col br-portfolio__meta-strip-col--excerpt">
+									<div class="br-portfolio__meta-strip-text">
+										<?php
+										echo wp_kses(
+											$project_excerpt,
+											array(
+												'br'     => array(),
+												'a'      => array(
+													'href'   => true,
+													'target' => true,
+													'rel'    => true,
+													'title'  => true,
+													'class'  => true,
+												),
+												'strong' => array(),
+												'em'     => array(),
+												'span'   => array(
+													'class' => true,
+												),
+											)
+										);
+										?>
+									</div>
+								</div>
+							<?php else : ?>
+								<div class="br-portfolio__meta-strip-col br-portfolio__meta-strip-col--excerpt br-portfolio__meta-strip-col--empty" aria-hidden="true"></div>
+							<?php endif; ?>
+							<?php if ( $project_custom_meta_2 !== '' ) : ?>
+								<div class="br-portfolio__meta-strip-col br-portfolio__meta-strip-col--meta2">
+									<div class="br-portfolio__meta-strip-text br-portfolio__meta-strip-text--rich br-content"><?php echo wp_kses_post( $project_custom_meta_2 ); ?></div>
+								</div>
+							<?php else : ?>
+								<div class="br-portfolio__meta-strip-col br-portfolio__meta-strip-col--meta2 br-portfolio__meta-strip-col--empty" aria-hidden="true"></div>
+							<?php endif; ?>
+						</div>
+					</section>
+				<?php endif; ?>
 				<div class="br-portfolio__content br-content">
 					<?php the_content(); ?>
 				</div>
 			</div>
 		</section>
+
+		<?php
+		if ( $in_works_list && $related_works_q instanceof WP_Query && $related_works_q->post_count > 0 ) {
+			// Pass query via $GLOBALS: get_template_part $args use extract( EXTR_SKIP ); `$query` may not be set if it already exists in scope.
+			$GLOBALS['br_section_related_works_query'] = $related_works_q;
+			get_template_part( 'template-parts/portfolio/section', 'related-works' );
+			unset( $GLOBALS['br_section_related_works_query'] );
+		}
+		?>
 
 		<?php if ( $project_terms ) : ?>
 			<?php
@@ -165,12 +278,6 @@ while ( have_posts() ) :
 			</section>
 		<?php endif; ?>
 	</article>
-
-	<?php
-	if ( $in_works_list && $related_works_q instanceof WP_Query && $related_works_q->post_count > 0 ) {
-		get_template_part( 'template-parts/portfolio/section', 'related-works', array( 'query' => $related_works_q ) );
-	}
-	?>
 
 	<div class="br-home" data-br-subpage-reveal>
 		<?php get_template_part( 'template-parts/home/section', 'cta' ); ?>

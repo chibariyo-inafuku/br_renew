@@ -1,6 +1,6 @@
 <?php
 /**
- * Portfolio single: related Works carousel (expects extracted `$query` from get_template_part args).
+ * Portfolio single: related Works carousel (reads `$GLOBALS['br_section_related_works_query']` from single-portfolio.php).
  *
  * @package br
  */
@@ -9,16 +9,36 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! isset( $query ) || ! $query instanceof WP_Query || $query->post_count < 1 ) {
+$query = null;
+if ( isset( $GLOBALS['br_section_related_works_query'] ) && $GLOBALS['br_section_related_works_query'] instanceof WP_Query ) {
+	$query = $GLOBALS['br_section_related_works_query'];
+}
+
+if ( ! $query || $query->post_count < 1 ) {
 	return;
 }
 ?>
 <section class="br-portfolio-related" data-br-subpage-reveal aria-labelledby="br-portfolio-related-heading">
 	<div class="br-container">
 		<header class="br-portfolio-related__head br-portfolio-related__head--with-nav">
-			<div class="br-portfolio-related__head-text">
-				<p class="br-portfolio-related__kicker">他の実績を見る</p>
-				<h2 class="br-portfolio-related__title" id="br-portfolio-related-heading">OTHER WORKS</h2>
+			<div class="br-portfolio-related__head-text br-home__works-heading br-home__section-head">
+				<h2 class="br-home__works-title" id="br-portfolio-related-heading">
+					<span class="screen-reader-text">Other Works / 他の実績</span>
+					<div class="br-svg-heading br-svg-heading--on-light" data-br-svg-heading>
+						<svg
+							class="br-svg-heading__svg"
+							aria-hidden="true"
+							viewBox="0 0 900 102"
+							preserveAspectRatio="xMinYMin meet"
+							focusable="false"
+						>
+							<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Other Works</text>
+						</svg>
+						<div class="br-svg-heading__sub-wrap">
+							<span class="br-home__works-title-jp br-svg-heading__sub">/ 他の実績</span>
+						</div>
+					</div>
+				</h2>
 			</div>
 			<div class="br-portfolio-related__head-right">
 				<div class="br-portfolio-related__rail-nav" role="group" aria-label="関連実績のスライド">
@@ -54,7 +74,7 @@ if ( ! isset( $query ) || ! $query instanceof WP_Query || $query->post_count < 1
 						</div>
 						<div class="br-portfolio-related__body">
 							<?php if ( $badge !== '' ) : ?>
-								<p class="br-portfolio-related__tag"><?php echo esc_html( $badge ); ?></p>
+								<span class="br-portfolio-related__tag"><?php echo esc_html( $badge ); ?></span>
 							<?php endif; ?>
 							<h3 class="br-portfolio-related__card-title"><?php the_title(); ?></h3>
 						</div>
