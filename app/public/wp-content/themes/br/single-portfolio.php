@@ -38,11 +38,6 @@ while ( have_posts() ) :
 
 	$raw_title = get_the_title();
 	$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Detail';
-	if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && mb_strlen( $crumb_end ) > 32 ) {
-		$crumb_end = mb_substr( $crumb_end, 0, 32 ) . '…';
-	} elseif ( strlen( $crumb_end ) > 40 ) {
-		$crumb_end = substr( $crumb_end, 0, 40 ) . '…';
-	}
 
 	$in_works_list = has_term( 'works-s', 'portfolio-list', $pid );
 
@@ -244,39 +239,6 @@ while ( have_posts() ) :
 			unset( $GLOBALS['br_section_related_works_query'] );
 		}
 		?>
-
-		<?php if ( $project_terms ) : ?>
-			<?php
-			$works_base   = br_get_page_permalink_by_slug( 'works' );
-			$project_base = br_get_page_permalink_by_slug( 'project' );
-			?>
-			<section class="br-portfolio__terms-wrap" data-br-subpage-reveal>
-				<div class="br-container">
-					<h2 class="br-portfolio__terms-heading">カテゴリー</h2>
-					<ul class="br-portfolio__terms">
-						<?php foreach ( $project_terms as $term ) : ?>
-							<?php
-							if ( ! $term instanceof WP_Term ) {
-								continue;
-							}
-							$term_href = get_term_link( $term );
-							if ( is_wp_error( $term_href ) ) {
-								$term_href = '#';
-							}
-							if ( $in_works_list && $works_base !== '' && taxonomy_exists( 'project-categories' ) ) {
-								$term_href = add_query_arg( 'works_cat', $term->slug, $works_base );
-							} elseif ( has_term( 'project-s', 'portfolio-list', $pid ) && $project_base !== '' && taxonomy_exists( 'project-categories' ) ) {
-								$term_href = add_query_arg( 'project_cat', $term->slug, $project_base );
-							}
-							?>
-							<li class="br-portfolio__terms-item">
-								<a class="br-portfolio__terms-link" href="<?php echo esc_url( $term_href ); ?>"><?php echo esc_html( $term->name ); ?></a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			</section>
-		<?php endif; ?>
 	</article>
 
 	<div class="br-home" data-br-subpage-reveal>

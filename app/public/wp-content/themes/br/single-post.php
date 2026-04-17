@@ -19,11 +19,6 @@ while ( have_posts() ) :
 
 		$raw_title = get_the_title();
 		$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Post';
-		if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && mb_strlen( $crumb_end ) > 32 ) {
-			$crumb_end = mb_substr( $crumb_end, 0, 32 ) . '…';
-		} elseif ( strlen( $crumb_end ) > 40 ) {
-			$crumb_end = substr( $crumb_end, 0, 40 ) . '…';
-		}
 
 		$blogs_term = get_term_by( 'slug', 'blogs', 'category' );
 		$cat_labels = array();
@@ -100,11 +95,6 @@ while ( have_posts() ) :
 
 		$raw_title = get_the_title();
 		$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Post';
-		if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && mb_strlen( $crumb_end ) > 32 ) {
-			$crumb_end = mb_substr( $crumb_end, 0, 32 ) . '…';
-		} elseif ( strlen( $crumb_end ) > 40 ) {
-			$crumb_end = substr( $crumb_end, 0, 40 ) . '…';
-		}
 
 		$services_term = get_term_by( 'slug', 'services', 'category' );
 		$cat_labels    = array();
@@ -181,11 +171,6 @@ while ( have_posts() ) :
 
 		$raw_title = get_the_title();
 		$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Post';
-		if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && mb_strlen( $crumb_end ) > 32 ) {
-			$crumb_end = mb_substr( $crumb_end, 0, 32 ) . '…';
-		} elseif ( strlen( $crumb_end ) > 40 ) {
-			$crumb_end = substr( $crumb_end, 0, 40 ) . '…';
-		}
 
 		$news_root_term = get_term_by( 'slug', 'news-s', 'category' );
 		$cat_labels     = array();
