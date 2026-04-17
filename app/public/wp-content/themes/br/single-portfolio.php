@@ -39,11 +39,16 @@ while ( have_posts() ) :
 	$raw_title = get_the_title();
 	$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Detail';
 
-	$in_works_list = has_term( 'works-s', 'portfolio-list', $pid );
+	$in_works_list   = has_term( 'works-s', 'portfolio-list', $pid );
+	$in_project_list = has_term( 'project-s', 'portfolio-list', $pid );
 
-	$related_works_q = null;
+	$related_works_q    = null;
+	$related_projects_q = null;
 	if ( $in_works_list ) {
 		$related_works_q = br_query_related_portfolio_works( $pid, 10 );
+	}
+	if ( $in_project_list ) {
+		$related_projects_q = br_query_related_portfolio_projects( $pid, 10 );
 	}
 
 	$project_terms = get_the_terms( $pid, 'project-categories' );
@@ -237,6 +242,10 @@ while ( have_posts() ) :
 			$GLOBALS['br_section_related_works_query'] = $related_works_q;
 			get_template_part( 'template-parts/portfolio/section', 'related-works' );
 			unset( $GLOBALS['br_section_related_works_query'] );
+		} elseif ( $in_project_list && $related_projects_q instanceof WP_Query && $related_projects_q->post_count > 0 ) {
+			$GLOBALS['br_section_related_projects_query'] = $related_projects_q;
+			get_template_part( 'template-parts/portfolio/section', 'related-projects' );
+			unset( $GLOBALS['br_section_related_projects_query'] );
 		}
 		?>
 	</article>

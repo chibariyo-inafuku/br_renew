@@ -1202,6 +1202,60 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 }
 
 /**
+ * Related Projects (`portfolio-list` project-s) for a single portfolio post: all other published Projects by date (no category filter).
+ *
+ * @param int $post_id Current portfolio post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Project list.
+ */
+function br_query_related_portfolio_projects( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'portfolio',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! taxonomy_exists( 'portfolio-list' ) ) {
+		return $empty_query();
+	}
+	if ( ! has_term( 'project-s', 'portfolio-list', $post_id ) ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'portfolio',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy' => 'portfolio-list',
+				'field'    => 'slug',
+				'terms'    => 'project-s',
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
  * Permalink for a published page by path slug, or empty string.
  *
  * @param string $slug Page slug (e.g. works, contact).
