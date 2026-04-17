@@ -138,7 +138,7 @@ function br_enqueue_assets() {
 	$load_br_cf7 = false;
 	if ( class_exists( 'WPCF7' ) ) {
 		$load_br_cf7 = is_front_page()
-			|| is_page( array( 'recruit', 'contact', 'about', 'works', 'project', 'blog', 'service', 'news' ) )
+			|| is_page( array( 'recruit', 'contact', 'about', 'ceo', 'faq', 'works', 'project', 'blog', 'service', 'news' ) )
 			|| is_singular( 'portfolio' )
 			|| is_singular( 'post' );
 		if ( ! $load_br_cf7 ) {
@@ -212,6 +212,44 @@ function br_enqueue_assets() {
 		wp_enqueue_style(
 			'br-about',
 			$theme_uri . '/assets/css/about.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'ceo' ) ) {
+		$ceo_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$ceo_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$ceo_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-ceo',
+			$theme_uri . '/assets/css/ceo.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'faq' ) ) {
+		$faq_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$faq_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$faq_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-faq',
+			$theme_uri . '/assets/css/faq.css',
 			array( 'br-home' ),
 			BR_VERSION
 		);

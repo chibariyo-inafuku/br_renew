@@ -5,9 +5,6 @@
  * @package br
  */
 
-$about_url = function_exists( 'br_get_page_permalink_by_slug' ) ? br_get_page_permalink_by_slug( 'about' ) : '';
-$ceo_href  = ( $about_url !== '' ) ? esc_url( $about_url . '#ceo' ) : esc_url( '#' );
-
 $br_footer_logo = get_template_directory_uri() . '/assets/images/br-footer-logo.png';
 
 // Privacy: WP 設定のプライバシーポリシーページ優先。未設定なら固定ページスラッグ privacy。
@@ -46,7 +43,7 @@ $privacy_href = ( $privacy_url !== '' ) ? esc_url( $privacy_url ) : '';
 					<a class="br-footer__nav-heading" href="<?php echo br_page_href( 'about' ); ?>">About</a>
 					<ul class="br-footer__nav-list" role="list">
 						<li>
-							<a href="<?php echo $ceo_href; ?>">
+							<a href="<?php echo br_page_href( 'ceo' ); ?>">
 								<span class="br-footer__nav-prefix" aria-hidden="true">- </span>CEO
 							</a>
 						</li>
