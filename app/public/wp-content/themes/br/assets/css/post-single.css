@@ -25,14 +25,15 @@
 
 .br-post-single__heading-inner {
 	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
-	justify-content: space-between;
-	gap: clamp(1rem, 2vw, 2rem);
+	flex-direction: column;
+	align-items: stretch;
+	flex-wrap: nowrap;
+	gap: clamp(0.5rem, 1.25vw, 0.85rem);
 }
 
 .br-post-single__heading-title {
-	flex: 1 1 min(100%, 40rem);
+	flex: 0 0 auto;
+	width: 100%;
 	min-width: 0;
 	margin: 0;
 	padding: 0;
@@ -65,7 +66,34 @@
 	line-height: 1.2;
 	letter-spacing: 0.06em;
 	color: var(--br-ink);
-	text-wrap: balance;
+}
+
+.br-post-single__meta-dates {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: clamp(0.75rem, 2vw, 1.25rem);
+	margin: clamp(0.5rem, 1.25vw, 0.85rem) 0 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+	letter-spacing: 0.04em;
+}
+
+.br-post-single__meta-date {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.35em;
+}
+
+.br-post-single__meta-date-label {
+	font-weight: 500;
+	color: #8a96a8;
+}
+
+.br-post-single__meta-date-value {
+	font-weight: 600;
+	color: var(--br-ink);
 }
 
 .br-post-single__breadcrumb-list {
@@ -156,5 +184,9 @@
 	.br-post-single__title {
 		font-size: 28px;
 		line-height: 1.25;
+	}
+
+	.br-post-single__meta-dates {
+		font-size: 13px;
 	}
 }

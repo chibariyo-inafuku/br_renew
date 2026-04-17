@@ -1256,6 +1256,94 @@ function br_query_related_portfolio_projects( $post_id, $limit = 10 ) {
 }
 
 /**
+ * First non-root `blogs` category name for Blog card badge, or empty.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_blog_post_card_category_label( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return '';
+	}
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return '';
+	}
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( (int) $t->term_id === (int) $blogs->term_id || $t->slug === 'blogs' ) {
+			continue;
+		}
+		return $t->name;
+	}
+	return '';
+}
+
+/**
+ * Related Blog posts: other published posts in the `blogs` tree (excluding current).
+ *
+ * @param int $post_id Current post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Blog category tree.
+ */
+function br_query_related_blog_posts( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! function_exists( 'br_post_in_blog_category_tree' ) || ! br_post_in_blog_category_tree( $post_id ) ) {
+		return $empty_query();
+	}
+
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'post',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => (int) $blogs->term_id,
+				'include_children' => true,
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
  * Permalink for a published page by path slug, or empty string.
  *
  * @param string $slug Page slug (e.g. works, contact).

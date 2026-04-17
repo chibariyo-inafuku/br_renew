@@ -34,21 +34,23 @@ while ( have_posts() ) :
 				$cat_labels[] = $t->name;
 			}
 		}
-		$cat_line = $cat_labels !== array() ? implode( ' ・ ', $cat_labels ) : '';
-		$date_line = get_the_date( 'Y.m.d', $pid );
+		$cat_line   = $cat_labels !== array() ? implode( ' ・ ', $cat_labels ) : '';
+		$pub_date   = get_the_date( 'Y.m.d', $pid );
+		$mod_date   = get_the_modified_date( 'Y.m.d', $pid );
+		$pub_w3c    = get_the_date( DATE_W3C, $pid );
+		$mod_w3c    = get_the_modified_date( DATE_W3C, $pid );
+		$related_posts_q = function_exists( 'br_query_related_blog_posts' ) ? br_query_related_blog_posts( $pid, 10 ) : null;
 		?>
 <main id="main" class="br-main br-post-single">
 	<article <?php post_class( 'br-post-single__article' ); ?>>
 		<section class="br-post-single__heading" aria-labelledby="br-post-single-title" data-br-subpage-reveal>
 			<div class="br-container br-post-single__heading-inner">
 				<header class="br-post-single__heading-title">
-					<p class="br-post-single__kicker">
-						<span class="br-post-single__date"><?php echo esc_html( $date_line ); ?></span>
-						<?php if ( $cat_line !== '' ) : ?>
-							<span class="br-post-single__kicker-sep" aria-hidden="true"> ・ </span>
+					<?php if ( $cat_line !== '' ) : ?>
+						<p class="br-post-single__kicker">
 							<span class="br-post-single__kicker-cats"><?php echo esc_html( $cat_line ); ?></span>
-						<?php endif; ?>
-					</p>
+						</p>
+					<?php endif; ?>
 					<h1 class="br-post-single__title" id="br-post-single-title"><?php the_title(); ?></h1>
 				</header>
 				<nav class="br-post-single__breadcrumb" aria-label="パンくず">
@@ -60,6 +62,16 @@ while ( have_posts() ) :
 						<li><span class="br-post-single__breadcrumb-current"><?php echo esc_html( $crumb_end ); ?></span></li>
 					</ol>
 				</nav>
+				<p class="br-post-single__meta-dates" role="group" aria-label="公開日・更新日">
+					<span class="br-post-single__meta-date">
+						<span class="br-post-single__meta-date-label">公開日:</span>
+						<time class="br-post-single__meta-date-value" datetime="<?php echo esc_attr( $pub_w3c ); ?>"><?php echo esc_html( $pub_date ); ?></time>
+					</span>
+					<span class="br-post-single__meta-date">
+						<span class="br-post-single__meta-date-label">更新日:</span>
+						<time class="br-post-single__meta-date-value" datetime="<?php echo esc_attr( $mod_w3c ); ?>"><?php echo esc_html( $mod_date ); ?></time>
+					</span>
+				</p>
 			</div>
 		</section>
 
@@ -80,6 +92,14 @@ while ( have_posts() ) :
 				</div>
 			</div>
 		</section>
+
+		<?php
+		if ( $related_posts_q instanceof WP_Query && $related_posts_q->post_count > 0 ) {
+			$GLOBALS['br_section_related_posts_query'] = $related_posts_q;
+			get_template_part( 'template-parts/post/section', 'related-posts' );
+			unset( $GLOBALS['br_section_related_posts_query'] );
+		}
+		?>
 	</article>
 
 	<div class="br-home" data-br-subpage-reveal>
