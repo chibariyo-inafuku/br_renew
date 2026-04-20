@@ -1,0 +1,132 @@
+/**
+ * Thanks / recruit application success pages — liquid spacing, px typography.
+ *
+ * @package br
+ */
+
+.br-main.br-thanks {
+	padding-top: clamp(2rem, 5vw, 4rem);
+	padding-bottom: clamp(3rem, 6.94vw, 5rem);
+	color: var(--br-accent);
+}
+
+.br-thanks [id] {
+	scroll-margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+.br-thanks__section {
+	margin: 0;
+}
+
+.br-thanks__inner {
+	max-width: min(40rem, 100%);
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.br-thanks__illustration {
+	display: flex;
+	justify-content: center;
+	margin: 0 0 clamp(1.75rem, 3.47vw, 2.5rem);
+}
+
+.br-thanks__illustration-img {
+	display: block;
+	width: clamp(200px, 38vw, 280px);
+	height: auto;
+	max-width: 100%;
+}
+
+.br-thanks__title {
+	margin: 0 0 clamp(1.25rem, 2.78vw, 2rem);
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.5;
+	letter-spacing: 0.04em;
+	color: var(--br-accent);
+}
+
+.br-thanks__body {
+	margin: 0 0 clamp(1rem, 2.22vw, 1.5rem);
+}
+
+.br-thanks__line {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 1.75;
+	letter-spacing: 0.02em;
+	color: var(--br-accent);
+}
+
+.br-thanks__line + .br-thanks__line {
+	margin-top: 0.35em;
+}
+
+.br-thanks__note {
+	margin: 0 0 clamp(2rem, 4.17vw, 3rem);
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.7;
+	letter-spacing: 0.02em;
+	color: var(--br-accent);
+}
+
+.br-thanks__cta-wrap {
+	margin: 0;
+}
+
+.br-thanks__cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: min(100%, 280px);
+	padding: 0.85em 2.25em;
+	border: 1px solid var(--br-ink);
+	border-radius: 999px;
+	background: #fff;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 1.4;
+	letter-spacing: 0.06em;
+	color: var(--br-ink);
+	text-decoration: none;
+	transition: opacity 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.br-thanks__cta:hover,
+.br-thanks__cta:focus-visible {
+	opacity: 0.88;
+	border-color: var(--br-accent);
+	color: var(--br-accent);
+}
+
+.br-thanks__cta:focus-visible {
+	outline: 2px solid var(--br-accent);
+	outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+	.br-thanks__title {
+		font-size: 20px;
+	}
+
+	.br-thanks__line {
+		font-size: 15px;
+	}
+
+	.br-thanks__note {
+		font-size: 13px;
+	}
+
+	.br-thanks__cta {
+		font-size: 14px;
+		min-width: 100%;
+		max-width: 320px;
+	}
+}
