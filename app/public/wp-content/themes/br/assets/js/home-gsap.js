@@ -45,17 +45,98 @@
 		});
 	}
 
+	/** CodePen ZYdopE–style noise pool (no Snap.svg). */
+	var HERO_SCRAMBLE_NOISE =
+		'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン' +
+		'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろをん' +
+		'0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+
+	function heroScrambleImmediateChar(ch) {
+		return /[\s\u3000、。，．]/.test(ch);
+	}
+
+	function heroScrambleNoiseChar() {
+		return HERO_SCRAMBLE_NOISE.charAt(Math.floor(Math.random() * HERO_SCRAMBLE_NOISE.length));
+	}
+
+	/**
+	 * Split .br-home__hero-title-box text into per-grapheme spans (for...of).
+	 * @return {Array<{ el: HTMLSpanElement, final: string }>}
+	 */
+	function heroWrapTitleBoxChars(box) {
+		var raw = box.textContent;
+		box.textContent = '';
+		var out = [];
+		var it = raw[Symbol.iterator]();
+		var step;
+		while (!(step = it.next()).done) {
+			var ch = step.value;
+			var span = document.createElement('span');
+			span.className = 'br-home__hero-title-char';
+			span.textContent = ch;
+			box.appendChild(span);
+			out.push({ el: span, final: ch });
+		}
+		return out;
+	}
+
+	/**
+	 * Schedule tl.call steps: noise ticks then lock to final (per char, staggered).
+	 */
+	function heroAddScrambleToTimeline(tl, charItems, tStart) {
+		var charStagger = 0.055;
+		var tickInterval = 0.038;
+		var baseCycles = 5;
+		var gi = 0;
+		for (var i = 0; i < charItems.length; i++) {
+			var item = charItems[i];
+			var fin = item.final;
+			if (heroScrambleImmediateChar(fin)) {
+				continue;
+			}
+			var cycles = baseCycles + (gi % 4);
+			var start = tStart + gi * charStagger;
+			gi++;
+			for (var k = 0; k < cycles; k++) {
+				tl.call(
+					function (el) {
+						el.textContent = heroScrambleNoiseChar();
+					},
+					[item.el],
+					start + k * tickInterval
+				);
+			}
+			tl.call(
+				function (el, text) {
+					el.textContent = text;
+				},
+				[item.el, fin],
+				start + cycles * tickInterval
+			);
+		}
+	}
+
 	gsap.context(function () {
 		var hero = root.querySelector('.br-home__hero');
 		if (hero) {
 			var bgVideo = hero.querySelector('.br-home__hero-video');
 			var bgMesh = hero.querySelector('.br-home__hero-mesh');
 			var titleLines = hero.querySelectorAll('.br-home__hero-title-line');
+			var titleBoxes = hero.querySelectorAll('.br-home__hero-title-box');
+			var heroTitleH1 = hero.querySelector('.br-home__hero-title');
 			var lead = hero.querySelector('.br-home__hero-lead');
 			var cta = hero.querySelector('.br-home__hero-cta');
 
+			var allTitleChars = [];
+			for (var bi = 0; bi < titleBoxes.length; bi++) {
+				var merged = heroWrapTitleBoxChars(titleBoxes[bi]);
+				for (var mj = 0; mj < merged.length; mj++) {
+					allTitleChars.push(merged[mj]);
+				}
+			}
+
 			if (titleLines.length) {
-				gsap.set(titleLines, { autoAlpha: 0, y: 36 });
+				gsap.set(titleLines, { autoAlpha: 0, y: 28 });
 			}
 			if (lead) {
 				gsap.set(lead, { autoAlpha: 0, y: 24 });
@@ -71,6 +152,12 @@
 			}
 
 			var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+			if (heroTitleH1) {
+				heroTitleH1.setAttribute('aria-busy', 'true');
+				tl.eventCallback('onComplete', function () {
+					heroTitleH1.removeAttribute('aria-busy');
+				});
+			}
 			if (bgVideo) {
 				tl.to(bgVideo, { scale: 1, opacity: 1, duration: 1.15 }, 0);
 			}
@@ -80,15 +167,18 @@
 			if (titleLines.length) {
 				tl.to(
 					titleLines,
-					{ autoAlpha: 1, y: 0, duration: 0.75, stagger: 0.12 },
-					0.22
+					{ autoAlpha: 1, y: 0, duration: 0.42, stagger: 0.09, ease: 'power2.out' },
+					0.16
 				);
 			}
+			if (allTitleChars.length) {
+				heroAddScrambleToTimeline(tl, allTitleChars, 0.22);
+			}
 			if (lead) {
-				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.32');
+				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.28');
 			}
 			if (cta) {
-				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.38');
+				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.34');
 			}
 
 			if (bgVideo) {

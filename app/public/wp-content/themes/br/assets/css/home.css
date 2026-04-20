@@ -219,6 +219,11 @@
 	overflow-wrap: normal;
 }
 
+.br-home__hero-title-char {
+	display: inline-block;
+	min-width: 0.05em;
+}
+
 .br-home__hero-lead {
 	margin: 0;
 	font-size: 19px;

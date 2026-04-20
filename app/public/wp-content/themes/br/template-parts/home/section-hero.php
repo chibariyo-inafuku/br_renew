@@ -28,10 +28,10 @@ $vid  = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
 		<div class="br-home__hero-text">
 			<div class="br-home__hero-copy">
 				<h1 class="br-home__hero-title">
-					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box"><?php echo esc_html( $copy['hero_line_1'] ); ?></span></span>
-					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box"><?php echo esc_html( $copy['hero_line_2'] ); ?></span></span>
+					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">マーケティングプロモーションに、</span></span>
+					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">AIという武器を。</span></span>
 				</h1>
-				<p class="br-home__hero-lead"><?php echo esc_html( $copy['hero_lead'] ); ?></p>
+				<p class="br-home__hero-lead">期待を超えるクオリティとスピードで価値を創る、AIクリエイティブスタジオ。</p>
 			</div>
 			<?php if ( $cta !== '' && $copy['hero_cta'] !== '' ) : ?>
 				<p class="br-home__hero-cta">
