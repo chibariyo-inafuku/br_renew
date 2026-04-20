@@ -1,0 +1,120 @@
+/**
+ * Blog single post — auto-generated table of contents (TOC).
+ *
+ * Liquid spacing (clamp / vw); typography is px-fixed per site rules.
+ * Scoped under .br-post-single so this never leaks into other templates.
+ *
+ * @package br
+ */
+
+.br-post-single .br-post-toc {
+	box-sizing: border-box;
+	margin: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(1.75rem, 3.5vw, 3rem);
+	padding: clamp(1rem, 2vw, 1.75rem) clamp(1rem, 2.5vw, 2rem);
+	border: 1px solid var(--br-line-muted);
+	background: #f6f6f6;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	color: var(--br-ink);
+}
+
+.br-post-single .br-post-toc *,
+.br-post-single .br-post-toc *::before,
+.br-post-single .br-post-toc *::after {
+	box-sizing: inherit;
+}
+
+/* Specificity bump: body content rules in single-content.css scope h2/h3 via
+ * :is(.br-post-single__content.br-content, …) h2 = (0,2,1). Chain extra
+ * classes here to win and reset border-left / padding-left / font-size. */
+.br-post-single .br-post-toc h2.br-post-toc__title {
+	margin: 0 0 clamp(0.5rem, 1.25vw, 0.85rem);
+	padding: 0;
+	border: 0;
+	border-left: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.04em;
+	color: var(--br-ink);
+}
+
+/* Specificity bump (mirroring h2 fix above): single-content.css scopes ol/li
+ * via :is(.br-post-single__content.br-content, …) ol|li with specificity
+ * (0,2,1), which would otherwise add unwanted padding-left and margin. */
+.br-post-single .br-post-toc ol.br-post-toc__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 14px;
+	line-height: 1.8;
+}
+
+.br-post-single .br-post-toc ol.br-post-toc__list--nested {
+	margin-top: 0.25em;
+	margin-bottom: 0;
+}
+
+.br-post-single .br-post-toc li.br-post-toc__item {
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.br-post-single .br-post-toc li.br-post-toc__item + .br-post-toc__item {
+	margin-top: 0.15em;
+}
+
+.br-post-single .br-post-toc li.br-post-toc__item--lv3 {
+	padding-left: clamp(1rem, 2vw, 1.5rem);
+}
+
+.br-post-single .br-post-toc li.br-post-toc__item--lv4 {
+	padding-left: clamp(2rem, 4vw, 3rem);
+}
+
+.br-post-single .br-post-toc__num {
+	display: inline;
+	margin-right: 0.4em;
+	color: var(--br-accent);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Specificity bump: body content rules color all <a> with --br-accent and
+ * underline (0,2,1). We want the TOC links to default to ink and only
+ * highlight on hover / focus. */
+.br-post-single .br-post-toc a.br-post-toc__link {
+	color: var(--br-ink);
+	text-decoration: none;
+	transition: color 0.2s ease;
+	overflow-wrap: anywhere;
+}
+
+.br-post-single .br-post-toc a.br-post-toc__link:hover {
+	color: var(--br-accent);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.25em;
+}
+
+.br-post-single .br-post-toc a.br-post-toc__link:focus-visible {
+	outline: 2px solid var(--br-accent);
+	outline-offset: 2px;
+	color: var(--br-accent);
+}
+
+@media (max-width: 768px) {
+	.br-post-single .br-post-toc {
+		padding: clamp(0.85rem, 4vw, 1.25rem) clamp(0.85rem, 4vw, 1.25rem);
+	}
+
+	.br-post-single .br-post-toc__title {
+		font-size: 13px;
+	}
+
+	.br-post-single .br-post-toc__list {
+		font-size: 13px;
+		line-height: 1.75;
+	}
+}

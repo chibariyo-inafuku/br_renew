@@ -456,6 +456,19 @@ function br_enqueue_assets() {
 				BR_VERSION,
 				true
 			);
+			wp_enqueue_style(
+				'br-post-single-toc',
+				$theme_uri . '/assets/css/post-single-toc.css',
+				array( 'br-post-single' ),
+				BR_VERSION
+			);
+			wp_enqueue_script(
+				'br-post-single-toc',
+				$theme_uri . '/assets/js/post-single-toc.js',
+				array(),
+				BR_VERSION,
+				true
+			);
 			$post_single_content_deps = array( 'br-related-rail' );
 		} elseif ( $post_id > 0 && function_exists( 'br_post_in_service_category_tree' ) && br_post_in_service_category_tree( $post_id ) ) {
 			wp_enqueue_style(

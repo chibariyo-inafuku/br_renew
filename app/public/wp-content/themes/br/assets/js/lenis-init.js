@@ -76,11 +76,44 @@
 		return isNaN(v) ? 0 : v;
 	}
 
+	/*
+	 * Site-wide floating SP header offset.
+	 *
+	 * At SP (≤768px) .br-header--sidebar is position:fixed at the top of the
+	 * viewport, so any anchor jump needs the target pushed down by its height
+	 * to avoid the header covering the heading. Measuring live also handles
+	 * the WP admin bar (which shifts the header down by 46px).
+	 *
+	 * On desktop the header is a left sidebar (not occupying the top), so we
+	 * return 0 here and let each page's own CSS scroll-margin-top win.
+	 */
+	function floatingHeaderOffset() {
+		if (!window.matchMedia('(max-width: 768px)').matches) {
+			return 0;
+		}
+		var header = document.querySelector('.br-header--sidebar');
+		if (!header) {
+			return 0;
+		}
+		var rect = header.getBoundingClientRect();
+		if (!rect || !rect.height) {
+			return 0;
+		}
+		if (rect.top > 4 || rect.height > window.innerHeight * 0.5) {
+			return 0;
+		}
+		return Math.round(rect.height) + 16;
+	}
+
+	function effectiveTopOffset(el) {
+		return Math.max(scrollMarginTop(el), floatingHeaderOffset());
+	}
+
 	function scrollToTarget(el) {
 		if (!el) {
 			return;
 		}
-		var offset = -scrollMarginTop(el);
+		var offset = -effectiveTopOffset(el);
 		if (window.brLenis) {
 			window.brLenis.scrollTo(el, { offset: offset });
 			return;
