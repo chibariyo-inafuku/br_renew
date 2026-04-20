@@ -28,10 +28,20 @@ $vid  = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
 		<div class="br-home__hero-text">
 			<div class="br-home__hero-copy">
 				<h1 class="br-home__hero-title">
-					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">マーケティングプロモーションに、</span></span>
-					<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">AIという武器を。</span></span>
+					<span class="screen-reader-text">マーケティングプロモーションに、AIという武器を。</span>
+					<span class="br-home__hero-title-layer br-home__hero-title-layer--desktop" aria-hidden="true">
+						<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">マーケティングプロモーションに、</span></span>
+						<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">AIという武器を。</span></span>
+					</span>
+					<span class="br-home__hero-title-layer br-home__hero-title-layer--mobile" aria-hidden="true">
+						<span class="br-home__hero-title-line-group">
+							<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">マーケティング</span></span>
+							<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">プロモーションに、</span></span>
+						</span>
+						<span class="br-home__hero-title-line"><span class="br-home__hero-title-box">AIという武器を。</span></span>
+					</span>
 				</h1>
-				<p class="br-home__hero-lead">期待を超えるクオリティとスピードで価値を創る、AIクリエイティブスタジオ。</p>
+				<p class="br-home__hero-lead">期待を超えるクオリティとスピードで価値を創る、<br class="br-home__hero-lead-br" aria-hidden="true">AIクリエイティブスタジオ。</p>
 			</div>
 			<?php if ( $cta !== '' && $copy['hero_cta'] !== '' ) : ?>
 				<p class="br-home__hero-cta">
