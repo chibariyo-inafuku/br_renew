@@ -255,6 +255,63 @@ function br_enqueue_assets() {
 		);
 	}
 
+	if ( is_page( 'recruit' ) ) {
+		$recruit_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$recruit_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$recruit_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-recruit',
+			$theme_uri . '/assets/css/recruit.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_page( 'contact' ) ) {
+		$contact_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$contact_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$contact_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-contact',
+			$theme_uri . '/assets/css/contact.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
+	if ( is_singular( 'page' ) && ! is_front_page() && basename( (string) get_page_template() ) === 'page.php' ) {
+		$page_default_home_deps = array( 'br-main', 'br-hop-btn' );
+		if ( $load_br_cf7 ) {
+			$page_default_home_deps[] = 'br-cf7';
+		}
+		wp_enqueue_style(
+			'br-home',
+			$theme_uri . '/assets/css/home.css',
+			$page_default_home_deps,
+			BR_VERSION
+		);
+		wp_enqueue_style(
+			'br-page-default',
+			$theme_uri . '/assets/css/page-default.css',
+			array( 'br-home' ),
+			BR_VERSION
+		);
+	}
+
 	if ( is_page( 'works' ) ) {
 		$works_home_deps = array( 'br-main', 'br-hop-btn' );
 		if ( $load_br_cf7 ) {

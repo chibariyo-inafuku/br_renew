@@ -1555,6 +1555,23 @@ function br_get_contact_page_cf7_shortcode() {
 }
 
 /**
+ * First Contact Form 7 shortcode string from the published Recruit page content, or empty.
+ *
+ * @return string
+ */
+function br_get_recruit_page_cf7_shortcode() {
+	$page = get_page_by_path( 'recruit', OBJECT, 'page' );
+	if ( ! $page instanceof WP_Post || $page->post_status !== 'publish' ) {
+		return '';
+	}
+	$content = (string) $page->post_content;
+	if ( preg_match( '/\[contact-form-7[^\]]*\]/i', $content, $m ) ) {
+		return $m[0];
+	}
+	return '';
+}
+
+/**
  * Escaped permalink for a page slug, or "#" if the page is missing (static nav markup).
  *
  * @param string $slug Page slug.

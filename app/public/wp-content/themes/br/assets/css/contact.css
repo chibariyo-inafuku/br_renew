@@ -1,0 +1,192 @@
+/**
+ * Contact page — /contact/ (liquid layout; typography px).
+ *
+ * @package br
+ */
+
+.br-main.br-contact {
+	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.br-contact [id] {
+	scroll-margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* -------------------------------------------------------------------------
+   Hero + breadcrumb
+   ------------------------------------------------------------------------- */
+.br-contact__heading {
+	position: relative;
+	border-bottom: 1px solid var(--br-line-muted);
+	padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
+	margin-bottom: 0;
+	overflow: hidden;
+}
+
+.br-contact__heading-inner {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+.br-contact__hero-watermark {
+	position: absolute;
+	left: 50%;
+	top: clamp(-0.5rem, -1vw, 0);
+	transform: translateX(-50%);
+	margin: 0;
+	pointer-events: none;
+	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+	font-size: clamp(3rem, 11vw, 8rem);
+	font-weight: 900;
+	line-height: 1;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--br-ink);
+	opacity: 0.04;
+	white-space: nowrap;
+}
+
+.br-contact__heading-title.br-home__works-heading {
+	padding-left: 0;
+	padding-right: 0;
+	position: relative;
+	z-index: 1;
+}
+
+.br-contact .br-home__works-title {
+	margin: 0;
+}
+
+.br-contact .br-home__works-title .br-svg-heading.br-svg-heading--on-light {
+	color: var(--br-ink);
+}
+
+.br-contact .br-home__works-title-jp {
+	color: #43526a;
+}
+
+#br-contact-title .br-svg-heading__text {
+	font-size: calc(52px * 920 / 640);
+}
+
+.br-contact__breadcrumb {
+	position: relative;
+	z-index: 1;
+}
+
+.br-contact__breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+}
+
+.br-contact__breadcrumb a {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: opacity 0.2s ease;
+}
+
+.br-contact__breadcrumb a:hover,
+.br-contact__breadcrumb a:focus-visible {
+	opacity: 0.85;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-contact__breadcrumb-sep {
+	color: #8a96a8;
+}
+
+.br-contact__breadcrumb-current {
+	color: #43526a;
+}
+
+.br-contact__lead-wrap {
+	padding-top: clamp(1rem, 2.22vw, 2rem);
+	padding-bottom: clamp(1.5rem, 3.33vw, 2.5rem);
+}
+
+.br-contact__lead {
+	margin: 0 0 clamp(1.25rem, 2.22vw, 1.75rem);
+	max-width: 42rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 1.85;
+	letter-spacing: 0.04em;
+	color: #475569;
+}
+
+/* Urgent card — Figma Urgent Contact Info */
+.br-contact__urgent {
+	margin: 0;
+	max-width: 28rem;
+	padding: clamp(1rem, 1.67vw, 1.25rem) clamp(1.25rem, 2.22vw, 1.5rem);
+	background: #fff;
+	border: 1px solid var(--br-line-muted, #dce1e8);
+	border-radius: clamp(0.75rem, 1.11vw, 1rem);
+	box-shadow: 0 clamp(0.2rem, 0.42vw, 0.35rem) clamp(1rem, 1.67vw, 1.25rem) rgba(1, 16, 26, 0.06);
+}
+
+.br-contact__urgent-label {
+	margin: 0 0 0.35rem;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 800;
+	line-height: 1.4;
+	letter-spacing: 0.06em;
+	color: var(--br-ink);
+}
+
+.br-contact__urgent-tel {
+	margin: 0;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: clamp(22px, 3.5vw, 28px);
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.04em;
+}
+
+.br-contact__urgent-tel-link {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.br-contact__urgent-tel-link:hover,
+.br-contact__urgent-tel-link:focus-visible {
+	color: var(--br-accent-hover, #005a99);
+}
+
+/* Form band: .br-home__section--cta + .br-subpage-cta-form-band (home.css) */
+
+.br-contact .br-home__cta-inner--form-only .br-home__cta-col--form {
+	max-width: none;
+}
+
+.br-contact__form-section.br-home__section > .br-container {
+	--br-home-space-section-gap: 0;
+}
+
+@media (max-width: 768px) {
+	.br-contact__lead {
+		font-size: 14px;
+	}
+
+	#br-contact-title .br-svg-heading__text {
+		font-size: calc(40px * 920 / 640);
+	}
+}

@@ -55,6 +55,21 @@
 
 }
 
+/* Tokens for CTA band + CF7 on subpages (Recruit entry, Contact) — mirrors .br-home for var() consumers */
+.br-subpage-cta-form-band {
+	--br-home-gutter: 1.17vw;
+	--br-home-text-body: 16px;
+	--br-home-text-small: 13px;
+	--br-home-text-section-jp: 14px;
+	--br-home-space-section-gap: 4.69vw;
+	--br-home-ink: var(--br-ink);
+	--br-home-ink-muted: #4a5568;
+	--br-home-accent: var(--br-accent);
+	--br-home-accent-hover: var(--br-accent-hover);
+	--br-home-band-tint: var(--br-surface-soft);
+	--br-home-cta-hpad: clamp(0rem, 1.67vw, 1.5rem);
+}
+
 .br-main.br-home {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -1801,6 +1816,19 @@ html.br-home-js .br-home__palarax-tagline {
 		order: 1;
 		padding-right: var(--br-home-cta-hpad);
 	}
+}
+
+/* Form-only CTA row (subpages): single column, centered card */
+.br-home__cta-inner--form-only {
+	grid-template-columns: 1fr;
+	justify-items: center;
+}
+
+.br-home__cta-inner--form-only .br-home__cta-col--form {
+	width: 100%;
+	max-width: min(100%, 40rem);
+	padding-left: var(--br-home-cta-hpad);
+	padding-right: var(--br-home-cta-hpad);
 }
 
 /* -------------------------------------------------------------------------
