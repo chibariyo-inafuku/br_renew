@@ -15,7 +15,6 @@ while ( have_posts() ) :
 <main id="main" class="br-main br-contact">
 	<section class="br-contact__heading" aria-labelledby="br-contact-title" data-br-subpage-reveal>
 		<div class="br-container br-contact__heading-inner">
-			<p class="br-contact__hero-watermark" aria-hidden="true">MESSAGE</p>
 			<header class="br-contact__heading-title br-home__works-heading br-home__section-head">
 				<h1 class="br-home__works-title" id="br-contact-title">
 					<span class="screen-reader-text">Contact Us / お問い合わせ</span>

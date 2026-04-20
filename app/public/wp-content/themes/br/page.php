@@ -17,7 +17,6 @@ while ( have_posts() ) :
 <main id="main" class="br-main br-page-default">
 	<section class="br-page-default__heading" aria-labelledby="br-page-default-title" data-br-subpage-reveal>
 		<div class="br-container br-page-default__heading-inner">
-			<p class="br-page-default__hero-watermark" aria-hidden="true">PAGE</p>
 			<header class="br-page-default__heading-title br-home__works-heading br-home__section-head">
 				<h1 class="br-home__works-title" id="br-page-default-title">
 					<span class="screen-reader-text"><?php echo esc_html( $br_page_title ); ?></span>

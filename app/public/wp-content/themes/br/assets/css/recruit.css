@@ -33,24 +33,6 @@
 	gap: clamp(1rem, 2vw, 2rem);
 }
 
-.br-recruit__hero-watermark {
-	position: absolute;
-	left: 50%;
-	top: clamp(-0.5rem, -1vw, 0);
-	transform: translateX(-50%);
-	margin: 0;
-	pointer-events: none;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-	font-size: clamp(3.5rem, 12.5vw, 9rem);
-	font-weight: 900;
-	line-height: 1;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--br-ink);
-	opacity: 0.04;
-	white-space: nowrap;
-}
-
 .br-recruit__heading-title.br-home__works-heading {
 	padding-left: 0;
 	padding-right: 0;
@@ -425,6 +407,13 @@
 
 .br-recruit .br-home__cta-inner--form-only .br-home__cta-col--form {
 	max-width: none;
+}
+
+/* Recruit entry CF7: show placeholders (home CTA hides them for label-only layout) */
+.br-main.br-recruit .br-home__section--cta .wpcf7 input::placeholder,
+.br-main.br-recruit .br-home__section--cta .wpcf7 textarea::placeholder {
+	opacity: 1;
+	color: #8a96a8;
 }
 
 @media (max-width: 768px) {

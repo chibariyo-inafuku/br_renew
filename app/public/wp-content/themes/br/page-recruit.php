@@ -15,7 +15,6 @@ while ( have_posts() ) :
 <main id="main" class="br-main br-recruit">
 	<section class="br-recruit__heading" aria-labelledby="br-recruit-title" data-br-subpage-reveal>
 		<div class="br-container br-recruit__heading-inner">
-			<p class="br-recruit__hero-watermark" aria-hidden="true">RECRUIT</p>
 			<header class="br-recruit__heading-title br-home__works-heading br-home__section-head">
 				<h1 class="br-home__works-title" id="br-recruit-title">
 					<span class="screen-reader-text">Recruit / 採用情報</span>

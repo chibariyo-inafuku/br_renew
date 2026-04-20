@@ -33,24 +33,6 @@
 	gap: clamp(1rem, 2vw, 2rem);
 }
 
-.br-contact__hero-watermark {
-	position: absolute;
-	left: 50%;
-	top: clamp(-0.5rem, -1vw, 0);
-	transform: translateX(-50%);
-	margin: 0;
-	pointer-events: none;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-	font-size: clamp(3rem, 11vw, 8rem);
-	font-weight: 900;
-	line-height: 1;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	color: var(--br-ink);
-	opacity: 0.04;
-	white-space: nowrap;
-}
-
 .br-contact__heading-title.br-home__works-heading {
 	padding-left: 0;
 	padding-right: 0;
@@ -175,6 +157,13 @@
 
 .br-contact .br-home__cta-inner--form-only .br-home__cta-col--form {
 	max-width: none;
+}
+
+/* Contact CF7: visible placeholders (CTA base hides them) */
+.br-main.br-contact .br-home__section--cta .wpcf7 input::placeholder,
+.br-main.br-contact .br-home__section--cta .wpcf7 textarea::placeholder {
+	opacity: 1;
+	color: #8a96a8;
 }
 
 .br-contact__form-section.br-home__section > .br-container {
