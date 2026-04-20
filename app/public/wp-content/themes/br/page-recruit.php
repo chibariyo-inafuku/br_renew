@@ -87,7 +87,7 @@ while ( have_posts() ) :
 			<figure class="br-recruit__visual-frame">
 				<img
 					class="br-recruit__visual-img"
-					src="/wp-content/themes/br/assets/images/recruit/recruit-key-visual.png"
+					src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/recruit/recruit-key-visual.png' ); ?>"
 					alt=""
 					width="1200"
 					height="675"

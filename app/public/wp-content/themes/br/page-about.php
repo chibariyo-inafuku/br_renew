@@ -50,8 +50,8 @@ while ( have_posts() ) :
 				<li><a class="br-about__anchor-link" href="#vision">Vision<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
 				<li><a class="br-about__anchor-link" href="#values">Values<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
 				<li><a class="br-about__anchor-link" href="#overview">Overview<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
-				<li><a class="br-about__anchor-link" href="/ceo/">CEO<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
-				<li><a class="br-about__anchor-link" href="/faq/">FAQ<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
+				<li><a class="br-about__anchor-link" href="../ceo/">CEO<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
+				<li><a class="br-about__anchor-link" href="../faq/">FAQ<span class="br-about__anchor-arrow" aria-hidden="true"><span class="br-about__anchor-arrow-inner">→</span></span></a></li>
 			</ul>
 		</div>
 	</nav>
@@ -93,7 +93,7 @@ while ( have_posts() ) :
 						</div>
 						<figure class="br-about__philosophy-feature">
 							<img
-								src="/wp-content/themes/br/assets/images/about/philosophy-visual.png"
+								src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/about/philosophy-visual.png' ); ?>"
 								alt=""
 								width="560"
 								height="560"
@@ -399,7 +399,7 @@ while ( have_posts() ) :
 	<section class="br-about__promos" aria-label="関連リンク">
 		<div class="br-container br-about__promos-inner">
 			<article class="br-about__promo" id="ceo" data-br-subpage-reveal>
-				<div class="br-about__promo-bg" style="--br-about-promo-bg: url(/wp-content/themes/br/assets/images/about/promo-ceo.jpg);"></div>
+				<div class="br-about__promo-bg" style="--br-about-promo-bg: url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/about/promo-ceo.jpg' ); ?>');"></div>
 				<div class="br-about__promo-mesh" aria-hidden="true"></div>
 				<div class="br-about__promo-scrim" aria-hidden="true"></div>
 				<div class="br-about__promo-content">
@@ -424,7 +424,7 @@ while ( have_posts() ) :
 				</div>
 			</article>
 			<article class="br-about__promo" data-br-subpage-reveal>
-				<div class="br-about__promo-bg" style="--br-about-promo-bg: url(/wp-content/themes/br/assets/images/about/promo-faq.jpg);"></div>
+				<div class="br-about__promo-bg" style="--br-about-promo-bg: url('<?php echo esc_url( get_template_directory_uri() . '/assets/images/about/promo-faq.jpg' ); ?>');"></div>
 				<div class="br-about__promo-mesh" aria-hidden="true"></div>
 				<div class="br-about__promo-scrim" aria-hidden="true"></div>
 				<div class="br-about__promo-content">
