@@ -38,17 +38,17 @@ while ( have_posts() ) :
 
 	$raw_title = get_the_title();
 	$crumb_end = is_string( $raw_title ) && $raw_title !== '' ? $raw_title : 'Detail';
-	if ( function_exists( 'mb_strlen' ) && function_exists( 'mb_substr' ) && mb_strlen( $crumb_end ) > 32 ) {
-		$crumb_end = mb_substr( $crumb_end, 0, 32 ) . '…';
-	} elseif ( strlen( $crumb_end ) > 40 ) {
-		$crumb_end = substr( $crumb_end, 0, 40 ) . '…';
-	}
 
-	$in_works_list = has_term( 'works-s', 'portfolio-list', $pid );
+	$in_works_list   = has_term( 'works-s', 'portfolio-list', $pid );
+	$in_project_list = has_term( 'project-s', 'portfolio-list', $pid );
 
-	$related_works_q = null;
+	$related_works_q    = null;
+	$related_projects_q = null;
 	if ( $in_works_list ) {
 		$related_works_q = br_query_related_portfolio_works( $pid, 10 );
+	}
+	if ( $in_project_list ) {
+		$related_projects_q = br_query_related_portfolio_projects( $pid, 10 );
 	}
 
 	$project_terms = get_the_terms( $pid, 'project-categories' );
@@ -242,41 +242,12 @@ while ( have_posts() ) :
 			$GLOBALS['br_section_related_works_query'] = $related_works_q;
 			get_template_part( 'template-parts/portfolio/section', 'related-works' );
 			unset( $GLOBALS['br_section_related_works_query'] );
+		} elseif ( $in_project_list && $related_projects_q instanceof WP_Query && $related_projects_q->post_count > 0 ) {
+			$GLOBALS['br_section_related_projects_query'] = $related_projects_q;
+			get_template_part( 'template-parts/portfolio/section', 'related-projects' );
+			unset( $GLOBALS['br_section_related_projects_query'] );
 		}
 		?>
-
-		<?php if ( $project_terms ) : ?>
-			<?php
-			$works_base   = br_get_page_permalink_by_slug( 'works' );
-			$project_base = br_get_page_permalink_by_slug( 'project' );
-			?>
-			<section class="br-portfolio__terms-wrap" data-br-subpage-reveal>
-				<div class="br-container">
-					<h2 class="br-portfolio__terms-heading">カテゴリー</h2>
-					<ul class="br-portfolio__terms">
-						<?php foreach ( $project_terms as $term ) : ?>
-							<?php
-							if ( ! $term instanceof WP_Term ) {
-								continue;
-							}
-							$term_href = get_term_link( $term );
-							if ( is_wp_error( $term_href ) ) {
-								$term_href = '#';
-							}
-							if ( $in_works_list && $works_base !== '' && taxonomy_exists( 'project-categories' ) ) {
-								$term_href = add_query_arg( 'works_cat', $term->slug, $works_base );
-							} elseif ( has_term( 'project-s', 'portfolio-list', $pid ) && $project_base !== '' && taxonomy_exists( 'project-categories' ) ) {
-								$term_href = add_query_arg( 'project_cat', $term->slug, $project_base );
-							}
-							?>
-							<li class="br-portfolio__terms-item">
-								<a class="br-portfolio__terms-link" href="<?php echo esc_url( $term_href ); ?>"><?php echo esc_html( $term->name ); ?></a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			</section>
-		<?php endif; ?>
 	</article>
 
 	<div class="br-home" data-br-subpage-reveal>

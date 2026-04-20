@@ -1202,6 +1202,324 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 }
 
 /**
+ * Related Projects (`portfolio-list` project-s) for a single portfolio post: all other published Projects by date (no category filter).
+ *
+ * @param int $post_id Current portfolio post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Project list.
+ */
+function br_query_related_portfolio_projects( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'portfolio',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! taxonomy_exists( 'portfolio-list' ) ) {
+		return $empty_query();
+	}
+	if ( ! has_term( 'project-s', 'portfolio-list', $post_id ) ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'portfolio',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy' => 'portfolio-list',
+				'field'    => 'slug',
+				'terms'    => 'project-s',
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
+ * First non-root `blogs` category name for Blog card badge, or empty.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_blog_post_card_category_label( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return '';
+	}
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return '';
+	}
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( (int) $t->term_id === (int) $blogs->term_id || $t->slug === 'blogs' ) {
+			continue;
+		}
+		return $t->name;
+	}
+	return '';
+}
+
+/**
+ * Related Blog posts: other published posts in the `blogs` tree (excluding current).
+ *
+ * @param int $post_id Current post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Blog category tree.
+ */
+function br_query_related_blog_posts( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! function_exists( 'br_post_in_blog_category_tree' ) || ! br_post_in_blog_category_tree( $post_id ) ) {
+		return $empty_query();
+	}
+
+	$blogs = get_term_by( 'slug', 'blogs', 'category' );
+	if ( ! $blogs instanceof WP_Term ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'post',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => (int) $blogs->term_id,
+				'include_children' => true,
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
+ * First non-root `news-s` category name for News card badge, or empty.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_news_post_card_category_label( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+	$news_root = get_term_by( 'slug', 'news-s', 'category' );
+	if ( ! $news_root instanceof WP_Term ) {
+		return '';
+	}
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return '';
+	}
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( (int) $t->term_id === (int) $news_root->term_id || $t->slug === 'news-s' ) {
+			continue;
+		}
+		return $t->name;
+	}
+	return '';
+}
+
+/**
+ * Related posts for News single: other published posts in the `news-s` tree (excluding current).
+ *
+ * @param int $post_id Current post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the News category tree.
+ */
+function br_query_related_news_posts( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! function_exists( 'br_post_in_news_category_tree' ) || ! br_post_in_news_category_tree( $post_id ) ) {
+		return $empty_query();
+	}
+
+	$news_root = get_term_by( 'slug', 'news-s', 'category' );
+	if ( ! $news_root instanceof WP_Term ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'post',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => (int) $news_root->term_id,
+				'include_children' => true,
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
+ * First non-root `services` category name for Service card badge, or empty.
+ *
+ * @param int $post_id Post ID.
+ * @return string
+ */
+function br_get_service_post_card_category_label( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return '';
+	}
+	$services_root = get_term_by( 'slug', 'services', 'category' );
+	if ( ! $services_root instanceof WP_Term ) {
+		return '';
+	}
+	$terms = get_the_terms( $post_id, 'category' );
+	if ( ! is_array( $terms ) || is_wp_error( $terms ) ) {
+		return '';
+	}
+	foreach ( $terms as $t ) {
+		if ( ! $t instanceof WP_Term ) {
+			continue;
+		}
+		if ( (int) $t->term_id === (int) $services_root->term_id || $t->slug === 'services' ) {
+			continue;
+		}
+		return $t->name;
+	}
+	return '';
+}
+
+/**
+ * Related Service posts: other published posts in the `services` tree (excluding current).
+ *
+ * @param int $post_id Current post ID.
+ * @param int $limit   Max posts (excluding current).
+ * @return WP_Query Empty when the post is not in the Service category tree.
+ */
+function br_query_related_service_posts( $post_id, $limit = 10 ) {
+	$post_id = (int) $post_id;
+	$limit   = max( 1, (int) $limit );
+
+	$empty_query = static function () use ( $limit ) {
+		return new WP_Query(
+			array(
+				'post_type'           => 'post',
+				'post__in'            => array( 0 ),
+				'posts_per_page'      => $limit,
+				'post_status'         => 'publish',
+				'no_found_rows'       => true,
+				'ignore_sticky_posts' => true,
+			)
+		);
+	};
+
+	if ( $post_id <= 0 || ! function_exists( 'br_post_in_service_category_tree' ) || ! br_post_in_service_category_tree( $post_id ) ) {
+		return $empty_query();
+	}
+
+	$services_root = get_term_by( 'slug', 'services', 'category' );
+	if ( ! $services_root instanceof WP_Term ) {
+		return $empty_query();
+	}
+
+	$args = array(
+		'post_type'              => 'post',
+		'posts_per_page'         => $limit,
+		'post_status'            => 'publish',
+		'post__not_in'           => array( $post_id ),
+		'orderby'                => 'date',
+		'order'                  => 'DESC',
+		'no_found_rows'          => true,
+		'ignore_sticky_posts'    => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => true,
+		'tax_query'              => array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => (int) $services_root->term_id,
+				'include_children' => true,
+			),
+		),
+	);
+
+	return new WP_Query( $args );
+}
+
+/**
  * Permalink for a published page by path slug, or empty string.
  *
  * @param string $slug Page slug (e.g. works, contact).
@@ -1226,6 +1544,23 @@ function br_get_page_permalink_by_slug( $slug ) {
  */
 function br_get_contact_page_cf7_shortcode() {
 	$page = get_page_by_path( 'contact', OBJECT, 'page' );
+	if ( ! $page instanceof WP_Post || $page->post_status !== 'publish' ) {
+		return '';
+	}
+	$content = (string) $page->post_content;
+	if ( preg_match( '/\[contact-form-7[^\]]*\]/i', $content, $m ) ) {
+		return $m[0];
+	}
+	return '';
+}
+
+/**
+ * First Contact Form 7 shortcode string from the published Recruit page content, or empty.
+ *
+ * @return string
+ */
+function br_get_recruit_page_cf7_shortcode() {
+	$page = get_page_by_path( 'recruit', OBJECT, 'page' );
 	if ( ! $page instanceof WP_Post || $page->post_status !== 'publish' ) {
 		return '';
 	}

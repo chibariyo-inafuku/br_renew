@@ -1,0 +1,130 @@
+/**
+ * Default fixed page template (page.php) — aligns with About / FAQ subpage tonmana.
+ *
+ * @package br
+ */
+
+.br-main.br-page-default {
+	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+	padding-bottom: 0;
+}
+
+.br-page-default [id] {
+	scroll-margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* -------------------------------------------------------------------------
+   Heading + breadcrumb
+   ------------------------------------------------------------------------- */
+.br-page-default__heading {
+	position: relative;
+	border-bottom: 1px solid var(--br-line-muted);
+	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
+	margin-bottom: 0;
+	overflow: hidden;
+}
+
+.br-page-default__heading-inner {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: clamp(1rem, 2vw, 2rem);
+}
+
+.br-page-default__heading-title.br-home__works-heading {
+	padding-left: 0;
+	padding-right: 0;
+	position: relative;
+	z-index: 1;
+}
+
+.br-page-default .br-home__works-title {
+	margin: 0;
+}
+
+.br-page-default .br-home__works-title .br-svg-heading.br-svg-heading--on-light {
+	color: var(--br-ink);
+}
+
+/* Dynamic title length: --br-page-svg-vb set inline on .br-svg-heading (viewBox width) */
+.br-page-default #br-page-default-title .br-svg-heading {
+	--br-page-svg-vb: 720;
+}
+
+.br-page-default #br-page-default-title .br-svg-heading__text {
+	font-size: calc(56px * var(--br-page-svg-vb) / 640);
+}
+
+.br-page-default__breadcrumb {
+	position: relative;
+	z-index: 1;
+}
+
+.br-page-default__breadcrumb-list {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.25rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+}
+
+.br-page-default__breadcrumb a {
+	color: var(--br-accent);
+	text-decoration: none;
+	transition: opacity 0.2s ease;
+}
+
+.br-page-default__breadcrumb a:hover,
+.br-page-default__breadcrumb a:focus-visible {
+	opacity: 0.85;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.br-page-default__breadcrumb-sep {
+	color: #8a96a8;
+}
+
+.br-page-default__breadcrumb-current {
+	color: #43526a;
+}
+
+/* -------------------------------------------------------------------------
+   Article body
+   ------------------------------------------------------------------------- */
+.br-page-default__article {
+	padding-top: clamp(1.5rem, 3.33vw, 2.5rem);
+	padding-bottom: clamp(2.5rem, 5.56vw, 4rem);
+	margin: 0;
+}
+
+.br-page-default__content {
+	max-width: none;
+}
+
+.br-page-default__content > *:first-child {
+	margin-top: 0;
+}
+
+@media (max-width: 768px) {
+	.br-page-default__heading {
+		padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
+	}
+
+	#br-page-default-title .br-svg-heading__svg {
+		width: 360px;
+		max-width: 100%;
+	}
+
+	#br-page-default-title .br-svg-heading__text {
+		font-size: calc(40px * var(--br-page-svg-vb) / 640);
+	}
+}

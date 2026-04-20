@@ -9,9 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'BR_VERSION', '1.0.0' );
+define( 'BR_VERSION', '1.0.1' );
 
 require get_template_directory() . '/inc/post-types.php';
 require get_template_directory() . '/inc/template-tags.php';
 require get_template_directory() . '/inc/gallery-migration.php';
 require get_template_directory() . '/inc/setup.php';
+require get_template_directory() . '/inc/thanks-pages.php';

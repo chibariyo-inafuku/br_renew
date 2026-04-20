@@ -55,6 +55,21 @@
 
 }
 
+/* Tokens for CTA band + CF7 on subpages (Recruit entry, Contact) — mirrors .br-home for var() consumers */
+.br-subpage-cta-form-band {
+	--br-home-gutter: 1.17vw;
+	--br-home-text-body: 16px;
+	--br-home-text-small: 13px;
+	--br-home-text-section-jp: 14px;
+	--br-home-space-section-gap: 4.69vw;
+	--br-home-ink: var(--br-ink);
+	--br-home-ink-muted: #4a5568;
+	--br-home-accent: var(--br-accent);
+	--br-home-accent-hover: var(--br-accent-hover);
+	--br-home-band-tint: var(--br-surface-soft);
+	--br-home-cta-hpad: clamp(0rem, 1.67vw, 1.5rem);
+}
+
 .br-main.br-home {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -152,9 +167,8 @@
 	padding: 0 1.11vw 1.11vw;
 	margin-left: var(--br-sidebar-w);
 	box-sizing: border-box;
-	overflow-x: auto;
-	overflow-y: visible;
-	-webkit-overflow-scrolling: touch;
+	/* x: hidden + y: visible は y が auto 扱いになり、内側に縦スクロールバーが出ることがある */
+	overflow: hidden;
 }
 
 .br-home__hero-text {
@@ -165,7 +179,8 @@
 	align-items: flex-end;
 	gap: 1.11vw 23.54vw;
 	width: 100%;
-	max-width: none;
+	max-width: 100%;
+	min-width: 0;
 }
 
 .br-home__hero-copy {
@@ -173,21 +188,44 @@
 	flex-direction: column;
 	gap: 1.11vw;
 	flex: 1 1 auto;
-	min-width: min(100%, max-content);
-	max-width: none;
+	min-width: 0;
+	max-width: 100%;
 }
 
 .br-home__hero-title {
 	margin: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 0.42vw;
+	gap: 0;
 	font-weight: 700;
 	letter-spacing: 0.02em;
 }
 
+/* PC: 上段1帯＋下段1帯 / SP: 3帯（--mobile 内のみ line-group を使用） */
+.br-home__hero-title-layer {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.14vw;
+	width: 100%;
+	min-width: 0;
+}
+
+.br-home__hero-title-layer--mobile {
+	display: none;
+}
+
+.br-home__hero-title-layer--mobile .br-home__hero-title-line-group {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: 100%;
+	min-width: 0;
+}
+
 .br-home__hero-title-line {
 	display: block;
+	overflow: hidden;
 }
 
 .br-home__hero-title-box {
@@ -204,15 +242,26 @@
 	overflow-wrap: normal;
 }
 
+.br-home__hero-title-char {
+	display: inline-block;
+	min-width: 0.05em;
+}
+
 .br-home__hero-lead {
 	margin: 0;
 	font-size: 19px;
 	font-weight: 400;
 	line-height: 1.4;
 	color: #EAEAEA;
-	white-space: nowrap;
-	word-break: keep-all;
-	overflow-wrap: normal;
+	white-space: normal;
+	word-break: normal;
+	overflow-wrap: break-word;
+	max-width: 100%;
+}
+
+/* SP のみ「、」の直後で改行（PCでは 1 行に近い見え方） */
+.br-home__hero-lead-br {
+	display: none;
 }
 
 .br-home__hero-cta {
@@ -1768,22 +1817,6 @@ html.br-home-js .br-home__palarax-tagline {
 	line-height: 1.65;
 }
 
-/* 「必須」ラベル（CF7 本文の <span class="必須"> 等）— 青地・白字のピル */
-.br-home__section--cta .wpcf7 span.必須,
-.br-home__section--cta .wpcf7 span.required {
-	display: inline-block;
-	vertical-align: middle;
-	margin-left: 0.45em;
-	padding: clamp(0.125rem, 0.21vw, 0.1875rem) clamp(0.35rem, 0.42vw, 0.4375rem);
-	font-size: 11px;
-	font-weight: 600;
-	line-height: 1.2;
-	color: #fff;
-	background-color: var(--br-home-accent);
-	border-radius: clamp(0.1875rem, 0.28vw, 0.25rem);
-	letter-spacing: 0.04em;
-}
-
 @media (max-width: 768px) {
 	.br-home__cta-inner {
 		grid-template-columns: 1fr;
@@ -1801,6 +1834,19 @@ html.br-home-js .br-home__palarax-tagline {
 		order: 1;
 		padding-right: var(--br-home-cta-hpad);
 	}
+}
+
+/* Form-only CTA row (subpages): single column, centered card */
+.br-home__cta-inner--form-only {
+	grid-template-columns: 1fr;
+	justify-items: center;
+}
+
+.br-home__cta-inner--form-only .br-home__cta-col--form {
+	width: 100%;
+	max-width: min(100%, 40rem);
+	padding-left: var(--br-home-cta-hpad);
+	padding-right: var(--br-home-cta-hpad);
 }
 
 /* -------------------------------------------------------------------------
@@ -1857,6 +1903,30 @@ html.br-home-js .br-home__palarax-tagline {
 		max-width: none;
 	}
 
+	.br-home__hero-title-layer--desktop {
+		display: none;
+	}
+
+	.br-home__hero-title-layer--mobile {
+		display: flex;
+		gap: clamp(0.1875rem, 0.65vw, 0.4375rem);
+	}
+
+	.br-home__hero-title-layer--mobile .br-home__hero-title-line-group {
+		gap: clamp(0.1875rem, 0.65vw, 0.4375rem);
+	}
+
+	/* インライン塊の行ボックスを詰めつつ、帯同士の距離は flex gap で確保 */
+	.br-home__section--hero .br-home__hero-title-line {
+		line-height: 0;
+	}
+
+	.br-home__section--hero .br-home__hero-title-box {
+		padding-top: clamp(0.125rem, 0.45vw, 6px);
+		padding-bottom: clamp(0.125rem, 0.45vw, 6px);
+		line-height: 1.18;
+	}
+
 	/* Hop CTA: center on SP (band footers + hero + news) */
 	.br-home__project-footer,
 	.br-home__blog-footer,
@@ -1897,6 +1967,10 @@ html.br-home-js .br-home__palarax-tagline {
 
 	.br-home__hero-lead {
 		font-size: 15px;
+	}
+
+	.br-home__hero-lead-br {
+		display: inline;
 	}
 
 	.br-hop-btn {
