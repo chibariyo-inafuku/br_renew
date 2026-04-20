@@ -45,11 +45,8 @@
 		});
 	}
 
-	/** CodePen ZYdopE–style noise pool (no Snap.svg). */
-	var HERO_SCRAMBLE_NOISE =
-		'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン' +
-		'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろをん' +
-		'0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+	/** CodePen ZYdopE–style noise pool (symbols; no Snap.svg). */
+	var HERO_SCRAMBLE_NOISE = '-+*/|}{[]~\\":;?/.><=+-_)(*&^%$#@!)}';
 
 	function heroScrambleImmediateChar(ch) {
 		return /[\s\u3000、。，．]/.test(ch);
