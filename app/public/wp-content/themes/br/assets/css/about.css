@@ -233,7 +233,7 @@
 }
 
 .br-about__pillar-block {
-	padding-top: clamp(2rem, 4.17vw, 3.5rem);
+	padding-top: clamp(0rem, 4.17vw, 0.5rem);
 	padding-bottom: clamp(2rem, 4.17vw, 3.5rem);
 }
 

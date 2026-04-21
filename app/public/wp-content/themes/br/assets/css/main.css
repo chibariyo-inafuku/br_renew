@@ -817,7 +817,7 @@ body.admin-bar .br-header--sidebar {
 	.br-header--sidebar .br-nav__link {
 		display: block;
 		min-height: 0;
-		padding: clamp(0.55rem, 2vw, 0.85rem) 0;
+		padding: clamp(0.0rem, 1vw, 0.85rem) 0;
 		line-height: 1.55;
 		text-transform: none;
 		letter-spacing: 0.02em;

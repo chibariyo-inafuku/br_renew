@@ -248,7 +248,7 @@ while ( have_posts() ) :
 						<div class="br-about__values-card-rail">
 							<div class="br-about__values-card-rail-inner">
 								<span class="br-about__values-card-num" aria-hidden="true">02</span>
-								<p class="br-about__values-card-label">Idea First</p>
+								<p class="br-about__values-card-label">Expand Creation</p>
 							</div>
 							<span class="br-about__values-card-rail-line" aria-hidden="true"></span>
 						</div>
@@ -264,7 +264,7 @@ while ( have_posts() ) :
 						<div class="br-about__values-card-rail">
 							<div class="br-about__values-card-rail-inner">
 								<span class="br-about__values-card-num" aria-hidden="true">03</span>
-								<p class="br-about__values-card-label">Idea First</p>
+								<p class="br-about__values-card-label">Quality Responsibility</p>
 							</div>
 							<span class="br-about__values-card-rail-line" aria-hidden="true"></span>
 						</div>
@@ -281,7 +281,7 @@ while ( have_posts() ) :
 						<div class="br-about__values-card-rail">
 							<div class="br-about__values-card-rail-inner">
 								<span class="br-about__values-card-num" aria-hidden="true">04</span>
-								<p class="br-about__values-card-label">Idea First</p>
+								<p class="br-about__values-card-label">Value Response</p>
 							</div>
 							<span class="br-about__values-card-rail-line" aria-hidden="true"></span>
 						</div>
@@ -335,9 +335,9 @@ while ( have_posts() ) :
 					<div class="br-about__overview-row">
 						<dt>事業内容</dt>
 						<dd>
-							生成AI / クリエイティブ / ブランディング / 展示会 / イベント / WEB / SNS / 映像 /<br />
-							システム開発 / アプリ開発 / XR / マーケティング支援 / 営業支援 / 新規事業開発支援 /<br />
-							コンサルティング /
+						AIクリエイティブ制作（生成AI活用・広告制作・映像制作） / マーケティング戦略設計・プロモーション企画 / SNS運用・コンテンツ制作 / ブランド開発・コミュニケーション設計 / イベント・展示会プロデュース / AIを活用したシステム開発・アプリ開発
+						/ プロダクト開発・量産化支援
+						/ 映像 / システム開発AIクリエイティブ制作専門コンサルティング / 新規事業開発・事業グロース支援 / スタートアップ支援・マーケティング統括
 						</dd>
 					</div>
 					<div class="br-about__overview-row">

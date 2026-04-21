@@ -105,9 +105,10 @@ document.documentElement.classList.add('br-header-js');
 						<ul class="br-nav__list br-header__menu" role="list">
 							<li><a class="br-nav__link" href="<?php echo br_page_href( 'about' ); ?>"><?php esc_html_e( 'About', 'br' ); ?></a></li>
 							<li><a class="br-nav__link" href="<?php echo br_page_href( 'works' ); ?>"><?php esc_html_e( 'Works', 'br' ); ?></a></li>
-							<li><a class="br-nav__link" href="<?php echo br_page_href( 'service' ); ?>"><?php esc_html_e( 'Service', 'br' ); ?></a></li>
 							<li><a class="br-nav__link" href="<?php echo br_page_href( 'project' ); ?>"><?php esc_html_e( 'Project', 'br' ); ?></a></li>
+							<li><a class="br-nav__link" href="<?php echo br_page_href( 'news' ); ?>"><?php esc_html_e( 'News', 'br' ); ?></a></li>
 							<li><a class="br-nav__link" href="<?php echo br_page_href( 'blog' ); ?>"><?php esc_html_e( 'Blog', 'br' ); ?></a></li>
+							<li><a class="br-nav__link" href="<?php echo br_page_href( 'service' ); ?>"><?php esc_html_e( 'Service', 'br' ); ?></a></li>
 							<li><a class="br-nav__link" href="<?php echo br_page_href( 'recruit' ); ?>"><?php esc_html_e( 'Recruit', 'br' ); ?></a></li>
 						</ul>
 					</nav>
