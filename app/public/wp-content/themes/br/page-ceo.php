@@ -379,15 +379,21 @@ while ( have_posts() ) :
 			</header>
 			<div class="br-ceo__advisor-card">
 				<div class="br-ceo__advisor-photo-wrap">
-					<img
-						class="br-ceo__advisor-photo"
-						src="/wp-content/themes/br/assets/images/ceo/advisor-tanaka.png"
-						alt="顧問 田中 義弘"
-						width="192"
-						height="192"
-						loading="lazy"
-						decoding="async"
-					/>
+					<picture>
+						<source
+							srcset="<?php echo esc_url( get_theme_file_uri( 'assets/images/ceo/advisor-tanaka.webp' ) ); ?>"
+							type="image/webp"
+						/>
+						<img
+							class="br-ceo__advisor-photo"
+							src="<?php echo esc_url( get_theme_file_uri( 'assets/images/ceo/advisor-tanaka.png' ) ); ?>"
+							alt="顧問 田中 義弘"
+							width="192"
+							height="192"
+							loading="lazy"
+							decoding="async"
+						/>
+					</picture>
 				</div>
 				<div class="br-ceo__advisor-body">
 					<div class="br-ceo__advisor-name-row">
