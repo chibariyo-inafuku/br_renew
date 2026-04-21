@@ -4,6 +4,98 @@
  * @package br
  */
 
+/* -------------------------------------------------------------------------
+   Display utilities (u-d-*) — CEO ページ用
+   md = min-width 769px, lg = min-width 901px（main.css のヘッダー / コンテナと整合）
+   ------------------------------------------------------------------------- */
+.u-d-n {
+	display: none;
+}
+
+.u-d-b {
+	display: block;
+}
+
+.u-d-i {
+	display: inline;
+}
+
+.u-d-ib {
+	display: inline-block;
+}
+
+.u-d-f {
+	display: flex;
+}
+
+.u-d-if {
+	display: inline-flex;
+}
+
+.u-d-g {
+	display: grid;
+}
+
+@media (min-width: 769px) {
+	.u-d-n-md {
+		display: none;
+	}
+
+	.u-d-b-md {
+		display: block;
+	}
+
+	.u-d-i-md {
+		display: inline;
+	}
+
+	.u-d-ib-md {
+		display: inline-block;
+	}
+
+	.u-d-f-md {
+		display: flex;
+	}
+
+	.u-d-if-md {
+		display: inline-flex;
+	}
+
+	.u-d-g-md {
+		display: grid;
+	}
+}
+
+@media (min-width: 901px) {
+	.u-d-n-lg {
+		display: none;
+	}
+
+	.u-d-b-lg {
+		display: block;
+	}
+
+	.u-d-i-lg {
+		display: inline;
+	}
+
+	.u-d-ib-lg {
+		display: inline-block;
+	}
+
+	.u-d-f-lg {
+		display: flex;
+	}
+
+	.u-d-if-lg {
+		display: inline-flex;
+	}
+
+	.u-d-g-lg {
+		display: grid;
+	}
+}
+
 .br-main.br-ceo {
 	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
 	padding-bottom: 0;
@@ -198,11 +290,11 @@
 	padding-bottom: clamp(2rem, 5.56vw, 4rem);
 }
 
-/* Figma 711:5484 — 画像 424×503・角丸 16・列間 64px・縦中央 */
+/* Figma 711:5484 — 画像 424×503・角丸 16・列間 64px */
 .br-ceo__profile-grid {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	gap: clamp(1.5rem, 4.44vw, 4rem);
 }
@@ -211,6 +303,24 @@
 	flex: 0 0 auto;
 	width: min(100%, 424px);
 	max-width: 424px;
+}
+
+/* 2カラム時のみ左列を本文と同じ高さに伸ばし、その中で画像を sticky（セクション下端で追随終了） */
+@media (min-width: 769px) {
+	.br-ceo__profile-grid > .br-ceo__photo-wrap {
+		align-self: stretch;
+	}
+}
+
+.br-ceo__photo-sticky {
+	position: static;
+}
+
+@media (min-width: 769px) {
+	.br-ceo__photo-sticky {
+		position: sticky;
+		top: clamp(1rem, 4vw, 2.5rem);
+	}
 }
 
 .br-ceo__photo {
@@ -280,6 +390,9 @@
 }
 
 .br-ceo__tagline {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
 	margin: 0;
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 14px;
@@ -287,6 +400,10 @@
 	line-height: 1.85;
 	letter-spacing: 0.04em;
 	color: #6b7280;
+}
+
+.br-ceo__tagline > p {
+	margin: 0;
 }
 
 .br-ceo__sns-block {
@@ -551,6 +668,38 @@
 	width: 2px;
 	background: rgba(0, 113, 188, 0.2);
 	border-radius: 1px;
+	overflow: hidden;
+}
+
+.br-ceo__timeline-line::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--br-accent);
+	border-radius: inherit;
+	transform: scaleY(0);
+	transform-origin: top center;
+}
+
+@keyframes br-ceo-timeline-line-draw {
+	from {
+		transform: scaleY(0);
+	}
+	to {
+		transform: scaleY(1);
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	html.br-subpage-reveal-armed .br-ceo__detail.is-inview .br-ceo__timeline-line::after {
+		animation: br-ceo-timeline-line-draw 1.25s cubic-bezier(0.33, 1, 0.68, 1) 0.2s forwards;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-ceo__timeline-line::after {
+		transform: scaleY(1);
+	}
 }
 
 .br-ceo__timeline-list {
@@ -580,11 +729,11 @@
 .br-ceo__timeline-year {
 	display: block;
 	margin-bottom: 0.35rem;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+	font-family: Inter, "Noto Sans JP", "Helvetica Neue", Arial, sans-serif;
 	font-size: 12px;
 	font-weight: 700;
 	letter-spacing: 0.08em;
-	color: #9ca3af;
+	color: var(--br-accent);
 }
 
 .br-ceo__timeline-title {
@@ -604,6 +753,10 @@
 	line-height: 1.85;
 	letter-spacing: 0.03em;
 	color: #6b7280;
+}
+
+.br-ceo__timeline-body + .br-ceo__timeline-body {
+	margin-top: 0.75rem;
 }
 
 .br-ceo__pills {
@@ -715,8 +868,6 @@
 }
 
 .br-ceo__message-inner {
-	max-width: min(100%, 48rem);
-	margin-inline: auto;
 	padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3rem);
 	background: var(--br-accent);
 	border-radius: 16px;
@@ -746,7 +897,7 @@
 .br-ceo__message-body {
 	display: flex;
 	flex-direction: column;
-	gap: clamp(1rem, 2vw, 1.5rem);
+	gap: clamp(1rem, 2vw, 1.35rem);
 }
 
 .br-ceo__message-body p {
@@ -759,22 +910,72 @@
 	color: rgba(255, 255, 255, 0.92);
 }
 
-.br-ceo__message-en {
-	font-style: normal;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-	font-weight: 600;
+.br-ceo__message-lead {
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	color: #fff;
+}
+
+.br-ceo__message-focus {
+	margin: 0;
+	padding: clamp(0.75rem, 1.5vw, 1rem) 0 clamp(0.25rem, 0.5vw, 0.35rem);
+	padding-left: clamp(1rem, 2vw, 1.25rem);
+	border-left: 3px solid rgba(255, 255, 255, 0.45);
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: clamp(0.65rem, 1.2vw, 0.85rem);
+}
+
+.br-ceo__message-focus li {
+	position: relative;
+	padding-left: 1.1em;
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.75;
 	letter-spacing: 0.04em;
+	color: rgba(255, 255, 255, 0.94);
+}
+
+.br-ceo__message-focus li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.65em;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.85);
+	box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .br-ceo__message-sign {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: clamp(0.2rem, 0.6vw, 0.35rem);
 	margin: clamp(1.5rem, 3vw, 2rem) 0 0;
 	text-align: right;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
-	font-size: 14px;
-	font-weight: 700;
-	line-height: 1.6;
-	letter-spacing: 0.08em;
 	color: #fff;
+}
+
+.br-ceo__message-sign-role {
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: clamp(0.75rem, 1.5vw, 0.8125rem);
+	font-weight: 500;
+	line-height: 1.4;
+	letter-spacing: 0.1em;
+	color: rgba(255, 255, 255, 0.88);
+}
+
+.br-ceo__message-sign-name {
+	font-family: "Zen Kurenaido", "Noto Sans JP", sans-serif;
+	font-size: clamp(1.375rem, 2.75vw, 1.875rem);
+	font-weight: 400;
+	line-height: 1.35;
+	letter-spacing: 0.02em;
+	font-synthesis: none;
 }
 
 @media (max-width: 768px) {
@@ -784,6 +985,10 @@
 
 	.br-ceo__message-body p {
 		font-size: 14px;
+	}
+
+	.br-ceo__message-focus li {
+		font-size: 13px;
 	}
 }
 

@@ -81,7 +81,7 @@ function br_enqueue_assets() {
 
 	wp_enqueue_style(
 		'br-google-fonts',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=MuseoModerno:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap',
+		'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=MuseoModerno:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kurenaido&display=swap',
 		array(),
 		null
 	);
