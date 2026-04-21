@@ -6,7 +6,7 @@
 	'use strict';
 
 	/** Extra delay after intersection before CSS animation starts (ms). */
-	var REVEAL_DELAY_MS = 420;
+	var REVEAL_DELAY_MS = 180;
 
 	var nodes = document.querySelectorAll('[data-br-svg-heading]');
 	if (!nodes.length) {
@@ -42,9 +42,9 @@
 		},
 		{
 			root: null,
-			/* Stricter box + higher ratio = later fire; see also REVEAL_DELAY_MS. */
-			rootMargin: '0px 0px -38% 0px',
-			threshold: 0.28,
+			/* Less bottom shrink than -38% + lower threshold = earlier fire; see also REVEAL_DELAY_MS. */
+			rootMargin: '0px 0px -22% 0px',
+			threshold: 0.15,
 		}
 	);
 
