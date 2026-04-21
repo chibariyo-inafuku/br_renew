@@ -312,7 +312,8 @@ function br_enqueue_assets() {
 		);
 	}
 
-	if ( is_singular( 'page' ) && ! is_front_page() && basename( (string) get_page_template() ) === 'page.php' ) {
+	$br_page_default_tpl = basename( (string) get_page_template() );
+	if ( is_singular( 'page' ) && ! is_front_page() && in_array( $br_page_default_tpl, array( 'page.php', 'page-privacy.php' ), true ) ) {
 		$page_default_home_deps = array( 'br-main', 'br-hop-btn' );
 		if ( $load_br_cf7 ) {
 			$page_default_home_deps[] = 'br-cf7';

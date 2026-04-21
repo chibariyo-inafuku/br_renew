@@ -185,8 +185,25 @@ while ( have_posts() ) :
 	<section class="br-recruit__entry br-home__section br-home__section--cta br-subpage-cta-form-band" aria-labelledby="br-recruit-entry-heading" data-br-subpage-reveal>
 		<div class="br-container">
 			<header class="br-recruit__entry-head">
-				<p class="br-recruit__entry-kicker">エントリー</p>
-				<h2 class="br-recruit__entry-title" id="br-recruit-entry-heading">Entry Form</h2>
+				<h2 class="br-recruit__entry-heading" id="br-recruit-entry-heading">
+					<span class="screen-reader-text">Entry Form エントリー</span>
+					<div class="br-home__works-title">
+						<div class="br-svg-heading br-svg-heading--on-light" data-br-svg-heading>
+							<svg
+								class="br-svg-heading__svg"
+								aria-hidden="true"
+								viewBox="0 0 1000 102"
+								preserveAspectRatio="xMinYMin meet"
+								focusable="false"
+							>
+								<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Entry Form</text>
+							</svg>
+						</div>
+					</div>
+					<span class="br-recruit__entry-heading-pill">
+						<span class="br-recruit__entry-heading-jp">エントリー</span>
+					</span>
+				</h2>
 				<p class="br-recruit__entry-lead">未来を共に創る仲間をお待ちしております。</p>
 			</header>
 			<div class="br-home__cta-inner br-home__cta-inner--form-only">

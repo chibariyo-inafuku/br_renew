@@ -368,29 +368,96 @@
    Entry form band (CF7 styles = .br-home__section--cta in home.css)
    ------------------------------------------------------------------------- */
 .br-recruit__entry-head {
-	text-align: center;
 	margin-bottom: 0;
+	padding-left: 0;
+	padding-right: 0;
+	text-align: left;
 }
 
-.br-recruit__entry-kicker {
-	margin: 0 0 0.35rem;
+/* Entry 見出し — About Overview と同型（英字 SVG + 濃地ラベル） */
+.br-recruit__entry-heading {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: clamp(0.125rem, 0.28vw, 0.25rem);
+	margin: 0 0 clamp(0.75rem, 1.39vw, 1rem);
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+}
+
+.br-recruit__entry-heading .br-home__works-title {
+	margin: 0;
+	width: fit-content;
+	max-width: 100%;
+}
+
+.br-recruit__entry-heading .br-home__works-title .br-svg-heading {
+	width: auto;
+	max-width: 100%;
+}
+
+/* viewBox 1000; home.css の svg 幅 640px に合わせた比率 */
+.br-recruit__entry-heading .br-home__works-title .br-svg-heading__text {
+	font-size: calc(48px * 1000 / 640);
+	text-transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	@keyframes br-recruit-entry-svg-stroke {
+		0% {
+			stroke-dashoffset: 2600;
+			fill: transparent;
+		}
+
+		70% {
+			stroke-dashoffset: 0;
+			fill: transparent;
+		}
+
+		100% {
+			stroke-dashoffset: 0;
+			fill: currentColor;
+			stroke-width: 0;
+		}
+	}
+
+	.br-recruit__entry-heading .br-home__works-title .br-svg-heading__text {
+		stroke-dasharray: 2600;
+	}
+
+	.br-recruit__entry-heading .br-svg-heading:not(.is-inview) .br-svg-heading__text {
+		stroke-dasharray: 2600;
+		stroke-dashoffset: 2600;
+	}
+
+	.br-recruit__entry-heading .br-svg-heading.is-inview .br-svg-heading__text {
+		animation-name: br-recruit-entry-svg-stroke;
+	}
+}
+
+.br-recruit__entry-heading-pill {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(0.5rem, 0.69vw, 0.625rem);
+	padding: 0 clamp(0.375rem, 0.56vw, 0.5rem);
+	box-sizing: border-box;
+	background-color: var(--br-ink);
+	border-radius: clamp(0.125rem, 0.14vw, 0.25rem);
+}
+
+.br-recruit__entry-heading-jp {
+	display: block;
+	margin: 0;
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 14px;
-	font-weight: 600;
-	line-height: 1.5;
-	letter-spacing: 0.1em;
-	color: var(--br-accent);
-}
-
-.br-recruit__entry-title {
-	margin: 0 0 0.75rem;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
-	font-size: 28px;
-	font-weight: 700;
-	line-height: 1.2;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--br-ink);
+	font-weight: 400;
+	line-height: 1.4;
+	letter-spacing: 0.08em;
+	color: #fff;
 }
 
 .br-recruit__entry-lead {
@@ -434,11 +501,12 @@
 		padding: clamp(1rem, 2vw, 1.25rem) 0;
 	}
 
-	.br-recruit__entry-title {
-		font-size: 22px;
-	}
-
 	#br-recruit-title .br-svg-heading__text {
 		font-size: calc(44px * 720 / 640);
+	}
+
+	/* SP: About Overview と同様（svg width 360px × viewBox 1000） */
+	.br-recruit__entry-heading .br-home__works-title .br-svg-heading__text {
+		font-size: calc(32px * 1000 / 360);
 	}
 }
