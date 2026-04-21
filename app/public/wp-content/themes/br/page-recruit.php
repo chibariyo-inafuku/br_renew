@@ -59,26 +59,53 @@ while ( have_posts() ) :
 
 	<section class="br-recruit__values" aria-label="私たちの価値観" data-br-subpage-reveal>
 		<div class="br-container">
-			<ul class="br-recruit__values-list">
-				<li class="br-recruit__value-card">
-					<p class="br-recruit__value-label">Core Identity</p>
-					<h3 class="br-recruit__value-title">AI×人間による<br />最高の純度</h3>
-					<p class="br-recruit__value-text">AIは代替ツールではなく、思考を拡張するパートナー。人間の感性とAIの処理能力を最高純度で融合させます。</p>
-					<span class="br-recruit__value-num" aria-hidden="true">01</span>
-				</li>
-				<li class="br-recruit__value-card">
-					<p class="br-recruit__value-label">Mindset</p>
-					<h3 class="br-recruit__value-title">既存の枠を<br />疑う勇気</h3>
-					<p class="br-recruit__value-text">「これまでのやり方」に執着せず、常に新しい技術がもたらす可能性を歓迎し、制作プロセスの革新を楽しみます。</p>
-					<span class="br-recruit__value-num" aria-hidden="true">02</span>
-				</li>
-				<li class="br-recruit__value-card">
-					<p class="br-recruit__value-label">Vision</p>
-					<h3 class="br-recruit__value-title">変化を楽しむ<br />インテリジェンス</h3>
-					<p class="br-recruit__value-text">急速に進化するAI技術を素早くキャッチアップし、それをインテリジェンス（知性）に変えて社会に実装します。</p>
-					<span class="br-recruit__value-num" aria-hidden="true">03</span>
-				</li>
-			</ul>
+			<div class="br-recruit__values-grid">
+				<article class="br-recruit__values-card">
+					<div class="br-recruit__values-card-rail">
+						<div class="br-recruit__values-card-rail-inner">
+							<span class="br-recruit__values-card-num" aria-hidden="true">01</span>
+							<p class="br-recruit__values-card-label">Core Identity</p>
+						</div>
+						<span class="br-recruit__values-card-rail-line" aria-hidden="true"></span>
+					</div>
+					<div class="br-recruit__values-card-body">
+						<h3 class="br-recruit__values-card-heading">AI×人間による<br />最高の純度</h3>
+						<div class="br-recruit__values-card-copy">
+							<p>AIは代替ツールではなく、思考を拡張するパートナー。人間の感性とAIの処理能力を最高純度で融合させます。</p>
+						</div>
+					</div>
+				</article>
+				<article class="br-recruit__values-card">
+					<div class="br-recruit__values-card-rail">
+						<div class="br-recruit__values-card-rail-inner">
+							<span class="br-recruit__values-card-num" aria-hidden="true">02</span>
+							<p class="br-recruit__values-card-label">Mindset</p>
+						</div>
+						<span class="br-recruit__values-card-rail-line" aria-hidden="true"></span>
+					</div>
+					<div class="br-recruit__values-card-body">
+						<h3 class="br-recruit__values-card-heading">既存の枠を<br />疑う勇気</h3>
+						<div class="br-recruit__values-card-copy">
+							<p>「これまでのやり方」に執着せず、常に新しい技術がもたらす可能性を歓迎し、制作プロセスの革新を楽しみます。</p>
+						</div>
+					</div>
+				</article>
+				<article class="br-recruit__values-card">
+					<div class="br-recruit__values-card-rail">
+						<div class="br-recruit__values-card-rail-inner">
+							<span class="br-recruit__values-card-num" aria-hidden="true">03</span>
+							<p class="br-recruit__values-card-label">Vision</p>
+						</div>
+						<span class="br-recruit__values-card-rail-line" aria-hidden="true"></span>
+					</div>
+					<div class="br-recruit__values-card-body">
+						<h3 class="br-recruit__values-card-heading">変化を楽しむ<br />インテリジェンス</h3>
+						<div class="br-recruit__values-card-copy">
+							<p>急速に進化するAI技術を素早くキャッチアップし、それをインテリジェンス（知性）に変えて社会に実装します。</p>
+						</div>
+					</div>
+				</article>
+			</div>
 		</div>
 	</section>
 
