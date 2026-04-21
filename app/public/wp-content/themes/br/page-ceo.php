@@ -195,7 +195,7 @@ while ( have_posts() ) :
 				</div>
 			</div>
 
-			<div class="br-ceo__block">
+			<!-- <div class="br-ceo__block">
 				<header class="br-ceo__block-head">
 					<h2 class="br-about__overview-heading" id="br-ceo-expertise-heading">
 						<span class="screen-reader-text">Expertise 専門分野</span>
@@ -223,7 +223,7 @@ while ( have_posts() ) :
 					<li><span class="br-ceo__pill">マーケティング戦略</span></li>
 					<li><span class="br-ceo__pill">新規事業開発支援</span></li>
 				</ul>
-			</div>
+			</div> -->
 
 			<!-- <div class="br-ceo__block">
 				<header class="br-ceo__block-head">
