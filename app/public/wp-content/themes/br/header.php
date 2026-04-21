@@ -26,6 +26,14 @@ if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<?php wp_head(); ?>
+	<noscript>
+		<style>
+			main.br-main:not(.br-home) [data-br-subpage-reveal-stagger] {
+				opacity: 1 !important;
+				transform: none !important;
+			}
+		</style>
+	</noscript>
 </head>
 <body <?php body_class(); ?>>
 <script>

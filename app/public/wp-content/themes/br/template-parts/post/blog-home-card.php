@@ -30,7 +30,7 @@ if ( $permalink === false ) {
 	return;
 }
 ?>
-<li class="br-home__blog-item">
+<li class="br-home__blog-item" data-br-subpage-reveal data-br-subpage-reveal-stagger>
 	<a class="br-home__blog-card" href="<?php echo esc_url( $permalink ); ?>">
 		<div class="br-home__blog-card-media">
 			<?php

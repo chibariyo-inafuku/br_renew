@@ -31,7 +31,7 @@ if ( $permalink === false ) {
 	return;
 }
 ?>
-<li class="br-home__works-item">
+<li class="br-home__works-item" data-br-subpage-reveal data-br-subpage-reveal-stagger>
 	<a class="br-home__works-card" href="<?php echo esc_url( $permalink ); ?>">
 		<div class="br-home__works-card-media">
 			<?php

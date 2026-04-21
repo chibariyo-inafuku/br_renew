@@ -1509,6 +1509,18 @@ a.br-footer__privacy:focus,
 /* -------------------------------------------------------------------------
    Sub-page scroll reveal — [data-br-subpage-reveal] + .is-inview (subpage-reveal-inview.js)
    ------------------------------------------------------------------------- */
+/*
+ * Listing card stagger: hide before html.br-subpage-reveal-armed (first paint).
+ * Without this, unrevealed cards match default opacity:1 until JS runs — visible flash, then motion.
+ * TOP is main.br-home — excluded. Values match the armed :not(.is-inview) block below.
+ */
+@media (prefers-reduced-motion: no-preference) {
+	main.br-main:not(.br-home) [data-br-subpage-reveal-stagger]:not(.is-inview) {
+		opacity: 0;
+		transform: translate3d(0, clamp(40px, 8.33vw, 120px), 0);
+	}
+}
+
 @media (prefers-reduced-motion: no-preference) {
 	html.br-subpage-reveal-armed main.br-main:not(.br-home) [data-br-subpage-reveal] {
 		transition:

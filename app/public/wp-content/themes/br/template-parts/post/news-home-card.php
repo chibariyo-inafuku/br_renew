@@ -33,7 +33,7 @@ if ( $permalink === false ) {
 $date_display = get_the_date( 'Y.m.d', $pid );
 $date_attr    = get_the_date( DATE_W3C, $pid );
 ?>
-<li class="br-home__news-item">
+<li class="br-home__news-item" data-br-subpage-reveal data-br-subpage-reveal-stagger>
 	<a class="br-home__news-link" href="<?php echo esc_url( $permalink ); ?>">
 		<div class="br-home__news-media">
 			<?php

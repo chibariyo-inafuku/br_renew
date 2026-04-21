@@ -85,7 +85,6 @@ while ( have_posts() ) :
 	<section
 		class="br-home__section br-home__section--works br-home__section--works-band br-home__works br-works__list-band"
 		aria-labelledby="br-works-list-title"
-		data-br-subpage-reveal
 	>
 		<div class="br-container">
 			

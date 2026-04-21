@@ -36,7 +36,7 @@ $text    = ( is_string( $excerpt ) && trim( $excerpt ) !== '' )
 	? $excerpt
 	: wp_strip_all_tags( (string) get_post_field( 'post_content', $pid ) );
 ?>
-<li class="br-home__service-item">
+<li class="br-home__service-item" data-br-subpage-reveal data-br-subpage-reveal-stagger>
 	<article class="br-home__service-card">
 		<a
 			class="br-home__service-card-link"

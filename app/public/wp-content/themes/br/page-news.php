@@ -86,7 +86,6 @@ while ( have_posts() ) :
 	<section
 		class="br-home__section br-home__section--news br-home__news br-news__list-band"
 		aria-labelledby="br-news-list-title"
-		data-br-subpage-reveal
 	>
 		<div class="br-container">
 			<h2 id="br-news-list-title" class="screen-reader-text">ニュース一覧</h2>
