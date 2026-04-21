@@ -123,6 +123,12 @@
 	margin-top: 0;
 }
 
+/* /privacy/ — legal prose slightly smaller than global body (17px) */
+.br-page-default--privacy .br-page-default__content {
+	font-size: 14px;
+	line-height: 1.75;
+}
+
 @media (max-width: 768px) {
 	.br-page-default__heading {
 		padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
