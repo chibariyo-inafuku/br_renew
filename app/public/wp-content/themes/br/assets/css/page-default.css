@@ -48,6 +48,15 @@
 	color: var(--br-ink);
 }
 
+.br-page-default .br-home__works-title-jp {
+	color: #43526a;
+}
+
+/* /privacy/ only: home.css negative margin on .br-home__works-title sub-wrap; add gap under EN line. */
+.br-page-default--privacy .br-home__works-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.5rem, 1.25vw, 1rem);
+}
+
 /* Dynamic title length: --br-page-svg-vb set inline on .br-svg-heading (viewBox width) */
 .br-page-default #br-page-default-title .br-svg-heading {
 	--br-page-svg-vb: 720;
@@ -117,6 +126,10 @@
 @media (max-width: 768px) {
 	.br-page-default__heading {
 		padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
+	}
+
+	.br-page-default--privacy .br-home__works-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.875rem, 3vw, 1.75rem);
 	}
 
 	#br-page-default-title .br-svg-heading__svg {

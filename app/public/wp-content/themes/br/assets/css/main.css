@@ -856,13 +856,17 @@ body.admin-bar .br-header--sidebar {
 		width: 100%;
 	}
 
-	/* Inner pages: offset for fixed header (TOP hero stays full-bleed) */
-	body:not(.home) .br-main {
-		padding-top: clamp(3.5rem, 16vw, 4.75rem);
+	/*
+	 * Inner pages: offset below fixed header (SP).
+	 * TOP is `main.br-main.br-home` only — exclude so hero stays full-bleed.
+	 * Use :not(.br-home) instead of body:not(.home) so static front page is not misclassified.
+	 */
+	main.br-main:not(.br-home) {
+		padding-top: clamp(5.25rem, 22vw, 7.25rem);
 	}
 
-	body.admin-bar:not(.home) .br-main {
-		padding-top: calc(46px + clamp(3.25rem, 12vw, 4rem));
+	body.admin-bar main.br-main:not(.br-home) {
+		padding-top: calc(46px + clamp(4.75rem, 16vw, 6.25rem));
 	}
 }
 
