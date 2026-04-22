@@ -128,14 +128,29 @@ html.br-home-loading body {
 	letter-spacing: 0.02em;
 	text-align: center;
 	color: var(--br-ink);
+	/* Hidden until home-loading.js splits the text and adds .is-visible.
+	   The per-character reveal lives on .br-home__page-loader-tagline-char. */
 	opacity: 0;
-	transform: translate3d(0, 10px, 0);
-	transition:
-		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-		transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .br-home__page-loader-tagline.is-visible {
+	opacity: 1;
+}
+
+.br-home__page-loader-tagline-char {
+	display: inline-block;
+	opacity: 0;
+	transform: translate3d(0, 10px, 0);
+	transition:
+		opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+	/* home-loading.js sets --br-tagline-i (0-based char index) on each span.
+	   Stagger is 80ms per char; tuned together with TAGLINE_HOLD_MS in JS. */
+	transition-delay: calc(var(--br-tagline-i, 0) * 0.08s);
+	will-change: transform, opacity;
+}
+
+.br-home__page-loader-tagline.is-visible .br-home__page-loader-tagline-char {
 	opacity: 1;
 	transform: translate3d(0, 0, 0);
 }
@@ -212,8 +227,10 @@ html.br-home-loading body {
 @media (prefers-reduced-motion: reduce) {
 	.br-home__page-loader-piece,
 	.br-home__page-loader-tagline,
+	.br-home__page-loader-tagline-char,
 	.br-home__page-loader {
 		transition-duration: 0.01s;
+		transition-delay: 0s;
 	}
 }
 

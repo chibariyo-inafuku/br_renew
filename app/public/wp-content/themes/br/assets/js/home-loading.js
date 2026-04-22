@@ -1,14 +1,15 @@
 /**
  * TOP-only loader.
  *
- * Timeline (white bg, pieces assemble one by one, then tagline):
+ * Timeline (white bg, pieces assemble + tagline types in parallel):
  *   0 ms     initial blank white
  *   100 ms   loading01 (triangle)    — slide in from the left
+ *            tagline                 — starts revealing char by char (80ms stagger)
  *   700 ms   loading02 (medium blue) — slide in from the left
  *   1300 ms  loading03 (dark navy)   — slide in from the left
  *   1900 ms  loading04 (cyan)        — slide in from the left
- *   2500 ms  tagline                 — fade up
- *   2500 + 1200 ms  hand off to hero (respects MIN_MS / window.load)
+ *   ~2200 ms last tagline character settles
+ *   100 + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
  */
 (function () {
 	'use strict';
@@ -27,6 +28,53 @@
 	var tagline = root.querySelector('.br-home__page-loader-tagline');
 	var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+	/**
+	 * Split the tagline's text nodes into one span per character so CSS can
+	 * stagger the reveal via --br-tagline-i. Non-text children (e.g. the SP
+	 * <br>) are preserved in place. Runs once on init; safe under reduced
+	 * motion (the CSS override snaps everything in).
+	 */
+	function splitTaglineChars() {
+		if (!tagline) {
+			return 0;
+		}
+		var originalText = (tagline.textContent || '').trim();
+		var chars = [];
+		var newNodes = [];
+		Array.prototype.forEach.call(tagline.childNodes, function (n) {
+			if (n.nodeType === 3) {
+				var txt = n.nodeValue || '';
+				Array.from(txt).forEach(function (ch) {
+					var span = document.createElement('span');
+					span.className = 'br-home__page-loader-tagline-char';
+					span.setAttribute('aria-hidden', 'true');
+					span.textContent = ch;
+					chars.push(span);
+					newNodes.push(span);
+				});
+			} else {
+				var clone = n.cloneNode(true);
+				if (clone.setAttribute) {
+					clone.setAttribute('aria-hidden', 'true');
+				}
+				newNodes.push(clone);
+			}
+		});
+		tagline.setAttribute('aria-label', originalText);
+		while (tagline.firstChild) {
+			tagline.removeChild(tagline.firstChild);
+		}
+		newNodes.forEach(function (n) {
+			tagline.appendChild(n);
+		});
+		for (var i = 0; i < chars.length; i++) {
+			chars[i].style.setProperty('--br-tagline-i', String(i));
+		}
+		return chars.length;
+	}
+
+	splitTaglineChars();
+
 	var MIN_MS = 1200;
 	var MAX_WAIT_MS = 8000;
 	var started = Date.now();
@@ -39,8 +87,11 @@
 	var T_D2 = 700;
 	var T_D3 = 1300;
 	var T_D4 = 1900;
-	var T_TAGLINE = 2500;
-	var TAGLINE_HOLD_MS = 2200;
+	/* Tagline now starts WITH the first logo piece and reveals one char at a
+	   time (see CSS --br-tagline-i / transition-delay). Hold ends the intro
+	   well after the last char has settled so the user has a beat to read. */
+	var T_TAGLINE = T_TRI;
+	var TAGLINE_HOLD_MS = 4150;
 
 	var timers = [];
 
