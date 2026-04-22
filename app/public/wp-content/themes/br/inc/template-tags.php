@@ -241,6 +241,37 @@ function br_get_query_paged() {
 }
 
 /**
+ * WP_Query `orderby` map: menu_order (Simple Custom Post Order / SCPOrder) then post date.
+ *
+ * SCPOrder hooks `pre_get_posts` and only sets `menu_order` when the query has no
+ * `orderby` yet. Passing `orderby => date` in the theme prevented drag order on the
+ * front. Using `menu_order` first keeps admin sort, with date as the tie-breaker for
+ * items that share `menu_order` (typically 0).
+ *
+ * @param string $date_direction 'ASC' or 'DESC' for the date column.
+ * @param string $context        Optional slug for `br_posts_orderby_menu_order_then_date`.
+ * @return array<string,string>   Map for WP_Query `orderby`.
+ */
+function br_posts_orderby_menu_order_then_date( $date_direction = 'DESC', $context = '' ) {
+	$date_direction = strtoupper( (string) $date_direction );
+	$date_direction = ( $date_direction === 'ASC' ) ? 'ASC' : 'DESC';
+
+	$orderby = array(
+		'menu_order' => 'ASC',
+		'date'       => $date_direction,
+	);
+
+	/**
+	 * Filters the default menu_order + date orderby map used by theme list queries.
+	 *
+	 * @param array  $orderby        Associative orderby map for WP_Query.
+	 * @param string $context        Caller-supplied context slug.
+	 * @param string $date_direction Normalized ASC|DESC for the date leg.
+	 */
+	return apply_filters( 'br_posts_orderby_menu_order_then_date', $orderby, $context, $date_direction );
+}
+
+/**
  * WP_Query for posts filtered by standard category slug (NEWS/BLOG/SERVICE fixed pages).
  *
  * @param string $category_slug Category slug (e.g. news-s, blogs, services).
@@ -254,6 +285,7 @@ function br_query_posts_for_category_slug( $category_slug, $per_page = 10 ) {
 		'posts_per_page' => (int) $per_page,
 		'paged'          => br_get_query_paged(),
 		'post_status'    => 'publish',
+		'orderby'        => br_posts_orderby_menu_order_then_date( 'DESC', 'category_slug_' . sanitize_title( $category_slug ) ),
 	);
 	if ( $cat instanceof WP_Term ) {
 		$args['cat'] = (int) $cat->term_id;
@@ -604,6 +636,7 @@ function br_query_posts_for_blog_page( $per_page = 12, $blog_cat_param = '' ) {
 		'paged'               => br_get_query_paged(),
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
+		'orderby'             => br_posts_orderby_menu_order_then_date( 'DESC', 'blog_page' ),
 	);
 
 	$slug = sanitize_title( (string) $blog_cat_param );
@@ -755,6 +788,7 @@ function br_query_posts_for_news_page( $per_page = 12, $news_cat_param = '' ) {
 		'paged'               => br_get_query_paged(),
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
+		'orderby'             => br_posts_orderby_menu_order_then_date( 'DESC', 'news_page' ),
 	);
 
 	$slug = sanitize_title( (string) $news_cat_param );
@@ -906,8 +940,7 @@ function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '
 		'paged'               => br_get_query_paged(),
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => true,
-		'orderby'             => 'date',
-		'order'               => 'ASC',
+		'orderby'             => br_posts_orderby_menu_order_then_date( 'ASC', 'service_page' ),
 	);
 
 	$slug = sanitize_title( (string) $service_cat_param );
@@ -1110,6 +1143,7 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12, $project_
 		'posts_per_page' => (int) $per_page,
 		'paged'          => br_get_query_paged(),
 		'post_status'    => 'publish',
+		'orderby'        => br_posts_orderby_menu_order_then_date( 'DESC', 'portfolio_list_' . $term_slug ),
 	);
 
 	if ( $term_slug === '' || ! taxonomy_exists( 'portfolio-list' ) ) {
@@ -1148,7 +1182,7 @@ function br_query_portfolio_for_list_term( $term_slug, $per_page = 12, $project_
 }
 
 /**
- * Related Works (`portfolio-list` works-s) for a single portfolio post: all other published Works by date (no category filter).
+ * Related Works (`portfolio-list` works-s) for a single portfolio post: all other published Works (menu_order then date; SCPOrder compatible).
  *
  * @param int $post_id Current portfolio post ID.
  * @param int $limit   Max posts (excluding current).
@@ -1183,8 +1217,7 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
 		'post__not_in'           => array( $post_id ),
-		'orderby'                => 'date',
-		'order'                  => 'DESC',
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'related_portfolio_works' ),
 		'no_found_rows'          => true,
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
@@ -1202,7 +1235,7 @@ function br_query_related_portfolio_works( $post_id, $limit = 10 ) {
 }
 
 /**
- * Related Projects (`portfolio-list` project-s) for a single portfolio post: all other published Projects by date (no category filter).
+ * Related Projects (`portfolio-list` project-s) for a single portfolio post: all other published Projects (menu_order then date; SCPOrder compatible).
  *
  * @param int $post_id Current portfolio post ID.
  * @param int $limit   Max posts (excluding current).
@@ -1237,8 +1270,7 @@ function br_query_related_portfolio_projects( $post_id, $limit = 10 ) {
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
 		'post__not_in'           => array( $post_id ),
-		'orderby'                => 'date',
-		'order'                  => 'DESC',
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'related_portfolio_projects' ),
 		'no_found_rows'          => true,
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
@@ -1324,8 +1356,7 @@ function br_query_related_blog_posts( $post_id, $limit = 10 ) {
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
 		'post__not_in'           => array( $post_id ),
-		'orderby'                => 'date',
-		'order'                  => 'DESC',
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'related_blog_posts' ),
 		'no_found_rows'          => true,
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
@@ -1412,8 +1443,7 @@ function br_query_related_news_posts( $post_id, $limit = 10 ) {
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
 		'post__not_in'           => array( $post_id ),
-		'orderby'                => 'date',
-		'order'                  => 'DESC',
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'related_news_posts' ),
 		'no_found_rows'          => true,
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
@@ -1500,8 +1530,7 @@ function br_query_related_service_posts( $post_id, $limit = 10 ) {
 		'posts_per_page'         => $limit,
 		'post_status'            => 'publish',
 		'post__not_in'           => array( $post_id ),
-		'orderby'                => 'date',
-		'order'                  => 'DESC',
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'related_service_posts' ),
 		'no_found_rows'          => true,
 		'ignore_sticky_posts'    => true,
 		'update_post_meta_cache' => false,
@@ -1587,7 +1616,7 @@ function br_page_href( $slug ) {
  *
  * @param string $category_slug Category slug (e.g. news-s, blogs, services).
  * @param int    $limit         Max posts.
- * @param string $order         Sort direction for `orderby` date: 'DESC' (newest first, default) or 'ASC' (oldest first).
+ * @param string $order         Sort direction for the date tie-breaker: 'DESC' (newest first, default) or 'ASC' (oldest first). Primary sort is `menu_order` (SCPOrder).
  * @return WP_Query
  */
 function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $order = 'DESC' ) {
@@ -1606,8 +1635,7 @@ function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $
 		'posts_per_page'         => $limit,
 		'paged'                  => 1,
 		'post_status'            => 'publish',
-		'orderby'                => 'date',
-		'order'                  => $order,
+		'orderby'                => br_posts_orderby_menu_order_then_date( $order, 'home_teaser_' . $category_slug ),
 		'no_found_rows'          => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => true,
@@ -1640,6 +1668,7 @@ function br_query_portfolio_for_list_term_limited( $term_slug, $limit = 8 ) {
 		'no_found_rows'          => true,
 		'update_post_meta_cache' => false,
 		'update_post_term_cache' => true,
+		'orderby'                => br_posts_orderby_menu_order_then_date( 'DESC', 'home_portfolio_teaser_' . $term_slug ),
 	);
 
 	if ( $term_slug === '' || ! taxonomy_exists( 'portfolio-list' ) ) {
