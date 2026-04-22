@@ -97,6 +97,9 @@
 }
 
 .br-main.br-ceo {
+	/* 下線のすぐ上: リード枠下パディング + 下線下のレール。プロフィール上は FAQ 一覧と同じ合計に揃える */
+	--br-ceo-rail: clamp(1.25rem, 2.78vw, 2.5rem);
+	--br-ceo-lead-pb: clamp(2rem, 4.44vw, 3.5rem);
 	padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
 	padding-bottom: 0;
 }
@@ -106,7 +109,7 @@
    ------------------------------------------------------------------------- */
 .br-ceo__heading {
 	border-bottom: 1px solid var(--br-line-muted);
-	padding-bottom: clamp(1.25rem, 2.78vw, 2.5rem);
+	padding-bottom: var(--br-ceo-rail);
 	margin-bottom: 0;
 }
 
@@ -188,7 +191,7 @@
 
 .br-ceo__lead-wrap {
 	padding-top: clamp(1rem, 2.22vw, 2rem);
-	padding-bottom: clamp(2rem, 4.44vw, 3.5rem);
+	padding-bottom: var(--br-ceo-lead-pb);
 }
 
 .br-ceo__lead {
@@ -286,7 +289,7 @@
    Profile row
    ------------------------------------------------------------------------- */
 .br-ceo__profile {
-	padding-top: clamp(2rem, 5.56vw, 5rem);
+	padding-top: calc(var(--br-ceo-lead-pb) + var(--br-ceo-rail));
 	padding-bottom: clamp(2rem, 5.56vw, 4rem);
 }
 

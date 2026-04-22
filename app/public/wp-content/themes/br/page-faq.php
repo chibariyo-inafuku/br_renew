@@ -14,14 +14,13 @@ while ( have_posts() ) :
 	<section class="br-faq__heading" aria-labelledby="br-faq-title" data-br-subpage-reveal>
 		<div class="br-container br-faq__heading-inner">
 			<header class="br-faq__heading-title br-home__works-heading br-home__section-head">
-				<p class="br-faq__hero-kicker" aria-hidden="true">QUESTIONS</p>
 				<h1 class="br-home__works-title" id="br-faq-title">
 					<span class="screen-reader-text">FAQ / よくあるご質問</span>
 					<div class="br-svg-heading br-svg-heading--on-light" data-br-svg-heading>
 						<svg
 							class="br-svg-heading__svg"
 							aria-hidden="true"
-							viewBox="0 0 480 102"
+							viewBox="0 0 920 102"
 							preserveAspectRatio="xMinYMin meet"
 							focusable="false"
 						>
@@ -45,120 +44,207 @@ while ( have_posts() ) :
 		</div>
 		<div class="br-container br-faq__lead-wrap">
 			<p class="br-faq__lead">
-				サービス導入に関するよくあるご質問をまとめました。<br />
-				AI技術の活用やセキュリティ、制作フローについてお答えします。
+				よくあるご質問をまとめました。<br />
+				会社概要やサービス内容、AI活用、ご依頼の流れなどにお答えします。
 			</p>
 		</div>
 	</section>
 
 	<section class="br-faq__body" aria-label="よくあるご質問一覧" data-br-subpage-reveal>
 		<div class="br-container">
-			<div class="br-faq__cat">
-				<input type="radio" name="br-faq-cat" id="br-faq-cat-service" class="br-faq__cat-input" checked>
-				<label class="br-faq__tab br-faq__tab--service" for="br-faq-cat-service">サービス・品質</label>
-				<input type="radio" name="br-faq-cat" id="br-faq-cat-llmo" class="br-faq__cat-input">
-				<label class="br-faq__tab br-faq__tab--llmo" for="br-faq-cat-llmo">LLMO・AI技術</label>
-				<input type="radio" name="br-faq-cat" id="br-faq-cat-contract" class="br-faq__cat-input">
-				<label class="br-faq__tab br-faq__tab--contract" for="br-faq-cat-contract">契約・セキュリティ</label>
-
-				<div class="br-faq__panel br-faq__panel--service" role="tabpanel">
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">従来の制作フローとAI活用の最大の違いは何ですか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>「試行回数の圧倒的な多さ」です。AI活用により数百のバリエーションから最適な一点を磨き上げることが可能になります。また、制作期間を従来の約1/3まで短縮できるケースが多く、スピードと質の双方を担保できます。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">小規模なバナー制作なども依頼できますか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>はい、数点のバナー制作からお受けしております。AIを用いることで低コストかつスピーディーに展開可能ですので、まずは試験的な導入（PoC）としてもご活用いただけます。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">社内にデザイナーがいなくても大丈夫ですか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>全く問題ありません。弊社のAIディレクターが貴社のアイディアを形にする段階から伴走いたします。抽象的なイメージから具体的なビジュアル提案まで一貫してお任せください。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">動画制作も対応可能ですか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>可能です。ショート動画から、AIによる実写合成、モーション動画まで幅広く対応しております。特に、静止画から一貫した世界観で動画へ展開するワークフローを得意としています。</p>
-						</div>
-					</details>
-				</div>
-
-				<div class="br-faq__panel br-faq__panel--llmo" role="tabpanel">
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">LLMO（Large Language Model Optimization）とは何ですか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>生成AIの回答やコンテンツを、検索エンジンや社内ナレッジと整合する形に最適化し、利用者にとって信頼できる推奨情報として届けるための設計・運用の総称です。BlueRでは、業務要件に合わせたプロンプト設計、評価指標、更新サイクルまで一気通貫で支援します。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">社内データや機密情報は学習に利用されますか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>ご契約および環境構成に応じて取り扱いを明確にします。パブリックモデル利用時は入力ポリシーを定め、オンプレミス／VPC／エンタープライズAPIなど必要な隔離を選択いただけます。機密区分ごとのアクセス制御も設計段階からご提案します。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">生成物の正確性や著作権・ライセンスはどう扱いますか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>用途に応じた検証（ファクトチェック、権利クリアランス、トレーサビリティ）をワークフローに組み込みます。生成物の権利帰属や利用範囲は契約書で定義し、第三者素材の利用条件も制作ガイドラインとして共有します。</p>
-						</div>
-					</details>
-				</div>
-
-				<div class="br-faq__panel br-faq__panel--contract" role="tabpanel">
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">秘密保持（NDA）は締結できますか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>はい、双方または一方提出のNDAに基づき、要件定義から制作・納品まで進行できます。既存フォーマットへの署名や、プロジェクト専用の別紙合意にも対応します。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">情報セキュリティや個人情報の取り扱いはどうなっていますか？</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>アクセス権限、データ保管場所、保持期間、破棄手順をプロジェクト計画に盛り込みます。個人情報を取り扱う場合は目的限定・最小化の原則に沿って設計し、必要に応じて委託先管理やログ監査の要件をすり合わせます。</p>
-						</div>
-					</details>
-					<details class="br-faq__item">
-						<summary class="br-faq__summary">
-							<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
-							<span class="br-faq__question">契約形態やお支払いのイメージを教えてください。</span>
-						</summary>
-						<div class="br-faq__answer">
-							<p>スコープに応じて準委任・請負・ライセンスなどを組み合わせてご提案します。マイルストーン請求や月額運用、成果物納品時の一括など、プロジェクトのリズムに合わせたお支払い条件を設定できます。</p>
-						</div>
-					</details>
-				</div>
+			<div class="br-faq__list">
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">ブルーアールはどのような会社ですか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>ブルーアール株式会社は、AIを活用したマーケティングプロモーションおよびクリエイティブ制作を行う会社です。企画・戦略設計から制作・運用まで、AIを活用して一貫した支援を提供しています。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">どのようなサービスを提供していますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>主に以下の領域でサービスを提供しています。</p>
+						<ul class="br-faq__answer-list">
+							<li>AIを活用したクリエイティブ制作（動画・ビジュアル・WEBなど）</li>
+							<li>マーケティング戦略設計・プロモーション支援</li>
+							<li>SNS運用・コンテンツ制作</li>
+							<li>ブランディング・PR支援</li>
+							<li>イベント・展示会の企画・運営</li>
+							<li>AIを活用したシステム・アプリ開発</li>
+						</ul>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">AIを活用したクリエイティブとは何ですか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>AIを活用したクリエイティブとは、画像生成・動画生成・テキスト生成などの技術を活用し、従来よりも高速かつ高品質に制作を行う手法です。人間のクリエイティブとAIを組み合わせることで、表現の幅を大きく拡張します。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">AIを導入すると何が変わりますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>制作スピードの向上、コスト最適化、表現の多様化が実現します。また、これまで実現が難しかった表現やアイデアの具現化も可能になります。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">AIを使うとクオリティは下がりませんか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>ブルーアールではAIを単なる自動化ツールとしてではなく、クリエイターの能力を拡張する手段として活用しています。そのため、クオリティを維持・向上させながら制作を行うことが可能です。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">どのような企業からの依頼が多いですか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>大手企業のマーケティング担当者様や、新規事業・DX推進部門からのご相談が多く、プロモーションやブランディングの高度化を目的とした案件が中心です。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">小規模なプロジェクトでも依頼できますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>はい、可能です。単発のクリエイティブ制作から中長期のプロジェクトまで、目的や規模に応じて柔軟に対応しています。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">企画段階から相談することはできますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>可能です。課題整理やコンセプト設計、AI活用の可能性検討など、上流工程からご支援いたします。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">AI活用の知識がなくても大丈夫ですか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>問題ありません。専門的な知識がなくても理解しやすい形でご説明し、最適な活用方法をご提案いたします。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">どのような制作フローになりますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>一般的には以下の流れで進行します。</p>
+						<ul class="br-faq__answer-list">
+							<li>ヒアリング・課題整理</li>
+							<li>企画・戦略設計</li>
+							<li>AI活用設計</li>
+							<li>クリエイティブ制作</li>
+							<li>運用・改善</li>
+						</ul>
+						<p>プロジェクトに応じて柔軟に設計します。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">納期はどのくらいですか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>内容によって異なりますが、AIを活用することで従来よりも短期間での制作が可能です。具体的なスケジュールはご相談内容に応じてご提案いたします。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">費用感について教えてください</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>プロジェクトの内容や規模によって異なります。目的やご予算に応じて最適なプランをご提案いたしますので、お気軽にご相談ください。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">AIを活用した新規事業開発も相談できますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>はい、可能です。AIを活用したサービス開発や体験設計など、新規事業領域の支援も行っています。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">内製化支援や研修は行っていますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>AI活用に関する研修やワークショップの実施も可能です。企業内での活用促進やスキル向上をサポートします。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">どのような強みがありますか？</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>ブルーアールの強みは、AI技術とクリエイティブの両方を理解したチームによる一貫支援です。戦略から制作・運用までを統合し、ビジネス成果に直結するアウトプットを提供します。</p>
+					</div>
+					</div>
+				</details>
+				<details class="br-faq__item">
+					<summary class="br-faq__summary">
+						<span class="br-faq__q-mark" aria-hidden="true">Q.</span>
+						<span class="br-faq__question">問い合わせ方法を教えてください</span>
+					</summary>
+					<div class="br-faq__answer-panel">
+					<div class="br-faq__answer">
+						<p>WEBサイトのお問い合わせフォームよりご連絡ください。内容を確認後、担当者よりご連絡いたします。</p>
+					</div>
+					</div>
+				</details>
 			</div>
 		</div>
 	</section>

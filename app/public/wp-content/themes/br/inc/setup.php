@@ -260,6 +260,13 @@ function br_enqueue_assets() {
 			array( 'br-home' ),
 			BR_VERSION
 		);
+		wp_enqueue_script(
+			'br-faq-accordion',
+			$theme_uri . '/assets/js/faq-accordion.js',
+			array(),
+			BR_VERSION,
+			true
+		);
 	}
 
 	if ( is_page( 'recruit' ) ) {
