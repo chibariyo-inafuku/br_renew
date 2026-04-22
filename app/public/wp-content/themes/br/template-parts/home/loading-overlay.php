@@ -6,10 +6,10 @@
  *   tri (loading01) -> d2 (loading02) -> d3 (loading03) -> d4 (loading04)
  *
  * Animation sequence (see home-loading.js):
- *   1. loading01.png — navy triangle, slides down from above
- *   2. loading02.png — medium-blue D, slides up from below
- *   3. loading03.png — dark-navy D, slides in from the right
- *   4. loading04.png — cyan D, fades in on spot
+ *   1. loading01.png — navy triangle, slides in from the left
+ *   2. loading02.png — medium-blue D, slides in from the left
+ *   3. loading03.png — dark-navy D, slides in from the left
+ *   4. loading04.png — cyan D, slides in from the left
  *   5. tagline text — fades up
  *
  * @package br

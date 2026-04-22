@@ -72,6 +72,8 @@ html.br-home-loading body {
 	will-change: transform, opacity;
 }
 
+/* All pieces slide in from the left to their final positions. */
+
 /* loading01 — navy triangle (R leg), below everything */
 .br-home__page-loader-piece--tri {
 	left: 70px;
@@ -79,7 +81,7 @@ html.br-home-loading body {
 	width: 147px;
 	height: 174px;
 	z-index: 1;
-	transform: translate3d(0, -60px, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading02 — medium-blue D, forms the "B" bowls */
@@ -89,7 +91,7 @@ html.br-home-loading body {
 	width: 144px;
 	height: 148px;
 	z-index: 2;
-	transform: translate3d(0, 60px, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading03 — dark-navy D (top-left of "B") */
@@ -99,7 +101,7 @@ html.br-home-loading body {
 	width: 144px;
 	height: 148px;
 	z-index: 3;
-	transform: translate3d(60px, 0, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading04 — cyan D (bottom-left of "B"), topmost */
@@ -109,6 +111,7 @@ html.br-home-loading body {
 	width: 144px;
 	height: 148px;
 	z-index: 4;
+	transform: translate3d(-60px, 0, 0);
 }
 
 .br-home__page-loader-piece.is-in {
@@ -170,7 +173,7 @@ html.br-home-loading body {
 		top: 41px;
 		width: 103px;
 		height: 122px;
-		transform: translate3d(0, -42px, 0);
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d2 {
@@ -178,7 +181,7 @@ html.br-home-loading body {
 		top: 0;
 		width: 101px;
 		height: 104px;
-		transform: translate3d(0, 42px, 0);
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d3 {
@@ -186,7 +189,7 @@ html.br-home-loading body {
 		top: 0;
 		width: 101px;
 		height: 104px;
-		transform: translate3d(42px, 0, 0);
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d4 {
@@ -194,6 +197,7 @@ html.br-home-loading body {
 		top: 60px;
 		width: 101px;
 		height: 104px;
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-tagline {

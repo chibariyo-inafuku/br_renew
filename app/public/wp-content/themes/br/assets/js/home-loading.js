@@ -3,10 +3,10 @@
  *
  * Timeline (white bg, pieces assemble one by one, then tagline):
  *   0 ms     initial blank white
- *   100 ms   loading01 (triangle)    — slide down from above
- *   700 ms   loading02 (medium blue) — slide up from below
- *   1300 ms  loading03 (dark navy)   — slide in from the right
- *   1900 ms  loading04 (cyan)        — fade in on spot
+ *   100 ms   loading01 (triangle)    — slide in from the left
+ *   700 ms   loading02 (medium blue) — slide in from the left
+ *   1300 ms  loading03 (dark navy)   — slide in from the left
+ *   1900 ms  loading04 (cyan)        — slide in from the left
  *   2500 ms  tagline                 — fade up
  *   2500 + 1200 ms  hand off to hero (respects MIN_MS / window.load)
  */
