@@ -368,8 +368,8 @@ while ( have_posts() ) :
 						<iframe
 							loading="lazy"
 							referrerpolicy="no-referrer-when-downgrade"
-							title="東京都渋谷区広尾1丁目2番地1号 ヒカリビル4階"
-							aria-label="東京都渋谷区広尾1丁目2番地1号 ヒカリビル4階"
+							title="東京都渋谷区広尾1-2-1 ヒカリビル4F"
+							aria-label="東京都渋谷区広尾1-2-1 ヒカリビル4F"
 							src="<?php echo esc_url( 'https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%BA%83%E5%B0%BE1%E4%B8%81%E7%9B%AE2%E7%95%AA%E5%9C%B01%E5%8F%B7%20%E3%83%92%E3%82%AB%E3%83%AA%E3%83%93%E3%83%AB4%E9%9A%8E&t=m&z=16&output=embed&iwloc=near' ); ?>"
 						></iframe>
 					</div>
