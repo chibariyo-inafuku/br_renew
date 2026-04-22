@@ -337,7 +337,7 @@ while ( have_posts() ) :
 						<dd>
 						AIクリエイティブ制作（生成AI活用・広告制作・映像制作） / マーケティング戦略設計・プロモーション企画 / SNS運用・コンテンツ制作 / ブランド開発・コミュニケーション設計 / イベント・展示会プロデュース / AIを活用したシステム開発・アプリ開発
 						/ プロダクト開発・量産化支援
-						/ 映像 / システム開発AIクリエイティブ制作専門コンサルティング / 新規事業開発・事業グロース支援 / スタートアップ支援・マーケティング統括
+						/ AIクリエイティブ制作専門コンサルティング / 新規事業開発・事業グロース支援 / スタートアップ支援・マーケティング統括
 						</dd>
 					</div>
 					<div class="br-about__overview-row">
@@ -352,7 +352,7 @@ while ( have_posts() ) :
 						<dt>東京オフィス</dt>
 						<dd>
 							〒150-0012<br />
-							東京都渋谷区広尾1丁目2番地1号 ヒカリビル4階
+							東京都渋谷区広尾1-2-1 ヒカリビル4F
 						</dd>
 					</div>
 					<div class="br-about__overview-row">
@@ -368,8 +368,8 @@ while ( have_posts() ) :
 						<iframe
 							loading="lazy"
 							referrerpolicy="no-referrer-when-downgrade"
-							title="東京都渋谷区広尾1丁目2番地1号 ヒカリビル4階"
-							aria-label="東京都渋谷区広尾1丁目2番地1号 ヒカリビル4階"
+							title="東京都渋谷区広尾1-2-1 ヒカリビル4F"
+							aria-label="東京都渋谷区広尾1-2-1 ヒカリビル4F"
 							src="<?php echo esc_url( 'https://maps.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E5%BA%83%E5%B0%BE1%E4%B8%81%E7%9B%AE2%E7%95%AA%E5%9C%B01%E5%8F%B7%20%E3%83%92%E3%82%AB%E3%83%AA%E3%83%93%E3%83%AB4%E9%9A%8E&t=m&z=16&output=embed&iwloc=near' ); ?>"
 						></iframe>
 					</div>

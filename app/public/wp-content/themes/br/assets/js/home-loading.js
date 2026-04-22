@@ -1,14 +1,16 @@
 /**
  * TOP-only loader.
  *
- * Timeline (white bg, pieces assemble one by one, then tagline):
+ * Timeline (white bg, pieces assemble first, then tagline snaps in):
  *   0 ms     initial blank white
- *   100 ms   loading01 (triangle)    — slide down from above
- *   700 ms   loading02 (medium blue) — slide up from below
- *   1300 ms  loading03 (dark navy)   — slide in from the right
- *   1900 ms  loading04 (cyan)        — fade in on spot
- *   2500 ms  tagline                 — fade up
- *   2500 + 1200 ms  hand off to hero (respects MIN_MS / window.load)
+ *   100 ms   loading01 (triangle)    — slide in from the left
+ *   450 ms   loading02 (medium blue) — slide in from the left
+ *   800 ms   loading03 (dark navy)   — slide in from the left
+ *   1150 ms  loading04 (cyan)        — slide in from the left
+ *   ~1550 ms last logo piece settles
+ *   1600 ms  tagline                 — starts revealing char by char (20ms stagger)
+ *   ~2170 ms last tagline character settles
+ *   T_TAGLINE + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
  */
 (function () {
 	'use strict';
@@ -27,6 +29,53 @@
 	var tagline = root.querySelector('.br-home__page-loader-tagline');
 	var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+	/**
+	 * Split the tagline's text nodes into one span per character so CSS can
+	 * stagger the reveal via --br-tagline-i. Non-text children (e.g. the SP
+	 * <br>) are preserved in place. Runs once on init; safe under reduced
+	 * motion (the CSS override snaps everything in).
+	 */
+	function splitTaglineChars() {
+		if (!tagline) {
+			return 0;
+		}
+		var originalText = (tagline.textContent || '').trim();
+		var chars = [];
+		var newNodes = [];
+		Array.prototype.forEach.call(tagline.childNodes, function (n) {
+			if (n.nodeType === 3) {
+				var txt = n.nodeValue || '';
+				Array.from(txt).forEach(function (ch) {
+					var span = document.createElement('span');
+					span.className = 'br-home__page-loader-tagline-char';
+					span.setAttribute('aria-hidden', 'true');
+					span.textContent = ch;
+					chars.push(span);
+					newNodes.push(span);
+				});
+			} else {
+				var clone = n.cloneNode(true);
+				if (clone.setAttribute) {
+					clone.setAttribute('aria-hidden', 'true');
+				}
+				newNodes.push(clone);
+			}
+		});
+		tagline.setAttribute('aria-label', originalText);
+		while (tagline.firstChild) {
+			tagline.removeChild(tagline.firstChild);
+		}
+		newNodes.forEach(function (n) {
+			tagline.appendChild(n);
+		});
+		for (var i = 0; i < chars.length; i++) {
+			chars[i].style.setProperty('--br-tagline-i', String(i));
+		}
+		return chars.length;
+	}
+
+	splitTaglineChars();
+
 	var MIN_MS = 1200;
 	var MAX_WAIT_MS = 8000;
 	var started = Date.now();
@@ -36,11 +85,14 @@
 
 	/* Frame timings (ms) — see header comment */
 	var T_TRI = 100;
-	var T_D2 = 700;
-	var T_D3 = 1300;
-	var T_D4 = 1900;
-	var T_TAGLINE = 2500;
-	var TAGLINE_HOLD_MS = 2200;
+	var T_D2 = 450;
+	var T_D3 = 800;
+	var T_D4 = 1150;
+	/* Tagline starts AFTER the logo pieces have settled (d4 arrives ~1550ms),
+	   then reveals one char at a time via the CSS stagger (--br-tagline-i).
+	   Hold ends the intro after the last char settles with a beat to read. */
+	var T_TAGLINE = 1600;
+	var TAGLINE_HOLD_MS = 1600;
 
 	var timers = [];
 
@@ -77,6 +129,10 @@
 		}
 	}
 
+	/* Exit animation — CRT "power off" style. Must match the animation-duration
+	   on .br-home__page-loader--exiting (keyframes: br-home__page-loader-crt-off). */
+	var BR_LOADER_EXIT_MS = 900;
+
 	function finish() {
 		if (root.classList.contains('br-home__page-loader--exiting')) {
 			return;
@@ -90,26 +146,26 @@
 		}
 
 		var done = false;
-		function onTe(ev) {
+		function onAnimEnd(ev) {
 			if (ev.target !== root || done) {
 				return;
 			}
-			if (ev.propertyName !== 'transform') {
+			if (ev.animationName !== 'br-home__page-loader-crt-off') {
 				return;
 			}
 			done = true;
-			root.removeEventListener('transitionend', onTe);
+			root.removeEventListener('animationend', onAnimEnd);
 			cleanupDom();
 		}
 
-		root.addEventListener('transitionend', onTe, false);
+		root.addEventListener('animationend', onAnimEnd, false);
 		window.setTimeout(function () {
 			if (!done) {
 				done = true;
-				root.removeEventListener('transitionend', onTe);
+				root.removeEventListener('animationend', onAnimEnd);
 				cleanupDom();
 			}
-		}, 1000);
+		}, BR_LOADER_EXIT_MS + 200);
 	}
 
 	function tryMaybeFinish() {

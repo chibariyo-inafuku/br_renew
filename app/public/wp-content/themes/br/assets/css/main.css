@@ -1159,7 +1159,7 @@ body.admin-bar .br-header--sidebar {
 	font-weight: 600;
 }
 
-/* Footer — Figma: left brand + vertical socials; right 3 columns; bottom privacy + copyright */
+/* Footer — Figma: left brand row (logo + social icons); right 3 columns; bottom privacy + copyright */
 .br-footer {
 	margin-top: auto;
 	padding: 5.86vw 3.15vw 2.93vw;
@@ -1189,6 +1189,11 @@ body.admin-bar .br-header--sidebar {
 }
 
 .br-footer__brand {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: clamp(0.75rem, 2vw, 1.75rem);
 	min-width: 0;
 	flex: 0 1 auto;
 	max-width: 100%;
@@ -1216,21 +1221,50 @@ body.admin-bar .br-header--sidebar {
 
 .br-footer__social {
 	list-style: none;
-	margin: clamp(0.75rem, 1.46vw, 1.25rem) 0 0;
+	margin: 0;
 	padding: 0;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: clamp(0.35rem, 0.55vw, 0.5rem);
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: clamp(0.25rem, 1vw, 0.65rem);
 }
 
-.br-footer__social a {
-	text-decoration: underline;
+.br-footer .br-footer__social-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: content-box;
+	padding: 0.2rem;
+	color: #fff;
+	text-decoration: none;
 }
 
-.br-footer__social a:hover,
-.br-footer__social a:focus {
-	text-decoration: underline;
+.br-footer .br-footer__social-link:hover,
+.br-footer .br-footer__social-link:focus {
+	text-decoration: none;
+	opacity: 0.72;
+}
+
+.br-footer__social-icon {
+	display: block;
+	flex-shrink: 0;
+	width: 1.375rem;
+	height: 1.375rem;
+}
+
+.br-footer__social-icon--lg {
+	width: 1.55rem;
+	height: 1.55rem;
+}
+
+/* X only: smaller than inline SVG icons; icon-x.svg is dark — invert to white */
+.br-footer__social-icon--x {
+	width: auto;
+	height: 1.1rem;
+	max-width: 1.3rem;
+	object-fit: contain;
+	filter: brightness(0) invert(1);
 }
 
 .br-footer__nav-cols {
