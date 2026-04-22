@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$br_img = '/wp-content/themes/br/assets/images/home';
+$br_img = get_template_directory_uri() . '/assets/images/home';
 ?>
 <div
 	id="br-home-page-loader"
