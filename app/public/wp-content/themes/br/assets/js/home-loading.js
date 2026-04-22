@@ -40,7 +40,7 @@
 	var T_D3 = 1300;
 	var T_D4 = 1900;
 	var T_TAGLINE = 2500;
-	var TAGLINE_HOLD_MS = 1200;
+	var TAGLINE_HOLD_MS = 2200;
 
 	var timers = [];
 
@@ -94,7 +94,7 @@
 			if (ev.target !== root || done) {
 				return;
 			}
-			if (ev.propertyName !== 'opacity') {
+			if (ev.propertyName !== 'transform') {
 				return;
 			}
 			done = true;
@@ -109,7 +109,7 @@
 				root.removeEventListener('transitionend', onTe);
 				cleanupDom();
 			}
-		}, 700);
+		}, 1000);
 	}
 
 	function tryMaybeFinish() {
