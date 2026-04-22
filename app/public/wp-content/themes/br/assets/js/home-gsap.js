@@ -10,12 +10,15 @@
 		return;
 	}
 
+	/* Under reduced motion the bg video should not play. Autoplay is no
+	   longer declared on the <video>, so a user with reduced-motion simply
+	   never sees the video start (the poster image is shown instead). This
+	   early pause() is kept as a safety net for browsers that might preroll. */
 	var heroEarly = root.querySelector('.br-home__hero');
 	if (heroEarly && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 		var heroVid = heroEarly.querySelector('.br-home__hero-video');
 		if (heroVid && typeof heroVid.pause === 'function') {
 			heroVid.pause();
-			heroVid.removeAttribute('autoplay');
 		}
 	}
 
@@ -188,6 +191,20 @@
 				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.34');
 			}
 
+			/* Kick off hero bg video playback. Autoplay is intentionally removed
+			   on the <video> tag so the video stays on its poster until the
+			   loader finishes. Swallow the promise rejection that browsers
+			   throw when playback is blocked (e.g. battery saver). */
+			function playHeroVideo() {
+				if (!bgVideo || typeof bgVideo.play !== 'function') {
+					return;
+				}
+				var p = bgVideo.play();
+				if (p && typeof p.catch === 'function') {
+					p.catch(function () {});
+				}
+			}
+
 			var pageLoader = document.querySelector('[data-br-home-page-loader]');
 			var deferHeroToLoader =
 				pageLoader &&
@@ -197,6 +214,7 @@
 				function onLoaderDone() {
 					window.removeEventListener('br-home-loader-done', onLoaderDone);
 					tl.play(0);
+					playHeroVideo();
 				}
 				window.addEventListener('br-home-loader-done', onLoaderDone, false);
 				window.setTimeout(function () {
@@ -204,7 +222,12 @@
 					if (tl.paused()) {
 						tl.play(0);
 					}
+					playHeroVideo();
 				}, 6000);
+			} else {
+				/* No loader to wait on (or it was disabled): start the bg video
+				   alongside the timeline that is already auto-playing. */
+				playHeroVideo();
 			}
 
 			if (bgVideo) {

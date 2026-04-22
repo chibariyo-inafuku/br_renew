@@ -142,11 +142,11 @@ html.br-home-loading body {
 	opacity: 0;
 	transform: translate3d(-16px, 0, 0);
 	transition:
-		opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-		transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+		opacity 0.15s cubic-bezier(0.33, 1, 0.68, 1),
+		transform 0.15s cubic-bezier(0.33, 1, 0.68, 1);
 	/* home-loading.js sets --br-tagline-i (0-based char index) on each span.
-	   Stagger is 50ms per char; tuned together with TAGLINE_HOLD_MS in JS. */
-	transition-delay: calc(var(--br-tagline-i, 0) * 0.05s);
+	   Stagger is 20ms per char; tuned together with TAGLINE_HOLD_MS in JS. */
+	transition-delay: calc(var(--br-tagline-i, 0) * 0.02s);
 	will-change: transform, opacity;
 }
 
@@ -159,13 +159,36 @@ html.br-home-loading body {
 	display: none;
 }
 
+/* CRT "power off" style exit: collapse vertically to a thin white line,
+   hold briefly, then collapse horizontally to a point.
+   Duration kept in sync with BR_LOADER_EXIT_MS in home-loading.js. */
+@keyframes br-home__page-loader-crt-off {
+	0% {
+		transform: scale(1, 1);
+		opacity: 1;
+		animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+	}
+	45% {
+		transform: scale(1, 0.006);
+		opacity: 1;
+		animation-timing-function: steps(1);
+	}
+	62% {
+		transform: scale(1, 0.006);
+		opacity: 1;
+		animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+	}
+	100% {
+		transform: scale(0, 0.006);
+		opacity: 0;
+	}
+}
+
 .br-home__page-loader--exiting {
 	pointer-events: none;
-	transform: translate3d(-100%, 0, 0);
-	visibility: hidden;
-	transition:
-		transform 0.8s cubic-bezier(0.76, 0, 0.24, 1),
-		visibility 0s linear 0.8s;
+	transform-origin: 50% 50%;
+	animation: br-home__page-loader-crt-off 0.9s forwards;
+	/* Keep children (logo pieces / tagline) riding along with the transform. */
 }
 
 .br-home__page-loader--hidden {
@@ -239,6 +262,10 @@ html.br-home-loading body {
 	.br-home__page-loader {
 		transition-duration: 0.01s;
 		transition-delay: 0s;
+	}
+
+	.br-home__page-loader--exiting {
+		animation-duration: 0.01s;
 	}
 }
 
