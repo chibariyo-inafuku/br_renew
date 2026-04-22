@@ -1,15 +1,16 @@
 /**
  * TOP-only loader.
  *
- * Timeline (white bg, pieces assemble + tagline types in parallel):
+ * Timeline (white bg, pieces assemble first, then tagline types in):
  *   0 ms     initial blank white
  *   100 ms   loading01 (triangle)    — slide in from the left
- *            tagline                 — starts revealing char by char (80ms stagger)
- *   700 ms   loading02 (medium blue) — slide in from the left
- *   1300 ms  loading03 (dark navy)   — slide in from the left
- *   1900 ms  loading04 (cyan)        — slide in from the left
- *   ~2200 ms last tagline character settles
- *   100 + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
+ *   450 ms   loading02 (medium blue) — slide in from the left
+ *   800 ms   loading03 (dark navy)   — slide in from the left
+ *   1150 ms  loading04 (cyan)        — slide in from the left
+ *   ~1550 ms last logo piece settles
+ *   1600 ms  tagline                 — starts revealing char by char (50ms stagger)
+ *   ~2950 ms last tagline character settles
+ *   T_TAGLINE + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
  */
 (function () {
 	'use strict';
@@ -84,14 +85,14 @@
 
 	/* Frame timings (ms) — see header comment */
 	var T_TRI = 100;
-	var T_D2 = 700;
-	var T_D3 = 1300;
-	var T_D4 = 1900;
-	/* Tagline now starts WITH the first logo piece and reveals one char at a
-	   time (see CSS --br-tagline-i / transition-delay). Hold ends the intro
-	   well after the last char has settled so the user has a beat to read. */
-	var T_TAGLINE = T_TRI;
-	var TAGLINE_HOLD_MS = 4150;
+	var T_D2 = 450;
+	var T_D3 = 800;
+	var T_D4 = 1150;
+	/* Tagline starts AFTER the logo pieces have settled (d4 arrives ~1550ms),
+	   then reveals one char at a time via the CSS stagger (--br-tagline-i).
+	   Hold ends the intro after the last char settles with a beat to read. */
+	var T_TAGLINE = 1600;
+	var TAGLINE_HOLD_MS = 2400;
 
 	var timers = [];
 
