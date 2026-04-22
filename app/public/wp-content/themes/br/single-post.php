@@ -55,7 +55,7 @@ while ( have_posts() ) :
 				</header>
 				<nav class="br-post-single__breadcrumb" aria-label="パンくず">
 					<ol class="br-post-single__breadcrumb-list">
-						<li><a href="/">Top</a></li>
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 						<li class="br-post-single__breadcrumb-sep" aria-hidden="true">/</li>
 						<li><a href="<?php echo esc_url( $blog_hub_url ); ?>">Blog</a></li>
 						<li class="br-post-single__breadcrumb-sep" aria-hidden="true">/</li>
@@ -148,7 +148,7 @@ while ( have_posts() ) :
 				</header>
 				<nav class="br-service-single__breadcrumb" aria-label="パンくず">
 					<ol class="br-service-single__breadcrumb-list">
-						<li><a href="/">Top</a></li>
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 						<li class="br-service-single__breadcrumb-sep" aria-hidden="true">/</li>
 						<li><a href="<?php echo esc_url( $service_hub_url ); ?>">Service</a></li>
 						<li class="br-service-single__breadcrumb-sep" aria-hidden="true">/</li>
@@ -233,7 +233,7 @@ while ( have_posts() ) :
 				</header>
 				<nav class="br-news-single__breadcrumb" aria-label="パンくず">
 					<ol class="br-news-single__breadcrumb-list">
-						<li><a href="/">Top</a></li>
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 						<li class="br-news-single__breadcrumb-sep" aria-hidden="true">/</li>
 						<li><a href="<?php echo esc_url( $news_hub_url ); ?>">News</a></li>
 						<li class="br-news-single__breadcrumb-sep" aria-hidden="true">/</li>

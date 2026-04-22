@@ -34,9 +34,9 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-faq__breadcrumb" aria-label="パンくず">
 				<ol class="br-faq__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-faq__breadcrumb-sep" aria-hidden="true">/</li>
-					<li><a href="/about/">About</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 					<li class="br-faq__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-faq__breadcrumb-current">FAQ</span></li>
 				</ol>
@@ -260,7 +260,7 @@ while ( have_posts() ) :
 				<p class="br-faq__promo-cta">
 					<a
 						class="br-hop-btn br-hop-btn--inverted"
-						href="/contact/"
+						href="<?php echo esc_url( home_url( '/contact/' ) ); ?>"
 						data-text="Contact Us"
 						aria-label="Contact Us"
 					>

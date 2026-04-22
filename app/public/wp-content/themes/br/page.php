@@ -40,7 +40,7 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-page-default__breadcrumb" aria-label="パンくず">
 				<ol class="br-page-default__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-page-default__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-page-default__breadcrumb-current"><?php echo esc_html( $br_page_title ); ?></span></li>
 				</ol>

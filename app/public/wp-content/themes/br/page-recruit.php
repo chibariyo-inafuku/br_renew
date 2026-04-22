@@ -36,7 +36,7 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-recruit__breadcrumb" aria-label="パンくず">
 				<ol class="br-recruit__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-recruit__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-recruit__breadcrumb-current">Recruit</span></li>
 				</ol>

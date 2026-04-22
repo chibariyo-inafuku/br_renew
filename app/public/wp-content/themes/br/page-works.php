@@ -55,7 +55,7 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-works__breadcrumb" aria-label="パンくず">
 				<ol class="br-works__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-works__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-works__breadcrumb-current">Works</span></li>
 				</ol>

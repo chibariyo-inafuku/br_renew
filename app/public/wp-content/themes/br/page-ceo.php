@@ -34,9 +34,9 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-ceo__breadcrumb" aria-label="パンくず">
 				<ol class="br-ceo__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-ceo__breadcrumb-sep" aria-hidden="true">/</li>
-					<li><a href="/about/">About</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 					<li class="br-ceo__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-ceo__breadcrumb-current">CEO Profile</span></li>
 				</ol>

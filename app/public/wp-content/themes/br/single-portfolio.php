@@ -116,7 +116,7 @@ while ( have_posts() ) :
 				</header>
 				<nav class="br-portfolio__breadcrumb" aria-label="パンくず">
 					<ol class="br-portfolio__breadcrumb-list">
-						<li><a href="/">Top</a></li>
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 						<li class="br-portfolio__breadcrumb-sep" aria-hidden="true">/</li>
 						<li><a href="<?php echo esc_url( $list_hub_url ); ?>"><?php echo esc_html( $list_hub_label ); ?></a></li>
 						<li class="br-portfolio__breadcrumb-sep" aria-hidden="true">/</li>
