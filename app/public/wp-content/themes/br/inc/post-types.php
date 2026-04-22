@@ -38,7 +38,7 @@ function br_register_portfolio_post_type() {
 		'description'         => __( 'Portfolio projects', 'br' ),
 		'labels'              => $labels,
 		'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'custom-fields' ),
-		'taxonomies'          => array( 'project-categories', 'portfolio-list', 'category' ),
+		'taxonomies'          => array( 'project-categories', 'portfolio-list' ),
 		'hierarchical'        => false,
 		'public'              => true,
 		'show_ui'             => true,
@@ -146,15 +146,5 @@ function br_ensure_portfolio_list_linked() {
 	}
 }
 add_action( 'init', 'br_ensure_portfolio_list_linked', 11 );
-
-/**
- * Attach core post categories to portfolio (Works detail meta strip).
- */
-function br_ensure_portfolio_category_linked() {
-	if ( taxonomy_exists( 'category' ) && post_type_exists( 'portfolio' ) ) {
-		register_taxonomy_for_object_type( 'category', 'portfolio' );
-	}
-}
-add_action( 'init', 'br_ensure_portfolio_category_linked', 11 );
 
 add_action( 'init', 'br_register_portfolio_post_type', 0 );
