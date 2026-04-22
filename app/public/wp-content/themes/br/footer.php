@@ -30,12 +30,68 @@ $privacy_href = ( $privacy_url !== '' ) ? esc_url( $privacy_url ) : '';
 						decoding="async"
 					/>
 				</a>
-				<ul class="br-footer__social" aria-label="Social links">
-					<li><a href="<?php echo esc_url( 'https://x.com/BlueR_CEO' ); ?>">X</a></li>
-					
-					<li><a href="<?php echo esc_url( 'https://www.youtube.com/@BlueR0222' ); ?>">YouTube</a></li>
-					<li><a href="<?php echo esc_url( 'https://www.instagram.com/bluer_inc/' ); ?>">Instagram</a></li>
-					<li><a href="<?php echo esc_url( 'https://www.tiktok.com/@bluer_inc' ); ?>">TikTok</a></li>
+				<ul class="br-footer__social" role="list" aria-label="<?php echo esc_attr__( 'Social links', 'br' ); ?>">
+					<li>
+						<a
+							class="br-footer__social-link"
+							href="<?php echo esc_url( 'https://x.com/BlueR_CEO' ); ?>"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="screen-reader-text"><?php echo esc_html__( 'X', 'br' ); ?></span>
+							<img
+								class="br-footer__social-icon br-footer__social-icon--x"
+								src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icon-x.svg' ) ); ?>"
+								alt=""
+								width="30"
+								height="27"
+								decoding="async"
+								aria-hidden="true"
+							/>
+						</a>
+					</li>
+					<li>
+						<a
+							class="br-footer__social-link"
+							href="<?php echo esc_url( 'https://www.youtube.com/@BlueR0222' ); ?>"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="screen-reader-text"><?php echo esc_html__( 'YouTube', 'br' ); ?></span>
+							<svg class="br-footer__social-icon br-footer__social-icon--lg" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+								<rect x="2" y="5" width="20" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.75"/>
+								<path d="M10 9.5L10 14.5L15.5 12L10 9.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							class="br-footer__social-link"
+							href="<?php echo esc_url( 'https://www.instagram.com/bluer_inc/' ); ?>"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="screen-reader-text"><?php echo esc_html__( 'Instagram', 'br' ); ?></span>
+							<svg class="br-footer__social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+								<rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.75"/>
+								<circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"/>
+								<circle cx="17" cy="7" r="1.25" fill="currentColor"/>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							class="br-footer__social-link"
+							href="<?php echo esc_url( 'https://www.tiktok.com/@bluer_inc' ); ?>"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							<span class="screen-reader-text"><?php echo esc_html__( 'TikTok', 'br' ); ?></span>
+							<svg class="br-footer__social-icon br-footer__social-icon--lg" width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+								<path fill="currentColor" d="M 6 3 C 4.3550302 3 3 4.3550302 3 6 L 3 18 C 3 19.64497 4.3550302 21 6 21 L 18 21 C 19.64497 21 21 19.64497 21 18 L 21 6 C 21 4.3550302 19.64497 3 18 3 L 6 3 z M 12 7 L 14 7 C 14 8.005 15.471 9 16 9 L 16 11 C 15.395 11 14.668 10.734156 14 10.285156 L 14 14 C 14 15.654 12.654 17 11 17 C 9.346 17 8 15.654 8 14 C 8 12.346 9.346 11 11 11 L 11 13 C 10.448 13 10 13.449 10 14 C 10 14.551 10.448 15 11 15 C 11.552 15 12 14.551 12 14 L 12 7 z"/>
+							</svg>
+						</a>
+					</li>
 				</ul>
 			</div>
 			<nav class="br-footer__nav-cols" aria-label="Footer navigation">
