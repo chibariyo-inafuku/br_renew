@@ -20,6 +20,147 @@
 }
 
 /* -------------------------------------------------------------------------
+   TOP: full-screen page loader (front-page only)
+   ------------------------------------------------------------------------- */
+html.br-home-loading,
+html.br-home-loading body {
+	overflow: hidden;
+}
+
+.br-home__page-loader {
+	position: fixed;
+	inset: 0;
+	z-index: 100001;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	padding: clamp(1.25rem, 4vw, 2.5rem);
+	background: #ffffff;
+	transition:
+		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		visibility 0s linear 0s;
+}
+
+.br-home__page-loader-inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 64px;
+}
+
+/* BR mark — fixed px stage 220×235.
+   Positions/sizes derived from the target reference (pixel probed).
+   Stack (top -> bottom): d4 > d3 > d2 > tri. */
+.br-home__page-loader-mark {
+	position: relative;
+	width: 220px;
+	height: 235px;
+	margin: 0 auto;
+}
+
+.br-home__page-loader-piece {
+	position: absolute;
+	display: block;
+	max-width: none;
+	opacity: 0;
+	pointer-events: none;
+	transition:
+		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+	will-change: transform, opacity;
+}
+
+/* loading01 — navy triangle (R leg), below everything */
+.br-home__page-loader-piece--tri {
+	left: 70px;
+	top: 60px;
+	width: 147px;
+	height: 174px;
+	z-index: 1;
+	transform: translate3d(0, -60px, 0);
+}
+
+/* loading02 — medium-blue D, forms the "B" bowls */
+.br-home__page-loader-piece--d2 {
+	left: 72px;
+	top: 0;
+	width: 144px;
+	height: 148px;
+	z-index: 2;
+	transform: translate3d(0, 60px, 0);
+}
+
+/* loading03 — dark-navy D (top-left of "B") */
+.br-home__page-loader-piece--d3 {
+	left: 0;
+	top: 0;
+	width: 144px;
+	height: 148px;
+	z-index: 3;
+	transform: translate3d(60px, 0, 0);
+}
+
+/* loading04 — cyan D (bottom-left of "B"), topmost */
+.br-home__page-loader-piece--d4 {
+	left: 0;
+	top: 86px;
+	width: 144px;
+	height: 148px;
+	z-index: 4;
+}
+
+.br-home__page-loader-piece.is-in {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+.br-home__page-loader-tagline {
+	margin: 0;
+	font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 1.65;
+	letter-spacing: 0.02em;
+	text-align: center;
+	color: var(--br-ink);
+	opacity: 0;
+	transform: translate3d(0, 10px, 0);
+	transition:
+		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.br-home__page-loader-tagline.is-visible {
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+
+.br-home__page-loader--exiting {
+	pointer-events: none;
+	opacity: 0;
+	transform: translate3d(0, -12px, 0);
+	visibility: hidden;
+	transition:
+		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+		visibility 0s linear 0.55s;
+}
+
+.br-home__page-loader--hidden {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__page-loader-piece,
+	.br-home__page-loader-tagline,
+	.br-home__page-loader {
+		transition-duration: 0.01s;
+	}
+}
+
+/* -------------------------------------------------------------------------
    Home root tokens (layout fluid; type px @ ~1440, narrowed in SP block)
    ------------------------------------------------------------------------- */
 .br-home {

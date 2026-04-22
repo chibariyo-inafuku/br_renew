@@ -188,6 +188,25 @@
 				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.34');
 			}
 
+			var pageLoader = document.querySelector('[data-br-home-page-loader]');
+			var deferHeroToLoader =
+				pageLoader &&
+				!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+			if (deferHeroToLoader) {
+				tl.pause(0);
+				function onLoaderDone() {
+					window.removeEventListener('br-home-loader-done', onLoaderDone);
+					tl.play(0);
+				}
+				window.addEventListener('br-home-loader-done', onLoaderDone, false);
+				window.setTimeout(function () {
+					window.removeEventListener('br-home-loader-done', onLoaderDone);
+					if (tl.paused()) {
+						tl.play(0);
+					}
+				}, 6000);
+			}
+
 			if (bgVideo) {
 				gsap.to(bgVideo, {
 					yPercent: 10,
