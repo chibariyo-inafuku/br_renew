@@ -75,7 +75,7 @@ html.br-home-loading body {
 /* loading01 — navy triangle (R leg), below everything */
 .br-home__page-loader-piece--tri {
 	left: 70px;
-	top: 60px;
+	top: 59px;
 	width: 147px;
 	height: 174px;
 	z-index: 1;
@@ -137,6 +137,10 @@ html.br-home-loading body {
 	transform: translate3d(0, 0, 0);
 }
 
+.br-home__page-loader-tagline-br {
+	display: none;
+}
+
 .br-home__page-loader--exiting {
 	pointer-events: none;
 	transform: translate3d(-100%, 0, 0);
@@ -148,6 +152,57 @@ html.br-home-loading body {
 
 .br-home__page-loader--hidden {
 	display: none;
+}
+
+/* SP: shrink mark and tagline by ~70% (two notches smaller). */
+@media (max-width: 768px) {
+	.br-home__page-loader-inner {
+		gap: 40px;
+	}
+
+	.br-home__page-loader-mark {
+		width: 154px;
+		height: 165px;
+	}
+
+	.br-home__page-loader-piece--tri {
+		left: 49px;
+		top: 41px;
+		width: 103px;
+		height: 122px;
+		transform: translate3d(0, -42px, 0);
+	}
+
+	.br-home__page-loader-piece--d2 {
+		left: 49px;
+		top: 0;
+		width: 101px;
+		height: 104px;
+		transform: translate3d(0, 42px, 0);
+	}
+
+	.br-home__page-loader-piece--d3 {
+		left: 0;
+		top: 0;
+		width: 101px;
+		height: 104px;
+		transform: translate3d(42px, 0, 0);
+	}
+
+	.br-home__page-loader-piece--d4 {
+		left: 0;
+		top: 60px;
+		width: 101px;
+		height: 104px;
+	}
+
+	.br-home__page-loader-tagline {
+		font-size: 17px;
+	}
+
+	.br-home__page-loader-tagline-br {
+		display: inline;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

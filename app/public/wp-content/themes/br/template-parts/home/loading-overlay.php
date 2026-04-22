@@ -67,6 +67,6 @@ $br_img = '/wp-content/themes/br/assets/images/home';
 				decoding="async"
 			/>
 		</div>
-		<p class="br-home__page-loader-tagline">AIと共創する新しいプロモーションパートナー</p>
+		<p class="br-home__page-loader-tagline">AIと共創する新しい<br class="br-home__page-loader-tagline-br" />プロモーションパートナー</p>
 	</div>
 </div>
