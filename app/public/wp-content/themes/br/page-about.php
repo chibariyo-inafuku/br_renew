@@ -345,8 +345,8 @@ while ( have_posts() ) :
 						<dd>T4180001160318</dd>
 					</div>
 					<div class="br-about__overview-row">
-						<dt>提携会社</dt>
-						<dd>taziku / 株式会社タジク</dd>
+						<dt>関連会社</dt>
+						<dd>株式会社タジク／株式会社チバリヨー</dd>
 					</div>
 					<div class="br-about__overview-row">
 						<dt>東京オフィス</dt>
