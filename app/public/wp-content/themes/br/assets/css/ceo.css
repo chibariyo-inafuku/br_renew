@@ -368,28 +368,28 @@
 .br-ceo__name-row {
 	display: flex;
 	flex-wrap: wrap;
-	align-items: flex-end;
+	align-items: baseline;
 	gap: 0.5rem 1rem;
-	margin: 0;
+	margin: 0 0 0.75rem;
 }
 
 .br-ceo__name-ja {
 	font-family: "Noto Sans JP", system-ui, sans-serif;
-	font-size: 48px;
+	font-size: 24px;
 	font-weight: 900;
-	line-height: 1;
-	color: #1f2937;
+	line-height: 1.33;
+	color: var(--br-ink);
 }
 
 .br-ceo__name-en {
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 14px;
 	font-weight: 500;
-	line-height: 1.43;
-	letter-spacing: 0.1em;
+	line-height: 1.4;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
-	color: #1f2937;
-	opacity: 0.35;
+	color: var(--br-ink);
+	opacity: 0.45;
 }
 
 .br-ceo__tagline {
@@ -629,12 +629,6 @@
 
 	.br-ceo__sns-card .br-about__anchor-arrow-inner {
 		transform: none;
-	}
-}
-
-@media (max-width: 768px) {
-	.br-ceo__name-ja {
-		font-size: 36px;
 	}
 }
 
@@ -973,12 +967,11 @@
 }
 
 .br-ceo__message-sign-name {
-	font-family: "Zen Kurenaido", "Noto Sans JP", sans-serif;
+	font-family: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
 	font-size: clamp(1.375rem, 2.75vw, 1.875rem);
-	font-weight: 400;
+	font-weight: 500;
 	line-height: 1.35;
 	letter-spacing: 0.02em;
-	font-synthesis: none;
 }
 
 @media (max-width: 768px) {
