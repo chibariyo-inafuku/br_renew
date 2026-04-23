@@ -50,13 +50,13 @@ html.br-home-loading body {
 	gap: 64px;
 }
 
-/* BR mark — fixed px stage 220×235.
+/* BR mark — fixed px stage 110×118 (~half of original 220×235).
    Positions/sizes derived from the target reference (pixel probed).
    Stack (top -> bottom): d4 > d3 > d2 > tri. */
 .br-home__page-loader-mark {
 	position: relative;
-	width: 220px;
-	height: 235px;
+	width: 110px;
+	height: 118px;
 	margin: 0 auto;
 }
 
@@ -76,42 +76,42 @@ html.br-home-loading body {
 
 /* loading01 — navy triangle (R leg), below everything */
 .br-home__page-loader-piece--tri {
-	left: 70px;
-	top: 59px;
-	width: 147px;
-	height: 174px;
+	left: 35px;
+	top: 30px;
+	width: 74px;
+	height: 87px;
 	z-index: 1;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading02 — medium-blue D, forms the "B" bowls */
 .br-home__page-loader-piece--d2 {
-	left: 70px;
+	left: 35px;
 	top: 0;
-	width: 144px;
-	height: 148px;
+	width: 72px;
+	height: 74px;
 	z-index: 2;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading03 — dark-navy D (top-left of "B") */
 .br-home__page-loader-piece--d3 {
 	left: 0;
 	top: 0;
-	width: 144px;
-	height: 148px;
+	width: 72px;
+	height: 74px;
 	z-index: 3;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 /* loading04 — cyan D (bottom-left of "B"), topmost */
 .br-home__page-loader-piece--d4 {
 	left: 0;
-	top: 86px;
-	width: 144px;
-	height: 148px;
+	top: 43px;
+	width: 72px;
+	height: 74px;
 	z-index: 4;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-60px, 0, 0);
 }
 
 .br-home__page-loader-piece.is-in {
@@ -195,47 +195,47 @@ html.br-home-loading body {
 	display: none;
 }
 
-/* SP: shrink mark and tagline by ~70% (two notches smaller). */
+/* SP: shrink mark and tagline by ~70% of desktop loader (two notches smaller). */
 @media (max-width: 768px) {
 	.br-home__page-loader-inner {
 		gap: 40px;
 	}
 
 	.br-home__page-loader-mark {
-		width: 154px;
-		height: 165px;
+		width: 77px;
+		height: 83px;
 	}
 
 	.br-home__page-loader-piece--tri {
-		left: 49px;
-		top: 41px;
-		width: 103px;
-		height: 122px;
-		transform: translate3d(-84px, 0, 0);
+		left: 25px;
+		top: 21px;
+		width: 52px;
+		height: 61px;
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d2 {
-		left: 49px;
+		left: 25px;
 		top: 0;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d3 {
 		left: 0;
 		top: 0;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d4 {
 		left: 0;
-		top: 60px;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		top: 30px;
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-42px, 0, 0);
 	}
 
 	.br-home__page-loader-tagline {
