@@ -21,6 +21,9 @@ $body_lines = isset( $br_thanks_args['body_lines'] ) && is_array( $br_thanks_arg
 $note       = isset( $br_thanks_args['note'] ) ? (string) $br_thanks_args['note'] : '';
 $h1_id      = isset( $br_thanks_args['h1_id'] ) && $br_thanks_args['h1_id'] !== '' ? (string) $br_thanks_args['h1_id'] : 'br-thanks-title';
 
+$thanks_illust_src = get_template_directory_uri() . '/assets/images/thanks/thanks-illust.png';
+$thanks_top_href   = home_url( '/' );
+
 ?>
 <main id="main" class="br-main br-thanks" aria-labelledby="<?php echo esc_attr( $h1_id ); ?>">
 	<section class="br-thanks__section" data-br-subpage-reveal>
@@ -28,7 +31,7 @@ $h1_id      = isset( $br_thanks_args['h1_id'] ) && $br_thanks_args['h1_id'] !== 
 			<div class="br-thanks__illustration">
 				<img
 					class="br-thanks__illustration-img"
-					src="/wp-content/themes/br/assets/images/thanks/thanks-illust.png"
+					src="<?php echo esc_url( $thanks_illust_src ); ?>"
 					width="1024"
 					height="1024"
 					alt="握手を交わすビジネスパーソンのイラスト"
@@ -50,7 +53,7 @@ $h1_id      = isset( $br_thanks_args['h1_id'] ) && $br_thanks_args['h1_id'] !== 
 			<?php endif; ?>
 
 			<p class="br-thanks__cta-wrap">
-				<a class="br-thanks__cta" href="/">TOPページへ戻る</a>
+				<a class="br-thanks__cta" href="<?php echo esc_url( $thanks_top_href ); ?>">TOPページへ戻る</a>
 			</p>
 		</div>
 	</section>

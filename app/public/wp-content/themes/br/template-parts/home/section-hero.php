@@ -15,7 +15,7 @@ $vid  = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
 		<video
 			class="br-home__hero-video"
 			poster="<?php echo esc_url( $img . '/hero-bg.png' ); ?>"
-			autoplay
+			preload="auto"
 			muted
 			loop
 			playsinline

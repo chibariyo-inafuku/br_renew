@@ -10,12 +10,15 @@
 		return;
 	}
 
+	/* Under reduced motion the bg video should not play. Autoplay is no
+	   longer declared on the <video>, so a user with reduced-motion simply
+	   never sees the video start (the poster image is shown instead). This
+	   early pause() is kept as a safety net for browsers that might preroll. */
 	var heroEarly = root.querySelector('.br-home__hero');
 	if (heroEarly && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 		var heroVid = heroEarly.querySelector('.br-home__hero-video');
 		if (heroVid && typeof heroVid.pause === 'function') {
 			heroVid.pause();
-			heroVid.removeAttribute('autoplay');
 		}
 	}
 
@@ -48,6 +51,9 @@
 	/** CodePen ZYdopE–style noise pool (symbols; no Snap.svg). */
 	var HERO_SCRAMBLE_NOISE = '-+*/|}{[]~\\":;?/.><=+-_)(*&^%$#@!)}';
 
+	/** >1 stretches hero title slide + scramble (wall-clock); tweak for pacing. */
+	var HERO_TITLE_TIME_SCALE = 2.85;
+
 	function heroScrambleImmediateChar(ch) {
 		return /[\s\u3000、。，．]/.test(ch);
 	}
@@ -70,7 +76,9 @@
 			var ch = step.value;
 			var span = document.createElement('span');
 			span.className = 'br-home__hero-title-char';
-			span.textContent = ch;
+			/* Noise first so the slide-in never reveals the final copy; timeline
+			   then ticks more noise and resolves to `final` (same as scramble). */
+			span.textContent = heroScrambleImmediateChar(ch) ? ch : heroScrambleNoiseChar();
 			box.appendChild(span);
 			out.push({ el: span, final: ch });
 		}
@@ -81,8 +89,8 @@
 	 * Schedule tl.call steps: noise ticks then lock to final (per char, staggered).
 	 */
 	function heroAddScrambleToTimeline(tl, charItems, tStart) {
-		var charStagger = 0.055;
-		var tickInterval = 0.038;
+		var charStagger = 0.055 * HERO_TITLE_TIME_SCALE;
+		var tickInterval = 0.038 * HERO_TITLE_TIME_SCALE;
 		var baseCycles = 5;
 		var gi = 0;
 		for (var i = 0; i < charItems.length; i++) {
@@ -174,18 +182,62 @@
 			if (titleBoxes.length) {
 				tl.to(
 					titleBoxes,
-					{ x: 0, duration: 0.58, stagger: 0.12, ease: 'power3.out' },
+					{
+						x: 0,
+						duration: 0.58 * HERO_TITLE_TIME_SCALE,
+						stagger: 0.12 * HERO_TITLE_TIME_SCALE,
+						ease: 'power3.out',
+					},
 					0.14
 				);
 			}
 			if (allTitleChars.length) {
-				heroAddScrambleToTimeline(tl, allTitleChars, 0.22);
+				heroAddScrambleToTimeline(tl, allTitleChars, 0.22 * HERO_TITLE_TIME_SCALE);
 			}
 			if (lead) {
 				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.28');
 			}
 			if (cta) {
 				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.34');
+			}
+
+			/* Kick off hero bg video playback. Autoplay is intentionally removed
+			   on the <video> tag so the video stays on its poster until the
+			   loader finishes. Swallow the promise rejection that browsers
+			   throw when playback is blocked (e.g. battery saver). */
+			function playHeroVideo() {
+				if (!bgVideo || typeof bgVideo.play !== 'function') {
+					return;
+				}
+				var p = bgVideo.play();
+				if (p && typeof p.catch === 'function') {
+					p.catch(function () {});
+				}
+			}
+
+			var pageLoader = document.querySelector('[data-br-home-page-loader]');
+			var deferHeroToLoader =
+				pageLoader &&
+				!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+			if (deferHeroToLoader) {
+				tl.pause(0);
+				function onLoaderDone() {
+					window.removeEventListener('br-home-loader-done', onLoaderDone);
+					tl.play(0);
+					playHeroVideo();
+				}
+				window.addEventListener('br-home-loader-done', onLoaderDone, false);
+				window.setTimeout(function () {
+					window.removeEventListener('br-home-loader-done', onLoaderDone);
+					if (tl.paused()) {
+						tl.play(0);
+					}
+					playHeroVideo();
+				}, 6000);
+			} else {
+				/* No loader to wait on (or it was disabled): start the bg video
+				   alongside the timeline that is already auto-playing. */
+				playHeroVideo();
 			}
 
 			if (bgVideo) {

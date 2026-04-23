@@ -196,6 +196,13 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
+		wp_enqueue_script(
+			'br-home-loading',
+			$theme_uri . '/assets/js/home-loading.js',
+			array(),
+			BR_VERSION,
+			true
+		);
 	}
 
 	if ( is_page( 'about' ) ) {
@@ -653,7 +660,7 @@ function br_enqueue_assets() {
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-scroll-cards-gsap', 'br-home-rail' ),
+			array( 'br-scroll-cards-gsap', 'br-home-rail', 'br-home-loading' ),
 			BR_VERSION,
 			true
 		);
@@ -700,6 +707,16 @@ function br_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
 
 /**
+ * Early scroll lock while TOP page loader is visible.
+ */
+function br_home_loading_html_class() {
+	if ( is_front_page() ) {
+		echo '<script>document.documentElement.classList.add("br-home-loading");</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'br_home_loading_html_class', 1 );
+
+/**
  * Early marker for home GSAP hero prep (avoids flash of unstyled hero text when motion is allowed).
  */
 function br_home_gsap_html_class() {
@@ -726,3 +743,31 @@ function br_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'br_content_width', 960 );
 }
 add_action( 'after_setup_theme', 'br_content_width', 0 );
+
+/**
+ * Cache-bust home.css using its file modified date.
+ *
+ * Rewrites the enqueued URL from the default `?ver=<BR_VERSION>` to
+ * `?v=<YYYYMMDD>` so deploying an updated home.css automatically invalidates
+ * any intermediate / browser cache without needing to bump BR_VERSION.
+ * The handle `br-home` is shared across every page that loads home.css, so a
+ * single filter covers the whole site.
+ */
+function br_cache_bust_home_css( $src, $handle ) {
+	if ( $handle !== 'br-home' ) {
+		return $src;
+	}
+	$path = get_template_directory() . '/assets/css/home.css';
+	if ( ! is_readable( $path ) ) {
+		return $src;
+	}
+	$mtime = filemtime( $path );
+	if ( ! $mtime ) {
+		return $src;
+	}
+	$ver = gmdate( 'Ymd', $mtime );
+	$src = remove_query_arg( array( 'ver', 'v' ), $src );
+	$src = add_query_arg( 'v', $ver, $src );
+	return $src;
+}
+add_filter( 'style_loader_src', 'br_cache_bust_home_css', 10, 2 );

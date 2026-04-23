@@ -74,21 +74,7 @@ while ( have_posts() ) :
 		$project_custom_meta_2 = is_string( $cm_raw ) ? trim( $cm_raw ) : '';
 	}
 
-	$post_categories = get_the_terms( $pid, 'category' );
-	if ( ! is_array( $post_categories ) || is_wp_error( $post_categories ) ) {
-		$post_categories = array();
-	} else {
-		$post_categories = array_values(
-			array_filter(
-				$post_categories,
-				static function ( $t ) {
-					return $t instanceof WP_Term;
-				}
-			)
-		);
-	}
-
-	$has_meta_lead_col = ( $project_terms !== array() || $post_categories !== array() );
+	$has_meta_lead_col = ( $project_terms !== array() );
 	$show_meta_strip   = ( $project_excerpt !== '' || $project_custom_meta_2 !== '' || $has_meta_lead_col );
 	?>
 <main id="main" class="br-main br-portfolio">
@@ -130,7 +116,7 @@ while ( have_posts() ) :
 				</header>
 				<nav class="br-portfolio__breadcrumb" aria-label="パンくず">
 					<ol class="br-portfolio__breadcrumb-list">
-						<li><a href="/">Top</a></li>
+						<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 						<li class="br-portfolio__breadcrumb-sep" aria-hidden="true">/</li>
 						<li><a href="<?php echo esc_url( $list_hub_url ); ?>"><?php echo esc_html( $list_hub_label ); ?></a></li>
 						<li class="br-portfolio__breadcrumb-sep" aria-hidden="true">/</li>
@@ -167,25 +153,6 @@ while ( have_posts() ) :
 												?>
 												<li class="br-portfolio__meta-strip-project-terms-item">
 													<span class="br-portfolio__meta-strip-project-terms-label"><?php echo esc_html( $pc_term->name ); ?></span>
-												</li>
-											<?php endforeach; ?>
-										</ul>
-									<?php endif; ?>
-									<?php if ( $post_categories ) : ?>
-										<h2 class="br-portfolio__meta-strip-cat-heading<?php echo $project_terms ? ' br-portfolio__meta-strip-cat-heading--after-project-tax' : ''; ?>">Categories</h2>
-										<ul class="br-portfolio__meta-strip-cats">
-											<?php foreach ( $post_categories as $cat_term ) : ?>
-												<?php
-												if ( ! $cat_term instanceof WP_Term ) {
-													continue;
-												}
-												$cat_href = get_term_link( $cat_term );
-												if ( is_wp_error( $cat_href ) ) {
-													$cat_href = '#';
-												}
-												?>
-												<li class="br-portfolio__meta-strip-cats-item">
-													<a class="br-portfolio__meta-strip-cats-link" href="<?php echo esc_url( $cat_href ); ?>"><?php echo esc_html( $cat_term->name ); ?></a>
 												</li>
 											<?php endforeach; ?>
 										</ul>

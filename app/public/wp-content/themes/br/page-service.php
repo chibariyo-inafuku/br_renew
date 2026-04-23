@@ -60,7 +60,7 @@ while ( have_posts() ) :
 			</header>
 			<nav class="br-service__breadcrumb" aria-label="パンくず">
 				<ol class="br-service__breadcrumb-list">
-					<li><a href="/">Top</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Top</a></li>
 					<li class="br-service__breadcrumb-sep" aria-hidden="true">/</li>
 					<li><span class="br-service__breadcrumb-current">Service</span></li>
 				</ol>
