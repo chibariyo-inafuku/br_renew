@@ -4,6 +4,10 @@
  * @package br
  */
 
+:root {
+	--br-home-ink-muted: #6b7280;
+}
+
 .br-main.br-faq {
 	/* 下線のすぐ上（セクション下）: リード枠下パディング + 下線下のレール。一覧上は同じ合計に揃える */
 	--br-faq-rail: clamp(1.25rem, 2.78vw, 2.5rem);
@@ -44,6 +48,11 @@
 
 .br-faq .br-home__works-title-jp {
 	color: #43526a;
+}
+
+/* EN（SVG）と日本語サブの間をやや広げる（home.css の負マージンより余白多め） */
+.br-faq #br-faq-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.35rem, 0.75vw, 0.7rem);
 }
 
 /* CEO ページ（#br-ceo-title）と同じスケール */
@@ -106,6 +115,10 @@
 @media (max-width: 768px) {
 	.br-faq__lead {
 		font-size: 15px;
+	}
+
+	.br-faq #br-faq-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.95rem, 4.2vw, 2.35rem);
 	}
 
 	#br-faq-title .br-svg-heading__text {
@@ -200,14 +213,14 @@
 	padding-left: calc(clamp(2rem, 4vw, 2.5rem) + clamp(0.8rem, 2vw, 1.3rem) + 1.75rem);
 }
 
-/* about.css .br-about__philosophy-body p と同型 */
+/* about.css .br-about__philosophy-body p と同型 — 回答文はサイト muted（main.css --br-muted） */
 .br-faq__answer p {
 	margin: 0;
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 16px;
-	font-weight: 500;
+	font-weight: 400;
 	line-height: 1.6;
-	color: var(--br-ink);
+	color: var(--br-home-ink-muted);
 }
 
 .br-faq__answer p + p {
@@ -219,9 +232,9 @@
 	padding: 0 0 0 1.15rem;
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 16px;
-	font-weight: 500;
+	font-weight: 400;
 	line-height: 1.6;
-	color: var(--br-ink);
+	color: var(--br-home-ink-muted);
 }
 
 .br-faq__answer-list li {
