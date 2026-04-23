@@ -11,6 +11,7 @@
  *   3. loading03.png — dark-navy D, slides in from the left
  *   4. loading04.png — cyan D, slides in from the left
  *   5. tagline text — fades up
+ *   6. exit — full-screen #0f3568: right → cover → exit left (continuous); then cleanup (home-loading.js)
  *
  * @package br
  */
@@ -27,6 +28,7 @@ $br_img = get_template_directory_uri() . '/assets/images/home';
 	data-br-home-page-loader
 	aria-hidden="true"
 >
+	<div class="br-home__page-loader-wipe" aria-hidden="true"></div>
 	<div class="br-home__page-loader-inner">
 		<div class="br-home__page-loader-mark" aria-hidden="true">
 			<img

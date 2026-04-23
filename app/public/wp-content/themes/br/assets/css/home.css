@@ -37,13 +37,31 @@ html.br-home-loading body {
 	margin: 0;
 	padding: clamp(1.25rem, 4vw, 2.5rem);
 	background: #ffffff;
+	overflow: hidden;
 	transition:
 		opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
 		transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
 		visibility 0s linear 0s;
 }
 
+/* Exit: full-viewport #0f3568 panel — enters from right, holds full cover, exits left
+   (CodePen hana4525 / PwYZzvq style). */
+.br-home__page-loader-wipe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #0f3568;
+	transform: translate3d(100%, 0, 0);
+	z-index: 2;
+	pointer-events: none;
+	will-change: transform;
+}
+
 .br-home__page-loader-inner {
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -172,36 +190,58 @@ html.br-home-loading body {
 	display: none;
 }
 
-/* CRT "power off" style exit: collapse vertically to a thin white line,
-   hold briefly, then collapse horizontally to a point.
-   Duration kept in sync with BR_LOADER_EXIT_MS in home-loading.js. */
-@keyframes br-home__page-loader-crt-off {
+/* Exit timeline (single duration; sync BR_LOADER_EXIT_MS in home-loading.js):
+   0–50%  panel moves RTL into full cover (no hold)
+   50–100% panel exits left; at 50% white / logo / tagline are already gone (inner + bg). */
+@keyframes br-home__page-loader-wipe-rtl {
 	0% {
-		transform: scale(1, 1);
-		opacity: 1;
-		animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+		transform: translate3d(100%, 0, 0);
+		animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
 	}
-	45% {
-		transform: scale(1, 0.006);
-		opacity: 1;
-		animation-timing-function: steps(1);
-	}
-	62% {
-		transform: scale(1, 0.006);
-		opacity: 1;
-		animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
+	50% {
+		transform: translate3d(0, 0, 0);
+		animation-timing-function: cubic-bezier(0.85, 0, 0.15, 1);
 	}
 	100% {
-		transform: scale(0, 0.006);
+		transform: translate3d(-100%, 0, 0);
+	}
+}
+
+@keyframes br-home__page-loader-exit-bg {
+	0%,
+	49.99% {
+		background-color: #ffffff;
+	}
+	50%,
+	100% {
+		background-color: transparent;
+	}
+}
+
+@keyframes br-home__page-loader-exit-inner {
+	0%,
+	49.99% {
+		opacity: 1;
+		visibility: visible;
+	}
+	50%,
+	100% {
 		opacity: 0;
+		visibility: hidden;
 	}
 }
 
 .br-home__page-loader--exiting {
 	pointer-events: none;
-	transform-origin: 50% 50%;
-	animation: br-home__page-loader-crt-off 0.9s forwards;
-	/* Keep children (logo pieces / tagline) riding along with the transform. */
+	animation: br-home__page-loader-exit-bg 0.6s forwards;
+}
+
+.br-home__page-loader--exiting .br-home__page-loader-inner {
+	animation: br-home__page-loader-exit-inner 0.6s forwards;
+}
+
+.br-home__page-loader--exiting .br-home__page-loader-wipe {
+	animation: br-home__page-loader-wipe-rtl 0.6s forwards;
 }
 
 .br-home__page-loader--hidden {
@@ -278,8 +318,10 @@ html.br-home-loading body {
 		transform: none;
 	}
 
-	.br-home__page-loader--exiting {
-		animation-duration: 0.01s;
+	.br-home__page-loader--exiting,
+	.br-home__page-loader--exiting .br-home__page-loader-inner,
+	.br-home__page-loader--exiting .br-home__page-loader-wipe {
+		animation-duration: 0.01s !important;
 	}
 }
 

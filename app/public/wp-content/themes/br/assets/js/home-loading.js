@@ -11,6 +11,7 @@
  *   1320 ms  tagline                 — leftRight per char (30ms stagger, ~0.3s each)
  *   ~1800 ms last tagline character settles (approx.; depends on char count)
  *   T_TAGLINE + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
+ *   Exit: full-viewport navy panel RTL through cover and out left; white/logo/tagline hidden for second half.
  */
 (function () {
 	'use strict';
@@ -27,6 +28,7 @@
 		d4: root.querySelector('[data-piece="d4"]')
 	};
 	var tagline = root.querySelector('.br-home__page-loader-tagline');
+	var wipe = root.querySelector('.br-home__page-loader-wipe');
 	var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 	/**
@@ -128,9 +130,9 @@
 		}
 	}
 
-	/* Exit animation — CRT "power off" style. Must match the animation-duration
-	   on .br-home__page-loader--exiting (keyframes: br-home__page-loader-crt-off). */
-	var BR_LOADER_EXIT_MS = 900;
+	/* Exit: full-screen #0f3568 RTL wipe + hold + exit (see home.css). Must match
+	   animation-duration on .br-home__page-loader--exiting and children. */
+	var BR_LOADER_EXIT_MS = 600;
 
 	function finish() {
 		if (root.classList.contains('br-home__page-loader--exiting')) {
@@ -144,24 +146,30 @@
 			return;
 		}
 
+		if (!wipe) {
+			window.setTimeout(cleanupDom, BR_LOADER_EXIT_MS);
+			return;
+		}
+
 		var done = false;
 		function onAnimEnd(ev) {
-			if (ev.target !== root || done) {
+			if (ev.target !== wipe || done) {
 				return;
 			}
-			if (ev.animationName !== 'br-home__page-loader-crt-off') {
+			var names = (ev.animationName || '').split(/\s*,\s*/);
+			if (names.indexOf('br-home__page-loader-wipe-rtl') === -1) {
 				return;
 			}
 			done = true;
-			root.removeEventListener('animationend', onAnimEnd);
+			wipe.removeEventListener('animationend', onAnimEnd);
 			cleanupDom();
 		}
 
-		root.addEventListener('animationend', onAnimEnd, false);
+		wipe.addEventListener('animationend', onAnimEnd, false);
 		window.setTimeout(function () {
 			if (!done) {
 				done = true;
-				root.removeEventListener('animationend', onAnimEnd);
+				wipe.removeEventListener('animationend', onAnimEnd);
 				cleanupDom();
 			}
 		}, BR_LOADER_EXIT_MS + 200);
