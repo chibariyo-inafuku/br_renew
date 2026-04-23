@@ -116,6 +116,9 @@
 
 	function releaseScrollLock() {
 		document.documentElement.classList.remove('br-home-loading');
+		if (window.brLenis && typeof window.brLenis.start === 'function') {
+			window.brLenis.start();
+		}
 	}
 
 	function dispatchLoaderDone() {
