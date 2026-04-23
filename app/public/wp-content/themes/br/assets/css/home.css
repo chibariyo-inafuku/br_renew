@@ -1093,6 +1093,17 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	}
 }
 
+/* TOP: project band only — a bit more space between the SVG "Project" line and JP subline. */
+.br-home__section--project .br-home__project-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.06rem, 0.38vw, 0.35rem);
+}
+
+@media (max-width: 768px) {
+	.br-home__section--project .br-home__project-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.85rem, 3.75vw, 2.1rem);
+	}
+}
+
 .br-home__works-grid,
 .br-home__project-grid,
 .br-home__blog-grid {
