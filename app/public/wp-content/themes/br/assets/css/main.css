@@ -1589,3 +1589,19 @@ a.br-footer__privacy:focus,
 		transition: none !important;
 	}
 }
+
+.ytb{position: relative;}
+.ytb iframe {
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+.ytb:before {
+    content: "";
+    display: block;
+    padding-top: 56.25%;
+}
