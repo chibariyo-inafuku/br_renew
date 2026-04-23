@@ -1835,8 +1835,6 @@ html.br-home-js .br-home__palarax-tagline {
 	height: auto;
 	overflow: visible;
 	line-height: 0;
-	/* Pull block up: viewBox top padding + gap after JP line */
-	margin-top: clamp(-1.6rem, -5.6vw, -0.45rem);
 }
 
 .br-home__cta-title .br-svg-heading__text {
@@ -1855,9 +1853,10 @@ html.br-home-js .br-home__palarax-tagline {
 	color: inherit;
 }
 
+/* Match Project / project page: EN line, then JP with the same vertical rhythm. */
 .br-home__cta-title .br-svg-heading__sub-wrap {
-	margin-top: 0;
-	margin-bottom: clamp(-0.65rem, -1.8vw, -0.125rem);
+	margin-top: clamp(0.06rem, 0.38vw, 0.35rem);
+	margin-bottom: 0;
 	line-height: 1;
 }
 
@@ -1866,8 +1865,6 @@ html.br-home-js .br-home__palarax-tagline {
 	.br-home__cta-title .br-svg-heading__svg {
 		width: 360px;
 		max-width: 100%;
-		/* Cancel desktop negative pull-up; JP sub is above SVG — needs clear gap on SP */
-		margin-top: clamp(0.5rem, 2.2vw, 1rem);
 	}
 
 	.br-home__cta-title .br-svg-heading__text {
@@ -1880,7 +1877,7 @@ html.br-home-js .br-home__palarax-tagline {
 	}
 
 	.br-home__cta-title .br-svg-heading__sub-wrap {
-		margin-top: 0;
+		margin-top: clamp(0.85rem, 3.75vw, 2.1rem);
 		margin-bottom: 0;
 	}
 }
