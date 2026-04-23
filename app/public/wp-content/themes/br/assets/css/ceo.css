@@ -285,6 +285,44 @@
 	}
 }
 
+/* Career — Philosophy 見出しと同型（塗りなし・枠線のみ。about.css 未読込のため定義） */
+@keyframes br-ceo-outline-svg-stroke {
+	0% {
+		stroke-dashoffset: 1280;
+		fill: transparent;
+	}
+
+	100% {
+		stroke-dashoffset: 0;
+		fill: transparent;
+		stroke: var(--br-ink);
+		stroke-width: 1px;
+	}
+}
+
+.br-main.br-ceo .br-about__overview-heading .br-home__works-title .br-svg-heading--outline-only {
+	width: 100%;
+}
+
+.br-main.br-ceo .br-svg-heading--outline-only:not(.is-inview) .br-svg-heading__text {
+	fill: transparent;
+	stroke: var(--br-ink);
+}
+
+.br-main.br-ceo .br-svg-heading--outline-only.is-inview .br-svg-heading__text {
+	animation: br-ceo-outline-svg-stroke var(--br-svg-heading-duration) cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-main.br-ceo .br-svg-heading--outline-only .br-svg-heading__text {
+		fill: transparent;
+		stroke: var(--br-ink);
+		stroke-width: 1px;
+		stroke-dashoffset: 0;
+		animation: none;
+	}
+}
+
 /* -------------------------------------------------------------------------
    Profile row
    ------------------------------------------------------------------------- */
@@ -352,17 +390,6 @@
 	min-width: min(100%, 280px);
 	max-width: 720px;
 	padding-top: 0;
-}
-
-.br-ceo__role {
-	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
-	font-size: 10px;
-	font-weight: 800;
-	line-height: 1.5;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	color: var(--br-accent);
 }
 
 .br-ceo__name-row {
@@ -636,7 +663,6 @@
    Detail blocks
    ------------------------------------------------------------------------- */
 .br-ceo__detail {
-	padding-top: clamp(1.5rem, 3.33vw, 3rem);
 	padding-bottom: clamp(2rem, 5.56vw, 5rem);
 }
 
@@ -967,9 +993,10 @@
 }
 
 .br-ceo__message-sign-name {
-	font-family: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", serif;
+	font-family: "ab-kouran-gyosho", sans-serif;
 	font-size: clamp(1.375rem, 2.75vw, 1.875rem);
-	font-weight: 500;
+	font-weight: 400;
+	font-style: normal;
 	line-height: 1.35;
 	letter-spacing: 0.02em;
 }

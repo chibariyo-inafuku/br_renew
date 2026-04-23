@@ -74,7 +74,25 @@ while ( have_posts() ) :
 					</div>
 				</div>
 				<div class="br-ceo__intro">
-					<p class="br-ceo__role">Founder &amp; CEO</p>
+					<h2 class="br-about__overview-heading" id="br-ceo-role-heading">
+						<span class="screen-reader-text">Founder &amp; CEO 創業者・CEO</span>
+						<div class="br-home__works-title">
+							<div class="br-svg-heading br-svg-heading--on-light" data-br-svg-heading>
+								<svg
+									class="br-svg-heading__svg"
+									aria-hidden="true"
+									viewBox="0 0 920 102"
+									preserveAspectRatio="xMinYMin meet"
+									focusable="false"
+								>
+									<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Founder &amp; CEO</text>
+								</svg>
+							</div>
+						</div>
+						<span class="br-about__overview-heading-pill">
+							<span class="br-about__overview-heading-jp">創業者・CEO</span>
+						</span>
+					</h2>
 					<div class="br-ceo__name-row">
 						<span class="br-ceo__name-ja">奥村 美徳</span>
 						<span class="br-ceo__name-en">Okumura Yoshinori</span>
@@ -118,7 +136,7 @@ while ( have_posts() ) :
 					<h2 class="br-about__overview-heading" id="br-ceo-career-heading">
 						<span class="screen-reader-text">Career 経歴</span>
 						<div class="br-home__works-title">
-							<div class="br-svg-heading br-svg-heading--on-light" data-br-svg-heading>
+							<div class="br-svg-heading br-svg-heading--on-light br-svg-heading--outline-only" data-br-svg-heading>
 								<svg
 									class="br-svg-heading__svg"
 									aria-hidden="true"

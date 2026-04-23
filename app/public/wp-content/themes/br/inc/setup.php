@@ -717,6 +717,28 @@ function br_home_loading_html_class() {
 add_action( 'wp_head', 'br_home_loading_html_class', 1 );
 
 /**
+ * Adobe Fonts (Typekit) for CEO page — ab-kouran-gyosho on message signature.
+ */
+function br_ceo_adobe_typekit() {
+	if ( ! is_page( 'ceo' ) ) {
+		return;
+	}
+	?>
+<script>
+(function(d) {
+	var config = {
+		kitId: 'res2dey',
+		scriptTimeout: 3000,
+		async: true
+	},
+	h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+})(document);
+</script>
+	<?php
+}
+add_action( 'wp_head', 'br_ceo_adobe_typekit', 2 );
+
+/**
  * Early marker for home GSAP hero prep (avoids flash of unstyled hero text when motion is allowed).
  */
 function br_home_gsap_html_class() {
