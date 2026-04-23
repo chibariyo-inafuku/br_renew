@@ -402,9 +402,9 @@
 .br-about__mission-text p {
 	margin: 0;
 	font-family: "Noto Sans JP", system-ui, sans-serif;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 500;
-	line-height: 2;
+	line-height: 1.6;
 	color: var(--br-ink);
 }
 
@@ -1277,13 +1277,7 @@
 		font-size: 14px;
 	}
 
-	.br-about__mission-text p {
-		line-height: 1.75;
-	}
-
-	.br-about__vision-text p {
-		line-height: 1.6;
-	}
+	
 
 	.br-about__philosophy-lead,
 	.br-about__mission-lead,
