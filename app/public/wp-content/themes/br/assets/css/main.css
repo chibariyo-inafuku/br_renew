@@ -47,6 +47,15 @@ body {
 	max-width: 100%;
 }
 
+/* TOP page loader: class is added in wp_head before styles finish; rules must live in main.css (not home.css) so scroll is locked as soon as main.css applies. */
+html.br-home-loading,
+html.br-home-loading body {
+	overflow: hidden;
+	height: 100%;
+	touch-action: none;
+	overscroll-behavior: none;
+}
+
 .br-skip-link {
 	position: absolute;
 	left: -9999px;

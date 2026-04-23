@@ -18,6 +18,10 @@
 
 	window.brLenis = lenis;
 
+	if (document.documentElement.classList.contains('br-home-loading')) {
+		lenis.stop();
+	}
+
 	function raf(time) {
 		lenis.raf(time);
 		window.requestAnimationFrame(raf);

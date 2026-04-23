@@ -21,12 +21,8 @@
 
 /* -------------------------------------------------------------------------
    TOP: full-screen page loader (front-page only)
+   Scroll lock while loader: html.br-home-loading — see main.css (loads before home.css).
    ------------------------------------------------------------------------- */
-html.br-home-loading,
-html.br-home-loading body {
-	overflow: hidden;
-}
-
 .br-home__page-loader {
 	position: fixed;
 	inset: 0;
