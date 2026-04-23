@@ -65,6 +65,17 @@
 	font-size: calc(48px * 1200 / 640);
 }
 
+/* Other Projects: a little more space between the EN SVG line and the JP subline (home.css uses a tight negative margin on .br-home__works-title). */
+.br-main.br-portfolio .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-post-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-news-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-service-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.2rem, 0.48vw, 0.45rem);
+}
+
+@media (max-width: 768px) {
+	.br-main.br-portfolio .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-post-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-news-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap, .br-main.br-service-single .br-portfolio-related #br-portfolio-related-projects-heading .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.95rem, 3.85vw, 2.15rem);
+	}
+}
+
 .br-main.br-portfolio .br-portfolio-related__head-right, .br-main.br-post-single .br-portfolio-related__head-right, .br-main.br-news-single .br-portfolio-related__head-right, .br-main.br-service-single .br-portfolio-related__head-right {
 	flex: 0 0 auto;
 }

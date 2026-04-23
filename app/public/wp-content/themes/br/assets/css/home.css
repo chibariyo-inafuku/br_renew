@@ -2144,6 +2144,17 @@ html.br-home-js .br-home__palarax-tagline {
 		order: 1;
 		padding-right: var(--br-home-cta-hpad);
 	}
+
+	.br-main:not(.br-home) .br-home__cta-col--copy,
+	.br-main:not(.br-home) .br-home__cta-col--form {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.br-main:not(.br-home) .br-home__cta-inner--form-only .br-home__cta-col--form {
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
 
 /* Form-only CTA row (subpages): single column, centered card */
@@ -2168,11 +2179,28 @@ html.br-home-js .br-home__palarax-tagline {
 	.br-home__section--project-band,
 	.br-home__section--blog-band,
 	.br-home__section--service-band,
-	.br-home__section--news,
-	.br-home__section--cta {
+	.br-home__section--news {
 		padding-left: clamp(0.75rem, 3vw, 1.25rem);
 		padding-right: clamp(0.75rem, 3vw, 1.25rem);
 		box-sizing: border-box;
+	}
+
+	/* CTA: TOP のみ従来の帯インセット。下層はセクション／コンテナを横フルに寄せる（main.css の .br-container 上書き）。 */
+	.br-main.br-home .br-home__section--cta {
+		padding-left: clamp(0.75rem, 3vw, 1.25rem);
+		padding-right: clamp(0.75rem, 3vw, 1.25rem);
+		box-sizing: border-box;
+	}
+
+	.br-main:not(.br-home) .br-home__section--cta {
+		padding-left: 0;
+		padding-right: 0;
+		box-sizing: border-box;
+	}
+
+	.br-main:not(.br-home) .br-home__section--cta > .br-container {
+		padding-left: 0;
+		padding-right: 0;
 	}
 
 	.br-home {
