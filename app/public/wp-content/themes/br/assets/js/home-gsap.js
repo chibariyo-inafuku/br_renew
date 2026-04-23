@@ -51,8 +51,8 @@
 	/** CodePen ZYdopE–style noise pool (symbols; no Snap.svg). */
 	var HERO_SCRAMBLE_NOISE = '-+*/|}{[]~\\":;?/.><=+-_)(*&^%$#@!)}';
 
-	/** >1 stretches hero title slide + scramble (wall-clock); tweak for pacing. */
-	var HERO_TITLE_TIME_SCALE = 2.85;
+	/** >1 stretches hero title slide + scramble (wall-clock); lower = faster. */
+	var HERO_TITLE_TIME_SCALE = 1.85;
 
 	function heroScrambleImmediateChar(ch) {
 		return /[\s\u3000、。，．]/.test(ch);

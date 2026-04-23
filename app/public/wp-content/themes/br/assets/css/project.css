@@ -47,6 +47,11 @@
 	font-size: calc(56px * 720 / 640);
 }
 
+/* Match TOP project band: gap between SVG "Project" and JP subline. */
+#br-project-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.06rem, 0.38vw, 0.35rem);
+}
+
 .br-project__lead-wrap {
 	padding-top: clamp(1rem, 2.22vw, 2rem);
 	padding-bottom: clamp(2rem, 4.44vw, 3.5rem);
@@ -335,6 +340,10 @@
 
 	#br-project-title .br-svg-heading__text {
 		font-size: calc(40px * 720 / 360);
+	}
+
+	#br-project-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.85rem, 3.75vw, 2.1rem);
 	}
 
 	.br-project__list-band .br-project__cat-link {

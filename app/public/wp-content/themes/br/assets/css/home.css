@@ -50,13 +50,13 @@ html.br-home-loading body {
 	gap: 64px;
 }
 
-/* BR mark — fixed px stage 220×235.
+/* BR mark — fixed px stage 110×118 (~half of original 220×235).
    Positions/sizes derived from the target reference (pixel probed).
    Stack (top -> bottom): d4 > d3 > d2 > tri. */
 .br-home__page-loader-mark {
 	position: relative;
-	width: 220px;
-	height: 235px;
+	width: 110px;
+	height: 118px;
 	margin: 0 auto;
 }
 
@@ -66,9 +66,10 @@ html.br-home-loading body {
 	max-width: none;
 	opacity: 0;
 	pointer-events: none;
+	/* ~half previous motion speed (2× duration); opacity slightly longer for a clear fade-in. */
 	transition:
-		opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-		transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+		opacity 0.58s cubic-bezier(0.33, 0, 0.2, 1),
+		transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
 	will-change: transform, opacity;
 }
 
@@ -76,42 +77,42 @@ html.br-home-loading body {
 
 /* loading01 — navy triangle (R leg), below everything */
 .br-home__page-loader-piece--tri {
-	left: 70px;
-	top: 59px;
-	width: 147px;
-	height: 174px;
+	left: 35px;
+	top: 29px;
+	width: 74px;
+	height: 87px;
 	z-index: 1;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-360px, 0, 0);
 }
 
 /* loading02 — medium-blue D, forms the "B" bowls */
 .br-home__page-loader-piece--d2 {
-	left: 70px;
+	left: 35px;
 	top: 0;
-	width: 144px;
-	height: 148px;
+	width: 72px;
+	height: 74px;
 	z-index: 2;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-360px, 0, 0);
 }
 
 /* loading03 — dark-navy D (top-left of "B") */
 .br-home__page-loader-piece--d3 {
 	left: 0;
 	top: 0;
-	width: 144px;
-	height: 148px;
+	width: 72px;
+	height: 74px;
 	z-index: 3;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-360px, 0, 0);
 }
 
 /* loading04 — cyan D (bottom-left of "B"), topmost */
 .br-home__page-loader-piece--d4 {
 	left: 0;
-	top: 86px;
-	width: 144px;
-	height: 148px;
+	top: 43px;
+	width: 72px;
+	height: 74px;
 	z-index: 4;
-	transform: translate3d(-120px, 0, 0);
+	transform: translate3d(-360px, 0, 0);
 }
 
 .br-home__page-loader-piece.is-in {
@@ -122,7 +123,7 @@ html.br-home-loading body {
 .br-home__page-loader-tagline {
 	margin: 0;
 	font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: 700;
 	line-height: 1.65;
 	letter-spacing: 0.02em;
@@ -137,22 +138,34 @@ html.br-home-loading body {
 	opacity: 1;
 }
 
+/* Tagline chars: CodePen kh-mamun/NdwZdW "Animation Seven" (leftRight). */
 .br-home__page-loader-tagline-char {
 	display: inline-block;
 	opacity: 0;
-	transform: translate3d(-16px, 0, 0);
-	transition:
-		opacity 0.15s cubic-bezier(0.33, 1, 0.68, 1),
-		transform 0.15s cubic-bezier(0.33, 1, 0.68, 1);
-	/* home-loading.js sets --br-tagline-i (0-based char index) on each span.
-	   Stagger is 20ms per char; tuned together with TAGLINE_HOLD_MS in JS. */
-	transition-delay: calc(var(--br-tagline-i, 0) * 0.02s);
+	transform: translate3d(-150px, 0, 0) scale(0.3);
+	transform-origin: 50% 50%;
 	will-change: transform, opacity;
 }
 
 .br-home__page-loader-tagline.is-visible .br-home__page-loader-tagline-char {
-	opacity: 1;
-	transform: translate3d(0, 0, 0);
+	animation: br-home__page-loader-tagline-left-right 0.3s ease-out forwards;
+	/* Stagger: home-loading.js sets --br-tagline-i on each span (0-based). */
+	animation-delay: calc(var(--br-tagline-i, 0) * 0.03s);
+}
+
+@keyframes br-home__page-loader-tagline-left-right {
+	40% {
+		transform: translate3d(50px, 0, 0) scale(0.7);
+		opacity: 1;
+	}
+	80% {
+		transform: translate3d(0, 0, 0) scale(2);
+		opacity: 0;
+	}
+	100% {
+		transform: translate3d(0, 0, 0) scale(1);
+		opacity: 1;
+	}
 }
 
 .br-home__page-loader-tagline-br {
@@ -195,59 +208,51 @@ html.br-home-loading body {
 	display: none;
 }
 
-/* SP: shrink mark and tagline by ~70% (two notches smaller). */
+/* SP: shrink mark and tagline by ~70% of desktop loader (two notches smaller). */
 @media (max-width: 768px) {
 	.br-home__page-loader-inner {
 		gap: 40px;
 	}
 
 	.br-home__page-loader-mark {
-		width: 154px;
-		height: 165px;
+		width: 77px;
+		height: 83px;
 	}
 
 	.br-home__page-loader-piece--tri {
-		left: 49px;
-		top: 41px;
-		width: 103px;
-		height: 122px;
-		transform: translate3d(-84px, 0, 0);
+		left: 25px;
+		top: 20px;
+		width: 52px;
+		height: 61px;
+		transform: translate3d(-252px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d2 {
-		left: 49px;
+		left: 25px;
 		top: 0;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-252px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d3 {
 		left: 0;
 		top: 0;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-252px, 0, 0);
 	}
 
 	.br-home__page-loader-piece--d4 {
 		left: 0;
-		top: 60px;
-		width: 101px;
-		height: 104px;
-		transform: translate3d(-84px, 0, 0);
+		top: 30px;
+		width: 50px;
+		height: 52px;
+		transform: translate3d(-252px, 0, 0);
 	}
 
 	.br-home__page-loader-tagline {
 		font-size: 17px;
-	}
-
-	.br-home__page-loader-tagline-char {
-		transform: translate3d(-12px, 0, 0);
-	}
-
-	.br-home__page-loader-tagline.is-visible .br-home__page-loader-tagline-char {
-		transform: translate3d(0, 0, 0);
 	}
 
 	.br-home__page-loader-tagline-br {
@@ -258,10 +263,19 @@ html.br-home-loading body {
 @media (prefers-reduced-motion: reduce) {
 	.br-home__page-loader-piece,
 	.br-home__page-loader-tagline,
-	.br-home__page-loader-tagline-char,
 	.br-home__page-loader {
 		transition-duration: 0.01s;
 		transition-delay: 0s;
+	}
+
+	.br-home__page-loader-tagline-char {
+		animation: none !important;
+		animation-delay: 0s !important;
+	}
+
+	.br-home__page-loader-tagline.is-visible .br-home__page-loader-tagline-char {
+		opacity: 1;
+		transform: none;
 	}
 
 	.br-home__page-loader--exiting {
@@ -1079,6 +1093,17 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	}
 }
 
+/* TOP: project band only — a bit more space between the SVG "Project" line and JP subline. */
+.br-home__section--project .br-home__project-title .br-svg-heading__sub-wrap {
+	margin-top: clamp(0.06rem, 0.38vw, 0.35rem);
+}
+
+@media (max-width: 768px) {
+	.br-home__section--project .br-home__project-title .br-svg-heading__sub-wrap {
+		margin-top: clamp(0.85rem, 3.75vw, 2.1rem);
+	}
+}
+
 .br-home__works-grid,
 .br-home__project-grid,
 .br-home__blog-grid {
@@ -1810,8 +1835,6 @@ html.br-home-js .br-home__palarax-tagline {
 	height: auto;
 	overflow: visible;
 	line-height: 0;
-	/* Pull block up: viewBox top padding + gap after JP line */
-	margin-top: clamp(-1.6rem, -5.6vw, -0.45rem);
 }
 
 .br-home__cta-title .br-svg-heading__text {
@@ -1830,9 +1853,10 @@ html.br-home-js .br-home__palarax-tagline {
 	color: inherit;
 }
 
+/* Match Project / project page: EN line, then JP with the same vertical rhythm. */
 .br-home__cta-title .br-svg-heading__sub-wrap {
-	margin-top: 0;
-	margin-bottom: clamp(-0.65rem, -1.8vw, -0.125rem);
+	margin-top: clamp(0.06rem, 0.38vw, 0.35rem);
+	margin-bottom: 0;
 	line-height: 1;
 }
 
@@ -1841,8 +1865,6 @@ html.br-home-js .br-home__palarax-tagline {
 	.br-home__cta-title .br-svg-heading__svg {
 		width: 360px;
 		max-width: 100%;
-		/* Cancel desktop negative pull-up; JP sub is above SVG — needs clear gap on SP */
-		margin-top: clamp(0.5rem, 2.2vw, 1rem);
 	}
 
 	.br-home__cta-title .br-svg-heading__text {
@@ -1855,7 +1877,7 @@ html.br-home-js .br-home__palarax-tagline {
 	}
 
 	.br-home__cta-title .br-svg-heading__sub-wrap {
-		margin-top: 0;
+		margin-top: clamp(0.85rem, 3.75vw, 2.1rem);
 		margin-bottom: 0;
 	}
 }

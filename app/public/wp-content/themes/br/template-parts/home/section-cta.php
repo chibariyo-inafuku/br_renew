@@ -15,14 +15,11 @@ $cf7_shortcode = br_get_contact_page_cf7_shortcode();
 	<div class="br-container">
 		<div class="br-home__cta-inner">
 			<div class="br-home__cta-col br-home__cta-col--copy">
-				<!-- br-svg-heading: JP line uses .br-svg-heading--sub-from-left (slide from left). -->
+				<!-- br-svg-heading: same block order as Project (EN SVG, then JP subline). -->
 				<header class="br-home__cta-heading">
 					<h2 class="br-home__cta-title">
 						<span class="screen-reader-text">Contact / お問い合わせ</span>
-						<div class="br-svg-heading br-svg-heading--sub-from-left" data-br-svg-heading>
-							<div class="br-svg-heading__sub-wrap">
-								<span class="br-home__cta-label-slash br-svg-heading__sub">/ お問い合わせ</span>
-							</div>
+						<div class="br-svg-heading" data-br-svg-heading>
 							<svg
 								class="br-svg-heading__svg"
 								aria-hidden="true"
@@ -32,6 +29,9 @@ $cf7_shortcode = br_get_contact_page_cf7_shortcode();
 							>
 								<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Contact</text>
 							</svg>
+							<div class="br-svg-heading__sub-wrap">
+								<span class="br-home__cta-label-slash br-svg-heading__sub">/ お問い合わせ</span>
+							</div>
 						</div>
 					</h2>
 				</header>
