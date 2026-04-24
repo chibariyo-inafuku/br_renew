@@ -25,6 +25,15 @@ if ( function_exists( 'has_custom_logo' ) && has_custom_logo() ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google tag (gtag.js) -->
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-SZ0KDGXT6F"></script>
+				<script>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+
+					gtag('config', 'G-SZ0KDGXT6F');
+				</script>
 	<?php wp_head(); ?>
 	<noscript>
 		<style>
