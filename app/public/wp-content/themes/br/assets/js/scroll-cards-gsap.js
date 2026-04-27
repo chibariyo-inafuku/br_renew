@@ -72,6 +72,9 @@
 				) {
 					return false;
 				}
+				if (el.classList.contains('br-home__blog-item') && el.closest('.br-home__section--blog-light')) {
+					return false;
+				}
 				return true;
 			});
 		if (workItems.length) {
@@ -170,10 +173,21 @@
 
 		var worksLightSection = root.querySelector('.br-home__section--works-light');
 		if (worksLightSection) {
-			bindWorksLightGridScrollReveal(
+			bindLightMosaicGridScrollReveal(
 				gsap,
 				ScrollTrigger,
-				worksLightSection.querySelector('.br-home__works-grid')
+				worksLightSection.querySelector('.br-home__works-grid'),
+				'.br-home__works-item'
+			);
+		}
+
+		var blogLightSection = root.querySelector('.br-home__section--blog-light');
+		if (blogLightSection) {
+			bindLightMosaicGridScrollReveal(
+				gsap,
+				ScrollTrigger,
+				blogLightSection.querySelector('.br-home__blog-grid'),
+				'.br-home__blog-item'
 			);
 		}
 
@@ -187,13 +201,14 @@
 	/**
 	 * @param {typeof window.gsap} gsap
 	 * @param {typeof window.ScrollTrigger} ScrollTrigger
-	 * @param {Element|null} grid .br-home__works-grid
+	 * @param {Element|null} grid Grid UL
+	 * @param {string} itemSelector e.g. '.br-home__works-item' | '.br-home__blog-item'
 	 */
-	function bindWorksLightGridScrollReveal(gsap, ScrollTrigger, grid) {
-		if (!grid) {
+	function bindLightMosaicGridScrollReveal(gsap, ScrollTrigger, grid, itemSelector) {
+		if (!grid || !itemSelector) {
 			return;
 		}
-		var items = gsap.utils.toArray(grid.querySelectorAll('.br-home__works-item'));
+		var items = gsap.utils.toArray(grid.querySelectorAll(itemSelector));
 		if (!items.length) {
 			return;
 		}
@@ -293,7 +308,7 @@
 
 		var innerWorksGrid = root.querySelector('.br-home__works-grid');
 		if (innerWorksGrid && innerWorksGrid.closest('.br-works')) {
-			bindWorksLightGridScrollReveal(gsap, ScrollTrigger, innerWorksGrid);
+			bindLightMosaicGridScrollReveal(gsap, ScrollTrigger, innerWorksGrid, '.br-home__works-item');
 		}
 	}
 

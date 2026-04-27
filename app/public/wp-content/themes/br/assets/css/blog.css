@@ -120,7 +120,7 @@
 }
 
 /*
- * Blog 固定ページのみ: home の帯背景を使わずライト面に。TOP の .br-home__section--blog-band はそのまま。
+ * Blog 固定ページのみ: home の帯背景を使わずライト面に。TOP のブログは .br-home__section--blog-light で白面。
  */
 .br-main.br-blog .br-home__section--blog-band.br-blog__list-band {
 	background: transparent;

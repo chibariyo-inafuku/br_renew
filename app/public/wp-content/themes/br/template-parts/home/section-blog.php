@@ -1,84 +1,52 @@
 <?php
 /**
- * Home: Blog grid — same structure/behavior as Project; distinct band color.
+ * Home: Blog grid — capture row + VIEW ALL, 4×3 cards (12), image + title + date.
  *
  * @package br
  */
 
-$q    = br_query_posts_for_category_slug_limited( 'blogs', 8 );
+$q    = br_query_posts_for_category_slug_limited( 'blogs', 12 );
 $more = br_get_page_permalink_by_slug( 'blog' );
 if ( ! $q->have_posts() ) {
 	wp_reset_postdata();
 	return;
 }
 ?>
-<section class="br-home__section br-home__section--blog br-home__section--blog-band br-home__blog br-home__section--band-reveal br-home__band-reveal--left">
+<section class="br-home__section br-home__section--blog br-home__section--blog-band br-home__section--blog-light br-home__blog">
 	<div class="br-container">
-		<div class="br-home__band-reveal-inner">
-		<header class="br-home__blog-heading br-home__section-head">
-			<h2 class="br-home__blog-title">
-				<span class="screen-reader-text">Blog / ブログ</span>
-				<div class="br-svg-heading" data-br-svg-heading>
-					<svg
-						class="br-svg-heading__svg"
-						aria-hidden="true"
-						viewBox="0 0 720 102"
-						preserveAspectRatio="xMinYMin meet"
-						focusable="false"
-					>
-						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Blog</text>
-					</svg>
-					<div class="br-svg-heading__sub-wrap">
-						<span class="br-home__blog-title-jp br-svg-heading__sub">/ ブログ</span>
-					</div>
-				</div>
-			</h2>
-		</header>
+		<div class="br-home__blog-band-head">
+			<header class="br-home__blog-heading br-home__section-head">
+				<h2 class="br-home__blog-title br-home__blog-title--capture-row">
+					<span class="screen-reader-text">Blog / ブログ</span>
+					<span class="br-home__blog-title-capture" aria-hidden="true">
+						<span class="br-home__blog-title-capture__en">Blog</span>
+						<span class="br-home__blog-title-capture__jp">ブログ</span>
+					</span>
+				</h2>
+			</header>
+			<?php if ( $more !== '' ) : ?>
+				<a class="br-home__blog-viewall" href="<?php echo esc_url( $more ); ?>">
+					<span class="br-home__blog-viewall__label">VIEW ALL</span>
+					<span class="br-home__blog-viewall__icon" aria-hidden="true">
+						<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+							<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</span>
+				</a>
+			<?php endif; ?>
+		</div>
 		<ul class="br-home__blog-grid">
 			<?php
 			while ( $q->have_posts() ) :
 				$q->the_post();
-				$pid = get_the_ID();
-				?>
-				<li class="br-home__blog-item">
-					<a class="br-home__blog-card" href="<?php the_permalink(); ?>">
-						<div class="br-home__blog-card-media">
-							<?php
-							if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-home__blog-card-image' ) ) :
-								if ( has_post_thumbnail() ) :
-									?>
-							<div class="br-home__blog-card-image">
-								<?php the_post_thumbnail( 'medium_large' ); ?>
-							</div>
-									<?php
-								else :
-									?>
-							<div class="br-home__blog-card-image br-home__blog-card-image--placeholder" aria-hidden="true"></div>
-									<?php
-								endif;
-							endif;
-							?>
-						</div>
-						<div class="br-home__blog-card-overlay">
-							<span class="br-home__blog-card-title"><?php the_title(); ?></span>
-						</div>
-					</a>
-				</li>
-			<?php endwhile; ?>
+				get_template_part(
+					'template-parts/post/blog',
+					'home-card',
+					array( 'post_id' => (int) get_the_ID() )
+				);
+			endwhile;
+			?>
 		</ul>
-		<?php if ( $more !== '' ) : ?>
-			<div class="br-home__blog-footer">
-				<a
-					class="br-hop-btn"
-					href="<?php echo esc_url( $more ); ?>"
-					data-text="<?php echo esc_attr( __( 'View All Blog', 'br' ) ); ?>"
-					aria-label="<?php echo esc_attr( __( 'View All Blog', 'br' ) ); ?>"
-				>
-					<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
-				</a>
-			</div>
-		<?php endif; ?>
-		</div>
 	</div>
 </section>
 <?php
