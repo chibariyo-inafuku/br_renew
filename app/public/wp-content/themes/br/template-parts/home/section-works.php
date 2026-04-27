@@ -9,36 +9,37 @@
  * @package br
  */
 
-$q    = br_query_portfolio_for_list_term_limited( 'works-s', 9 );
+$q    = br_query_portfolio_for_list_term_limited( 'works-s', 16 );
 $more = br_get_page_permalink_by_slug( 'works' );
 if ( ! $q->have_posts() ) {
 	wp_reset_postdata();
 	return;
 }
 ?>
-<section class="br-home__section br-home__section--works br-home__section--works-band br-home__works br-home__section--band-reveal br-home__band-reveal--up">
+<section class="br-home__section br-home__section--works br-home__section--works-band br-home__section--works-light br-home__works">
 	<div class="br-container">
-		<div class="br-home__band-reveal-inner">
-		<!-- br-svg-heading: copy this <h2> block; optional class br-svg-heading--on-light on light backgrounds. -->
-		<header class="br-home__works-heading br-home__section-head">
-			<h2 class="br-home__works-title">
-				<span class="screen-reader-text">Works / 実績紹介</span>
-				<div class="br-svg-heading" data-br-svg-heading>
-					<svg
-						class="br-svg-heading__svg"
-						aria-hidden="true"
-						viewBox="0 0 720 102"
-						preserveAspectRatio="xMinYMin meet"
-						focusable="false"
-					>
-						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Works</text>
-					</svg>
-					<div class="br-svg-heading__sub-wrap">
-						<span class="br-home__works-title-jp br-svg-heading__sub">/ 実績紹介</span>
-					</div>
-				</div>
-			</h2>
-		</header>
+		<div class="br-home__works-band-head">
+			<!-- br-svg-heading: copy this <h2> block; br-svg-heading--on-light on light backgrounds. -->
+			<header class="br-home__works-heading br-home__section-head">
+				<h2 class="br-home__works-title br-home__works-title--capture-row">
+					<span class="screen-reader-text">Works / 制作実績</span>
+					<span class="br-home__works-title-capture" aria-hidden="true">
+						<span class="br-home__works-title-capture__en">Works</span>
+						<span class="br-home__works-title-capture__jp">制作実績</span>
+					</span>
+				</h2>
+			</header>
+			<?php if ( $more !== '' ) : ?>
+				<a class="br-home__works-viewall" href="<?php echo esc_url( $more ); ?>">
+					<span class="br-home__works-viewall__label">VIEW ALL</span>
+					<span class="br-home__works-viewall__icon" aria-hidden="true">
+						<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+							<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</span>
+				</a>
+			<?php endif; ?>
+		</div>
 		<ul class="br-home__works-grid">
 			<?php
 			while ( $q->have_posts() ) :
@@ -51,19 +52,6 @@ if ( ! $q->have_posts() ) {
 			endwhile;
 			?>
 		</ul>
-		<?php if ( $more !== '' ) : ?>
-			<div class="br-home__works-footer">
-				<a
-					class="br-hop-btn"
-					href="<?php echo esc_url( $more ); ?>"
-					data-text="<?php echo esc_attr( __( 'View All Works', 'br' ) ); ?>"
-					aria-label="<?php echo esc_attr( __( 'View All Works', 'br' ) ); ?>"
-				>
-					<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
-				</a>
-			</div>
-		<?php endif; ?>
-		</div>
 	</div>
 </section>
 <?php

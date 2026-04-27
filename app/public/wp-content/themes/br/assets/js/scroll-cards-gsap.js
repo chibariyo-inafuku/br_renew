@@ -8,6 +8,9 @@
 	var BAND_INNER_DELAY = 0.42;
 	var NEWS_ITEM_STAGGER = 0.18;
 	var INNER_CARD_STAGGER = 0.18;
+	/** Works light grid (TOP + /works/): row-major from top-left, one card at a time. */
+	var WORKS_GRID_STAGGER_EACH = 0.1;
+	var WORKS_GRID_DURATION = 0.44;
 	/** Larger, more editorial motion (home + inner listings). */
 	var CARD_EASE = 'power3.out';
 	var CARD_DURATION = 0.82;
@@ -54,7 +57,16 @@
 				)
 			)
 			.filter(function (el) {
-				return !el.closest('.br-home__section--band-reveal');
+				if (el.closest('.br-home__section--band-reveal')) {
+					return false;
+				}
+				if (
+					el.classList.contains('br-home__works-item') ||
+					el.classList.contains('br-home__works-footer')
+				) {
+					return false;
+				}
+				return true;
 			});
 		if (workItems.length) {
 			gsap.set(workItems, { autoAlpha: 0, y: CARD_Y_IN, scale: CARD_SCALE_IN });
@@ -150,39 +162,13 @@
 			});
 		});
 
-		var worksBand = root.querySelector('.br-home__section--works-band');
-		if (worksBand) {
-			var worksGrid = worksBand.querySelector('.br-home__works-grid');
-			var worksRevealEls = worksGrid
-				? gsap.utils.toArray(worksGrid.querySelectorAll('.br-home__works-item'))
-				: [];
-			var worksFooterForReveal = worksBand.querySelector('.br-home__works-footer');
-			if (worksFooterForReveal) {
-				worksRevealEls.push(worksFooterForReveal);
-			}
-			if (worksGrid && worksRevealEls.length) {
-				gsap.set(worksRevealEls, {
-					autoAlpha: 0,
-					y: CARD_Y_IN,
-					scale: CARD_SCALE_IN,
-				});
-				ScrollTrigger.create({
-					trigger: worksGrid,
-					start: 'top 88%',
-					once: true,
-					onEnter: function () {
-						gsap.to(worksRevealEls, {
-							autoAlpha: 1,
-							y: 0,
-							scale: 1,
-							duration: CARD_DURATION,
-							stagger: INNER_CARD_STAGGER,
-							ease: CARD_EASE,
-							overwrite: true,
-						});
-					},
-				});
-			}
+		var worksLightSection = root.querySelector('.br-home__section--works-light');
+		if (worksLightSection) {
+			bindWorksLightGridScrollReveal(
+				gsap,
+				ScrollTrigger,
+				worksLightSection.querySelector('.br-home__works-grid')
+			);
 		}
 
 		var newsList = root.querySelector('.br-home__news-list');
@@ -251,6 +237,61 @@
 
 	global.brInitHomeScrollCardEffects = initHomeScrollCardEffects;
 
+	/**
+	 * @param {typeof window.gsap} gsap
+	 * @param {typeof window.ScrollTrigger} ScrollTrigger
+	 * @param {Element|null} grid .br-home__works-grid
+	 */
+	function bindWorksLightGridScrollReveal(gsap, ScrollTrigger, grid) {
+		if (!grid) {
+			return;
+		}
+		var items = gsap.utils.toArray(grid.querySelectorAll('.br-home__works-item'));
+		if (!items.length) {
+			return;
+		}
+		/* Start slightly up-left of rest so motion reads as “from top-left”. */
+		gsap.set(items, {
+			autoAlpha: 0,
+			x: -28,
+			y: -20,
+			scale: 0.94,
+		});
+		ScrollTrigger.create({
+			trigger: grid,
+			start: 'top 86%',
+			once: true,
+			onEnter: function () {
+				var ordered = items.slice();
+				if (ordered.length > 1) {
+					ordered.sort(function (a, b) {
+						var ra = a.getBoundingClientRect();
+						var rb = b.getBoundingClientRect();
+						var dy = ra.top - rb.top;
+						/* Same row: tops within a few px → sort by x (left first). */
+						if (Math.abs(dy) > 12) {
+							return dy;
+						}
+						return ra.left - rb.left;
+					});
+				}
+				gsap.to(ordered, {
+					autoAlpha: 1,
+					x: 0,
+					y: 0,
+					scale: 1,
+					duration: WORKS_GRID_DURATION,
+					stagger: {
+						each: WORKS_GRID_STAGGER_EACH,
+						from: 'start',
+					},
+					ease: CARD_EASE,
+					overwrite: true,
+				});
+			},
+		});
+	}
+
 	function initInnerListingCards(gsap, ScrollTrigger) {
 		var root = global.document.querySelector('#main.br-main');
 		if (!root) {
@@ -302,6 +343,11 @@
 				},
 			});
 		}
+
+		var innerWorksGrid = root.querySelector('.br-home__works-grid');
+		if (innerWorksGrid && innerWorksGrid.closest('.br-works')) {
+			bindWorksLightGridScrollReveal(gsap, ScrollTrigger, innerWorksGrid);
+		}
 	}
 
 	function scheduleInnerRefresh() {
@@ -328,7 +374,9 @@
 	}
 	var hasCards = !!main.querySelector('.br-card');
 	var hasListHeader = !!main.querySelector('.br-page__header, .br-archive-header');
-	if (!hasCards && !hasListHeader) {
+	var hasWorksGrid =
+		!!main.querySelector('.br-works .br-home__works-grid .br-home__works-item');
+	if (!hasCards && !hasListHeader && !hasWorksGrid) {
 		return;
 	}
 

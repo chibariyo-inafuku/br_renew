@@ -11,7 +11,7 @@
 	--br-surface-soft: #f6f6f6;
 	--br-accent: #0071bc;
 	--br-accent-hover: #005a99;
-	--br-max: 1226px;
+	--br-max: 1640px;
 	--br-space: 1.17vw;
 	/* PC sidebar: min 140px, scales with 9.722vw above that (~140px @ 1440) */
 	--br-sidebar-w: max(140px, 9.722vw);
@@ -1085,6 +1085,12 @@ body.admin-bar .br-header--top {
 	html.br-scroll-cards-js #main.br-main .br-archive-header {
 		opacity: 0;
 		transform: translateY(clamp(1rem, 1.94vw, 1.75rem));
+	}
+
+	/* Works fixed page: same initial state as GSAP bindWorksLightGridScrollReveal. */
+	html.br-scroll-cards-js #main.br-main.br-works .br-home__works-grid > .br-home__works-item {
+		opacity: 0;
+		transform: translate3d(-28px, -20px, 0) scale(0.94);
 	}
 }
 

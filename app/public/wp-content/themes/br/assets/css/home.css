@@ -384,7 +384,10 @@
 .br-home .br-container {
 	padding-left: var(--br-home-gutter);
 	padding-right: var(--br-home-gutter);
-	max-width: none;
+	width: 100%;
+	max-width: min(100%, var(--br-max));
+	margin-left: auto;
+	margin-right: auto;
 	min-width: 0;
 	overflow: hidden;
 }
@@ -624,9 +627,9 @@
 	box-sizing: border-box;
 }
 
-/* Figma / capture: 1920 viewport → inner column max 1640px (wider than site --br-max) */
+/* Hero / news row: same max as site content (--br-max). */
 .br-home__section--hero > .br-home__hero-inner.br-container {
-	max-width: min(100%, 1640px);
+	max-width: min(100%, var(--br-max));
 	margin-left: auto;
 	margin-right: auto;
 	overflow: visible;
@@ -634,7 +637,7 @@
 
 /* News row: same width as hero inner, directly below it */
 .br-home__section--hero > .br-home__hero-foot.br-container {
-	max-width: min(100%, 1640px);
+	max-width: min(100%, var(--br-max));
 	margin-left: auto;
 	margin-right: auto;
 	padding-top: clamp(1rem, 2.2vw, 1.75rem);
@@ -1368,6 +1371,150 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
 }
 
+/* Works — light grid (TOP teaser + /works/ list): white surface, ink type. */
+.br-home__section--works-band.br-home__section--works-light {
+	background: #fff;
+	color: var(--br-ink);
+	padding-top: clamp(3rem, 5.56vw, 4.5rem);
+	padding-bottom: clamp(3rem, 5.56vw, 4.5rem);
+}
+
+.br-home__section--works-band.br-home__section--works-light > .br-container {
+	gap: clamp(1.75rem, 3.33vw, 2.75rem);
+	overflow: visible;
+}
+
+.br-home__works-band-head {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: clamp(1rem, 2.22vw, 1.5rem);
+	width: 100%;
+	min-width: 0;
+}
+
+.br-home__section--works-light .br-home__works-heading {
+	padding-left: 0;
+	padding-right: 0;
+	flex: 1 1 auto;
+	min-width: 0;
+	margin: 0;
+}
+
+/* Capture layout: "Works" (large) + 「制作実績」 on one baseline row. */
+.br-home__section--works-light .br-home__works-title.br-home__works-title--capture-row {
+	margin: 0;
+	display: block;
+}
+
+.br-home__works-title-capture {
+	display: inline-flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	column-gap: 1rem;
+	row-gap: 0.25rem;
+}
+
+.br-home__works-title-capture__en {
+	font-family: "Inter", "MuseoModerno", system-ui, sans-serif;
+	font-size: 40px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--br-ink);
+}
+
+.br-home__works-title-capture__jp {
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 1.45;
+	letter-spacing: 0.06em;
+	color: #43526a;
+}
+
+@media (max-width: 768px) {
+	.br-home__works-title-capture__en {
+		font-size: 32px;
+	}
+
+	.br-home__works-title-capture__jp {
+		font-size: 15px;
+	}
+}
+
+.br-home__works-viewall {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+	font-family: "Inter", "MuseoModerno", system-ui, sans-serif;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.2;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: var(--br-ink);
+	transition: color 0.2s ease;
+}
+
+.br-home__works-viewall__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border: 1px solid var(--br-line-muted, #dce1e8);
+	color: var(--br-ink);
+	background: #fff;
+	transition:
+		border-color 0.25s ease,
+		color 0.25s ease,
+		background 0.25s ease,
+		transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.br-home__works-viewall:hover .br-home__works-viewall__icon,
+.br-home__works-viewall:focus-visible .br-home__works-viewall__icon {
+	border-color: var(--br-accent);
+	color: #fff;
+	background: var(--br-accent);
+	transform: translateX(4px);
+}
+
+.br-home__works-viewall:hover,
+.br-home__works-viewall:focus-visible {
+	color: var(--br-accent);
+}
+
+.br-home__works-viewall:focus-visible {
+	outline: 2px solid var(--br-accent);
+	outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+	.br-home__works-band-head {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.br-home__works-viewall {
+		align-self: flex-end;
+	}
+}
+
+/* TOP Works: hide cards until GSAP row reveal (bindWorksLightGridScrollReveal). */
+@media (prefers-reduced-motion: no-preference) {
+	html.br-home-js .br-home__section--works-light .br-home__works-grid > .br-home__works-item {
+		opacity: 0;
+		transform: translate3d(-28px, -20px, 0) scale(0.94);
+	}
+}
+
 /* Project: lighter blue band — Figma SECTION fill #3B82C5 (node 313:3290). */
 .br-home__section--project-band {
 	background: #3b82c5;
@@ -1561,6 +1708,12 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.br-home__section--works-light .br-home__works-grid {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	column-gap: clamp(1.25rem, 2.22vw, 2rem);
+	row-gap: clamp(1.75rem, 2.78vw, 2.5rem);
+}
+
 .br-home__project-grid,
 .br-home__blog-grid {
 	grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -1580,12 +1733,9 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__blog-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
-}
 
-/* Works: show 8 cards on narrow viewports (query returns 9; hide last on SP) */
-@media (max-width: 768px) {
-	.br-home__section--works-band .br-home__works-item:nth-child(9) {
-		display: none;
+	.br-home__section--works-light .br-home__works-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
@@ -1615,7 +1765,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	padding-right: clamp(0rem, 2.78vw, 2.5rem);
 }
 
-.br-home__works-card,
 .br-home__project-card,
 .br-home__blog-card {
 	position: relative;
@@ -1628,8 +1777,157 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	background: #e2e8f0;
 }
 
+/* Works — image + meta below (light grid). */
 .br-home__works-card {
-	aspect-ratio: 1 / 1;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	min-width: 0;
+	overflow: visible;
+	text-decoration: none;
+	color: var(--br-ink);
+	background: transparent;
+	border-radius: 0;
+}
+
+.br-home__works-card-media {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 5 / 3;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #e2e8f0;
+	z-index: 0;
+	isolation: isolate;
+	transition:
+		transform 0.4s cubic-bezier(0.34, 1.35, 0.64, 1),
+		box-shadow 0.4s ease;
+	box-shadow: 0 2px 14px rgba(1, 16, 26, 0.07);
+}
+
+.br-home__works-card-media::after {
+	content: "";
+	position: absolute;
+	inset: -20% -40%;
+	background: linear-gradient(
+		105deg,
+		transparent 38%,
+		rgba(255, 255, 255, 0.55) 50%,
+		transparent 62%
+	);
+	transform: translateX(-120%) skewX(-14deg);
+	transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+	pointer-events: none;
+	z-index: 2;
+	opacity: 0.9;
+}
+
+.br-home__works-card:hover .br-home__works-card-media::after,
+.br-home__works-card:focus-visible .br-home__works-card-media::after {
+	transform: translateX(120%) skewX(-14deg);
+}
+
+.br-home__works-card:hover .br-home__works-card-media,
+.br-home__works-card:focus-visible .br-home__works-card-media {
+	transform: translateY(-7px) scale(1.02);
+	box-shadow:
+		0 20px 44px rgba(1, 16, 26, 0.12),
+		0 0 0 1px rgba(0, 113, 188, 0.18);
+}
+
+.br-home__works-card-image {
+	position: absolute;
+	inset: 0;
+}
+
+.br-home__works-card-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+	transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.br-home__works-card:hover .br-home__works-card-image img,
+.br-home__works-card:focus-visible .br-home__works-card-image img {
+	transform: scale(1.08);
+}
+
+.br-home__works-card-body {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 2px;
+	padding-top: 12px;
+	width: 100%;
+}
+
+.br-home__works-card-title {
+	font-family: "Inter", "MuseoModerno", system-ui, sans-serif;
+	font-size: 17px;
+	font-weight: 700;
+	line-height: 1.4;
+	letter-spacing: 0.01em;
+	color: var(--br-ink);
+	transition: color 0.22s ease;
+}
+
+.br-home__works-card:hover .br-home__works-card-title,
+.br-home__works-card:focus-visible .br-home__works-card-title {
+	color: var(--br-accent);
+}
+
+.br-home__works-card-cat {
+	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.5;
+	letter-spacing: 0.03em;
+	color: #43526a;
+}
+
+@media (max-width: 768px) {
+	.br-home__works-card-title {
+		font-size: 16px;
+	}
+
+	.br-home__works-card-cat {
+		font-size: 12px;
+	}
+
+	.br-home__works-card-media {
+		border-radius: 10px;
+	}
+}
+
+.br-home__works-card-image--placeholder {
+	background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__works-card-media,
+	.br-home__works-card-media::after,
+	.br-home__works-card-image img,
+	.br-home__works-viewall__icon {
+		transition: none !important;
+	}
+
+	.br-home__works-card:hover .br-home__works-card-media,
+	.br-home__works-card:focus-visible .br-home__works-card-media {
+		transform: none;
+		box-shadow: 0 2px 14px rgba(1, 16, 26, 0.07);
+	}
+
+	.br-home__works-card:hover .br-home__works-card-image img,
+	.br-home__works-card:focus-visible .br-home__works-card-image img {
+		transform: none;
+	}
+
+	.br-home__works-viewall:hover .br-home__works-viewall__icon,
+	.br-home__works-viewall:focus-visible .br-home__works-viewall__icon {
+		transform: none;
+	}
 }
 
 /* Project + Blog: same hover/cycle; Figma card frame 296×229. */
@@ -1638,7 +1936,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	aspect-ratio: 296 / 229;
 }
 
-.br-home__works-card-media,
 .br-home__project-card-media,
 .br-home__blog-card-media {
 	position: absolute;
@@ -1646,14 +1943,12 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	z-index: 0;
 }
 
-.br-home__works-card-image,
 .br-home__project-card-image,
 .br-home__blog-card-image {
 	position: absolute;
 	inset: 0;
 }
 
-.br-home__works-card-image img,
 .br-home__project-card-image img,
 .br-home__blog-card-image img {
 	width: 100%;
@@ -1663,7 +1958,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	transition: transform 0.35s ease;
 }
 
-.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img,
 .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img,
 .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img {
 	position: absolute;
@@ -1673,15 +1967,12 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	z-index: 0;
 }
 
-.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	opacity: 1;
 	z-index: 1;
 }
 
-.br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
-.br-home__works-card:focus .br-home__works-card-image:not(.br-hover-cycle) img,
 .br-home__project-card:hover .br-home__project-card-image:not(.br-hover-cycle) img,
 .br-home__project-card:focus .br-home__project-card-image:not(.br-hover-cycle) img,
 .br-home__blog-card:hover .br-home__blog-card-image:not(.br-hover-cycle) img,
@@ -1689,8 +1980,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	transform: scale(1.04);
 }
 
-.br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
-.br-home__works-card:focus .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__project-card:hover .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__project-card:focus .br-home__project-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
 .br-home__blog-card:hover .br-home__blog-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
@@ -1698,26 +1987,9 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	transform: scale(1.04);
 }
 
-.br-home__works-card-image--placeholder,
 .br-home__project-card-image--placeholder,
 .br-home__blog-card-image--placeholder {
 	background: linear-gradient(135deg, #cbd5e1, #94a3b8);
-}
-
-/* Temporary: hide badge/title on cards. To restore: delete `display: none` and set `display: flex`. */
-.br-home__works-card-overlay {
-	display: none;
-	position: absolute;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 2;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: clamp(0.375rem, 0.56vw, 0.5rem);
-	padding: clamp(0.75rem, 1.11vw, 1rem);
-	background: rgba(15, 53, 104, 0.88);
-	pointer-events: none;
 }
 
 .br-home__project-card-overlay {
@@ -1750,7 +2022,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	pointer-events: none;
 }
 
-.br-home__works-card-badge,
 .br-home__project-card-badge {
 	align-self: flex-start;
 	padding: clamp(0.25rem, 0.42vw, 0.375rem) clamp(0.375rem, 0.56vw, 0.5rem);
@@ -1762,7 +2033,6 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	letter-spacing: 0.02em;
 }
 
-.br-home__works-card-title,
 .br-home__project-card-title,
 .br-home__blog-card-title {
 	font-size: 14px;

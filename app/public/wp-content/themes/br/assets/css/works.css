@@ -121,7 +121,7 @@
 }
 
 /*
- * Works 固定ページのみ: home の青帯背景を使わずライト面に。TOP の .br-home__section--works-band はそのまま。
+ * Works 固定ページ: リスト帯は TOP と同様 .br-home__section--works-light（白面・4列グリッド）。
  */
 .br-main.br-works .br-home__section--works-band.br-works__list-band {
 	background: transparent;
@@ -331,11 +331,6 @@
 
 #br-works-list-title .br-svg-heading__text {
 	font-size: calc(60px * 800 / 720);
-}
-
-/* Home TOP hides 9th card on SP for teaser grid only; listing shows all items. */
-.br-main.br-works .br-home__section--works-band .br-home__works-item:nth-child(9) {
-	display: list-item;
 }
 
 @media (max-width: 768px) {

@@ -52,7 +52,7 @@ function br_setup() {
 add_action( 'after_setup_theme', 'br_setup' );
 
 /**
- * Inner listing templates that share GSAP scroll-card effects (br-card grids). Not used on /works/, /project/, /blog/, /service/, or /news/ (home-style cards + CTA .br-home).
+ * Inner listing templates that share GSAP scroll-card effects (br-card grids + Works grid).
  *
  * @return bool
  */
@@ -61,7 +61,8 @@ function br_loads_inner_scroll_card_assets() {
 		return false;
 	}
 	return is_post_type_archive( 'portfolio' )
-		|| is_tax( 'project-categories' );
+		|| is_tax( 'project-categories' )
+		|| is_page( 'works' );
 }
 
 /**
