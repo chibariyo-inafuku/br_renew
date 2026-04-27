@@ -15,10 +15,16 @@
 	   never sees the video start (the poster image is shown instead). This
 	   early pause() is kept as a safety net for browsers that might preroll. */
 	var heroEarly = root.querySelector('.br-home__hero');
-	if (heroEarly && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-		var heroVid = heroEarly.querySelector('.br-home__hero-video');
-		if (heroVid && typeof heroVid.pause === 'function') {
-			heroVid.pause();
+	if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+		if (heroEarly) {
+			var heroVid = heroEarly.querySelector('.br-home__hero-video');
+			if (heroVid && typeof heroVid.pause === 'function') {
+				heroVid.pause();
+			}
+		}
+		var movieVidEarly = root.querySelector('.br-home__movie-video');
+		if (movieVidEarly && typeof movieVidEarly.pause === 'function') {
+			movieVidEarly.pause();
 		}
 	}
 
@@ -49,6 +55,17 @@
 	}
 
 	gsap.context(function () {
+		var homeMovieVideo = root.querySelector('.br-home__movie-video');
+		function playHomeMovieVideo() {
+			if (!homeMovieVideo || typeof homeMovieVideo.play !== 'function') {
+				return;
+			}
+			var pm = homeMovieVideo.play();
+			if (pm && typeof pm.catch === 'function') {
+				pm.catch(function () {});
+			}
+		}
+
 		var hero = root.querySelector('.br-home__hero');
 		if (hero) {
 			var heroVideo = hero.querySelector('.br-home__hero-video');
@@ -155,6 +172,7 @@
 					window.removeEventListener('br-home-loader-done', onLoaderDone);
 					tl.play(0);
 					playHeroVideo();
+					playHomeMovieVideo();
 				}
 				window.addEventListener('br-home-loader-done', onLoaderDone, false);
 				window.setTimeout(function () {
@@ -163,9 +181,11 @@
 						tl.play(0);
 					}
 					playHeroVideo();
+					playHomeMovieVideo();
 				}, 6000);
 			} else {
 				playHeroVideo();
+				playHomeMovieVideo();
 			}
 
 			syncPlayLabelFromVideo();
@@ -202,6 +222,49 @@
 						invalidateOnRefresh: true,
 					},
 				});
+			}
+		} else {
+			playHomeMovieVideo();
+		}
+
+		var movie = root.querySelector('.br-home__movie');
+		if (movie) {
+			var movieMedia = movie.querySelector('.br-home__movie-media');
+			var movieTitle = movie.querySelector('.br-home__movie-title');
+			if (movieMedia) {
+				gsap.fromTo(
+					movieMedia,
+					{ yPercent: 10 },
+					{
+						yPercent: -10,
+						ease: 'none',
+						scrollTrigger: {
+							trigger: movie,
+							start: 'top bottom',
+							end: 'bottom top',
+							scrub: true,
+							invalidateOnRefresh: true,
+						},
+					}
+				);
+			}
+			if (movieTitle) {
+				gsap.set(movieTitle, { transformOrigin: '50% 50%' });
+				gsap.fromTo(
+					movieTitle,
+					{ scale: 1 },
+					{
+						scale: 1.38,
+						ease: 'none',
+						scrollTrigger: {
+							trigger: movie,
+							start: 'top bottom',
+							end: 'bottom top',
+							scrub: true,
+							invalidateOnRefresh: true,
+						},
+					}
+				);
 			}
 		}
 

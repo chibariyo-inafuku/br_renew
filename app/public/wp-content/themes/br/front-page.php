@@ -15,9 +15,10 @@ while ( have_posts() ) :
 	get_template_part( 'template-parts/home/section', 'hero' );
 	//get_template_part( 'template-parts/home/section', 'concept' );
 	get_template_part( 'template-parts/home/section', 'works' );
+	get_template_part( 'template-parts/home/section', 'news' );
+	get_template_part( 'template-parts/home/section', 'movie' );
 	get_template_part( 'template-parts/home/section', 'project' );
 	get_template_part( 'template-parts/home/section', 'parallax' );
-	get_template_part( 'template-parts/home/section', 'news' );
 	get_template_part( 'template-parts/home/section', 'blog' );
 	get_template_part( 'template-parts/home/section', 'service' );
 	get_template_part( 'template-parts/home/section', 'palarax' );

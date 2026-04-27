@@ -1,6 +1,6 @@
 <?php
 /**
- * News listing row (same markup as home section-news item).
+ * News teaser row (hero + /news/ list): thumbnail + date + title in .br-home__news-body.
  *
  * @package br
  *

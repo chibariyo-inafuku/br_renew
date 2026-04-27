@@ -6,7 +6,6 @@
 	'use strict';
 
 	var BAND_INNER_DELAY = 0.42;
-	var NEWS_ITEM_STAGGER = 0.18;
 	var INNER_CARD_STAGGER = 0.18;
 	/** Works light grid (TOP + /works/): row-major from top-left, one card at a time. */
 	var WORKS_GRID_STAGGER_EACH = 0.1;
@@ -29,7 +28,14 @@
 		var sectionHeads = gsap.utils
 			.toArray(root.querySelectorAll('.br-home__section-head'))
 			.filter(function (el) {
-				return !el.closest('.br-home__section--band-reveal');
+				if (el.closest('.br-home__section--band-reveal')) {
+					return false;
+				}
+				/* News (TOP): section uses CSS + svg-heading-inview on wrapper only; skip GSAP on heading. */
+				if (el.closest('.br-home__section--news')) {
+					return false;
+				}
+				return true;
 			});
 		if (sectionHeads.length) {
 			gsap.set(sectionHeads, { autoAlpha: 0, y: 40, scale: 0.97 });
@@ -169,65 +175,6 @@
 				ScrollTrigger,
 				worksLightSection.querySelector('.br-home__works-grid')
 			);
-		}
-
-		var newsList = root.querySelector('.br-home__news-list');
-		var newsItemsOrdered = newsList
-			? gsap.utils.toArray(newsList.querySelectorAll('.br-home__news-item'))
-			: [];
-		var newsCta = root.querySelector('.br-home__news-cta-wrap');
-		if (newsList && newsItemsOrdered.length) {
-			gsap.set(newsItemsOrdered, {
-				autoAlpha: 0,
-				y: CARD_Y_IN,
-				scale: CARD_SCALE_IN,
-			});
-			if (newsCta) {
-				gsap.set(newsCta, { autoAlpha: 0, y: 48, scale: 0.96 });
-			}
-			ScrollTrigger.create({
-				trigger: newsList,
-				start: 'top 88%',
-				once: true,
-				onEnter: function () {
-					var tl = gsap.timeline({ defaults: { ease: CARD_EASE, overwrite: true } });
-					tl.to(newsItemsOrdered, {
-						autoAlpha: 1,
-						y: 0,
-						scale: 1,
-						duration: CARD_DURATION,
-						stagger: NEWS_ITEM_STAGGER,
-					});
-					if (newsCta) {
-						var ctaStart =
-							(newsItemsOrdered.length > 0 ? newsItemsOrdered.length - 1 : 0) *
-								NEWS_ITEM_STAGGER +
-								CARD_DURATION;
-						tl.to(
-							newsCta,
-							{ autoAlpha: 1, y: 0, scale: 1, duration: CARD_DURATION * 0.85 },
-							ctaStart
-						);
-					}
-				},
-			});
-		} else if (newsCta) {
-			gsap.set(newsCta, { autoAlpha: 0, y: 48, scale: 0.96 });
-			ScrollTrigger.create({
-				trigger: newsCta,
-				start: 'top 90%',
-				once: true,
-				onEnter: function () {
-					gsap.to(newsCta, {
-						autoAlpha: 1,
-						y: 0,
-						scale: 1,
-						duration: CARD_DURATION,
-						ease: CARD_EASE,
-						overwrite: true,
-					});
-				},
-			});
 		}
 
 		if (typeof scheduleRefresh === 'function') {
