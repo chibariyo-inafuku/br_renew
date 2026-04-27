@@ -196,13 +196,6 @@ function br_enqueue_assets() {
 			BR_VERSION,
 			true
 		);
-		wp_enqueue_script(
-			'br-home-loading',
-			$theme_uri . '/assets/js/home-loading.js',
-			array(),
-			BR_VERSION,
-			true
-		);
 	}
 
 	if ( is_page( 'about' ) ) {
@@ -660,7 +653,7 @@ function br_enqueue_assets() {
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-scroll-cards-gsap', 'br-home-rail', 'br-home-loading' ),
+			array( 'br-scroll-cards-gsap', 'br-home-rail' ),
 			BR_VERSION,
 			true
 		);
@@ -705,16 +698,6 @@ function br_enqueue_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
-
-/**
- * Early scroll lock while TOP page loader is visible.
- */
-function br_home_loading_html_class() {
-	if ( is_front_page() ) {
-		echo '<script>document.documentElement.classList.add("br-home-loading");</script>' . "\n";
-	}
-}
-add_action( 'wp_head', 'br_home_loading_html_class', 1 );
 
 /**
  * Adobe Fonts (Typekit) for CEO page — ab-kouran-gyosho on message signature.

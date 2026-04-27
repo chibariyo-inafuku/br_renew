@@ -1713,10 +1713,12 @@ function br_get_portfolio_card_category_label( $post_id ) {
  */
 function br_home_get_copy() {
 	$defaults = array(
-		'hero_line_1'       => __( 'マーケティングプロモーションに、', 'br' ),
-		'hero_line_2'       => __( 'AIという武器を。', 'br' ),
-		'hero_lead'         => __( '期待を超えるクオリティとスピードで価値を創る、AIクリエイティブスタジオ。', 'br' ),
-		'hero_cta'          => __( 'お問い合わせはこちら', 'br' ),
+		'hero_title'        => __( '遊び心で、未来を動かす。', 'br' ),
+		'hero_lead'         => __( 'We design experiences that inspire, engage, and drive results.', 'br' ),
+		'hero_cta'          => __( 'Contact', 'br' ),
+		/* Legacy keys (kept for filters / old child themes). */
+		'hero_line_1'       => __( '遊び心で、未来を動かす。', 'br' ),
+		'hero_line_2'       => '',
 		'concept_tagline_en' => __( 'Creativity endures. Innovation evolves.', 'br' ),
 		'concept_heading'   => __( '創造は、奪われない。進化する。', 'br' ),
 		'concept_body'      => __( "AIは、すべてを変えた。\nスピードも、クオリティも、常識も。\n\nそして今、「クリエイターは必要なのか」という問いが生まれた。\n\n答えは、ひとつじゃない。\n奪われるのか。\nそれとも、進化するのか。\n\n選ぶのは、私たちだ。\nAIと共に、創造は次のステージへ。", 'br' ),

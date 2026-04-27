@@ -17,6 +17,9 @@
 	--br-sidebar-w: max(140px, 9.722vw);
 	/* ~100px inset from bottom of sidebar @ 1440 (liquid) */
 	--br-sidebar-bottom-inset: 6.944vw;
+
+	/* Top header: fixed offset for main content (slim top bar). */
+	--br-header-offset: clamp(72px, 5.5vw, 92px);
 }
 
 *,
@@ -121,56 +124,57 @@ body:not(.home) .br-main .br-home .br-container {
 	max-width: 100%;
 }
 
-/* Header — left fixed sidebar (desktop) */
-.br-header--sidebar {
+/* Header — top fixed bar (desktop + mobile); solid white only after html.br-header--past-hero (scroll). */
+.br-header--top {
 	position: fixed;
 	left: 0;
 	top: 0;
+	right: 0;
 	z-index: 1000;
-	width: var(--br-sidebar-w);
-	height: 100vh;
-	height: 100dvh;
+	width: 100%;
+	height: auto;
 	margin: 0;
 	padding: 0;
-	overflow-x: hidden;
-	overflow-y: hidden;
-	background: var(--br-bg);
-	border-bottom: none;
-	border-right: 1px solid var(--br-line);
+	overflow: visible;
+	background: transparent;
+	border-bottom: 1px solid transparent;
 	box-sizing: border-box;
+	transition:
+		background-color 0.28s ease,
+		border-color 0.28s ease,
+		box-shadow 0.28s ease;
+}
+
+html.br-header--past-hero .br-header--top {
+	background: var(--br-bg);
+	border-bottom-color: var(--br-line);
 }
 
 .br-header__sidebar-inner {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	height: 100%;
-	min-height: 0;
-	/* Top/sides Figma @ 1440; bottom = ~100px from viewport bottom */
-	padding: 2.78vw 1.11vw var(--br-sidebar-bottom-inset);
-	box-sizing: border-box;
-}
-
-.br-header__wrap {
-	flex: 1 1 auto;
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
 	align-items: stretch;
-	gap: 0;
-	width: 100%;
+	height: auto;
 	min-height: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
-/* Logo row + mobile-only hamburger (button hidden ≥769px) */
-.br-header__bar {
+/* One row: logo | panel (nav + CTA) | hamburger (SP). */
+.br-header__inner {
+	width: 100%;
+}
+
+.br-header__row {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	flex-wrap: nowrap;
 	align-items: center;
+	justify-content: space-between;
 	width: 100%;
 	flex: 0 0 auto;
 	min-height: 0;
+	gap: clamp(12px, 2vw, 24px);
 }
 
 .br-header__menu-toggle {
@@ -252,8 +256,11 @@ html.br-nav-open .br-header__menu-x {
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
 	min-height: 0;
-	width: 100%;
+	min-width: 0;
+	width: auto;
 }
 
 .br-header__backdrop {
@@ -261,107 +268,107 @@ html.br-nav-open .br-header__menu-x {
 }
 
 .br-header__head {
-	flex: 0 1 auto;
+	flex: 0 0 auto;
 	min-height: 0;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
-	width: 100%;
+	width: auto;
 }
 
 .br-header__bottom {
 	flex: 0 0 auto;
 	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 1.83vw;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	gap: clamp(28px, 4vw, 72px);
 	width: 100%;
 }
 
-/* Desktop sidebar: pin nav+CTA to panel bottom; layout tokens fixed @1440 (no vw) */
+/* Desktop: logo left | nav centered in bar | CONTACT right (5-column grid + display:contents). */
 @media (min-width: 769px) {
 	:root {
 		--br-sidebar-w: 140px;
 		--br-sidebar-bottom-inset: 100px;
 	}
 
-	.br-header--sidebar {
-		min-width: 140px;
+	.br-header__row {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr) auto;
+		align-items: center;
+		column-gap: clamp(12px, 2vw, 24px);
+		width: 100%;
+		padding-block: clamp(14px, 1.25vw, 20px);
 	}
 
-	.br-header__sidebar-inner {
-		padding: 40px 16px var(--br-sidebar-bottom-inset);
+	/* Flatten panel/bottom so nav + contact become grid children of .br-header__row */
+	.br-header__panel {
+		display: contents;
 	}
 
 	.br-header__bottom {
-		gap: 26px;
+		display: contents;
 	}
 
-	.br-header__contact {
-		gap: 10px;
+	.br-header__head {
+		grid-column: 1;
+		justify-self: start;
 	}
 
-	/* PC: px 固定（ベースの vw がこのブロックより後にあり上書きされていたため、ここで完結） */
-	.br-header__cta.br-hop-btn {
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-		min-width: 0;
-		width: 100%;
-		max-width: 100%;
-		padding: 8px 24px 8px 12px;
-		font-family: var(--br-font);
-		font-size: 12px;
-		font-weight: 700;
-		line-height: 1.75;
-		box-sizing: border-box;
-		border-radius: 8px;
-	}
-
-	.br-header--sidebar .br-nav__list li {
-		padding: 8px 0;
-	}
-
-	.br-header--sidebar .br-nav__list .sub-menu {
-		margin: 5px 0 0;
-		padding: 0 0 0 11px;
-		gap: 5px;
-	}
-
-	.br-header--sidebar .br-header__bottom {
-		flex-shrink: 0;
-		margin-top: auto;
+	.br-header__backdrop {
+		display: none !important;
 	}
 
 	.br-header__drawer-brand {
+		display: none !important;
+	}
+
+	.br-header--top .br-nav {
+		grid-column: 3;
+		justify-self: center;
+		width: max-content;
+		max-width: min(100vw - 14rem, 100%);
+		min-width: 0;
+	}
+
+	.br-header__contact {
+		grid-column: 5;
+		justify-self: end;
+		align-self: center;
+		flex-direction: row;
+		align-items: center;
+		width: auto;
+		gap: 0;
+	}
+
+	.br-header__tel {
 		display: none;
+	}
+
+	.br-header--top .br-nav__list {
+		flex-wrap: nowrap;
+		justify-content: center;
 	}
 }
 
 .br-header__contact {
 	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	flex-direction: row;
+	align-items: center;
 	align-self: stretch;
 	gap: 0.69vw;
 	width: 100%;
 }
 
-/* Contact — SP ドロワー: リキッド。PC の px 固定は上の (min-width:769px) ブロック */
+/* SP drawer: CTA — same 176×45 when drawer is wide enough */
 @media (max-width: 768px) {
-	.br-header__cta.br-hop-btn {
-		display: flex;
-		justify-content: flex-start;
-		min-width: 7.5vw;
-		width: 100%;
+	.br-header__cta--pill {
+		justify-content: center;
+		width: min(100%, 176px);
+		height: 45px;
 		max-width: 100%;
-		padding: 0.556vw 1.667vw 0.556vw 0.833vw;
-		font-family: var(--br-font);
-		font-size: 12px;
-		font-weight: 700;
-		line-height: 1.75;
 		box-sizing: border-box;
-		border-radius: 0.556vw;
 	}
 }
 
@@ -414,45 +421,30 @@ html.br-nav-open .br-header__menu-x {
 .br-nav__list {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 1.17vw;
+	gap: clamp(14px, 1.4vw, 18px);
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.br-header--sidebar .br-nav__list {
-	flex-direction: column;
-	flex-wrap: nowrap;
-	align-items: flex-start;
-	gap: 0;
+.br-header--top .br-nav__list {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(28px, 3.2vw, 48px);
 	font-family: "Inter", var(--br-font);
-	font-size: 14px;
-	font-weight: 400;
+	font-size: 13px;
+	font-weight: 500;
 	line-height: 1;
-	letter-spacing: 0.0371em;
-	color: #1f2937;
-	width: 100%;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: #1a1a1a;
+	width: auto;
 }
 
-.br-header--sidebar .br-nav__link {
+.br-header--top .br-nav__link {
 	transition: color 0.15s ease;
-}
-
-.br-header--sidebar .br-nav__list li {
-	/* Figma: 8px vertical @ 1440 */
-	padding: 10px 0;
-	width: 100%;
-}
-
-.br-header--sidebar .br-nav__list .sub-menu {
-	list-style: none;
-	margin: 0.37vw 0 0;
-	padding: 0 0 0 0.73vw;
-	border-left: 1px solid var(--br-line);
-	display: flex;
-	flex-direction: column;
-	gap: 0.37vw;
-	font-size: 14px;
 }
 
 .br-nav__list a {
@@ -461,40 +453,162 @@ html.br-nav-open .br-header__menu-x {
 }
 
 /* Figma component a (146:1750): hover = accent fill, no underline */
-.br-header--sidebar .br-nav__link:hover,
-.br-header--sidebar .br-nav__list a:hover {
+.br-header--top .br-nav__link:hover,
+.br-header--top .br-nav__list a:hover {
 	color: var(--br-accent);
 	text-decoration: none;
 }
 
-.br-header--sidebar .br-nav__link:focus-visible,
-.br-header--sidebar .br-nav__list a:focus-visible {
+.br-header--top .br-nav__link:focus-visible,
+.br-header--top .br-nav__list a:focus-visible {
 	color: var(--br-accent);
 	text-decoration: none;
 }
 
-/* WP admin bar: offset fixed sidebar */
-body.admin-bar .br-header--sidebar {
-	top: 32px;
-	height: calc(100vh - 32px);
-	height: calc(100dvh - 32px);
-}
+/* Header CONTACT — black pill + arrow; hover: blue fills from bottom, arrow exits TR / enters BL. */
+@keyframes br-header-cta-arrow-hover {
+	0% {
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
 
-@media screen and (max-width: 782px) {
-	body.admin-bar .br-header--sidebar {
-		top: 46px;
-		height: calc(100vh - 46px);
-		height: calc(100dvh - 46px);
+	42% {
+		transform: translate3d(0.55rem, -0.55rem, 0);
+		opacity: 0;
+	}
+
+	43% {
+		transform: translate3d(-0.65rem, 0.65rem, 0);
+		opacity: 0;
+	}
+
+	58% {
+		opacity: 1;
+	}
+
+	100% {
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
 	}
 }
 
-/* Main + footer: right column (main may shrink so wide children do not overflow viewport) */
+.br-header__cta--pill {
+	position: relative;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 0.35em;
+	width: 176px;
+	height: 45px;
+	padding: 0 0.75rem;
+	margin: 0;
+	font-family: "Inter", var(--br-font);
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #fff;
+	background: #000;
+	border: none;
+	border-radius: 9999px;
+	box-sizing: border-box;
+	cursor: pointer;
+	overflow: hidden;
+	isolation: isolate;
+	transition: color 0.25s ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/* ホバー青レイヤーのみ直角（黒のピルは常に角丸のまま） */
+.br-header__cta--pill::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 0;
+	background-color: #0071bc;
+	transform: scaleY(0);
+	transform-origin: bottom center;
+	transition: transform 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+	z-index: 0;
+	pointer-events: none;
+}
+
+.br-header__cta--pill:hover::before,
+.br-header__cta--pill:focus-visible::before {
+	transform: scaleY(1);
+}
+
+.br-header__cta--pill:hover .br-header__cta-arrow,
+.br-header__cta--pill:focus-visible .br-header__cta-arrow {
+	animation: br-header-cta-arrow-hover 0.65s cubic-bezier(0.45, 0, 0.55, 1) both;
+}
+
+.br-header__cta--pill:focus-visible {
+	outline: 2px solid var(--br-accent, #0071bc);
+	outline-offset: 3px;
+}
+
+.br-header__cta--pill:focus:not(:focus-visible) {
+	outline: none;
+}
+
+.br-header__cta-text {
+	position: relative;
+	z-index: 1;
+	white-space: nowrap;
+}
+
+.br-header__cta-arrow {
+	position: relative;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 0;
+	color: #fff;
+	will-change: transform, opacity;
+}
+
+.br-header__cta-arrow svg {
+	display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-header__cta--pill {
+		transition: none;
+	}
+
+	.br-header__cta--pill::before {
+		transition: none;
+	}
+
+	.br-header__cta--pill:hover .br-header__cta-arrow,
+	.br-header__cta--pill:focus-visible .br-header__cta-arrow {
+		animation: none;
+	}
+}
+
+/* WP admin bar: offset fixed header */
+body.admin-bar .br-header--top {
+	top: 32px;
+}
+
+@media screen and (max-width: 782px) {
+	body.admin-bar .br-header--top {
+		top: 46px;
+	}
+}
+
+/* Main + footer: full width (sidebar removed). */
 .br-main {
 	flex: 1 1 auto;
-	margin-left: var(--br-sidebar-w);
-	width: calc(100% - var(--br-sidebar-w));
+	margin-left: 0;
+	width: 100%;
 	max-width: none;
-	padding: 2.34vw 0 4.69vw;
+	padding: calc(var(--br-header-offset) + 2.34vw) 0 4.69vw;
 	min-height: 50vh;
 	box-sizing: border-box;
 	min-width: 0;
@@ -502,8 +616,8 @@ body.admin-bar .br-header--sidebar {
 }
 
 .br-footer {
-	margin-left: var(--br-sidebar-w);
-	width: calc(100% - var(--br-sidebar-w));
+	margin-left: 0;
+	width: 100%;
 	max-width: none;
 	box-sizing: border-box;
 	min-width: 0;
@@ -518,7 +632,7 @@ body.admin-bar .br-header--sidebar {
 	}
 
 	/* SP: fixed top bar (all pages with JS); no-JS stays in flow below */
-	html.br-header-js .br-header--sidebar {
+	html.br-header-js .br-header--top {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -530,8 +644,8 @@ body.admin-bar .br-header--sidebar {
 		max-height: none;
 		overflow: visible;
 		border-right: none;
-		border-bottom: 1px solid var(--br-line);
-		background: var(--br-bg);
+		border-bottom: 1px solid transparent;
+		background: transparent;
 		box-sizing: border-box;
 		transition:
 			background-color 0.28s ease,
@@ -539,11 +653,16 @@ body.admin-bar .br-header--sidebar {
 			box-shadow 0.28s ease;
 	}
 
-	body.admin-bar html.br-header-js .br-header--sidebar {
+	html.br-header-js.br-header--past-hero .br-header--top {
+		background: var(--br-bg);
+		border-bottom-color: var(--br-line);
+	}
+
+	body.admin-bar html.br-header-js .br-header--top {
 		top: 46px;
 	}
 
-	html:not(.br-header-js) .br-header--sidebar {
+	html:not(.br-header-js) .br-header--top {
 		position: relative;
 		top: auto;
 		left: auto;
@@ -554,23 +673,16 @@ body.admin-bar .br-header--sidebar {
 		background: var(--br-bg);
 	}
 
-	html:not(.br-header--past-hero) body.home .br-header--sidebar,
 	html:not(.br-header--past-hero) body.home .br-header__sidebar-inner {
 		background: transparent;
 	}
 
-	html:not(.br-header--past-hero) body.home .br-header--sidebar {
-		border-bottom-color: transparent;
-		box-shadow: none;
-	}
-
-	html.br-header--past-hero body.home .br-header--sidebar {
-		background: var(--br-bg);
-		border-bottom: 1px solid var(--br-line);
-	}
-
 	html:not(.br-header--past-hero) body.home .br-header__menu-toggle {
 		color: #fff;
+	}
+
+	html:not(.br-header--past-hero) body:not(.home) .br-header__menu-toggle {
+		color: #0f3568;
 	}
 
 	html.br-header--past-hero .br-header__menu-toggle {
@@ -606,12 +718,7 @@ body.admin-bar .br-header--sidebar {
 		max-height: min(clamp(3.75rem, 3.1vw, 2.875rem), 19vh);
 	}
 
-	.br-header__wrap {
-		flex: 0 0 auto;
-		gap: 0;
-	}
-
-	.br-header__bar {
+	.br-header__row {
 		flex-direction: row;
 		flex-wrap: nowrap;
 		justify-content: space-between;
@@ -660,7 +767,7 @@ body.admin-bar .br-header--sidebar {
 	 * × を position:fixed にするとフローから外れバーが潰れる。min-height で padding を二重に足すと閉じ時より高くなるため、
 	 * 閉じ時トグルと同じ border-box 寸法の不可視プレースホルダで幅・高さだけ確保する。
 	 */
-	html.br-header-js.br-nav-open .br-header__bar::after {
+	html.br-header-js.br-nav-open .br-header__row::after {
 		content: '';
 		display: block;
 		flex: 0 0 auto;
@@ -809,7 +916,7 @@ body.admin-bar .br-header--sidebar {
 		overflow: visible;
 	}
 
-	.br-header--sidebar .br-nav__list {
+	.br-header--top .br-nav__list {
 		flex-direction: column;
 		flex-wrap: nowrap;
 		align-items: flex-start;
@@ -818,18 +925,18 @@ body.admin-bar .br-header--sidebar {
 		font-weight: 500;
 	}
 
-	.br-header--sidebar .br-nav__list li {
+	.br-header--top .br-nav__list li {
 		padding: clamp(0.2rem, 0.9vw, 0.35rem) 0;
 		width: 100%;
 	}
 
-	.br-header--sidebar .br-nav__link {
+	.br-header--top .br-nav__link {
 		display: block;
 		min-height: 0;
 		padding: clamp(0.0rem, 1vw, 0.85rem) 0;
 		line-height: 1.55;
-		text-transform: none;
-		letter-spacing: 0.02em;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 		color: #0f172a;
 	}
 
@@ -842,15 +949,15 @@ body.admin-bar .br-header--sidebar {
 		margin-top: clamp(0.25rem, 1vw, 0.5rem);
 	}
 
-	.br-header--sidebar .br-header__cta.br-hop-btn {
+	.br-header__cta--pill {
 		align-self: center;
-		width: auto;
+		width: min(100%, 176px);
+		height: 45px;
 		min-width: 0;
 		max-width: 100%;
-		padding: clamp(0.5rem, 1.75vw, 0.65rem) clamp(1.35rem, 4.5vw, 2rem);
-		font-size: 16px;
-		font-weight: 700;
-		border-radius: clamp(0.4rem, 1.4vw, 0.55rem);
+		padding: 0 0.65rem;
+		font-size: 12px;
+		letter-spacing: 0.05em;
 	}
 
 	.br-header__tel {
@@ -859,23 +966,9 @@ body.admin-bar .br-header--sidebar {
 		font-size: 16px;
 	}
 
-	.br-main,
-	.br-footer {
-		margin-left: 0;
-		width: 100%;
-	}
-
-	/*
-	 * Inner pages: offset below fixed header (SP).
-	 * TOP is `main.br-main.br-home` only — exclude so hero stays full-bleed.
-	 * Use :not(.br-home) instead of body:not(.home) so static front page is not misclassified.
-	 */
-	main.br-main:not(.br-home) {
-		padding-top: clamp(5.25rem, 22vw, 7.25rem);
-	}
-
-	body.admin-bar main.br-main:not(.br-home) {
-		padding-top: calc(46px + clamp(4.75rem, 16vw, 6.25rem));
+	/* Mobile: adjust header offset and main padding to match fixed bar height. */
+	:root {
+		--br-header-offset: clamp(60px, 15vw, 88px);
 	}
 }
 

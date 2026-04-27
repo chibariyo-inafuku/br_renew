@@ -125,50 +125,78 @@
 })();
 
 /**
- * TOP: over hero = transparent bar + white hamburger; past hero = white bar + #0f3568 lines.
- * Other pages: always "past hero" (solid + dark icon).
+ * Header bar: transparent at top of page, white background after a small scroll.
+ * Uses html.br-header--past-hero (same hook as existing CSS). Syncs with Lenis when present.
  */
 (function () {
 	'use strict';
 
 	var root = document.documentElement;
-	var hero = document.querySelector('.br-home__section--hero');
+	var SCROLL_THRESHOLD_PX = 48;
+	var ticking = false;
 
 	function setPastHero(on) {
 		root.classList.toggle('br-header--past-hero', on);
 	}
 
-	function initHeroState() {
-		var body = document.body;
-		if (!body.classList.contains('home') || !hero) {
-			setPastHero(true);
+	function getScrollY() {
+		if (window.brLenis && typeof window.brLenis.scroll === 'number') {
+			return window.brLenis.scroll;
+		}
+		return window.scrollY || document.documentElement.scrollTop || 0;
+	}
+
+	function readScroll() {
+		setPastHero(getScrollY() > SCROLL_THRESHOLD_PX);
+	}
+
+	function onLenisScroll(lenis) {
+		if (lenis && typeof lenis.scroll === 'number') {
+			setPastHero(lenis.scroll > SCROLL_THRESHOLD_PX);
+		} else {
+			readScroll();
+		}
+	}
+
+	function onScrollOrResize() {
+		if (ticking) {
 			return;
 		}
+		ticking = true;
+		window.requestAnimationFrame(function () {
+			ticking = false;
+			readScroll();
+		});
+	}
 
-		if (typeof IntersectionObserver === 'undefined') {
-			setPastHero(true);
+	function bindLenisWhenReady() {
+		if (window.brLenis && typeof window.brLenis.on === 'function') {
+			window.brLenis.on('scroll', onLenisScroll);
 			return;
 		}
-
-		var io = new IntersectionObserver(
-			function (entries) {
-				entries.forEach(function (entry) {
-					setPastHero(!entry.isIntersecting);
-				});
-			},
-			{
-				root: null,
-				rootMargin: '0px',
-				threshold: 0,
+		var attempts = 0;
+		var id = window.setInterval(function () {
+			attempts += 1;
+			if (window.brLenis && typeof window.brLenis.on === 'function') {
+				window.clearInterval(id);
+				window.brLenis.on('scroll', onLenisScroll);
+			} else if (attempts > 80) {
+				window.clearInterval(id);
 			}
-		);
+		}, 50);
+	}
 
-		io.observe(hero);
+	function init() {
+		readScroll();
+		window.addEventListener('scroll', onScrollOrResize, { passive: true });
+		window.addEventListener('resize', onScrollOrResize, { passive: true });
+		bindLenisWhenReady();
+		window.addEventListener('load', readScroll, false);
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initHeroState);
+		document.addEventListener('DOMContentLoaded', init);
 	} else {
-		initHeroState();
+		init();
 	}
 })();

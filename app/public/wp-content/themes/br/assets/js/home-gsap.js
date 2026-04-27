@@ -48,122 +48,33 @@
 		});
 	}
 
-	/** CodePen ZYdopE–style noise pool (symbols; no Snap.svg). */
-	var HERO_SCRAMBLE_NOISE = '-+*/|}{[]~\\":;?/.><=+-_)(*&^%$#@!)}';
-
-	/** >1 stretches hero title slide + scramble (wall-clock); lower = faster. */
-	var HERO_TITLE_TIME_SCALE = 1.85;
-
-	function heroScrambleImmediateChar(ch) {
-		return /[\s\u3000、。，．]/.test(ch);
-	}
-
-	function heroScrambleNoiseChar() {
-		return HERO_SCRAMBLE_NOISE.charAt(Math.floor(Math.random() * HERO_SCRAMBLE_NOISE.length));
-	}
-
-	/**
-	 * Split .br-home__hero-title-box text into per-grapheme spans (for...of).
-	 * @return {Array<{ el: HTMLSpanElement, final: string }>}
-	 */
-	function heroWrapTitleBoxChars(box) {
-		var raw = box.textContent;
-		box.textContent = '';
-		var out = [];
-		var it = raw[Symbol.iterator]();
-		var step;
-		while (!(step = it.next()).done) {
-			var ch = step.value;
-			var span = document.createElement('span');
-			span.className = 'br-home__hero-title-char';
-			/* Noise first so the slide-in never reveals the final copy; timeline
-			   then ticks more noise and resolves to `final` (same as scramble). */
-			span.textContent = heroScrambleImmediateChar(ch) ? ch : heroScrambleNoiseChar();
-			box.appendChild(span);
-			out.push({ el: span, final: ch });
-		}
-		return out;
-	}
-
-	/**
-	 * Schedule tl.call steps: noise ticks then lock to final (per char, staggered).
-	 */
-	function heroAddScrambleToTimeline(tl, charItems, tStart) {
-		var charStagger = 0.055 * HERO_TITLE_TIME_SCALE;
-		var tickInterval = 0.038 * HERO_TITLE_TIME_SCALE;
-		var baseCycles = 5;
-		var gi = 0;
-		for (var i = 0; i < charItems.length; i++) {
-			var item = charItems[i];
-			var fin = item.final;
-			if (heroScrambleImmediateChar(fin)) {
-				continue;
-			}
-			var cycles = baseCycles + (gi % 4);
-			var start = tStart + gi * charStagger;
-			gi++;
-			for (var k = 0; k < cycles; k++) {
-				tl.call(
-					function (el) {
-						el.textContent = heroScrambleNoiseChar();
-					},
-					[item.el],
-					start + k * tickInterval
-				);
-			}
-			tl.call(
-				function (el, text) {
-					el.textContent = text;
-				},
-				[item.el, fin],
-				start + cycles * tickInterval
-			);
-		}
-	}
-
 	gsap.context(function () {
 		var hero = root.querySelector('.br-home__hero');
 		if (hero) {
-			var bgVideo = hero.querySelector('.br-home__hero-video');
-			var bgMesh = hero.querySelector('.br-home__hero-mesh');
-			var titleLayer =
-				window.matchMedia('(min-width: 769px)').matches
-					? hero.querySelector('.br-home__hero-title-layer--desktop')
-					: hero.querySelector('.br-home__hero-title-layer--mobile');
-			if (!titleLayer) {
-				titleLayer = hero;
-			}
-			var titleLines = titleLayer.querySelectorAll('.br-home__hero-title-line');
-			var titleBoxes = titleLayer.querySelectorAll('.br-home__hero-title-box');
+			var heroVideo = hero.querySelector('.br-home__hero-video');
+			var heroVideoScale = hero.querySelector('.br-home__hero-video-scale');
+			var heroMedia = hero.querySelector('.br-home__hero-media');
+			var heroColMedia = hero.querySelector('.br-home__hero-col--media');
 			var heroTitleH1 = hero.querySelector('.br-home__hero-title');
 			var lead = hero.querySelector('.br-home__hero-lead');
 			var cta = hero.querySelector('.br-home__hero-cta');
+			var playBtn = hero.querySelector('[data-br-hero-play]');
 
-			var allTitleChars = [];
-			for (var bi = 0; bi < titleBoxes.length; bi++) {
-				var merged = heroWrapTitleBoxChars(titleBoxes[bi]);
-				for (var mj = 0; mj < merged.length; mj++) {
-					allTitleChars.push(merged[mj]);
-				}
-			}
-
-			if (titleLines.length) {
-				gsap.set(titleLines, { autoAlpha: 1, y: 0 });
-			}
-			if (titleBoxes.length) {
-				gsap.set(titleBoxes, { x: '-110%' });
+			if (heroTitleH1) {
+				gsap.set(heroTitleH1, { autoAlpha: 0, y: 36 });
 			}
 			if (lead) {
-				gsap.set(lead, { autoAlpha: 0, y: 24 });
+				gsap.set(lead, { autoAlpha: 0, y: 22 });
 			}
 			if (cta) {
-				gsap.set(cta, { autoAlpha: 0, y: 20 });
+				gsap.set(cta, { autoAlpha: 0, y: 18 });
 			}
-			if (bgVideo) {
-				gsap.set(bgVideo, { scale: 1.08, opacity: 0.88 });
+			if (heroColMedia) {
+				gsap.set(heroColMedia, { autoAlpha: 0, y: 48, scale: 0.97 });
 			}
-			if (bgMesh) {
-				gsap.set(bgMesh, { scale: 1.06, opacity: 0.35 });
+			var heroScaleTarget = heroVideoScale || heroVideo;
+			if (heroScaleTarget) {
+				gsap.set(heroScaleTarget, { scale: 1.04 });
 			}
 
 			var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
@@ -173,45 +84,64 @@
 					heroTitleH1.removeAttribute('aria-busy');
 				});
 			}
-			if (bgVideo) {
-				tl.to(bgVideo, { scale: 1, opacity: 1, duration: 1.15 }, 0);
+			if (heroColMedia) {
+				tl.to(heroColMedia, { autoAlpha: 1, y: 0, scale: 1, duration: 0.85 }, 0);
 			}
-			if (bgMesh) {
-				tl.to(bgMesh, { scale: 1, opacity: 0.5, duration: 1 }, 0.08);
+			if (heroScaleTarget) {
+				tl.to(heroScaleTarget, { scale: 1, duration: 0.95 }, 0.05);
 			}
-			if (titleBoxes.length) {
-				tl.to(
-					titleBoxes,
-					{
-						x: 0,
-						duration: 0.58 * HERO_TITLE_TIME_SCALE,
-						stagger: 0.12 * HERO_TITLE_TIME_SCALE,
-						ease: 'power3.out',
-					},
-					0.14
-				);
-			}
-			if (allTitleChars.length) {
-				heroAddScrambleToTimeline(tl, allTitleChars, 0.22 * HERO_TITLE_TIME_SCALE);
+			if (heroTitleH1) {
+				tl.to(heroTitleH1, { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out' }, 0.12);
 			}
 			if (lead) {
-				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.6 }, '-=0.28');
+				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.38');
 			}
 			if (cta) {
-				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.34');
+				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.32');
 			}
 
-			/* Kick off hero bg video playback. Autoplay is intentionally removed
-			   on the <video> tag so the video stays on its poster until the
-			   loader finishes. Swallow the promise rejection that browsers
-			   throw when playback is blocked (e.g. battery saver). */
 			function playHeroVideo() {
-				if (!bgVideo || typeof bgVideo.play !== 'function') {
+				if (!heroVideo || typeof heroVideo.play !== 'function') {
 					return;
 				}
-				var p = bgVideo.play();
+				var p = heroVideo.play();
 				if (p && typeof p.catch === 'function') {
 					p.catch(function () {});
+				}
+			}
+
+			function pauseHeroVideo() {
+				if (!heroVideo || typeof heroVideo.pause !== 'function') {
+					return;
+				}
+				heroVideo.pause();
+			}
+
+			var playLabel = playBtn ? playBtn.querySelector('.br-home__hero-playmovie-label') : null;
+			function setPlayBtnLabel(isPlaying) {
+				if (!playLabel) {
+					return;
+				}
+				playLabel.textContent = isPlaying ? 'Pause movie' : 'Play movie';
+			}
+
+			function syncPlayLabelFromVideo() {
+				if (!heroVideo) {
+					return;
+				}
+				setPlayBtnLabel(!heroVideo.paused);
+			}
+
+			function toggleHeroPlayback() {
+				if (!heroVideo) {
+					return;
+				}
+				if (heroVideo.paused) {
+					playHeroVideo();
+					setPlayBtnLabel(true);
+				} else {
+					pauseHeroVideo();
+					setPlayBtnLabel(false);
 				}
 			}
 
@@ -235,31 +165,38 @@
 					playHeroVideo();
 				}, 6000);
 			} else {
-				/* No loader to wait on (or it was disabled): start the bg video
-				   alongside the timeline that is already auto-playing. */
 				playHeroVideo();
 			}
 
-			if (bgVideo) {
-				gsap.to(bgVideo, {
-					yPercent: 10,
-					ease: 'none',
-					scrollTrigger: {
-						trigger: hero,
-						start: 'top top',
-						end: 'bottom top',
-						scrub: true,
-						invalidateOnRefresh: true,
-					},
+			syncPlayLabelFromVideo();
+			if (heroVideo) {
+				heroVideo.addEventListener('play', syncPlayLabelFromVideo);
+				heroVideo.addEventListener('pause', syncPlayLabelFromVideo);
+			}
+
+			if (heroMedia && heroVideo) {
+				heroMedia.addEventListener('click', function (e) {
+					if (e.target.closest && e.target.closest('[data-br-hero-play]')) {
+						return;
+					}
+					toggleHeroPlayback();
 				});
 			}
-			if (bgMesh) {
-				gsap.to(bgMesh, {
-					yPercent: 5,
+
+			if (playBtn && heroVideo) {
+				playBtn.addEventListener('click', function (e) {
+					e.stopPropagation();
+					toggleHeroPlayback();
+				});
+			}
+
+			if (heroMedia) {
+				gsap.to(heroMedia, {
+					yPercent: 4,
 					ease: 'none',
 					scrollTrigger: {
 						trigger: hero,
-						start: 'top top',
+						start: 'top bottom',
 						end: 'bottom top',
 						scrub: true,
 						invalidateOnRefresh: true,
