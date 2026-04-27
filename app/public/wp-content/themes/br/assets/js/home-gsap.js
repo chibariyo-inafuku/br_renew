@@ -420,25 +420,48 @@
 			window.brInitHomeScrollCardEffects(gsap, ScrollTrigger, root, scheduleRefresh);
 		}
 
-		/* CTA: omit heading (SVG + IO) so GSAP does not hide it while svg-heading-inview runs. */
+		/* CTA banner: fade title, subline, button (no svg-heading on this block). */
+		var ctaBanner = root.querySelector('.br-home__cta-banner');
+		if (ctaBanner) {
+			var ctaFade = gsap.utils.toArray(
+				ctaBanner.querySelectorAll('.br-home__cta-banner__heading, .br-home__cta-banner__actions')
+			);
+			if (ctaFade.length) {
+				gsap.set(ctaFade, { autoAlpha: 0, y: 28 });
+				gsap.to(ctaFade, {
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.58,
+					stagger: 0.12,
+					ease: 'power2.out',
+					scrollTrigger: {
+						trigger: ctaBanner,
+						start: 'top 86%',
+						toggleActions: 'play none none none',
+					},
+				});
+			}
+		}
+
+		/* Legacy two-column CTA + CF7 (e.g. Recruit inner markup if ever under .br-home). */
 		var ctaInner = root.querySelector('.br-home__cta-inner');
 		if (ctaInner) {
 			var ctaForm = ctaInner.querySelector('.br-home__cta-col--form');
 			var ctaCopy = ctaInner.querySelector('.br-home__cta-col--copy');
-			var ctaFade = [];
+			var ctaFadeLegacy = [];
 			if (ctaCopy) {
-				ctaFade = ctaFade.concat(
+				ctaFadeLegacy = ctaFadeLegacy.concat(
 					gsap.utils.toArray(
 						ctaCopy.querySelectorAll('.br-home__cta-body, .br-home__cta-urgent')
 					)
 				);
 			}
 			if (ctaForm) {
-				ctaFade.push(ctaForm);
+				ctaFadeLegacy.push(ctaForm);
 			}
-			if (ctaFade.length) {
-				gsap.set(ctaFade, { autoAlpha: 0, y: 30 });
-				gsap.to(ctaFade, {
+			if (ctaFadeLegacy.length) {
+				gsap.set(ctaFadeLegacy, { autoAlpha: 0, y: 30 });
+				gsap.to(ctaFadeLegacy, {
 					autoAlpha: 1,
 					y: 0,
 					duration: 0.58,

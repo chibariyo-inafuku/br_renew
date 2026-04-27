@@ -1129,6 +1129,60 @@ function br_get_service_card_permalink( $post_id ) {
 }
 
 /**
+ * Split service post title for card lines (e.g. "WEB / APP" → "WEB", "APP").
+ *
+ * @param int $post_id Post ID.
+ * @return array{0:string,1:string} Primary line, secondary line (may be empty).
+ */
+function br_home_service_card_headlines( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return array( '', '' );
+	}
+	$t = get_post_field( 'post_title', $post_id );
+	$t = is_string( $t ) ? trim( $t ) : '';
+	if ( $t === '' ) {
+		return array( '', '' );
+	}
+	if ( preg_match( '/^(.+?)\s*[\/／｜|]\s*(.+)$/u', $t, $m ) ) {
+		return array( trim( $m[1] ), trim( $m[2] ) );
+	}
+	return array( $t, '' );
+}
+
+/**
+ * Illustration variant for home SERVICE rail (slug hint, else order modulo 6).
+ *
+ * @param int $post_id Post ID.
+ * @param int $index   Zero-based position in the rail.
+ * @return string branding|web|uiux|creative|marketing|consulting
+ */
+function br_home_service_card_illus_variant( $post_id, $index ) {
+	$post_id = (int) $post_id;
+	$slug    = strtolower( (string) get_post_field( 'post_name', $post_id ) );
+	if ( preg_match( '/brand/', $slug ) ) {
+		return 'branding';
+	}
+	if ( preg_match( '/web|app|site/', $slug ) ) {
+		return 'web';
+	}
+	if ( preg_match( '/ui|ux/', $slug ) ) {
+		return 'uiux';
+	}
+	if ( preg_match( '/creative|クリエ/u', $slug ) ) {
+		return 'creative';
+	}
+	if ( preg_match( '/market|seo|ads?/', $slug ) ) {
+		return 'marketing';
+	}
+	if ( preg_match( '/consult|コンサル/u', $slug ) ) {
+		return 'consulting';
+	}
+	$order = array( 'branding', 'web', 'uiux', 'creative', 'marketing', 'consulting' );
+	return $order[ max( 0, (int) $index ) % 6 ];
+}
+
+/**
  * WP_Query for portfolio items on WORKS / PROJECT pages (taxonomy portfolio-list).
  *
  * @param string $term_slug               Term slug (e.g. works-s, project-s).
@@ -1615,14 +1669,14 @@ function br_page_href( $slug ) {
  * WP_Query for a fixed number of posts by category slug (front page teasers; no pagination).
  *
  * @param string $category_slug Category slug (e.g. news-s, blogs, services).
- * @param int    $limit         Max posts.
+ * @param int    $limit         Max posts, or `-1` for all matching posts (`posts_per_page` = -1).
  * @param string $order         Sort direction for the date tie-breaker: 'DESC' (newest first, default) or 'ASC' (oldest first). Primary sort is `menu_order` (SCPOrder).
  * @return WP_Query
  */
 function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $order = 'DESC' ) {
-	$category_slug = sanitize_title( (string) $category_slug );
-	$limit         = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
-	$limit         = max( 1, $limit );
+	$category_slug   = sanitize_title( (string) $category_slug );
+	$limit           = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
+	$posts_per_page  = -1 === $limit ? -1 : max( 1, $limit );
 
 	$order = strtoupper( (string) $order );
 	if ( $order !== 'ASC' && $order !== 'DESC' ) {
@@ -1632,7 +1686,7 @@ function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $
 	$cat = get_term_by( 'slug', $category_slug, 'category' );
 	$args = array(
 		'post_type'              => 'post',
-		'posts_per_page'         => $limit,
+		'posts_per_page'         => $posts_per_page,
 		'paged'                  => 1,
 		'post_status'            => 'publish',
 		'orderby'                => br_posts_orderby_menu_order_then_date( $order, 'home_teaser_' . $category_slug ),
