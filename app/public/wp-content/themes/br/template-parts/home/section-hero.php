@@ -29,11 +29,12 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 	);
 }
 ?>
+<div class="br-home__hero-art-piece br-home__hero-art-piece--blue"></div>
 <section class="br-home__section br-home__section--hero br-home__hero" aria-label="<?php esc_attr_e( 'Introduction', 'br' ); ?>">
 	<div class="br-home__hero-art" aria-hidden="true">
 		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob"></div>
-		<div class="br-home__hero-art-piece br-home__hero-art-piece--blue"></div>
-		<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>
+		
+		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>-->
 		<div class="br-home__hero-art-piece br-home__hero-art-piece--dashes"></div>
 		<p class="br-home__hero-play-letters">
 			<span>P</span><span>L</span><span>A</span><span>Y</span>
