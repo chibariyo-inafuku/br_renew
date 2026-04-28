@@ -155,7 +155,7 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<div class="br-home" data-br-subpage-reveal>
+	<div class="br-works__cta" data-br-subpage-reveal>
 		<?php get_template_part( 'template-parts/home/section', 'cta' ); ?>
 	</div>
 </main>

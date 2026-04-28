@@ -686,8 +686,8 @@
 		position: relative;
 		z-index: 1;
 		box-sizing: border-box;
-		/* 赤枠: 画面上で約40%付近（ナビ ABOUT 付近）〜右端 */
-		padding-left: clamp(36%, 40vw, 46%);
+		/* 赤枠: 横幅を確保して縦長に見せない（開始位置を少し左へ） */
+		padding-left: clamp(28%, 33vw, 40%);
 		width: calc(100vw - ((100vw - min(100vw, var(--br-max))) / 2 + var(--br-home-gutter)));
 		max-width: none;
 		margin-left: 0;
@@ -784,14 +784,14 @@
 }
 
 @media (min-width: 769px) {
-	/* 右エリアいっぱいに近い大きさの正方形ブロブ（形・モーフは維持） */
+	/* 右エリア内で「横長」の動画マスク（添付キャプチャの比率感） */
 	.br-home__hero-media {
 		flex: 0 0 auto;
-		width: 100%;
-		max-width: min(100%, 82vh, 74vmin);
+		width: min(88%, 100%);
+		max-width: min(100%, 960px);
 		min-height: 0;
 		height: auto;
-		margin-left: auto;
+		margin-left: 0;
 		margin-right: auto;
 	}
 }
@@ -816,7 +816,30 @@
 	}
 }
 
-/* .round / round_anime と同じ border-radius モーフ（ヒーロー・MOVIE 共通キーフレーム） */
+/* メディア比率の切替（aspect-ratio 側の要素に適用する） */
+@keyframes br-home-hero-media-ratio-to-square {
+	from {
+		--br-home-hero-media-ratio: 3 / 2;
+	}
+	to {
+		--br-home-hero-media-ratio: 3 / 2;
+	}
+}
+
+/* 角丸長方形 → ブロブ形への導入（delay 後に動き出すための 1 回アニメ） */
+@keyframes br-home-hero-clip-rect-to-blob {
+	from {
+		--br-home-hero-media-ratio: 3 / 2;
+		border-radius: 6% / 10%;
+	}
+	to {
+		/* custom property は補間されないため、形の変形と同タイミングで切替える */
+		--br-home-hero-media-ratio: 1 / 1;
+		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
+	}
+}
+
+/* 初期は角丸の四角（横長） → 動きでブロブ化 → 時折角丸四角へ戻す */
 @keyframes br-home-hero-clip-morph {
 	0%,
 	100% {
@@ -838,18 +861,29 @@
 	overflow: visible;
 	border-radius: 0;
 	/*background: #e8ecf0;*/
-	aspect-ratio: 3 / 2;
+	aspect-ratio: var(--br-home-hero-media-ratio, 3 / 2);
 	width: 100%;
 	transform: translateZ(0);
 }
 
 @media (min-width: 769px) {
-	/* .round と同じく width/height 100% で親いっぱい＝正方形（aspect-ratio 1/1） */
+	/* 添付キャプチャに合わせて横長（初期は角丸長方形 → モーフ） */
 	.br-home__hero-media-clip {
-		aspect-ratio: 1 / 1;
+		--br-home-hero-media-ratio: 3 / 2;
 		width: 100%;
 		height: auto;
 		min-height: 0;
+	}
+}
+
+.br-home__hero-media-clip {
+	animation: none;
+}
+
+@media (min-width: 769px) {
+	html.br-home-js .br-home__hero-media-clip {
+		animation: br-home-hero-media-ratio-to-square 4.8s cubic-bezier(0.22, 1, 0.36, 1) 5s 1 both;
+		will-change: auto;
 	}
 }
 
@@ -861,8 +895,8 @@
 }
 
 html.br-home-js .br-home__hero-media-clip-spin {
-	animation: br-home-hero-clip-spin 30s linear infinite;
-	will-change: transform;
+	animation: none;
+	will-change: auto;
 }
 
 .br-home__hero-media-clip-morph {
@@ -870,14 +904,16 @@ html.br-home-js .br-home__hero-media-clip-spin {
 	height: 100%;
 	min-height: 0;
 	overflow: hidden;
-	border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
+	border-radius: 6% / 10%;
 	filter: drop-shadow(0 1.1rem 2.2rem rgba(1, 16, 26, 0.14));
 	transform: translateZ(0);
 	background: #e8ecf0;
 }
 
 html.br-home-js .br-home__hero-media-clip-morph {
-	animation: br-home-hero-clip-morph 5s linear infinite;
+	animation:
+		br-home-hero-clip-rect-to-blob 4.8s cubic-bezier(0.22, 1, 0.36, 1) 5s 1 both,
+		br-home-hero-clip-morph 16s linear 9.8s infinite;
 	will-change: border-radius;
 }
 
@@ -906,8 +942,8 @@ html.br-home-js .br-home__hero-media-clip-morph {
 }
 
 html.br-home-js .br-home__hero-video-rotate {
-	animation: br-home-hero-clip-spin-counter 30s linear infinite;
-	will-change: transform;
+	animation: none;
+	will-change: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -917,8 +953,12 @@ html.br-home-js .br-home__hero-video-rotate {
 		animation: none !important;
 	}
 
+	html.br-home-js .br-home__hero-media-clip {
+		animation: none !important;
+	}
+
 	.br-home__hero-media-clip-morph {
-		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70% !important;
+		border-radius: 6% / 10% !important;
 	}
 }
 
@@ -1006,6 +1046,21 @@ html.br-home-js .br-home__hero-video-rotate {
 	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
 	filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.25));
 	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover-capable devices: show only on media hover (or keyboard focus). */
+@media (hover: hover) and (pointer: fine) {
+	.br-home__hero-playmovie {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+
+	.br-home__hero-media:hover .br-home__hero-playmovie,
+	.br-home__hero-media:focus-within .br-home__hero-playmovie,
+	.br-home__hero-playmovie:focus-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .br-home__hero-playmovie:hover,
@@ -3082,7 +3137,7 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 .br-main.br-home .br-home__section--news .br-home__works-band-head {
-	margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+	margin-bottom: var(--br-home-space-gap-grid);
 }
 
 .br-main.br-home .br-home__section--news .br-home__news-heading {

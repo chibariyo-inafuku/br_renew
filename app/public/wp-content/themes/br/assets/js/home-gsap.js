@@ -210,6 +210,55 @@
 				});
 			}
 
+			/* Cursor-follow play button (desktop hover only). */
+			var canHoverFollow =
+				window.matchMedia &&
+				window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+				playBtn &&
+				heroMedia &&
+				typeof gsap !== 'undefined';
+			if (canHoverFollow) {
+				var followActive = false;
+				var followXTo = gsap.quickTo(playBtn, 'x', { duration: 0.12, ease: 'power1.out' });
+				var followYTo = gsap.quickTo(playBtn, 'y', { duration: 0.12, ease: 'power1.out' });
+
+				function setFollowFromEvent(e) {
+					// Compute base (rest) center using CSS left/bottom + heroMedia rect.
+					// This avoids jumps when heroMedia is transformed by scroll/parallax.
+					var mediaRect = heroMedia.getBoundingClientRect();
+					var btnRect = playBtn.getBoundingClientRect();
+					var cs = window.getComputedStyle(playBtn);
+					var leftPx = parseFloat(cs.left) || 0;
+					var bottomPx = parseFloat(cs.bottom) || 0;
+					var baseCenterX = leftPx + btnRect.width * 0.5;
+					var baseCenterY = mediaRect.height - bottomPx - btnRect.height * 0.5;
+
+					var pointerX = e.clientX - mediaRect.left;
+					var pointerY = e.clientY - mediaRect.top;
+					var dx = pointerX - baseCenterX;
+					var dy = pointerY - baseCenterY;
+
+					// Stick to cursor (no clamp)
+					followXTo(dx);
+					followYTo(dy);
+				}
+
+				heroMedia.addEventListener('pointerenter', function () {
+					followActive = true;
+				});
+				heroMedia.addEventListener('pointermove', function (e) {
+					if (!followActive) {
+						return;
+					}
+					setFollowFromEvent(e);
+				});
+				heroMedia.addEventListener('pointerleave', function () {
+					followActive = false;
+					followXTo(0);
+					followYTo(0);
+				});
+			}
+
 			if (heroMedia) {
 				gsap.to(heroMedia, {
 					yPercent: 4,
