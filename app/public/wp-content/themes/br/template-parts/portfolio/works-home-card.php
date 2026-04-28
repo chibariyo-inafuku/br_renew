@@ -43,10 +43,14 @@ if ( $permalink === false ) {
 			<?php endif; ?>
 		</div>
 		<div class="br-home__works-card-body">
-			<span class="br-home__works-card-title"><?php echo esc_html( $title ); ?></span>
-			<?php if ( $badge !== '' ) : ?>
-				<span class="br-home__works-card-cat"><?php echo esc_html( $badge ); ?></span>
-			<?php endif; ?>
+			<div class="br-home__works-card-text-stack">
+				<div class="br-home__works-card-text-slide">
+					<span class="br-home__works-card-title"><?php echo esc_html( $title ); ?></span>
+					<?php if ( $badge !== '' ) : ?>
+						<span class="br-home__works-card-cat"><?php echo esc_html( $badge ); ?></span>
+					<?php endif; ?>
+				</div>
+			</div>
 		</div>
 	</a>
 </li>

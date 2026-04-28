@@ -13,6 +13,8 @@
 	--br-accent-hover: #005a99;
 	--br-max: 1640px;
 	--br-space: 1.17vw;
+	/* PC：.br-container 左右（4× 基準を 8×＝従来比 2 倍） */
+	--br-container-pad-pc: calc(var(--br-space) * 8);
 	/* PC sidebar: min 140px, scales with 9.722vw above that (~140px @ 1440) */
 	--br-sidebar-w: max(140px, 9.722vw);
 	/* ~100px inset from bottom of sidebar @ 1440 (liquid) */
@@ -85,8 +87,8 @@ html.br-home-loading body {
 
 @media (min-width: 901px) {
 	.br-container {
-		padding-left: calc(var(--br-space) * 2);
-		padding-right: calc(var(--br-space) * 2);
+		padding-left: var(--br-container-pad-pc);
+		padding-right: var(--br-container-pad-pc);
 	}
 }
 
@@ -102,8 +104,8 @@ body:not(.home) .br-main .br-home .br-container {
 
 @media (min-width: 901px) {
 	body:not(.home) .br-main .br-home .br-container {
-		padding-left: calc(var(--br-space) * 2);
-		padding-right: calc(var(--br-space) * 2);
+		padding-left: var(--br-container-pad-pc);
+		padding-right: var(--br-container-pad-pc);
 	}
 }
 
@@ -427,15 +429,15 @@ html.br-nav-open .br-header__menu-x {
 	padding: 0;
 }
 
-.br-header--top .br-nav__list {
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: center;
-	gap: clamp(28px, 3.2vw, 48px);
-	font-family: "Inter", var(--br-font);
-	font-size: 13px;
-	font-weight: 500;
+	.br-header--top .br-nav__list {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(28px, 3.2vw, 48px);
+		font-family: "Inter", var(--br-font);
+		font-size: 13px;
+		font-weight: 700;
 	line-height: 1;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
@@ -922,7 +924,7 @@ body.admin-bar .br-header--top {
 		align-items: flex-start;
 		gap: 0;
 		font-size: 18px;
-		font-weight: 500;
+		font-weight: 700;
 	}
 
 	.br-header--top .br-nav__list li {

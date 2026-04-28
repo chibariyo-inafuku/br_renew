@@ -372,6 +372,13 @@
 	--br-home-cta-hpad: clamp(0rem, 1.67vw, 1.5rem);
 }
 
+@media (min-width: 901px) {
+	.br-home,
+	.br-subpage-cta-form-band {
+		--br-home-gutter: calc(var(--br-space) * 2);
+	}
+}
+
 .br-main.br-home {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -1561,10 +1568,10 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 .br-home__service-title-capture__jp {
 	font-family: "Noto Sans JP", system-ui, sans-serif;
 	font-size: 16px;
-	font-weight: 400;
+	font-weight: 700;
 	line-height: 1.45;
 	letter-spacing: 0.06em;
-	color: #43526a;
+	color: var(--br-ink);
 }
 
 @media (max-width: 768px) {
@@ -2051,12 +2058,55 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 }
 
 .br-home__works-card-body {
+	padding-top: 12px;
+	width: 100%;
+}
+
+/* Whole title + meta block: exits upward, then re-enters from below (hover-capable pointers only). */
+.br-home__works-card-text-stack {
+	overflow: hidden;
+	width: 100%;
+}
+
+.br-home__works-card-text-slide {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 2px;
-	padding-top: 12px;
 	width: 100%;
+	will-change: transform;
+}
+
+@keyframes br-home-works-card-text-cycle {
+	0% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	42% {
+		transform: translateY(-36%);
+		opacity: 0;
+	}
+	43% {
+		transform: translateY(36%);
+		opacity: 0;
+	}
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.br-home__works-card:hover .br-home__works-card-text-slide,
+	.br-home__works-card:focus-visible .br-home__works-card-text-slide {
+		animation: br-home-works-card-text-cycle 0.55s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+	}
+
+	.br-home__works-card:not(:hover):not(:focus-visible) .br-home__works-card-text-slide {
+		animation: none;
+		transform: none;
+		opacity: 1;
+	}
 }
 
 .br-home__works-card-title {
@@ -2105,8 +2155,11 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__works-card-media,
 	.br-home__works-card-media::after,
 	.br-home__works-card-image img,
+	.br-home__works-card-title,
+	.br-home__works-card-text-slide,
 	.br-home__works-viewall__icon {
 		transition: none !important;
+		animation: none !important;
 	}
 
 	.br-home__works-card:hover .br-home__works-card-media,
@@ -2118,6 +2171,11 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__works-card:hover .br-home__works-card-image img,
 	.br-home__works-card:focus-visible .br-home__works-card-image img {
 		transform: none;
+	}
+
+	.br-home__works-card .br-home__works-card-text-slide {
+		transform: none !important;
+		opacity: 1 !important;
 	}
 
 	.br-home__works-viewall:hover .br-home__works-viewall__icon,
@@ -2533,7 +2591,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	height: 100%;
 	min-height: 0;
 	overflow: visible;
-	background: #e8ecf0;
+	/*background: #e8ecf0;*/
 }
 
 .br-home__section--service-light .br-home__service-card-photo-spin {
