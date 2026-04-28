@@ -909,19 +909,20 @@ function br_get_service_page_list_url( $paged = 1, $service_cat_slug = '' ) {
 /**
  * WP_Query for the Service fixed page: posts in category `services`, optional filter by descendant category slug.
  *
- * @param int    $per_page             Posts per page.
+ * @param int    $per_page             Posts per page; pass `-1` for all matching posts (e.g. footer nav).
  * @param string $service_cat_param Optional. Sanitized category slug; must be `services` or a descendant of `services`.
  * @return WP_Query
  */
 function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '' ) {
-	$per_page = max( 1, (int) $per_page );
+	$requested = (int) $per_page;
+	$per_page  = ( -1 === $requested ) ? -1 : max( 1, $requested );
 
 	$empty = static function () use ( $per_page ) {
 		return new WP_Query(
 			array(
 				'post_type'           => 'post',
 				'post__in'            => array( 0 ),
-				'posts_per_page'      => $per_page,
+				'posts_per_page'      => -1 === $per_page ? 1 : $per_page,
 				'post_status'         => 'publish',
 				'no_found_rows'       => true,
 				'ignore_sticky_posts' => true,
@@ -946,7 +947,15 @@ function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '
 	$slug = sanitize_title( (string) $service_cat_param );
 
 	if ( $slug === '' || $slug === 'services' ) {
-		$base['cat'] = (int) $services->term_id;
+		$base['tax_query'] = array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => array( (int) $services->term_id ),
+				'include_children' => true,
+				'operator'         => 'IN',
+			),
+		);
 		return new WP_Query( $base );
 	}
 
@@ -955,7 +964,15 @@ function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '
 		return $empty();
 	}
 	if ( (int) $sub->term_id === (int) $services->term_id ) {
-		$base['cat'] = (int) $services->term_id;
+		$base['tax_query'] = array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => array( (int) $services->term_id ),
+				'include_children' => true,
+				'operator'         => 'IN',
+			),
+		);
 		return new WP_Query( $base );
 	}
 	if ( ! term_is_ancestor_of( (int) $services->term_id, (int) $sub->term_id, 'category' ) ) {

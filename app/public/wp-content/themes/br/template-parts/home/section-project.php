@@ -1,6 +1,6 @@
 <?php
 /**
- * Home: Project portfolio grid — same behavior as Works; landscape aspect only.
+ * Home: Project portfolio grid — capture heading + VIEW ALL + cards (thumb, title + category below; Blog と同型).
  *
  * @package br
  */
@@ -12,28 +12,29 @@ if ( ! $q->have_posts() ) {
 	return;
 }
 ?>
-<section class="br-home__section br-home__section--project br-home__section--project-band br-home__project br-home__section--band-reveal br-home__band-reveal--right">
+<section class="br-home__section br-home__section--project br-home__section--project-band br-home__section--project-light br-home__project">
 	<div class="br-container">
-		<div class="br-home__band-reveal-inner">
-		<header class="br-home__project-heading br-home__section-head">
-			<h2 class="br-home__project-title">
-				<span class="screen-reader-text">Project / プロジェクト紹介</span>
-				<div class="br-svg-heading" data-br-svg-heading>
-					<svg
-						class="br-svg-heading__svg"
-						aria-hidden="true"
-						viewBox="0 0 720 102"
-						preserveAspectRatio="xMinYMin meet"
-						focusable="false"
-					>
-						<text class="br-svg-heading__text" x="0" y="86" font-weight="700">Project</text>
-					</svg>
-					<div class="br-svg-heading__sub-wrap">
-						<span class="br-home__project-title-jp br-svg-heading__sub">/ プロジェクト紹介</span>
-					</div>
-				</div>
-			</h2>
-		</header>
+		<div class="br-home__project-band-head">
+			<header class="br-home__project-heading br-home__section-head">
+				<h2 class="br-home__project-title br-home__project-title--capture-row">
+					<span class="screen-reader-text">Project / プロジェクト紹介</span>
+					<span class="br-home__project-title-capture" aria-hidden="true">
+						<span class="br-home__project-title-capture__en">Project</span>
+						<span class="br-home__project-title-capture__jp">プロジェクト紹介</span>
+					</span>
+				</h2>
+			</header>
+			<?php if ( $more !== '' ) : ?>
+				<a class="br-home__project-viewall" href="<?php echo esc_url( $more ); ?>">
+					<span class="br-home__project-viewall__label">VIEW ALL</span>
+					<span class="br-home__project-viewall__icon" aria-hidden="true">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+							<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</span>
+				</a>
+			<?php endif; ?>
+		</div>
 		<ul class="br-home__project-grid">
 			<?php
 			while ( $q->have_posts() ) :
@@ -60,29 +61,16 @@ if ( ! $q->have_posts() ) {
 							endif;
 							?>
 						</div>
-						<div class="br-home__project-card-overlay">
-							<?php if ( $badge !== '' ) : ?>
-								<span class="br-home__project-card-badge"><?php echo esc_html( $badge ); ?></span>
-							<?php endif; ?>
+						<div class="br-home__project-card-body">
 							<span class="br-home__project-card-title"><?php the_title(); ?></span>
+							<?php if ( $badge !== '' ) : ?>
+								<span class="br-home__project-card-meta"><?php echo esc_html( $badge ); ?></span>
+							<?php endif; ?>
 						</div>
 					</a>
 				</li>
 			<?php endwhile; ?>
 		</ul>
-		<?php if ( $more !== '' ) : ?>
-			<div class="br-home__project-footer">
-				<a
-					class="br-hop-btn"
-					href="<?php echo esc_url( $more ); ?>"
-					data-text="<?php echo esc_attr( __( 'View All Project', 'br' ) ); ?>"
-					aria-label="<?php echo esc_attr( __( 'View All Project', 'br' ) ); ?>"
-				>
-					<span class="br-hop-btn__dot-mover" aria-hidden="true"><span class="br-hop-btn__dot"></span></span>
-				</a>
-			</div>
-		<?php endif; ?>
-		</div>
 	</div>
 </section>
 <?php

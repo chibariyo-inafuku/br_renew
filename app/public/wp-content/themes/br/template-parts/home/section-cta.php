@@ -29,48 +29,52 @@ if ( $contact_url === '' ) {
 				</svg>
 			</div>
 			<div class="br-home__cta-banner__content">
-				<h2 class="br-home__cta-banner__heading" id="br-home-cta-banner-heading">
-					<span class="br-home__cta-banner__title-line">
-						<span class="br-home__cta-banner__title">LET’S PLAY &amp; CREATE TOGETHER<span class="br-home__cta-banner__title-dot" aria-hidden="true"></span></span>
-						<span class="br-home__cta-banner__accents" aria-hidden="true">
-							<span class="br-home__cta-banner__tri"></span>
-							<svg class="br-home__cta-banner__squiggle" viewBox="0 0 341 174" preserveAspectRatio="xMidYMid meet" focusable="false">
-								<path
-									class="br-home__cta-banner__squiggle-path"
-									d="
-										M 55,27
-										C 40,49 24,88 24,116
-										C 24,131 31,138 44,135
-										C 61,131 78,116 96,101
-										C 106,93 116,95 120,104
-										C 126,117 119,145 127,153
-										C 135,161 146,148 156,131
-										C 169,109 181,87 194,82
-										C 203,78 207,86 207,100
-										C 207,111 207,119 212,119
-										C 218,119 230,101 242,84
-										C 258,61 270,38 280,39
-										C 287,40 285,60 284,74
-										C 283,83 286,85 292,76
-										C 300,63 308,46 319,45
-										C 327,44 332,49 336,55
-									"
-									fill="none"
-									stroke="currentColor"
-									stroke-width="3.2"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									vector-effect="non-scaling-stroke"
-								/>
-							</svg>
+				<span class="br-home__cta-banner__title-dot" aria-hidden="true"></span>
+				<div class="br-home__cta-banner__heading-wrap">
+					<h2 class="br-home__cta-banner__heading" id="br-home-cta-banner-heading">
+						<span class="br-home__cta-banner__title-line">
+							<span class="br-home__cta-banner__title">LET’S PLAY &amp; CREATE TOGETHER</span>
 						</span>
-					</span>
-					<span class="br-home__cta-banner__sub">一緒に、ワクワクする未来をつくりましょう。</span>
-				</h2>
+						<span class="br-home__cta-banner__sub">一緒に、ワクワクする未来をつくりましょう。</span>
+					</h2>
+				</div>
+				<span class="br-home__cta-banner__accents" aria-hidden="true">
+					<span class="br-home__cta-banner__tri"></span>
+					<svg class="br-home__cta-banner__squiggle" viewBox="0 0 341 174" preserveAspectRatio="xMidYMid meet" focusable="false">
+						<path
+							class="br-home__cta-banner__squiggle-path"
+							pathLength="1"
+							d="
+								M 55,27
+								C 40,49 24,88 24,116
+								C 24,131 31,138 44,135
+								C 61,131 78,116 96,101
+								C 106,93 116,95 120,104
+								C 126,117 119,145 127,153
+								C 135,161 146,148 156,131
+								C 169,109 181,87 194,82
+								C 203,78 207,86 207,100
+								C 207,111 207,119 212,119
+								C 218,119 230,101 242,84
+								C 258,61 270,38 280,39
+								C 287,40 285,60 284,74
+								C 283,83 286,85 292,76
+								C 300,63 308,46 319,45
+								C 327,44 332,49 336,55
+							"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="3.2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							vector-effect="non-scaling-stroke"
+						/>
+					</svg>
+				</span>
 				<p class="br-home__cta-banner__actions">
 					<a class="br-home__cta-banner__btn" href="<?php echo esc_url( $contact_url ); ?>">
 						<span class="br-home__cta-banner__btn-label">CONTACT US</span>
-						<span class="br-home__cta-banner__btn-arrow" aria-hidden="true">→</span>
+						<span class="br-home__cta-banner__btn-arrow" aria-hidden="true"><span class="br-home__cta-banner__btn-arrow-inner">→</span></span>
 					</a>
 				</p>
 			</div>

@@ -75,6 +75,9 @@
 				if (el.classList.contains('br-home__blog-item') && el.closest('.br-home__section--blog-light')) {
 					return false;
 				}
+				if (el.classList.contains('br-home__project-item') && el.closest('.br-home__section--project-light')) {
+					return false;
+				}
 				return true;
 			});
 		if (workItems.length) {
@@ -188,6 +191,16 @@
 				ScrollTrigger,
 				blogLightSection.querySelector('.br-home__blog-grid'),
 				'.br-home__blog-item'
+			);
+		}
+
+		var projectLightSection = root.querySelector('.br-home__section--project-light');
+		if (projectLightSection) {
+			bindLightMosaicGridScrollReveal(
+				gsap,
+				ScrollTrigger,
+				projectLightSection.querySelector('.br-home__project-grid'),
+				'.br-home__project-item'
 			);
 		}
 

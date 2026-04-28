@@ -32,7 +32,7 @@ if ( ! $q->have_posts() ) {
 				<a class="br-home__works-viewall" href="<?php echo esc_url( $more ); ?>">
 					<span class="br-home__works-viewall__label">VIEW ALL</span>
 					<span class="br-home__works-viewall__icon" aria-hidden="true">
-						<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
 							<path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 					</span>

@@ -129,18 +129,13 @@
 }
 
 /*
- * Project 固定ページのみ: home の青帯背景を使わずライト面に。TOP の .br-home__section--project-band はそのまま。
+ * Project 固定ページ: 一覧はライト面（TOP の project-light と同型カードを home.css で共有）。
  */
 .br-main.br-project .br-home__section--project-band.br-project__list-band {
 	background: transparent;
 	color: var(--br-ink);
 	padding-top: clamp(2rem, 4.44vw, 3.5rem);
 	padding-bottom: clamp(2rem, 4.44vw, 3.5rem);
-}
-
-/* 一覧のバッジ／タイトルオーバーレイ: いったん非表示（再表示する場合は flex に戻す） */
-.br-main.br-project .br-home__project-card-overlay {
-	display: none;
 }
 
 /* Category tabs — light row */
