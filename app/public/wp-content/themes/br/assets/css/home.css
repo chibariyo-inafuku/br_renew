@@ -662,6 +662,47 @@
 	min-width: 0;
 }
 
+/* Desktop: 動画は見出し右〜画面右のブロック（テキストは手前に重ねる） */
+@media (min-width: 769px) {
+	.br-home__hero-layout {
+		position: relative;
+		align-items: stretch;
+		/* ナビ下〜ヒーロー下端までの余白に近い高さ */
+		min-height: clamp(22rem, 56vh, 42rem);
+	}
+
+	.br-home__hero-col--text {
+		grid-column: 1;
+		grid-row: 1;
+		position: relative;
+		z-index: 2;
+		align-self: center;
+	}
+
+	.br-home__hero-col--media {
+		grid-column: 1 / -1;
+		grid-row: 1;
+		align-self: stretch;
+		position: relative;
+		z-index: 1;
+		box-sizing: border-box;
+		/* 赤枠: 画面上で約40%付近（ナビ ABOUT 付近）〜右端 */
+		padding-left: clamp(36%, 40vw, 46%);
+		width: calc(100vw - ((100vw - min(100vw, var(--br-max))) / 2 + var(--br-home-gutter)));
+		max-width: none;
+		margin-left: 0;
+		margin-right: 0;
+		align-items: center;
+		justify-content: center;
+		pointer-events: none;
+	}
+
+	.br-home__hero-col--media .br-home__hero-media,
+	.br-home__hero-col--media .br-home__hero-inset {
+		pointer-events: auto;
+	}
+}
+
 .br-home__hero-col--text {
 	display: flex;
 	flex-direction: column;
@@ -676,7 +717,8 @@
 	.br-home__hero-layout {
 		grid-template-columns: minmax(0, 620px) minmax(0, 1fr);
 		gap: clamp(2rem, 3.2vw, 3.75rem);
-		align-items: center;
+		/* 769px+ でフルブリード動画と整合（行の高さ＝動画の縦幅） */
+		align-items: stretch;
 	}
 
 	.br-home__hero-col--text {
@@ -741,8 +783,20 @@
 	cursor: pointer;
 }
 
-/* Hero video mask: 初期は四隅同じ角丸（7.8% / 11.7% ≒ 旧 SVG rx/ry on 3:2）。
-   html.br-home-js のときだけ border-radius モーフ + 30s 回転。
+@media (min-width: 769px) {
+	/* 右エリアいっぱいに近い大きさの正方形ブロブ（形・モーフは維持） */
+	.br-home__hero-media {
+		flex: 0 0 auto;
+		width: 100%;
+		max-width: min(100%, 82vh, 74vmin);
+		min-height: 0;
+		height: auto;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+/* Hero video mask: .rotate 相当＝30s 回転、.round 相当＝5s linear の border-radius モーフ（round_anime と同じ値）。
    映像は .br-home__hero-video-overscan で拡大し、逆回転は .br-home__hero-video-rotate に分離（欠け＝グレー露出を防ぐ）。 */
 @keyframes br-home-hero-clip-spin {
 	from {
@@ -762,19 +816,20 @@
 	}
 }
 
+/* .round / round_anime と同じ border-radius モーフ（ヒーロー・MOVIE 共通キーフレーム） */
 @keyframes br-home-hero-clip-morph {
 	0%,
 	100% {
-		border-radius: 7.8% / 11.7%;
-	}
-	25% {
 		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
 	}
-	50% {
+	25% {
 		border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
 	}
-	75% {
+	50% {
 		border-radius: 70% 30% 30% 70% / 50% 70% 30% 50%;
+	}
+	75% {
+		border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
 	}
 }
 
@@ -786,6 +841,16 @@
 	aspect-ratio: 3 / 2;
 	width: 100%;
 	transform: translateZ(0);
+}
+
+@media (min-width: 769px) {
+	/* .round と同じく width/height 100% で親いっぱい＝正方形（aspect-ratio 1/1） */
+	.br-home__hero-media-clip {
+		aspect-ratio: 1 / 1;
+		width: 100%;
+		height: auto;
+		min-height: 0;
+	}
 }
 
 .br-home__hero-media-clip-spin {
@@ -805,7 +870,7 @@ html.br-home-js .br-home__hero-media-clip-spin {
 	height: 100%;
 	min-height: 0;
 	overflow: hidden;
-	border-radius: 7.8% / 11.7%;
+	border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
 	filter: drop-shadow(0 1.1rem 2.2rem rgba(1, 16, 26, 0.14));
 	transform: translateZ(0);
 	background: #e8ecf0;
@@ -853,7 +918,7 @@ html.br-home-js .br-home__hero-video-rotate {
 	}
 
 	.br-home__hero-media-clip-morph {
-		border-radius: 7.8% / 11.7% !important;
+		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70% !important;
 	}
 }
 
