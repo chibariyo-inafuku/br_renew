@@ -99,7 +99,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 					</div>
 					<button
 						type="button"
-						class="br-home__hero-playmovie"
+						class="br-home__hero-playmovie is-playing"
 						data-br-hero-play
 						aria-controls="br-home-hero-video"
 					>
@@ -107,7 +107,11 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 						<span class="br-home__hero-playmovie-icon" aria-hidden="true">
 							<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
 								<circle cx="22" cy="22" r="21" stroke="currentColor" stroke-width="1.5"/>
-								<path d="M18 15L30 22L18 29V15Z" fill="currentColor"/>
+								<path class="br-home__hero-playmovie-icon-play" d="M18 15L30 22L18 29V15Z" fill="currentColor"/>
+								<g class="br-home__hero-playmovie-icon-pause" fill="currentColor">
+									<rect x="17" y="15" width="4" height="14" rx="1"/>
+									<rect x="23" y="15" width="4" height="14" rx="1"/>
+								</g>
 							</svg>
 						</span>
 					</button>

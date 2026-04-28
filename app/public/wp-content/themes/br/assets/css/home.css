@@ -856,6 +856,62 @@
 	}
 }
 
+/* 四角（角丸長方形） ↔ ブロブ を「停止時間長め」で往復させる */
+@keyframes br-home-hero-clip-rect-blob-toggle {
+	/* Shapes */
+	/* Rect (rounded rectangle) */
+	/*   6% / 10% */
+	/* Blob A (default hero blob) */
+	/*   30% 70% 60% 40% / 30% 40% 60% 70% */
+	/* Blob B */
+	/*   55% 45% 35% 65% / 60% 30% 70% 40% */
+	/* Blob C */
+	/*   75% 25% 55% 45% / 40% 70% 30% 60% */
+
+	/* Start from Blob A (matches end of intro). Hold briefly. */
+	0%,
+	12%,
+	100% {
+		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
+	}
+
+	/* A -> rect */
+	24% {
+		border-radius: 6% / 10%;
+	}
+
+	/* rect hold */
+	24%,
+	38% {
+		border-radius: 6% / 10%;
+	}
+
+	/* rect -> A */
+	46% {
+		border-radius: 30% 70% 60% 40% / 30% 40% 60% 70%;
+	}
+
+	/* A -> B -> C (different blobs), with short holds */
+	58% {
+		border-radius: 55% 45% 35% 65% / 60% 30% 70% 40%;
+	}
+	66% {
+		border-radius: 75% 25% 55% 45% / 40% 70% 30% 60%;
+	}
+	74% {
+		border-radius: 55% 45% 35% 65% / 60% 30% 70% 40%;
+	}
+
+	/* back to rect before looping back to A (prevents abrupt jump) */
+	86% {
+		border-radius: 6% / 10%;
+	}
+	86%,
+	96% {
+		border-radius: 6% / 10%;
+	}
+}
+
 .br-home__hero-media-clip {
 	position: relative;
 	overflow: visible;
@@ -905,15 +961,16 @@ html.br-home-js .br-home__hero-media-clip-spin {
 	min-height: 0;
 	overflow: hidden;
 	border-radius: 6% / 10%;
-	filter: drop-shadow(0 1.1rem 2.2rem rgba(1, 16, 26, 0.14));
+	box-shadow: 0 1.1rem 2.2rem rgba(1, 16, 26, 0.14);
 	transform: translateZ(0);
 	background: #e8ecf0;
 }
 
 html.br-home-js .br-home__hero-media-clip-morph {
+	/* Performance: keep movement intermittent (holds) rather than constant morphing. */
 	animation:
 		br-home-hero-clip-rect-to-blob 4.8s cubic-bezier(0.22, 1, 0.36, 1) 5s 1 both,
-		br-home-hero-clip-morph 16s linear 9.8s infinite;
+		br-home-hero-clip-rect-blob-toggle 26s cubic-bezier(0.22, 1, 0.36, 1) 12s infinite;
 	will-change: border-radius;
 }
 
@@ -1088,6 +1145,20 @@ html.br-home-js .br-home__hero-video-rotate {
 	color: #fff;
 }
 
+/* Icon swap: playing => pause icon, paused => play icon. */
+.br-home__hero-playmovie-icon-play {
+	display: block;
+}
+.br-home__hero-playmovie-icon-pause {
+	display: none;
+}
+.br-home__hero-playmovie.is-playing .br-home__hero-playmovie-icon-play {
+	display: none;
+}
+.br-home__hero-playmovie.is-playing .br-home__hero-playmovie-icon-pause {
+	display: block;
+}
+
 .br-home__hero-inset {
 	position: absolute;
 	right: clamp(-1rem, -2vw, -0.25rem);
@@ -1200,8 +1271,9 @@ html.br-home-js .br-home__hero-video-rotate {
 	position: absolute;
 	left: 0;
 	right: 0;
-	top: -12%;
-	height: 124%;
+	/* Overscan for stronger GSAP yPercent parallax (prevents edge clipping). */
+	top: -40%;
+	height: 180%;
 	will-change: transform;
 }
 
@@ -2942,6 +3014,7 @@ html.br-home-js .br-home__section--service-light .br-home__service-card-photo-ro
 	position: relative;
 	background-color: #fff;
 	color: var(--br-home-ink, var(--br-ink, #01101a));
+	min-height: 100vh;
 }
 
 .br-home__parallax-scene {
@@ -3971,6 +4044,30 @@ html.br-home-js .br-home__palarax-tagline {
 }
 
 @media (max-width: 768px) {
+	.br-home__cta-banner {
+		/* Narrower card padding for 375px */
+		padding: clamp(1.5rem, 5.5vw, 2.25rem) clamp(1rem, 4.2vw, 1.5rem);
+		border-radius: clamp(1rem, 4.2vw, 1.375rem);
+	}
+
+	.br-home__cta-banner__blob {
+		/* Keep mood but reduce collisions with copy */
+		left: clamp(-6rem, -28vw, -2.5rem);
+		top: 62%;
+		width: clamp(9rem, 46vw, 14rem);
+		height: min(64%, 18rem);
+		opacity: 0.95;
+	}
+
+	.br-home__cta-banner__wave {
+		left: clamp(-0.75rem, 2.5vw, 0.75rem);
+		top: 60%;
+		width: clamp(8rem, 46vw, 14rem);
+		height: clamp(4.25rem, 24vw, 7rem);
+		margin-top: clamp(-2.25rem, -8vw, -1.25rem);
+		opacity: 0.9;
+	}
+
 	.br-home__cta-banner__content {
 		font-size: 24px;
 	}
@@ -3987,6 +4084,16 @@ html.br-home-js .br-home__palarax-tagline {
 
 	.br-home__cta-banner__sub {
 		font-size: 16px;
+		text-wrap: balance;
+	}
+
+	.br-home__cta-banner__actions {
+		margin-top: clamp(1rem, 4vw, 1.5rem);
+	}
+
+	.br-home__cta-banner__btn {
+		width: min(22rem, 100%);
+		height: 56px;
 	}
 
 	.br-home__cta-banner__tri {
@@ -4425,7 +4532,19 @@ html.br-home-js .br-home__palarax-tagline {
 
 	.br-home__hero-layout {
 		grid-template-columns: 1fr;
+		grid-template-areas:
+			"media"
+			"text";
 		gap: clamp(1.35rem, 4vw, 2rem);
+	}
+
+	/* SP Hero order: video first, then text (CTA inside text). */
+	.br-home__hero-col--media {
+		grid-area: media;
+	}
+
+	.br-home__hero-col--text {
+		grid-area: text;
 	}
 
 	.br-home__hero-news {

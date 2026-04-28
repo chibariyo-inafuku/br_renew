@@ -65,6 +65,12 @@
 				pm.catch(function () {});
 			}
 		}
+		function pauseHomeMovieVideo() {
+			if (!homeMovieVideo || typeof homeMovieVideo.pause !== 'function') {
+				return;
+			}
+			homeMovieVideo.pause();
+		}
 
 		var hero = root.querySelector('.br-home__hero');
 		if (hero) {
@@ -142,11 +148,18 @@
 				playLabel.textContent = isPlaying ? 'Pause movie' : 'Play movie';
 			}
 
+			function setPlayBtnState(isPlaying) {
+				if (playBtn && playBtn.classList) {
+					playBtn.classList.toggle('is-playing', !!isPlaying);
+				}
+				setPlayBtnLabel(isPlaying);
+			}
+
 			function syncPlayLabelFromVideo() {
 				if (!heroVideo) {
 					return;
 				}
-				setPlayBtnLabel(!heroVideo.paused);
+				setPlayBtnState(!heroVideo.paused);
 			}
 
 			function toggleHeroPlayback() {
@@ -155,10 +168,10 @@
 				}
 				if (heroVideo.paused) {
 					playHeroVideo();
-					setPlayBtnLabel(true);
+					setPlayBtnState(true);
 				} else {
 					pauseHeroVideo();
-					setPlayBtnLabel(false);
+					setPlayBtnState(false);
 				}
 			}
 
@@ -222,7 +235,14 @@
 				var followXTo = gsap.quickTo(playBtn, 'x', { duration: 0.12, ease: 'power1.out' });
 				var followYTo = gsap.quickTo(playBtn, 'y', { duration: 0.12, ease: 'power1.out' });
 
-				function setFollowFromEvent(e) {
+				var followBase = null;
+				var pendingFollowEvent = null;
+				var followRaf = 0;
+
+				function computeFollowBase() {
+					if (!heroMedia || !playBtn) {
+						return null;
+					}
 					// Compute base (rest) center using CSS left/bottom + heroMedia rect.
 					// This avoids jumps when heroMedia is transformed by scroll/parallax.
 					var mediaRect = heroMedia.getBoundingClientRect();
@@ -230,30 +250,63 @@
 					var cs = window.getComputedStyle(playBtn);
 					var leftPx = parseFloat(cs.left) || 0;
 					var bottomPx = parseFloat(cs.bottom) || 0;
-					var baseCenterX = leftPx + btnRect.width * 0.5;
-					var baseCenterY = mediaRect.height - bottomPx - btnRect.height * 0.5;
+					return {
+						left: mediaRect.left,
+						top: mediaRect.top,
+						width: mediaRect.width,
+						height: mediaRect.height,
+						baseCenterX: leftPx + btnRect.width * 0.5,
+						baseCenterY: mediaRect.height - bottomPx - btnRect.height * 0.5,
+					};
+				}
 
-					var pointerX = e.clientX - mediaRect.left;
-					var pointerY = e.clientY - mediaRect.top;
-					var dx = pointerX - baseCenterX;
-					var dy = pointerY - baseCenterY;
+				function flushFollow() {
+					followRaf = 0;
+					if (!followActive || !pendingFollowEvent) {
+						return;
+					}
+					if (!followBase) {
+						followBase = computeFollowBase();
+					}
+					if (!followBase) {
+						return;
+					}
+					// Refresh rect each frame (cheaper than per-pointer event).
+					var mediaRect = heroMedia.getBoundingClientRect();
+					followBase.left = mediaRect.left;
+					followBase.top = mediaRect.top;
+					followBase.width = mediaRect.width;
+					followBase.height = mediaRect.height;
 
-					// Stick to cursor (no clamp)
+					var e = pendingFollowEvent;
+					pendingFollowEvent = null;
+
+					var pointerX = e.clientX - followBase.left;
+					var pointerY = e.clientY - followBase.top;
+					var dx = pointerX - followBase.baseCenterX;
+					var dy = pointerY - followBase.baseCenterY;
+
 					followXTo(dx);
 					followYTo(dy);
 				}
 
 				heroMedia.addEventListener('pointerenter', function () {
 					followActive = true;
+					followBase = computeFollowBase();
 				});
 				heroMedia.addEventListener('pointermove', function (e) {
 					if (!followActive) {
 						return;
 					}
-					setFollowFromEvent(e);
+					pendingFollowEvent = e;
+					if (!followRaf) {
+						followRaf = requestAnimationFrame(flushFollow);
+					}
 				});
 				heroMedia.addEventListener('pointerleave', function () {
 					followActive = false;
+					pendingFollowEvent = null;
+					followBase = null;
 					followXTo(0);
 					followYTo(0);
 				});
@@ -276,42 +329,145 @@
 			playHomeMovieVideo();
 		}
 
+		/* Video performance: avoid decoding two videos offscreen.
+		   Play only when the section is meaningfully in view. */
+		(function () {
+			if (!(window.IntersectionObserver && typeof window.IntersectionObserver === 'function')) {
+				return;
+			}
+
+			function canAutoPlayNow() {
+				// Avoid spinning decoders when tab isn't visible.
+				if (typeof document !== 'undefined' && document.visibilityState) {
+					return document.visibilityState === 'visible';
+				}
+				return true;
+			}
+
+			function observeVideo(el, onPlay, onPause) {
+				if (!el) {
+					return null;
+				}
+				var io = new IntersectionObserver(
+					function (entries) {
+						var entry = entries && entries[0];
+						if (!entry) {
+							return;
+						}
+						var shouldPlay = entry.isIntersecting && entry.intersectionRatio >= 0.25 && canAutoPlayNow();
+						if (shouldPlay) {
+							onPlay();
+						} else {
+							onPause();
+						}
+					},
+					{ threshold: [0, 0.25, 0.5] }
+				);
+				io.observe(el);
+				return io;
+			}
+
+			var heroSection = root.querySelector('.br-home__hero');
+			var movieSection = root.querySelector('.br-home__movie');
+			var heroIo = observeVideo(heroSection, function () {
+				if (typeof playHeroVideo === 'function') {
+					playHeroVideo();
+				}
+			}, function () {
+				if (typeof pauseHeroVideo === 'function') {
+					pauseHeroVideo();
+				}
+			});
+			var movieIo = observeVideo(movieSection, playHomeMovieVideo, pauseHomeMovieVideo);
+
+			function onVisibilityChange() {
+				if (!canAutoPlayNow()) {
+					if (typeof pauseHeroVideo === 'function') {
+						pauseHeroVideo();
+					}
+					pauseHomeMovieVideo();
+					return;
+				}
+				// Let IO callbacks decide; force a refresh by toggling play based on current state.
+				// If IO hasn't fired yet, this is harmless.
+				if (heroSection && heroSection.getBoundingClientRect) {
+					// no-op: IO will handle; keep lightweight
+				}
+			}
+			document.addEventListener('visibilitychange', onVisibilityChange, false);
+
+			// Cleanup when gsap context reverts (defensive)
+			ScrollTrigger.addEventListener('killAll', function () {
+				if (heroIo && heroIo.disconnect) {
+					heroIo.disconnect();
+				}
+				if (movieIo && movieIo.disconnect) {
+					movieIo.disconnect();
+				}
+				document.removeEventListener('visibilitychange', onVisibilityChange, false);
+			});
+		})();
+
 		var movie = root.querySelector('.br-home__movie');
 		if (movie) {
 			var movieMedia = movie.querySelector('.br-home__movie-media');
 			var movieTitle = movie.querySelector('.br-home__movie-title');
 			if (movieMedia) {
-				gsap.fromTo(
-					movieMedia,
-					{ yPercent: 10 },
+				// Make the parallax more obvious: stronger on desktop, slightly reduced on mobile.
+				var movieMm = gsap.matchMedia();
+				movieMm.add(
 					{
-						yPercent: -10,
-						ease: 'none',
-						scrollTrigger: {
-							trigger: movie,
-							start: 'top bottom',
-							end: 'bottom top',
-							scrub: true,
-							invalidateOnRefresh: true,
-						},
+						isMobile: '(max-width: 768px)',
+						isDesktop: '(min-width: 769px)',
+					},
+					function (ctx) {
+						// Balance: big enough to feel parallax, small enough to avoid exposing edges.
+						var amp = ctx.conditions.isMobile ? 14 : 22;
+						gsap.fromTo(
+							movieMedia,
+							{ yPercent: amp },
+							{
+								yPercent: -amp,
+								ease: 'none',
+								scrollTrigger: {
+									trigger: movie,
+									start: 'top bottom',
+									end: 'bottom top',
+									scrub: true,
+									invalidateOnRefresh: true,
+								},
+							}
+						);
 					}
 				);
 			}
 			if (movieTitle) {
 				gsap.set(movieTitle, { transformOrigin: '50% 50%' });
-				gsap.fromTo(
-					movieTitle,
-					{ scale: 1 },
+				var movieTitleMm = gsap.matchMedia();
+				movieTitleMm.add(
 					{
-						scale: 1.38,
-						ease: 'none',
-						scrollTrigger: {
-							trigger: movie,
-							start: 'top bottom',
-							end: 'bottom top',
-							scrub: true,
-							invalidateOnRefresh: true,
-						},
+						isMobile: '(max-width: 768px)',
+						isDesktop: '(min-width: 769px)',
+					},
+					function (ctx) {
+						// Two-phase scale:
+						// - Early: min -> 1.38 (so the change is obvious quickly)
+						// - After ~half scroll: ramp up to oversized, cropping offscreen
+						var minScale = ctx.conditions.isMobile ? 0.62 : 0.52;
+						var bigScale = ctx.conditions.isMobile ? 2.05 : 2.6;
+						var tl = gsap.timeline({
+							scrollTrigger: {
+								trigger: movie,
+								start: 'top bottom',
+								end: 'bottom top',
+								scrub: true,
+								invalidateOnRefresh: true,
+							},
+							defaults: { ease: 'none' },
+						});
+
+						tl.fromTo(movieTitle, { scale: minScale }, { scale: 1.38, duration: 0.4 }, 0);
+						tl.to(movieTitle, { scale: bigScale, duration: 0.6 }, 0.4);
 					}
 				);
 			}
