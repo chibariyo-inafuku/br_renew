@@ -54,7 +54,7 @@
 		});
 	}
 
-	gsap.context(function () {
+	gsap.context(function (ctx) {
 		var homeMovieVideo = root.querySelector('.br-home__movie-video');
 		function playHomeMovieVideo() {
 			if (!homeMovieVideo || typeof homeMovieVideo.play !== 'function') {
@@ -82,6 +82,116 @@
 			var lead = hero.querySelector('.br-home__hero-lead');
 			var cta = hero.querySelector('.br-home__hero-cta');
 			var playBtn = hero.querySelector('[data-br-hero-play]');
+
+			function buildHeroBlobPathD(nums) {
+				function pt(i) {
+					return nums[i * 2].toFixed(5) + ' ' + nums[i * 2 + 1].toFixed(5);
+				}
+				return (
+					'M ' +
+					pt(0) +
+					' C ' +
+					pt(1) +
+					' ' +
+					pt(2) +
+					' ' +
+					pt(3) +
+					' C ' +
+					pt(4) +
+					' ' +
+					pt(5) +
+					' ' +
+					pt(6) +
+					' C ' +
+					pt(7) +
+					' ' +
+					pt(8) +
+					' ' +
+					pt(9) +
+					' C ' +
+					pt(10) +
+					' ' +
+					pt(11) +
+					' ' +
+					pt(12) +
+					' C ' +
+					pt(13) +
+					' ' +
+					pt(14) +
+					' ' +
+					pt(15) +
+					' C ' +
+					pt(16) +
+					' ' +
+					pt(17) +
+					' ' +
+					pt(18) +
+					' C ' +
+					pt(19) +
+					' ' +
+					pt(20) +
+					' ' +
+					pt(21) +
+					' Z'
+				);
+			}
+
+			var heroBlobMorphPath = document.getElementById('br-hero-blob-morph-path');
+			var heroBlobPiece = hero.querySelector('.br-home__hero-art-piece--blob');
+			if (heroBlobMorphPath && heroBlobPiece) {
+				/* Normalized base path (316×320 viewBox) — single source of truth for “丸み”のシルエット */
+				var BLOB_BASE = [
+					0.36426898734177215, 0.83651875, 0.2327123417721519, 0.768228125, 0.049803481012658225,
+					0.738896875, 0.01770240506329114, 0.595646875, -0.015295158227848101, 0.448396875,
+					0.12042816455696204, 0.32720625000000003, 0.22565664556962026, 0.21796500000000002,
+					0.3285537974683544, 0.11114312500000001, 0.44171202531645565, -0.012966406250000001,
+					0.5904050632911393, 0.00109475625, 0.7371455696202531, 0.014971000000000002,
+					0.8254018987341772, 0.156286875, 0.9001424050632911, 0.2817471875, 0.9669113924050632,
+					0.39383124999999997, 1.0055126582278482, 0.518971875, 0.974117088607595, 0.645196875,
+					0.9401645569620253, 0.7817000000000001, 0.8657784810126583, 0.922871875,
+					0.7300886075949367, 0.9654406249999999, 0.6003101265822786, 1.00615625,
+					0.4848449367088608, 0.8991093749999999, 0.36426898734177215, 0.83651875,
+				];
+				/* ベース付近のみを複数周波の sin/cos で揺らし、有機的かつ常に丸みを維持 */
+				function sampleHeroBlobOrganic(base, tSec) {
+					var amp1 = 0.012;
+					var amp2 = 0.0065;
+					var out = new Array(44);
+					var pi;
+					for (pi = 0; pi < 22; pi++) {
+						var i = pi * 2;
+						var phase = pi * 0.714159265 + 0.31831;
+						var s1 = tSec * 0.82;
+						var s2 = tSec * 1.29;
+						var wx =
+							amp1 * Math.sin(s1 + phase) +
+							amp2 * Math.sin(s2 * 1.03 + phase * 2.17);
+						var wy =
+							amp1 * Math.cos(s1 * 0.91 + phase * 1.13) +
+							amp2 * Math.cos(s2 * 0.87 + phase * 1.91);
+						out[i] = base[i] + wx;
+						out[i + 1] = base[i + 1] + wy;
+					}
+					out[42] = out[0];
+					out[43] = out[1];
+					return out;
+				}
+				heroBlobMorphPath.setAttribute('d', buildHeroBlobPathD(BLOB_BASE));
+				heroBlobPiece.classList.add('br-home__hero-art-piece--blob-morph-js');
+				ctx.add(function () {
+					function blobTick() {
+						var tSec = performance.now() * 0.001;
+						heroBlobMorphPath.setAttribute(
+							'd',
+							buildHeroBlobPathD(sampleHeroBlobOrganic(BLOB_BASE, tSec))
+						);
+					}
+					gsap.ticker.add(blobTick);
+					return function () {
+						gsap.ticker.remove(blobTick);
+					};
+				});
+			}
 
 			if (heroTitleH1) {
 				gsap.set(heroTitleH1, { autoAlpha: 0, y: 36 });

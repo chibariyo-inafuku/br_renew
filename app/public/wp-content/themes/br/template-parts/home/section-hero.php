@@ -6,7 +6,7 @@
  */
 
 $copy    = br_home_get_copy();
-$cta_url = function_exists( 'br_get_page_permalink_by_slug' ) ? br_get_page_permalink_by_slug( 'contact' ) : '';
+$cta_url = function_exists( 'br_get_page_permalink_by_slug' ) ? br_get_page_permalink_by_slug( 'works' ) : '';
 $cta_href = ( $cta_url !== '' ) ? esc_url( $cta_url ) : esc_url( '#' );
 $img     = get_template_directory_uri() . '/assets/images/home';
 $vid     = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
@@ -32,10 +32,24 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 <div class="br-home__hero-art-piece br-home__hero-art-piece--blue"></div>
 <section class="br-home__section br-home__section--hero br-home__hero" aria-label="<?php esc_attr_e( 'Introduction', 'br' ); ?>">
 	<div class="br-home__hero-art" aria-hidden="true">
-		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob"></div>
+		<svg class="br-hero-blob-mask-def" width="0" height="0" aria-hidden="true" focusable="false">
+			<defs>
+				<mask id="br-hero-blob-dynamic-mask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+					<path id="br-hero-blob-morph-path" fill="white" fill-rule="evenodd" d="" />
+				</mask>
+			</defs>
+		</svg>
+		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob">
+			<img
+				class="br-home__hero-art-blob-img"
+				src="<?php echo esc_url( $img . '/object1.svg' ); ?>"
+				alt=""
+				loading="eager"
+				decoding="async"
+			/>
+		</div>
 		
 		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>-->
-		<div class="br-home__hero-art-piece br-home__hero-art-piece--dashes"></div>
 		<p class="br-home__hero-play-letters">
 			<span>P</span><span>L</span><span>A</span><span>Y</span>
 		</p>
@@ -63,7 +77,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 						>
 							<span class="br-header__cta-text"><?php echo esc_html( $copy['hero_cta'] ); ?></span>
 							<span class="br-header__cta-arrow" aria-hidden="true">
-								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
 									<path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 								</svg>
 							</span>
@@ -118,13 +132,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				</div>
 
 				<div class="br-home__hero-inset" aria-hidden="true">
-					<img
-						class="br-home__hero-inset-img"
-						src="<?php echo esc_url( $img . '/1.png' ); ?>"
-						alt=""
-						loading="lazy"
-						decoding="async"
-					/>
+					<div class="br-home__hero-art-piece br-home__hero-art-piece--dashes"></div>
 				</div>
 			</div>
 		</div>

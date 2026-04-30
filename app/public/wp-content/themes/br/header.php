@@ -57,19 +57,15 @@ document.documentElement.classList.add('br-header-js');
 				<div class="br-header__head">
 					<div class="br-header__logo">
 						<span class="br-header__logo-desktop">
-							<?php if ( has_custom_logo() ) : ?>
-								<?php the_custom_logo(); ?>
-							<?php else : ?>
-								<a class="custom-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
-									<img
-										class="custom-logo br-header__logo-img"
-										src="<?php echo esc_url( $br_fallback_logo ); ?>"
-										alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
-										loading="eager"
-										decoding="async"
-									/>
-								</a>
-							<?php endif; ?>
+							<a class="custom-logo-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+								<img
+									class="custom-logo br-header__logo-img"
+									src="<?php echo esc_url( $br_fallback_logo_sp ); ?>"
+									alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+									loading="eager"
+									decoding="async"
+								/>
+							</a>
 						</span>
 						<a
 							class="custom-logo-link br-header__logo-mobile"
@@ -117,7 +113,7 @@ document.documentElement.classList.add('br-header-js');
 							>
 								<span class="br-header__cta-text"><?php esc_html_e( 'Contact', 'br' ); ?></span>
 								<span class="br-header__cta-arrow" aria-hidden="true">
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+									<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
 										<path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
 								</span>

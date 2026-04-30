@@ -1786,7 +1786,7 @@ function br_home_get_copy() {
 	$defaults = array(
 		'hero_title'        => __( '遊び心で、未来を動かす。', 'br' ),
 		'hero_lead'         => __( 'We design experiences that inspire, engage, and drive results.', 'br' ),
-		'hero_cta'          => __( 'Contact', 'br' ),
+		'hero_cta'          => __( 'Our Works', 'br' ),
 		/* Legacy keys (kept for filters / old child themes). */
 		'hero_line_1'       => __( '遊び心で、未来を動かす。', 'br' ),
 		'hero_line_2'       => '',
