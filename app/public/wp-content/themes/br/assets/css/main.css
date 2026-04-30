@@ -419,9 +419,9 @@ html.br-nav-open .br-header__menu-x {
 
 /* Header sizing (design ref: 1920px viewport) */
 @media (min-width: 769px) {
+	.br-header .custom-logo-link img.br-header__logo-img,
 	.br-header__logo .br-header__logo-img {
-		/* 127px @ 1920 => 6.614vw */
-		width: clamp(110px, 6.614vw, 127px);
+		max-width: 127px;
 	}
 }
 
@@ -598,6 +598,8 @@ html.br-nav-open .br-header__menu-x {
 	line-height: 0;
 	color: #fff;
 	will-change: transform, opacity;
+	/* Nudge icon slightly to the right */
+	margin-left: 0.6em;
 }
 
 .br-header__cta-arrow svg {
