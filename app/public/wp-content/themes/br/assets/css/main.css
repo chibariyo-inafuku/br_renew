@@ -11,7 +11,7 @@
 	--br-surface-soft: #f6f6f6;
 	--br-accent: #0071bc;
 	--br-accent-hover: #005a99;
-	--br-max: 1640px;
+	--br-max: 1680px;
 	--br-space: 1.17vw;
 	/* PC：.br-container 左右（4× 基準を 8×＝従来比 2 倍） */
 	--br-container-pad-pc: calc(var(--br-space) * 8);
