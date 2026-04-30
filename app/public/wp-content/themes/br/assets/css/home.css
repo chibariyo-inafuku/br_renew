@@ -877,7 +877,7 @@
 /* Hero title line-break: keep 2-line layout consistent */
 .br-home__hero-title-line {
 	display: block;
-	line-height: 1.08;
+	line-height: 1.25;
 	white-space: nowrap;
 }
 
@@ -982,7 +982,7 @@
 
 .br-home__hero-title--reveal .br-home__hero-title-line {
 	display: block;
-	line-height: 1.08;
+	line-height: 1.25;
 	margin: 0;
 	padding: 0;
 }
