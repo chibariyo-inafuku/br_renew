@@ -295,14 +295,17 @@ html.br-nav-open .br-header__menu-x {
 	:root {
 		--br-sidebar-w: 140px;
 		--br-sidebar-bottom-inset: 100px;
-		--br-header-edge-pad: clamp(1.5rem, 3.2vw, 2.5rem);
+		/* Header edge padding (design ref: 1920px viewport) */
+		--br-header-edge-pad-left: clamp(32px, 2.5vw, 48px);
+		/* 53px @ 1920 => 2.76vw */
+		--br-header-edge-pad-right: clamp(32px, 2.76vw, 53px);
 	}
 
 	.br-header--top .br-header__inner.br-container {
 		max-width: none;
 		width: 100%;
-		padding-left: var(--br-header-edge-pad);
-		padding-right: calc(var(--br-header-edge-pad) + env(safe-area-inset-right, 0px));
+		padding-left: var(--br-header-edge-pad-left);
+		padding-right: calc(var(--br-header-edge-pad-right) + env(safe-area-inset-right, 0px));
 		box-sizing: border-box;
 	}
 
@@ -312,7 +315,8 @@ html.br-nav-open .br-header__menu-x {
 		align-items: center;
 		column-gap: clamp(12px, 2vw, 24px);
 		width: 100%;
-		padding-block: clamp(14px, 1.25vw, 20px);
+		/* Increase header vertical breathing room (design ref: 1920px) */
+		padding-block: clamp(18px, 1.55vw, 28px);
 	}
 
 	/* Flatten panel/bottom so nav + contact become grid children of .br-header__row */
@@ -381,7 +385,7 @@ html.br-nav-open .br-header__menu-x {
 	.br-header__cta--pill {
 		justify-content: center;
 		width: min(100%, 196px);
-		height: 48px;
+		height: 46px;
 		max-width: 100%;
 		box-sizing: border-box;
 	}
@@ -411,6 +415,14 @@ html.br-nav-open .br-header__menu-x {
 	max-width: 100%;
 	width: auto;
 	object-fit: contain;
+}
+
+/* Header sizing (design ref: 1920px viewport) */
+@media (min-width: 769px) {
+	.br-header__logo .br-header__logo-img {
+		/* 127px @ 1920 => 6.614vw */
+		width: clamp(110px, 6.614vw, 127px);
+	}
 }
 
 .br-header__tel {
@@ -449,7 +461,7 @@ html.br-nav-open .br-header__menu-x {
 		justify-content: center;
 		gap: clamp(28px, 3.2vw, 48px);
 		font-family: "Inter", var(--br-font);
-		font-size: 13px;
+		font-size: 14px;
 		font-weight: 700;
 	line-height: 1;
 	letter-spacing: 0.06em;
@@ -514,20 +526,21 @@ html.br-nav-open .br-header__menu-x {
 	align-items: center;
 	justify-content: center;
 	gap: 0.5em;
-	width: 196px;
-	height: 48px;
+	/* 177px @ 1920 => 9.219vw */
+	width: clamp(160px, 9.219vw, 177px);
+	height: 46px;
 	padding: 0 0.85rem;
 	margin: 0;
 	font-family: "Inter", var(--br-font);
 	font-size: 14px;
-	font-weight: 700;
+	font-weight: 500;
 	line-height: 1;
 	letter-spacing: 0.07em;
 	text-transform: uppercase;
 	text-decoration: none;
 	color: #fff;
 	background: #000;
-	border: none;
+	border: 1px solid #fff;
 	border-radius: 9999px;
 	box-sizing: border-box;
 	cursor: pointer;
@@ -970,7 +983,7 @@ body.admin-bar .br-header--top {
 	.br-header__cta--pill {
 		align-self: center;
 		width: min(100%, 196px);
-		height: 48px;
+		height: 46px;
 		min-width: 0;
 		max-width: 100%;
 		padding: 0 0.75rem;
