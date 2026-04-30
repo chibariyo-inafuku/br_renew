@@ -29,13 +29,14 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 	);
 }
 ?>
-<div class="br-home__hero-art-piece br-home__hero-art-piece--blue"></div>
+
 <section class="br-home__section br-home__section--hero br-home__hero" aria-label="<?php esc_attr_e( 'Introduction', 'br' ); ?>">
 	<div class="br-home__hero-art" aria-hidden="true">
 		<svg class="br-hero-blob-mask-def" width="0" height="0" aria-hidden="true" focusable="false">
 			<defs>
 				<mask id="br-hero-blob-dynamic-mask" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
-					<path id="br-hero-blob-morph-path" fill="white" fill-rule="evenodd" d="" />
+					<!-- 空 d のままだと初回ペイントでマスクが破綻するため、home-gsap.js の BLOB_BASE と同じ初期パスを埋める -->
+					<path id="br-hero-blob-morph-path" fill="white" fill-rule="evenodd" d="M 0.36427 0.83652 C 0.23271 0.76823 0.04980 0.73890 0.01770 0.59565 C -0.01530 0.44840 0.12043 0.32721 0.22566 0.21797 C 0.32855 0.11114 0.44171 -0.01297 0.59041 0.00109 C 0.73715 0.01497 0.82540 0.15629 0.90014 0.28175 C 0.96691 0.39383 1.00551 0.51897 0.97412 0.64520 C 0.94016 0.78170 0.86578 0.92287 0.73009 0.96544 C 0.60031 1.00616 0.48484 0.89911 0.36427 0.83652 Z" />
 				</mask>
 			</defs>
 		</svg>
@@ -48,11 +49,49 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				decoding="async"
 			/>
 		</div>
-		
+		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob br-home__hero-art-piece--blob--accent" aria-hidden="true">
+			<img
+				class="br-home__hero-art-blob-img"
+				src="<?php echo esc_url( $img . '/object1.svg' ); ?>"
+				alt=""
+				loading="eager"
+				decoding="async"
+			/>
+		</div>
+		<script>
+		(function () {
+			document.querySelectorAll('.br-home__hero-art-blob-img').forEach(function (img) {
+				function markReady() {
+					var piece = img.closest('.br-home__hero-art-piece--blob');
+					if (piece) {
+						piece.classList.add('br-home__hero-art-blob--piece-ready');
+					}
+				}
+				if (img.complete) {
+					markReady();
+				} else {
+					img.addEventListener('load', markReady, { once: true });
+					img.addEventListener('error', markReady, { once: true });
+				}
+			});
+		}());
+		</script>
+
+		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--blue" aria-hidden="true">
+			<div class="br-home__hero-art-blue-anchor">
+				<span class="br-home__hero-art-blue-ring"></span>
+			</div>
+		</div>-->
 		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>-->
-		<p class="br-home__hero-play-letters">
-			<span>P</span><span>L</span><span>A</span><span>Y</span>
-		</p>
+		<div class="br-home__hero-play-letters" aria-hidden="true">
+			<img
+				class="br-home__hero-play-letters-img"
+				src="<?php echo esc_url( $img . '/txt.svg' ); ?>"
+				alt=""
+				loading="eager"
+				decoding="async"
+			/>
+		</div>
 	</div>
 
 	<div class="br-home__hero-inner br-container">
@@ -132,7 +171,15 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				</div>
 
 				<div class="br-home__hero-inset" aria-hidden="true">
-					<div class="br-home__hero-art-piece br-home__hero-art-piece--dashes"></div>
+					<div class="br-home__hero-art-piece br-home__hero-art-piece--dashes">
+						<img
+							class="br-home__hero-art-dashes-img"
+							src="<?php echo esc_url( $img . '/rain.svg' ); ?>"
+							alt=""
+							loading="eager"
+							decoding="async"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -145,7 +192,14 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				<?php
 				while ( $news_q->have_posts() ) :
 					$news_q->the_post();
-					get_template_part( 'template-parts/post/news', 'home-card', array( 'post_id' => (int) get_the_ID() ) );
+					get_template_part(
+						'template-parts/post/news',
+						'home-card',
+						array(
+							'post_id' => (int) get_the_ID(),
+							'variant' => 'hero',
+						)
+					);
 				endwhile;
 				?>
 			</ul>

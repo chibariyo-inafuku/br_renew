@@ -53,8 +53,12 @@ $date_attr    = get_the_date( 'Y-m-d', $pid );
 			?>
 		</div>
 		<div class="br-home__blog-card-body">
-			<span class="br-home__blog-card-title"><?php echo esc_html( $title ); ?></span>
-			<time class="br-home__blog-card-date" datetime="<?php echo esc_attr( $date_attr ); ?>"><?php echo esc_html( $date_display ); ?></time>
+			<div class="br-home__blog-card-text-stack">
+				<div class="br-home__blog-card-text-slide">
+					<span class="br-home__blog-card-title"><?php echo esc_html( $title ); ?></span>
+					<time class="br-home__blog-card-date" datetime="<?php echo esc_attr( $date_attr ); ?>"><?php echo esc_html( $date_display ); ?></time>
+				</div>
+			</div>
 		</div>
 	</a>
 </li>

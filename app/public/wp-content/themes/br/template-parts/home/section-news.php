@@ -55,7 +55,7 @@ if ( ! $q->have_posts() ) {
 				>
 					<?php if ( $has_th ) : ?>
 					<div class="br-home__news-media">
-						<?php the_post_thumbnail( 'thumbnail' ); ?>
+						<?php the_post_thumbnail( 'medium' ); ?>
 					</div>
 					<?php endif; ?>
 					<div class="br-home__news-meta">

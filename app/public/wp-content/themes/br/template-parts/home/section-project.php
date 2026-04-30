@@ -62,10 +62,14 @@ if ( ! $q->have_posts() ) {
 							?>
 						</div>
 						<div class="br-home__project-card-body">
-							<span class="br-home__project-card-title"><?php the_title(); ?></span>
-							<?php if ( $badge !== '' ) : ?>
-								<span class="br-home__project-card-meta"><?php echo esc_html( $badge ); ?></span>
-							<?php endif; ?>
+							<div class="br-home__project-card-text-stack">
+								<div class="br-home__project-card-text-slide">
+									<span class="br-home__project-card-title"><?php the_title(); ?></span>
+									<?php if ( $badge !== '' ) : ?>
+										<span class="br-home__project-card-meta"><?php echo esc_html( $badge ); ?></span>
+									<?php endif; ?>
+								</div>
+							</div>
 						</div>
 					</a>
 				</li>

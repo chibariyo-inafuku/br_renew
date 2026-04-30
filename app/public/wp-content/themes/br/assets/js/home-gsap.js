@@ -83,6 +83,69 @@
 			var cta = hero.querySelector('.br-home__hero-cta');
 			var playBtn = hero.querySelector('[data-br-hero-play]');
 
+			/** Per-character spans for CodePen-style stagger (Title Text Animation). */
+			function brAppendRevealChar(parentEl, ch) {
+				var s = document.createElement('span');
+				s.className = 'br-home__hero-reveal-char';
+				if (ch === ' ' || ch === '\u3000' || ch === '\t') {
+					s.className += ' br-home__hero-reveal-char--space';
+					s.textContent = '\u00a0';
+				} else {
+					s.textContent = ch;
+				}
+				s.setAttribute('aria-hidden', 'true');
+				parentEl.appendChild(s);
+			}
+
+			function brSplitHeroTitleChars(h1) {
+				if (!h1) {
+					return;
+				}
+				var titleLines = h1.querySelectorAll('.br-home__hero-title-line');
+				var accLabel = '';
+				if (titleLines.length) {
+					titleLines.forEach(function (lineEl) {
+						var t = lineEl.textContent;
+						accLabel += t;
+						lineEl.textContent = '';
+						Array.from(t).forEach(function (ch) {
+							brAppendRevealChar(lineEl, ch);
+						});
+					});
+					h1.setAttribute('aria-label', accLabel.trim());
+					h1.classList.add('br-home__hero-title--reveal');
+					return;
+				}
+				var plain = h1.textContent;
+				var plainTrim = plain.trim();
+				h1.textContent = '';
+				var chunk = document.createElement('span');
+				chunk.className = 'br-home__hero-title-chunk';
+				Array.from(plain).forEach(function (ch) {
+					brAppendRevealChar(chunk, ch);
+				});
+				h1.appendChild(chunk);
+				h1.setAttribute('aria-label', plainTrim);
+				h1.classList.add('br-home__hero-title--reveal');
+			}
+
+			function brSplitHeroLeadChars(p) {
+				if (!p) {
+					return;
+				}
+				var full = p.textContent;
+				p.setAttribute('aria-label', full.trim());
+				p.textContent = '';
+				var wrap = document.createElement('span');
+				wrap.className = 'br-home__hero-lead-reveal';
+				wrap.setAttribute('aria-hidden', 'true');
+				Array.from(full).forEach(function (ch) {
+					brAppendRevealChar(wrap, ch);
+				});
+				p.appendChild(wrap);
+				p.classList.add('br-home__hero-lead--reveal');
+			}
+
 			function buildHeroBlobPathD(nums) {
 				function pt(i) {
 					return nums[i * 2].toFixed(5) + ' ' + nums[i * 2 + 1].toFixed(5);
@@ -193,11 +256,27 @@
 				});
 			}
 
+			brSplitHeroTitleChars(heroTitleH1);
+			brSplitHeroLeadChars(lead);
+
+			var titleCharEls = heroTitleH1
+				? gsap.utils.toArray(heroTitleH1.querySelectorAll('.br-home__hero-reveal-char'))
+				: [];
+			var leadCharEls = lead
+				? gsap.utils.toArray(lead.querySelectorAll('.br-home__hero-reveal-char'))
+				: [];
+
 			if (heroTitleH1) {
-				gsap.set(heroTitleH1, { autoAlpha: 0, y: 36 });
+				gsap.set(heroTitleH1, { autoAlpha: 1, y: 0 });
+			}
+			if (titleCharEls.length) {
+				gsap.set(titleCharEls, { opacity: 0, y: 56 });
 			}
 			if (lead) {
-				gsap.set(lead, { autoAlpha: 0, y: 22 });
+				gsap.set(lead, { autoAlpha: 1, y: 0 });
+			}
+			if (leadCharEls.length) {
+				gsap.set(leadCharEls, { opacity: 0, y: 40 });
 			}
 			if (cta) {
 				gsap.set(cta, { autoAlpha: 0, y: 18 });
@@ -210,6 +289,11 @@
 				gsap.set(heroScaleTarget, { scale: 1.04 });
 			}
 
+			var heroArt = hero.querySelector('.br-home__hero-art');
+			if (heroArt) {
+				gsap.set(heroArt, { autoAlpha: 0 });
+			}
+
 			var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 			if (heroTitleH1) {
 				heroTitleH1.setAttribute('aria-busy', 'true');
@@ -220,17 +304,44 @@
 			if (heroColMedia) {
 				tl.to(heroColMedia, { autoAlpha: 1, y: 0, scale: 1, duration: 0.85 }, 0);
 			}
+			if (heroArt) {
+				tl.to(heroArt, { autoAlpha: 1, duration: 1.45, ease: 'power1.out' }, 0.55);
+			}
 			if (heroScaleTarget) {
 				tl.to(heroScaleTarget, { scale: 1, duration: 0.95 }, 0.05);
 			}
-			if (heroTitleH1) {
-				tl.to(heroTitleH1, { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out' }, 0.12);
+			if (titleCharEls.length) {
+				tl.to(
+					titleCharEls,
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.5,
+						stagger: 0.045,
+						ease: 'back.out(1.7)',
+					},
+					0.12
+				);
 			}
-			if (lead) {
-				tl.to(lead, { autoAlpha: 1, y: 0, duration: 0.55 }, '-=0.38');
+			if (leadCharEls.length) {
+				tl.to(
+					leadCharEls,
+					{
+						opacity: 1,
+						y: 0,
+						duration: 0.28,
+						stagger: 0.015,
+						ease: 'back.out(1.7)',
+					},
+					0.45
+				);
 			}
 			if (cta) {
-				tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.32');
+				tl.to(
+					cta,
+					{ autoAlpha: 1, y: 0, duration: 0.5 },
+					leadCharEls.length ? '>0.06' : titleCharEls.length ? 1.05 : 0.75
+				);
 			}
 
 			function playHeroVideo() {
@@ -629,56 +740,6 @@
 			if (parallaxQuote) {
 				parallaxQuoteTl.to(
 					parallaxQuote,
-					{ clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'none' },
-					0
-				);
-			}
-		}
-
-		var palarax = root.querySelector('.br-home__palarax');
-		if (palarax) {
-			var palaraxMedia = palarax.querySelector('.br-home__palarax-media');
-			var palaraxOverlay = palarax.querySelector('.br-home__palarax-overlay');
-			var palaraxTagline = palarax.querySelector('.br-home__palarax-tagline');
-			/* Shorter scrub than full viewport pass: overlay + text finish by section center */
-			if (palaraxMedia) {
-				gsap.set(palaraxMedia, {
-					backgroundPositionX: '50%',
-					backgroundPositionY: '28%',
-				});
-			}
-			if (palaraxOverlay) {
-				gsap.set(palaraxOverlay, { opacity: 0 });
-			}
-			if (palaraxTagline) {
-				gsap.set(palaraxTagline, { clipPath: 'inset(100% 0 0 0)' });
-			}
-			var palaraxTl = gsap.timeline({
-				scrollTrigger: {
-					trigger: palarax,
-					start: 'top bottom',
-					end: 'center center',
-					scrub: true,
-					invalidateOnRefresh: true,
-				},
-			});
-			if (palaraxOverlay) {
-				palaraxTl.to(
-					palaraxOverlay,
-					{ opacity: 0.8, duration: 1, ease: 'none' },
-					0
-				);
-			}
-			if (palaraxMedia) {
-				palaraxTl.to(
-					palaraxMedia,
-					{ backgroundPositionY: '72%', duration: 1, ease: 'none' },
-					0
-				);
-			}
-			if (palaraxTagline) {
-				palaraxTl.to(
-					palaraxTagline,
 					{ clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'none' },
 					0
 				);
