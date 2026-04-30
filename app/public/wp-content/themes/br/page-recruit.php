@@ -57,7 +57,7 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<section class="br-recruit__values" aria-label="私たちの価値観" data-br-subpage-reveal>
+	<section class="br-recruit__values" id="recruit-values" aria-label="私たちの価値観" data-br-subpage-reveal>
 		<div class="br-container">
 			<div class="br-recruit__values-grid">
 				<article class="br-recruit__values-card">

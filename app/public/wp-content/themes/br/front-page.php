@@ -6,7 +6,6 @@
  */
 
 get_header();
-get_template_part( 'template-parts/home/loading', 'overlay' );
 
 while ( have_posts() ) :
 	the_post();
@@ -16,12 +15,13 @@ while ( have_posts() ) :
 	get_template_part( 'template-parts/home/section', 'hero' );
 	//get_template_part( 'template-parts/home/section', 'concept' );
 	get_template_part( 'template-parts/home/section', 'works' );
+	get_template_part( 'template-parts/home/section', 'news' );
+	get_template_part( 'template-parts/home/section', 'movie' );
 	get_template_part( 'template-parts/home/section', 'project' );
 	get_template_part( 'template-parts/home/section', 'parallax' );
-	get_template_part( 'template-parts/home/section', 'news' );
-	get_template_part( 'template-parts/home/section', 'blog' );
 	get_template_part( 'template-parts/home/section', 'service' );
-	get_template_part( 'template-parts/home/section', 'palarax' );
+	get_template_part( 'template-parts/home/section', 'blog' );
+	get_template_part( 'template-parts/home/section', 'ai-creative-banner' );
 	get_template_part( 'template-parts/home/section', 'cta' );
 
 	$content = get_post()->post_content;

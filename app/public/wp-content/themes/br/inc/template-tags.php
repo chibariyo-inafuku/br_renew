@@ -909,19 +909,20 @@ function br_get_service_page_list_url( $paged = 1, $service_cat_slug = '' ) {
 /**
  * WP_Query for the Service fixed page: posts in category `services`, optional filter by descendant category slug.
  *
- * @param int    $per_page             Posts per page.
+ * @param int    $per_page             Posts per page; pass `-1` for all matching posts (e.g. footer nav).
  * @param string $service_cat_param Optional. Sanitized category slug; must be `services` or a descendant of `services`.
  * @return WP_Query
  */
 function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '' ) {
-	$per_page = max( 1, (int) $per_page );
+	$requested = (int) $per_page;
+	$per_page  = ( -1 === $requested ) ? -1 : max( 1, $requested );
 
 	$empty = static function () use ( $per_page ) {
 		return new WP_Query(
 			array(
 				'post_type'           => 'post',
 				'post__in'            => array( 0 ),
-				'posts_per_page'      => $per_page,
+				'posts_per_page'      => -1 === $per_page ? 1 : $per_page,
 				'post_status'         => 'publish',
 				'no_found_rows'       => true,
 				'ignore_sticky_posts' => true,
@@ -946,7 +947,15 @@ function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '
 	$slug = sanitize_title( (string) $service_cat_param );
 
 	if ( $slug === '' || $slug === 'services' ) {
-		$base['cat'] = (int) $services->term_id;
+		$base['tax_query'] = array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => array( (int) $services->term_id ),
+				'include_children' => true,
+				'operator'         => 'IN',
+			),
+		);
 		return new WP_Query( $base );
 	}
 
@@ -955,7 +964,15 @@ function br_query_posts_for_service_page( $per_page = 12, $service_cat_param = '
 		return $empty();
 	}
 	if ( (int) $sub->term_id === (int) $services->term_id ) {
-		$base['cat'] = (int) $services->term_id;
+		$base['tax_query'] = array(
+			array(
+				'taxonomy'         => 'category',
+				'field'            => 'term_id',
+				'terms'            => array( (int) $services->term_id ),
+				'include_children' => true,
+				'operator'         => 'IN',
+			),
+		);
 		return new WP_Query( $base );
 	}
 	if ( ! term_is_ancestor_of( (int) $services->term_id, (int) $sub->term_id, 'category' ) ) {
@@ -1126,6 +1143,60 @@ function br_get_service_card_permalink( $post_id ) {
 
 	$url = get_permalink( $post_id );
 	return $url !== false ? $url : '';
+}
+
+/**
+ * Split service post title for card lines (e.g. "WEB / APP" → "WEB", "APP").
+ *
+ * @param int $post_id Post ID.
+ * @return array{0:string,1:string} Primary line, secondary line (may be empty).
+ */
+function br_home_service_card_headlines( $post_id ) {
+	$post_id = (int) $post_id;
+	if ( $post_id <= 0 ) {
+		return array( '', '' );
+	}
+	$t = get_post_field( 'post_title', $post_id );
+	$t = is_string( $t ) ? trim( $t ) : '';
+	if ( $t === '' ) {
+		return array( '', '' );
+	}
+	if ( preg_match( '/^(.+?)\s*[\/／｜|]\s*(.+)$/u', $t, $m ) ) {
+		return array( trim( $m[1] ), trim( $m[2] ) );
+	}
+	return array( $t, '' );
+}
+
+/**
+ * Illustration variant for home SERVICE rail (slug hint, else order modulo 6).
+ *
+ * @param int $post_id Post ID.
+ * @param int $index   Zero-based position in the rail.
+ * @return string branding|web|uiux|creative|marketing|consulting
+ */
+function br_home_service_card_illus_variant( $post_id, $index ) {
+	$post_id = (int) $post_id;
+	$slug    = strtolower( (string) get_post_field( 'post_name', $post_id ) );
+	if ( preg_match( '/brand/', $slug ) ) {
+		return 'branding';
+	}
+	if ( preg_match( '/web|app|site/', $slug ) ) {
+		return 'web';
+	}
+	if ( preg_match( '/ui|ux/', $slug ) ) {
+		return 'uiux';
+	}
+	if ( preg_match( '/creative|クリエ/u', $slug ) ) {
+		return 'creative';
+	}
+	if ( preg_match( '/market|seo|ads?/', $slug ) ) {
+		return 'marketing';
+	}
+	if ( preg_match( '/consult|コンサル/u', $slug ) ) {
+		return 'consulting';
+	}
+	$order = array( 'branding', 'web', 'uiux', 'creative', 'marketing', 'consulting' );
+	return $order[ max( 0, (int) $index ) % 6 ];
 }
 
 /**
@@ -1615,14 +1686,14 @@ function br_page_href( $slug ) {
  * WP_Query for a fixed number of posts by category slug (front page teasers; no pagination).
  *
  * @param string $category_slug Category slug (e.g. news-s, blogs, services).
- * @param int    $limit         Max posts.
+ * @param int    $limit         Max posts, or `-1` for all matching posts (`posts_per_page` = -1).
  * @param string $order         Sort direction for the date tie-breaker: 'DESC' (newest first, default) or 'ASC' (oldest first). Primary sort is `menu_order` (SCPOrder).
  * @return WP_Query
  */
 function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $order = 'DESC' ) {
-	$category_slug = sanitize_title( (string) $category_slug );
-	$limit         = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
-	$limit         = max( 1, $limit );
+	$category_slug   = sanitize_title( (string) $category_slug );
+	$limit           = (int) apply_filters( 'br_home_category_limit_' . $category_slug, $limit );
+	$posts_per_page  = -1 === $limit ? -1 : max( 1, $limit );
 
 	$order = strtoupper( (string) $order );
 	if ( $order !== 'ASC' && $order !== 'DESC' ) {
@@ -1632,7 +1703,7 @@ function br_query_posts_for_category_slug_limited( $category_slug, $limit = 4, $
 	$cat = get_term_by( 'slug', $category_slug, 'category' );
 	$args = array(
 		'post_type'              => 'post',
-		'posts_per_page'         => $limit,
+		'posts_per_page'         => $posts_per_page,
 		'paged'                  => 1,
 		'post_status'            => 'publish',
 		'orderby'                => br_posts_orderby_menu_order_then_date( $order, 'home_teaser_' . $category_slug ),
@@ -1713,10 +1784,12 @@ function br_get_portfolio_card_category_label( $post_id ) {
  */
 function br_home_get_copy() {
 	$defaults = array(
-		'hero_line_1'       => __( 'マーケティングプロモーションに、', 'br' ),
-		'hero_line_2'       => __( 'AIという武器を。', 'br' ),
-		'hero_lead'         => __( '期待を超えるクオリティとスピードで価値を創る、AIクリエイティブスタジオ。', 'br' ),
-		'hero_cta'          => __( 'お問い合わせはこちら', 'br' ),
+		'hero_title'        => __( '遊び心で、未来を動かす。', 'br' ),
+		'hero_lead'         => __( 'We design experiences that inspire, engage, and drive results.', 'br' ),
+		'hero_cta'          => __( 'Our Works', 'br' ),
+		/* Legacy keys (kept for filters / old child themes). */
+		'hero_line_1'       => __( '遊び心で、未来を動かす。', 'br' ),
+		'hero_line_2'       => '',
 		'concept_tagline_en' => __( 'Creativity endures. Innovation evolves.', 'br' ),
 		'concept_heading'   => __( '創造は、奪われない。進化する。', 'br' ),
 		'concept_body'      => __( "AIは、すべてを変えた。\nスピードも、クオリティも、常識も。\n\nそして今、「クリエイターは必要なのか」という問いが生まれた。\n\n答えは、ひとつじゃない。\n奪われるのか。\nそれとも、進化するのか。\n\n選ぶのは、私たちだ。\nAIと共に、創造は次のステージへ。", 'br' ),

@@ -21,7 +21,7 @@ while ( have_posts() ) :
 			$works_cat = $works_cat_param;
 		}
 	}
-	$q               = br_query_portfolio_for_list_term( 'works-s', 12, $works_cat_param );
+	$q               = br_query_portfolio_for_list_term( 'works-s', 16, $works_cat_param );
 	$works_cat_terms = br_get_works_list_project_category_terms();
 	$paged_now       = br_get_query_paged();
 	$pagination_add  = $works_cat !== '' ? array( 'works_cat' => $works_cat ) : array();
@@ -83,7 +83,7 @@ while ( have_posts() ) :
 	<?php endif; ?>
 
 	<section
-		class="br-home__section br-home__section--works br-home__section--works-band br-home__works br-works__list-band"
+		class="br-home__section br-home__section--works br-home__section--works-band br-home__section--works-light br-home__works br-works__list-band"
 		aria-labelledby="br-works-list-title"
 	>
 		<div class="br-container">
@@ -155,7 +155,7 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
-	<div class="br-home" data-br-subpage-reveal>
+	<div class="br-works__cta" data-br-subpage-reveal>
 		<?php get_template_part( 'template-parts/home/section', 'cta' ); ?>
 	</div>
 </main>

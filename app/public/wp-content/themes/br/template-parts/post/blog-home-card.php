@@ -25,10 +25,13 @@ if ( $pid < 1 ) {
 }
 
 $permalink = get_permalink( $pid );
-$title       = get_the_title( $pid );
+$title     = get_the_title( $pid );
 if ( $permalink === false ) {
 	return;
 }
+
+$date_display = get_the_date( 'Y.m.d', $pid );
+$date_attr    = get_the_date( 'Y-m-d', $pid );
 ?>
 <li class="br-home__blog-item" data-br-subpage-reveal data-br-subpage-reveal-stagger>
 	<a class="br-home__blog-card" href="<?php echo esc_url( $permalink ); ?>">
@@ -49,8 +52,13 @@ if ( $permalink === false ) {
 			endif;
 			?>
 		</div>
-		<div class="br-home__blog-card-overlay">
-			<span class="br-home__blog-card-title"><?php echo esc_html( $title ); ?></span>
+		<div class="br-home__blog-card-body">
+			<div class="br-home__blog-card-text-stack">
+				<div class="br-home__blog-card-text-slide">
+					<span class="br-home__blog-card-title"><?php echo esc_html( $title ); ?></span>
+					<time class="br-home__blog-card-date" datetime="<?php echo esc_attr( $date_attr ); ?>"><?php echo esc_html( $date_display ); ?></time>
+				</div>
+			</div>
 		</div>
 	</a>
 </li>

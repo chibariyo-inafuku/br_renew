@@ -52,7 +52,7 @@ function br_setup() {
 add_action( 'after_setup_theme', 'br_setup' );
 
 /**
- * Inner listing templates that share GSAP scroll-card effects (br-card grids). Not used on /works/, /project/, /blog/, /service/, or /news/ (home-style cards + CTA .br-home).
+ * Inner listing templates that share GSAP scroll-card effects (br-card grids + Works grid).
  *
  * @return bool
  */
@@ -61,7 +61,8 @@ function br_loads_inner_scroll_card_assets() {
 		return false;
 	}
 	return is_post_type_archive( 'portfolio' )
-		|| is_tax( 'project-categories' );
+		|| is_tax( 'project-categories' )
+		|| is_page( 'works' );
 }
 
 /**
@@ -193,13 +194,6 @@ function br_enqueue_assets() {
 			'br-home-rail',
 			$theme_uri . '/assets/js/home-rail.js',
 			array( 'br-swiper' ),
-			BR_VERSION,
-			true
-		);
-		wp_enqueue_script(
-			'br-home-loading',
-			$theme_uri . '/assets/js/home-loading.js',
-			array(),
 			BR_VERSION,
 			true
 		);
@@ -660,7 +654,7 @@ function br_enqueue_assets() {
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-scroll-cards-gsap', 'br-home-rail', 'br-home-loading' ),
+			array( 'br-scroll-cards-gsap', 'br-home-rail' ),
 			BR_VERSION,
 			true
 		);
@@ -705,16 +699,6 @@ function br_enqueue_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'br_enqueue_assets' );
-
-/**
- * Early scroll lock while TOP page loader is visible.
- */
-function br_home_loading_html_class() {
-	if ( is_front_page() ) {
-		echo '<script>document.documentElement.classList.add("br-home-loading");</script>' . "\n";
-	}
-}
-add_action( 'wp_head', 'br_home_loading_html_class', 1 );
 
 /**
  * Adobe Fonts (Typekit) for CEO page — ab-kouran-gyosho on message signature.

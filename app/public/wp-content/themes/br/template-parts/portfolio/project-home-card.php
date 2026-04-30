@@ -1,6 +1,6 @@
 <?php
 /**
- * Project listing card (same markup as home section-project grid item).
+ * Project listing card — thumb + title + category meta below (same as home section-project).
  *
  * @package br
  *
@@ -50,11 +50,15 @@ if ( $permalink === false ) {
 			endif;
 			?>
 		</div>
-		<div class="br-home__project-card-overlay">
-			<?php if ( $badge !== '' ) : ?>
-				<span class="br-home__project-card-badge"><?php echo esc_html( $badge ); ?></span>
-			<?php endif; ?>
-			<span class="br-home__project-card-title"><?php echo esc_html( $title ); ?></span>
+		<div class="br-home__project-card-body">
+			<div class="br-home__project-card-text-stack">
+				<div class="br-home__project-card-text-slide">
+					<span class="br-home__project-card-title"><?php echo esc_html( $title ); ?></span>
+					<?php if ( $badge !== '' ) : ?>
+						<span class="br-home__project-card-meta"><?php echo esc_html( $badge ); ?></span>
+					<?php endif; ?>
+				</div>
+			</div>
 		</div>
 	</a>
 </li>
