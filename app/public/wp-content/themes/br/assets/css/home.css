@@ -384,8 +384,8 @@
 	padding-bottom: 0;
 	min-height: 0;
 	max-width: none;
-	overflow-wrap: anywhere;
-	word-break: break-word;
+	overflow-wrap: normal;
+	word-break: normal;
 }
 
 .br-home .br-container {
@@ -871,13 +871,18 @@
 	line-height: 1.18;
 	letter-spacing: 0.02em;
 	color: var(--br-home-ink, #01101a);
-	/* 動画との重なりでも視認できるよう白い輪郭・発光 */
-	text-shadow:
-		0 0 1px rgba(255, 255, 255, 0.98),
-		0 0 10px rgba(255, 255, 255, 0.72),
-		0 0 22px rgba(255, 255, 255, 0.55),
-		0 0 36px rgba(255, 255, 255, 0.28),
-		0 1px 2px rgba(255, 255, 255, 0.85);
+	text-shadow: none;
+}
+
+/* Hero title line-break: keep 2-line layout consistent */
+.br-home__hero-title-line {
+	display: block;
+	line-height: 1.08;
+	white-space: nowrap;
+}
+
+.br-home__hero-title-br {
+	display: none;
 }
 
 @media (min-width: 769px) {
@@ -898,6 +903,14 @@
 	}
 }
 
+@media (min-width: 1920px) {
+	.br-home__hero-title {
+		font-size: 78px;
+		letter-spacing: 0.15em;
+		font-weight: 600;
+	}
+}
+
 .br-home__hero-lead {
 	margin: 0;
 	width: 100%;
@@ -907,8 +920,13 @@
 	color: #374151;
 	/* 左カラム内に収め、動画側へはみ出さない（英語は語単位で折り返し） */
 	max-width: min(100%, clamp(16.5rem, 88vw, 26rem));
-	overflow-wrap: break-word;
-	word-wrap: break-word;
+	/* Override .br-main.br-home { overflow-wrap:anywhere; word-break:break-word } */
+	overflow-wrap: normal;
+	word-break: normal;
+	word-spacing: normal;
+	hyphens: none;
+	/* Supported browsers will balance line breaks for nicer English wrapping. */
+	text-wrap: balance;
 	text-shadow:
 		0 0 1px rgba(255, 255, 255, 0.96),
 		0 0 8px rgba(255, 255, 255, 0.68),
@@ -955,6 +973,11 @@
 
 .br-home__hero-reveal-char--space {
 	min-width: 0.22em;
+}
+
+.br-home__hero-reveal-word {
+	display: inline-block;
+	white-space: nowrap;
 }
 
 .br-home__hero-title--reveal .br-home__hero-title-line {
@@ -1107,12 +1130,12 @@
 	}
 
 	/* A -> rect */
-	24% {
+	13% {
 		border-radius: 6% / 10%;
 	}
 
 	/* rect hold */
-	24%,
+	13%,
 	38% {
 		border-radius: 6% / 10%;
 	}
@@ -1134,10 +1157,10 @@
 	}
 
 	/* back to rect before looping back to A (prevents abrupt jump) */
-	86% {
+	75% {
 		border-radius: 6% / 10%;
 	}
-	86%,
+	75%,
 	96% {
 		border-radius: 6% / 10%;
 	}
@@ -1593,12 +1616,31 @@ html.br-home-js .br-home__hero-video-rotate {
 	inset: 0;
 	z-index: 1;
 	pointer-events: none;
-	background: rgba(1, 16, 26, 0.42);
+	/* Match about promo scrim feel (directional gradient). */
+	background: linear-gradient(
+		90deg,
+		rgba(1, 16, 26, 0.78) 0%,
+		rgba(1, 16, 26, 0.45) 55%,
+		rgba(1, 16, 26, 0.35) 100%
+	);
+}
+
+.br-home__movie-mesh {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	background-color: transparent;
+	background-image: url("../images/home/hero-mesh.png");
+	background-repeat: repeat;
+	background-size: auto;
+	background-position: center center;
+	opacity: 0.5;
 }
 
 .br-home__movie-inner {
 	position: relative;
-	z-index: 2;
+	z-index: 3;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -2588,8 +2630,26 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
 }
 
-.br-home__works-card:hover .br-home__works-card-image img,
-.br-home__works-card:focus-visible .br-home__works-card-image img {
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1);
+	z-index: 0;
+}
+
+.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
+	opacity: 1;
+	z-index: 1;
+}
+
+.br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
+.br-home__works-card:focus-visible .br-home__works-card-image:not(.br-hover-cycle) img {
+	transform: scale(1.08);
+}
+
+.br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+.br-home__works-card:focus-visible .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 	transform: scale(1.08);
 }
 
@@ -2691,6 +2751,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 	.br-home__works-card-media,
 	.br-home__works-card-media::after,
 	.br-home__works-card-image img,
+	.br-home__works-card-image.br-hover-cycle .br-hover-cycle__img,
 	.br-home__works-card-title,
 	.br-home__works-card-text-slide,
 	.br-home__works-viewall__icon {
@@ -2704,8 +2765,10 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 		box-shadow: 0 2px 14px rgba(1, 16, 26, 0.07);
 	}
 
-	.br-home__works-card:hover .br-home__works-card-image img,
-	.br-home__works-card:focus-visible .br-home__works-card-image img {
+	.br-home__works-card:hover .br-home__works-card-image:not(.br-hover-cycle) img,
+	.br-home__works-card:focus-visible .br-home__works-card-image:not(.br-hover-cycle) img,
+	.br-home__works-card:hover .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active,
+	.br-home__works-card:focus-visible .br-home__works-card-image.br-hover-cycle .br-hover-cycle__img.is-active {
 		transform: none;
 	}
 
