@@ -34,13 +34,21 @@ if ( $permalink === false ) {
 <li class="br-home__works-item">
 	<a class="br-home__works-card" href="<?php echo esc_url( $permalink ); ?>">
 		<div class="br-home__works-card-media">
-			<?php if ( has_post_thumbnail( $pid ) ) : ?>
-				<div class="br-home__works-card-image">
-					<?php echo get_the_post_thumbnail( $pid, 'medium_large' ); ?>
-				</div>
-			<?php else : ?>
-				<div class="br-home__works-card-image br-home__works-card-image--placeholder" aria-hidden="true"></div>
-			<?php endif; ?>
+			<?php
+			if ( ! br_the_portfolio_hover_cycle_stack( $pid, 'br-home__works-card-image' ) ) :
+				if ( has_post_thumbnail( $pid ) ) :
+					?>
+			<div class="br-home__works-card-image">
+				<?php echo get_the_post_thumbnail( $pid, 'medium_large' ); ?>
+			</div>
+					<?php
+				else :
+					?>
+			<div class="br-home__works-card-image br-home__works-card-image--placeholder" aria-hidden="true"></div>
+					<?php
+				endif;
+			endif;
+			?>
 		</div>
 		<div class="br-home__works-card-body">
 			<div class="br-home__works-card-text-stack">

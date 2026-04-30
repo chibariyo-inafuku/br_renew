@@ -139,8 +139,25 @@
 				var wrap = document.createElement('span');
 				wrap.className = 'br-home__hero-lead-reveal';
 				wrap.setAttribute('aria-hidden', 'true');
-				Array.from(full).forEach(function (ch) {
-					brAppendRevealChar(wrap, ch);
+				// Split into "word" wrappers so browsers can't wrap mid-word.
+				// (Per-character spans allow line breaks anywhere unless grouped.)
+				var tokens = full.split(/(\s+)/);
+				tokens.forEach(function (tok) {
+					if (!tok) {
+						return;
+					}
+					if (/^\s+$/.test(tok)) {
+						Array.from(tok).forEach(function (ch) {
+							brAppendRevealChar(wrap, ch);
+						});
+						return;
+					}
+					var word = document.createElement('span');
+					word.className = 'br-home__hero-reveal-word';
+					Array.from(tok).forEach(function (ch) {
+						brAppendRevealChar(word, ch);
+					});
+					wrap.appendChild(word);
 				});
 				p.appendChild(wrap);
 				p.classList.add('br-home__hero-lead--reveal');

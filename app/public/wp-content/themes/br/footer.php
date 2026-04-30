@@ -59,7 +59,6 @@ $footer_mail = sanitize_email( (string) get_bloginfo( 'admin_email' ) );
 				</a>
 				<p class="br-footer__studio-line">
 					<span class="br-footer__studio-name"><?php echo esc_html( strtoupper( get_bloginfo( 'name' ) ) ); ?></span>
-					<span class="br-footer__studio-sub">CREATIVE STUDIO</span>
 				</p>
 				<div class="br-footer__desc">
 					<p>遊び心で、未来を動かす。</p>
@@ -181,8 +180,8 @@ $footer_mail = sanitize_email( (string) get_bloginfo( 'admin_email' ) );
 				<ul class="br-footer__nav-list" role="list">
 					<li><a href="<?php echo esc_url( $about_overview_href ); ?>">会社概要</a></li>
 					<li><a href="<?php echo esc_url( $about_philosophy_href ); ?>">私たちの想い</a></li>
-					<li><a href="<?php echo br_page_href( 'ceo' ); ?>">メンバー</a></li>
-					<li><a href="<?php echo esc_url( $about_overview_href ); ?>">アクセス</a></li>
+					<li><a href="<?php echo br_page_href( 'ceo' ); ?>">CEO</a></li>
+					<li><a href="<?php echo br_page_href( 'faq' ); ?>">FAQ</a></li>
 				</ul>
 			</nav>
 
@@ -213,12 +212,11 @@ $footer_mail = sanitize_email( (string) get_bloginfo( 'admin_email' ) );
 				</a>
 				<address class="br-footer__address">
 					<p class="br-footer__address-line">〒150-0012</p>
-					<p class="br-footer__address-line">東京都渋谷区広尾1-2-1 ヒカリビル4F</p>
+					<p class="br-footer__address-line">東京都渋谷区広尾1-2-1 <br>ヒカリビル4F</p>
 					<p class="br-footer__address-line">
 						<span class="br-footer__address-k">TEL</span>
 						<a class="br-footer__address-tel" href="tel:+81524858626">052-485-8626</a>
 					</p>
-					
 				</address>
 			</div>
 		</div>

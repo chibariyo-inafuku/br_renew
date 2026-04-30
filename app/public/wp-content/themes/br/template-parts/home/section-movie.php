@@ -24,6 +24,7 @@ $vid = get_template_directory_uri() . '/assets/videos/fv_movie.mp4';
 		</div>
 	</div>
 	<div class="br-home__movie-scrim" aria-hidden="true"></div>
+	<div class="br-home__movie-mesh" aria-hidden="true"></div>
 	<div class="br-home__movie-inner">
 		<h2 id="br-home-movie-heading" class="br-home__movie-title">CREATIVE with AI</h2>
 	</div>
