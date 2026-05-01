@@ -645,6 +645,13 @@ function br_enqueue_assets() {
 
 	if ( is_front_page() ) {
 		wp_enqueue_script(
+			'br-home-loading',
+			$theme_uri . '/assets/js/home-loading.js',
+			array( 'br-lenis-init' ),
+			BR_VERSION,
+			true
+		);
+		wp_enqueue_script(
 			'br-scroll-cards-gsap',
 			$theme_uri . '/assets/js/scroll-cards-gsap.js',
 			array( 'br-gsap-scrolltrigger', 'br-lenis-init' ),
@@ -654,7 +661,7 @@ function br_enqueue_assets() {
 		wp_enqueue_script(
 			'br-home-gsap',
 			$theme_uri . '/assets/js/home-gsap.js',
-			array( 'br-scroll-cards-gsap', 'br-home-rail' ),
+			array( 'br-scroll-cards-gsap', 'br-home-rail', 'br-home-loading' ),
 			BR_VERSION,
 			true
 		);
@@ -721,6 +728,16 @@ function br_ceo_adobe_typekit() {
 	<?php
 }
 add_action( 'wp_head', 'br_ceo_adobe_typekit', 2 );
+
+/**
+ * TOP full-screen loader: lock scroll before paint (paired with main.css html.br-home-loading).
+ */
+function br_home_page_loader_html_class() {
+	if ( is_front_page() ) {
+		echo '<script>document.documentElement.classList.add("br-home-loading");</script>' . "\n";
+	}
+}
+add_action( 'wp_head', 'br_home_page_loader_html_class', 1 );
 
 /**
  * Early marker for home GSAP hero prep (avoids flash of unstyled hero text when motion is allowed).

@@ -1,23 +1,16 @@
 /**
- * TOP-only loader.
+ * TOP-only full-screen loader (loading-overlay + wp_head `br-home-loading`).
  *
- * Timeline (white bg, pieces assemble first, then tagline snaps in):
- *   0 ms     initial blank white
- *   50 ms    loading01 (triangle)    — slide in from the left
- *   250 ms   loading02 (medium blue) — slide in from the left
- *   450 ms   loading03 (dark navy)   — slide in from the left
- *   650 ms   loading04 (cyan)        — slide in from the left
- *   ~1280 ms last logo piece settles (CSS transform ~0.52s, opacity ~0.58s)
- *   1320 ms  tagline                 — leftRight per char (30ms stagger, ~0.3s each)
- *   ~1800 ms last tagline character settles (approx.; depends on char count)
- *   T_TAGLINE + TAGLINE_HOLD_MS  hand off to hero (respects MIN_MS / window.load)
- *   Exit: full-viewport navy panel RTL through cover and out left; white/logo/tagline hidden for second half.
+ * “待たせない”向け: 人工最短表示なし、DOM 解析後に解除可能（window.load まで待たない）。
+ *
+ * Exit: full-viewport navy panel RTL (see home.css).
  */
 (function () {
 	'use strict';
 
 	var root = document.querySelector('[data-br-home-page-loader]');
 	if (!root) {
+		document.documentElement.classList.remove('br-home-loading');
 		return;
 	}
 
@@ -78,7 +71,7 @@
 
 	splitTaglineChars();
 
-	var MIN_MS = 1200;
+	var MIN_MS = 0;
 	var MAX_WAIT_MS = 8000;
 	var started = Date.now();
 	var triggered = false;
@@ -92,8 +85,8 @@
 	var T_D4 = 650;
 	/* Tagline starts after logo motion (~0.58s opacity / 0.52s transform) + buffer. */
 	var T_TAGLINE = 1320;
-	/* Long enough for staggered leftRight (~0.03s * n + ~0.3s) + short read beat. */
-	var TAGLINE_HOLD_MS = 1700;
+	/* Staggered tagline motion + brief beat (keep short — do not “hold” the user). */
+	var TAGLINE_HOLD_MS = 450;
 
 	var timers = [];
 
@@ -229,18 +222,21 @@
 		});
 	}
 
-	window.addEventListener(
-		'load',
-		function () {
-			loadDone = true;
-			tryMaybeFinish();
-		},
-		false
-	);
-
-	window.setTimeout(function () {
+	function markLoadDone() {
 		loadDone = true;
 		tryMaybeFinish();
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', markLoadDone, { once: true });
+	} else {
+		markLoadDone();
+	}
+
+	window.addEventListener('load', markLoadDone, false);
+
+	window.setTimeout(function () {
+		markLoadDone();
 	}, MAX_WAIT_MS);
 
 	runIntro(function () {

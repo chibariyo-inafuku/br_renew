@@ -1,6 +1,8 @@
 /**
  * GSAP + ScrollTrigger — front page (.br-home): hero, parallax, concept, CTA.
  * Card grid scroll-in lives in scroll-cards-gsap.js (shared with inner listings).
+ *
+ * TOP: full-screen loader defers hero until `br-home-loader-done` (see home-loading.js).
  */
 (function () {
 	'use strict';

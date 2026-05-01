@@ -11,6 +11,7 @@ while ( have_posts() ) :
 	the_post();
 	?>
 <main id="main" class="br-main br-home">
+	<?php get_template_part( 'template-parts/home/loading', 'overlay' ); ?>
 	<?php
 	get_template_part( 'template-parts/home/section', 'hero' );
 	//get_template_part( 'template-parts/home/section', 'concept' );

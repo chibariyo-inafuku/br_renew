@@ -1,6 +1,9 @@
 <?php
 /**
- * TOP only: full-screen white loader that assembles the BR mark piece by piece.
+ * TOP only: full-screen white loader (BR mark piece by piece).
+ *
+ * Mounted from `front-page.php`; `home-loading.js` + `html.br-home-loading`
+ * are wired in `inc/setup.php`.
  *
  * Final stacking (bottom -> top):
  *   tri (loading01) -> d2 (loading02) -> d3 (loading03) -> d4 (loading04)

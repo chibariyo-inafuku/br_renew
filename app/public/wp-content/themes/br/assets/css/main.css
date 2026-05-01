@@ -52,13 +52,20 @@ body {
 	max-width: 100%;
 }
 
-/* TOP page loader: class is added in wp_head before styles finish; rules must live in main.css (not home.css) so scroll is locked as soon as main.css applies. */
+/* TOP full-screen loader: html.br-home-loading is added in wp_head on the front page (see inc/setup.php). */
 html.br-home-loading,
 html.br-home-loading body {
 	overflow: hidden;
 	height: 100%;
 	touch-action: none;
 	overscroll-behavior: none;
+}
+
+/* TOP loader lives inside .br-main.br-home (z-index:1); fixed header/footer are siblings and would paint above — hide until loader releases scroll lock. */
+html.br-home-loading .br-header--top,
+html.br-home-loading footer.br-footer {
+	visibility: hidden;
+	pointer-events: none;
 }
 
 .br-skip-link {
