@@ -380,12 +380,20 @@
 }
 
 .br-main.br-home {
+	position: relative;
+	z-index: 1;
 	padding-top: 0;
 	padding-bottom: 0;
 	min-height: 0;
 	max-width: none;
 	overflow-wrap: normal;
 	word-break: normal;
+}
+
+/* TOP: fixed hero art sits inside main; lift footer above main stacking context so content is never behind */
+body.home footer.br-footer {
+	position: relative;
+	z-index: 2;
 }
 
 .br-home .br-container {
@@ -449,18 +457,417 @@
 	}
 }
 
-/* 青装飾：pill01→pill02 — 寸法に加え反時計回りへ少し回転（マイナス角が増える） */
+/* 青装飾：円滞留を長めに／複数フェーズ（ミドピル・塗り・扇回転×2・円への往復） */
 @keyframes br-home-hero-blue-to-pill02 {
-	0% {
+	/* ── 長めの「丸」ストップ（ループ頭）— わずかな角度ブレス */
+	0%,
+	7% {
 		width: var(--br-hero-blue-cap);
 		height: var(--br-hero-blue-cap);
 		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
 	}
 
-	100% {
+	11% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-a) - 7deg));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	16% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	/* 第1ウェーブ：長ピルへ */
+	24% {
 		width: var(--br-hero-blue-pill02-long);
 		height: var(--br-hero-blue-pill02-thick);
 		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	27%,
+	29% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 clamp(80px, 28vw, 520px) var(--br-home-accent, #0071bc);
+	}
+
+	/* 扇風機 ①：線形刻みではなく ease-in で角速度が徐々に上がる → イーズで減速 */
+	31.5% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.78, 1);
+	}
+
+	31.9% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 1440deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.48, 0.02, 0.28, 1);
+	}
+
+	32.05% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 1180deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.55, 1);
+	}
+
+	32.2% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 820deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+	}
+
+	32.36% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 420deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+	}
+
+	32.52% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 120deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.34, 1, 0.64, 1);
+	}
+
+	32.65% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+	}
+
+	/* いったん丸へ戻す（第2の「丸」休憩） */
+	38%,
+	44% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	/* 第2ウェーブ：やや短いミドピル（見え方を変える） */
+	50% {
+		width: var(--br-hero-blue-pill-mid-long);
+		height: var(--br-hero-blue-pill-mid-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(-52deg);
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	54% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 clamp(60px, 22vw, 420px) var(--br-home-accent, #0071bc);
+	}
+
+	56% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	/* 扇風機 ②：①と同様（総回転は短めの 502deg） */
+	58.12% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.78, 1);
+	}
+
+	58.48% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 502deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.48, 0.02, 0.28, 1);
+	}
+
+	58.62% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 415deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	58.72% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 250deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	58.81% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-b) + 95deg));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.34, 1, 0.64, 1);
+	}
+
+	58.85% {
+		width: var(--br-hero-blue-pill02-long);
+		height: var(--br-hero-blue-pill02-thick);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-b));
+		box-shadow: inset 0 0 0 0 transparent;
+		animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+	}
+
+	/* ゆっくり丸へ解体 → 長めの丸ストップ（ループ尾） */
+	68% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	72%,
+	88% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	92% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(calc(var(--br-hero-blue-rot-a) + 8deg));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+
+	96%,
+	100% {
+		width: var(--br-hero-blue-cap);
+		height: var(--br-hero-blue-cap);
+		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: inset 0 0 0 0 transparent;
+	}
+}
+
+/* アンカー：全方位にゆっくり漂う（ピース本体とは別周期） */
+@keyframes br-home-hero-blue-anchor-nudge {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+
+	12.5% {
+		transform: translate3d(2.6%, 1.9%, 0);
+	}
+
+	25% {
+		transform: translate3d(-2.2%, 2.8%, 0);
+	}
+
+	37.5% {
+		transform: translate3d(-3.4%, -1.6%, 0);
+	}
+
+	50% {
+		transform: translate3d(1.8%, -3.2%, 0);
+	}
+
+	62.5% {
+		transform: translate3d(3.2%, -0.7%, 0);
+	}
+
+	75% {
+		transform: translate3d(-1.5%, 3%, 0);
+	}
+
+	87.5% {
+		transform: translate3d(-2.8%, -2.4%, 0);
+	}
+}
+
+/* ピース全体：より広い軌道で上下左右へ移動（アンカーと二重化して奥行き） */
+@keyframes br-home-hero-blue-piece-roam {
+	0%,
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+
+	11% {
+		transform: translate3d(3.6%, -2.2%, 0);
+	}
+
+	22% {
+		transform: translate3d(5%, 3%, 0);
+	}
+
+	33% {
+		transform: translate3d(-2.8%, 4.2%, 0);
+	}
+
+	44% {
+		transform: translate3d(-4.5%, -1.4%, 0);
+	}
+
+	55% {
+		transform: translate3d(-3%, -4%, 0);
+	}
+
+	66% {
+		transform: translate3d(2.2%, -3.6%, 0);
+	}
+
+	77% {
+		transform: translate3d(4%, 1.6%, 0);
+	}
+
+	88% {
+		transform: translate3d(-1.8%, -2.8%, 0);
+	}
+}
+
+/* 分裂丸レイヤー：cap の静止区間だけ表示／切り替えはフェード（リング 40s と同期） */
+@keyframes br-home-hero-blue-split-dots-gate {
+	0%,
+	15.75% {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	16.35% {
+		opacity: 0;
+		visibility: visible;
+	}
+
+	16.4%,
+	37.55% {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	37.6% {
+		opacity: 0;
+		visibility: visible;
+	}
+
+	38.2%,
+	43.65% {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	44.25% {
+		opacity: 0;
+		visibility: visible;
+	}
+
+	44.3%,
+	67.55% {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	67.6% {
+		opacity: 0;
+		visibility: visible;
+	}
+
+	68.15%,
+	100% {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+/* 分裂丸：メイン円の外側のみで点滅（位置・サイズは各子で変数指定／40s） */
+@keyframes br-home-hero-blue-split-dot-pop {
+	0%,
+	37.5%,
+	44.66%,
+	46%,
+	79%,
+	92%,
+	100% {
+		opacity: 0;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.42);
+		animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1);
+	}
+
+	39% {
+		opacity: 1;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(var(--br-hero-split-dot-sc-mid, 0.92));
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	41.5% {
+		opacity: 1;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(var(--br-hero-split-dot-sc-peak, 1));
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	43.1% {
+		opacity: 0.88;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.88);
+		animation-timing-function: cubic-bezier(0.4, 0, 0.45, 1);
+	}
+
+	44.15% {
+		opacity: 0.22;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.68);
+		animation-timing-function: cubic-bezier(0.33, 0.15, 0.55, 1);
+	}
+
+	44.65% {
+		opacity: 0;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.52);
+		animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+	}
+
+	83.5% {
+		opacity: 1;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(var(--br-hero-split-dot-sc-mid, 0.9));
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	86.5% {
+		opacity: 1;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(var(--br-hero-split-dot-sc-peak, 1));
+		animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+	}
+
+	87.85% {
+		opacity: 0.85;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.86);
+		animation-timing-function: cubic-bezier(0.4, 0, 0.45, 1);
+	}
+
+	88.85% {
+		opacity: 0.2;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.66);
+		animation-timing-function: cubic-bezier(0.33, 0.15, 0.55, 1);
+	}
+
+	89.45% {
+		opacity: 0;
+		transform: translate3d(-50%, -50%, 0) translate3d(var(--br-hero-split-dot-x), var(--br-hero-split-dot-y), 0) scale(0.5);
+		animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
 	}
 }
 
@@ -523,6 +930,42 @@
 	}
 }
 
+/* PLAY レタリング：パス単位で順番に飛散 → 再集合（--br-play-letter-i で遅延） */
+@keyframes br-home-hero-play-letter-scatter {
+	0%,
+	20% {
+		opacity: 1;
+		transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+	}
+
+	30% {
+		opacity: 0.92;
+		transform: translate3d(calc(var(--br-play-tx) * 0.48), calc(var(--br-play-ty) * 0.48), 0) rotate(calc(var(--br-play-rot) * 0.5)) scale(0.93);
+	}
+
+	40% {
+		opacity: 0;
+		transform: translate3d(var(--br-play-tx), var(--br-play-ty), 0) rotate(var(--br-play-rot)) scale(0.68);
+	}
+
+	40.01%,
+	68% {
+		opacity: 0;
+		transform: translate3d(var(--br-play-tx), var(--br-play-ty), 0) rotate(var(--br-play-rot)) scale(0.68);
+	}
+
+	78% {
+		opacity: 0.35;
+		transform: translate3d(calc(var(--br-play-tx) * 0.24), calc(var(--br-play-ty) * 0.24), 0) rotate(calc(var(--br-play-rot) * 0.22)) scale(0.91);
+	}
+
+	88%,
+	100% {
+		opacity: 1;
+		transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+	}
+}
+
 /* 右からフェードインでスライドイン（バウンド無し） */
 @keyframes br-home-hero-news-enter {
 	0% {
@@ -568,11 +1011,18 @@
 }
 
 .br-home__hero-art {
-	position: absolute;
+	position: fixed;
 	inset: 0;
 	z-index: 0;
 	pointer-events: none;
 	overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__hero-art {
+		position: absolute;
+		inset: 0;
+	}
 }
 
 .br-home__hero-art-piece {
@@ -663,22 +1113,39 @@
 	--br-hero-blue-pill02-long: min(82vw, 1020px);
 	/* 最終形の短軸：さらに太く */
 	--br-hero-blue-pill02-thick: calc(var(--br-hero-blue-cap) * 2.08);
+	/* 第2ウェーブ用の短めピル（ワンパターン回避） */
+	--br-hero-blue-pill-mid-long: min(52vw, 640px);
+	--br-hero-blue-pill-mid-thick: calc(var(--br-hero-blue-cap) * 1.75);
 	/* 反時計回りへのわずかな回転（開始より終端のほうがマイナス角が大きい） */
 	--br-hero-blue-rot-a: -42deg;
 	--br-hero-blue-rot-b: -64deg;
-
-	left: clamp(29%, 36vw, 48%);
+	/* ヒーロー左下〜右寄せ初期位置 */
+	left: clamp(14%, 22vw, 48%);
 	top: auto;
-	bottom: clamp(2.5vh, 7vw, 11vh);
+	bottom: clamp(6vh, 11vw, 18vh);
+	right: auto;
 	width: min(96vw, 1180px);
 	height: min(82vh, 860px);
 	display: block;
 	pointer-events: none;
-	z-index: 1;
-	opacity: 1;
+	z-index: 0;
+	opacity: 0.48;
+	will-change: transform;
+	animation: br-home-hero-blue-piece-roam 46s cubic-bezier(0.37, 0, 0.63, 1) infinite;
 }
 
-.br-home__hero-art-blue-anchor {
+/* リング＋分裂丸をまとめて超低速で反時計回り（ピースの漫游とは別軸） */
+@keyframes br-home-hero-blue-spin-ccw {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(-360deg);
+	}
+}
+
+.br-home__hero-art-blue-spin {
 	position: absolute;
 	left: 0;
 	bottom: 0;
@@ -686,12 +1153,144 @@
 	height: var(--br-hero-blue-cap);
 	overflow: visible;
 	pointer-events: none;
+	transform-origin: 50% 50%;
+	will-change: transform;
+	animation: br-home-hero-blue-spin-ccw 90s linear infinite;
+}
+
+.br-home__hero-art-blue-anchor {
+	position: relative;
+	left: auto;
+	bottom: auto;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+	will-change: transform;
+	animation: br-home-hero-blue-anchor-nudge 41s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+
+/* メイン円の外側だけに分裂丸（複数・ばらけた位置・可変サイズ） */
+.br-home__hero-art-blue-split-dots {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+	overflow: visible;
+	animation: br-home-hero-blue-split-dots-gate 40s linear infinite;
+}
+
+.br-home__hero-art-blue-split-dot {
+	--br-hero-split-dot-x: 0px;
+	--br-hero-split-dot-y: 0px;
+	--br-hero-split-dot-sc-mid: 0.92;
+	--br-hero-split-dot-sc-peak: 1;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	box-sizing: border-box;
+	border: 3px solid var(--br-home-accent, #0071bc);
+	border-radius: 50%;
+	background: transparent;
+	pointer-events: none;
+	opacity: 0;
+	backface-visibility: hidden;
+	transform-origin: center center;
+	will-change: transform, opacity;
+	animation: br-home-hero-blue-split-dot-pop 40s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(1) {
+	width: calc(var(--br-hero-blue-cap) * 0.26);
+	height: calc(var(--br-hero-blue-cap) * 0.26);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * 0.68 + clamp(10px, 1.6vw, 20px));
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * -0.44);
+	--br-hero-split-dot-sc-peak: 1.05;
+	animation-delay: -0.15s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(2) {
+	width: calc(var(--br-hero-blue-cap) * 0.38);
+	height: calc(var(--br-hero-blue-cap) * 0.38);
+	--br-hero-split-dot-x: calc(-1 * (var(--br-hero-blue-cap) * 0.56 + clamp(8px, 1.2vw, 16px)));
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * -0.52);
+	--br-hero-split-dot-sc-mid: 0.88;
+	animation-delay: -3.2s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(3) {
+	width: calc(var(--br-hero-blue-cap) * 0.21);
+	height: calc(var(--br-hero-blue-cap) * 0.21);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * 0.42);
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * 0.62 + clamp(10px, 1.5vw, 22px));
+	animation-delay: -6.8s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(4) {
+	width: calc(var(--br-hero-blue-cap) * 0.34);
+	height: calc(var(--br-hero-blue-cap) * 0.34);
+	--br-hero-split-dot-x: calc(-1 * (var(--br-hero-blue-cap) * 0.74 + clamp(12px, 2vw, 24px)));
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * 0.38);
+	--br-hero-split-dot-sc-peak: 1.08;
+	animation-delay: -9.4s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(5) {
+	width: calc(var(--br-hero-blue-cap) * 0.29);
+	height: calc(var(--br-hero-blue-cap) * 0.29);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * 0.18);
+	--br-hero-split-dot-y: calc(-1 * (var(--br-hero-blue-cap) * 0.76 + clamp(8px, 1.4vw, 18px)));
+	animation-delay: -11.1s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(6) {
+	width: calc(var(--br-hero-blue-cap) * 0.32);
+	height: calc(var(--br-hero-blue-cap) * 0.32);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * -0.4);
+	--br-hero-split-dot-y: calc(-1 * (var(--br-hero-blue-cap) * 0.64 + clamp(6px, 1vw, 14px)));
+	--br-hero-split-dot-sc-mid: 0.86;
+	animation-delay: -14.6s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(7) {
+	width: calc(var(--br-hero-blue-cap) * 0.23);
+	height: calc(var(--br-hero-blue-cap) * 0.23);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * 0.82 + clamp(14px, 2.2vw, 26px));
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * 0.08);
+	animation-delay: -17.9s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(8) {
+	width: calc(var(--br-hero-blue-cap) * 0.36);
+	height: calc(var(--br-hero-blue-cap) * 0.36);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * -0.22);
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * 0.78 + clamp(12px, 2vw, 24px));
+	--br-hero-split-dot-sc-peak: 1.02;
+	animation-delay: -21.3s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(9) {
+	width: calc(var(--br-hero-blue-cap) * 0.19);
+	height: calc(var(--br-hero-blue-cap) * 0.19);
+	--br-hero-split-dot-x: calc(var(--br-hero-blue-cap) * 0.58);
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * 0.48);
+	--br-hero-split-dot-sc-mid: 0.9;
+	animation-delay: -24.7s;
+}
+
+.br-home__hero-art-blue-split-dot:nth-child(10) {
+	width: calc(var(--br-hero-blue-cap) * 0.3);
+	height: calc(var(--br-hero-blue-cap) * 0.3);
+	--br-hero-split-dot-x: calc(-1 * (var(--br-hero-blue-cap) * 0.62 + clamp(10px, 1.6vw, 20px)));
+	--br-hero-split-dot-y: calc(var(--br-hero-blue-cap) * -0.28);
+	animation-delay: -28s;
 }
 
 .br-home__hero-art-blue-ring {
 	position: absolute;
 	left: 50%;
 	top: 50%;
+	z-index: 1;
 	display: block;
 	box-sizing: border-box;
 	width: var(--br-hero-blue-cap);
@@ -701,8 +1300,8 @@
 	background: transparent;
 	backface-visibility: hidden;
 	transform-origin: center center;
-	will-change: width, height, transform;
-	animation: br-home-hero-blue-to-pill02 10s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+	will-change: width, height, transform, box-shadow;
+	animation: br-home-hero-blue-to-pill02 40s cubic-bezier(0.45, 0.03, 0.55, 0.97) infinite;
 }
 
 .br-home__hero-art-piece--scribble {
@@ -740,22 +1339,87 @@
 .br-home__hero-play-letters {
 	position: absolute;
 	/* 右へはみ出し、.br-home__hero-art の overflow で見切れ */
-	right: clamp(-6rem, -22vw, -2rem);
+	right: clamp(-7rem, -26vw, -2rem);
 	top: 10%;
 	margin: 0;
 	display: block;
-	width: min(34vw, 20rem);
+	width: min(48vw, 28rem);
 	max-width: none;
 	opacity: 0.92;
+	color: var(--br-home-ink, #01101a);
 	transform-origin: 100% 0;
 	animation: br-home-hero-play-drift 24s ease-in-out infinite alternate;
 }
 
-.br-home__hero-play-letters-img {
+.br-home__hero-play-letters-svg {
 	display: block;
 	width: 100%;
 	height: auto;
+	overflow: visible;
 	pointer-events: none;
+}
+
+.br-home__hero-play-letter {
+	transform-box: fill-box;
+	transform-origin: 50% 50%;
+	will-change: transform, opacity;
+	animation: br-home-hero-play-letter-scatter 11s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+	animation-delay: calc(var(--br-play-letter-i) * 0.2s);
+}
+
+/* 視覚重心からの外向きベクトル（およそ 40° 刻み・長めに伸ばす） */
+.br-home__hero-play-letter:nth-child(1) {
+	--br-play-tx: 0%;
+	--br-play-ty: -82%;
+	--br-play-rot: -12deg;
+}
+
+.br-home__hero-play-letter:nth-child(2) {
+	--br-play-tx: 64%;
+	--br-play-ty: -58%;
+	--br-play-rot: 22deg;
+}
+
+.br-home__hero-play-letter:nth-child(3) {
+	--br-play-tx: 82%;
+	--br-play-ty: -12%;
+	--br-play-rot: 28deg;
+}
+
+.br-home__hero-play-letter:nth-child(4) {
+	--br-play-tx: 72%;
+	--br-play-ty: 46%;
+	--br-play-rot: -18deg;
+}
+
+.br-home__hero-play-letter:nth-child(5) {
+	--br-play-tx: 38%;
+	--br-play-ty: 82%;
+	--br-play-rot: -26deg;
+}
+
+.br-home__hero-play-letter:nth-child(6) {
+	--br-play-tx: -38%;
+	--br-play-ty: 82%;
+	--br-play-rot: 16deg;
+}
+
+.br-home__hero-play-letter:nth-child(7) {
+	--br-play-tx: -78%;
+	--br-play-ty: 44%;
+	--br-play-rot: -20deg;
+}
+
+.br-home__hero-play-letter:nth-child(8) {
+	--br-play-tx: -82%;
+	--br-play-ty: -14%;
+	--br-play-rot: -24deg;
+}
+
+.br-home__hero-play-letter:nth-child(9) {
+	--br-play-tx: -52%;
+	--br-play-ty: -68%;
+	--br-play-rot: 14deg;
 }
 
 .br-home__hero-inner {
@@ -908,6 +1572,14 @@
 		font-size: 78px;
 		letter-spacing: 0.15em;
 		font-weight: 600;
+	}
+
+	.br-home__hero-title.br-home__hero-title--reveal {
+		font-size: 70px;
+	}
+
+	.br-home__hero-lead-reveal {
+		font-size: 21px;
 	}
 }
 
@@ -1484,6 +2156,13 @@ html.br-home-js .br-home__hero-video-rotate {
 		animation: none;
 	}
 
+	.br-home__hero-play-letter {
+		animation: none;
+		opacity: 1;
+		transform: none;
+		will-change: auto;
+	}
+
 	.br-home__hero-news .br-home__news-item--hero .br-home__news-link {
 		animation: none;
 		opacity: 1;
@@ -1491,11 +2170,35 @@ html.br-home-js .br-home__hero-video-rotate {
 		will-change: auto;
 	}
 
+	.br-home__hero-art-piece--blue {
+		animation: none;
+		transform: none;
+		will-change: auto;
+	}
+
+	.br-home__hero-art-blue-anchor {
+		animation: none;
+		transform: none;
+		will-change: auto;
+	}
+
+	.br-home__hero-art-blue-spin {
+		animation: none;
+		transform: none;
+		will-change: auto;
+	}
+
+	.br-home__hero-art-blue-split-dots {
+		display: none;
+	}
+
 	.br-home__hero-art-blue-ring {
+		animation: none;
 		width: var(--br-hero-blue-cap);
 		height: var(--br-hero-blue-cap);
 		border-radius: 9999px;
 		transform: translate3d(-50%, -50%, 0) rotate(var(--br-hero-blue-rot-a));
+		box-shadow: none;
 	}
 
 	.br-home__hero-art-piece--blob {
@@ -2299,7 +3002,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 }
 
 .br-home__section--service-band.br-home__section--service-light {
-	background: #fff;
+	background: transparent;
 	color: var(--br-ink);
 	padding-top: clamp(2.5rem, 5.56vw, 5rem);
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
@@ -3420,7 +4123,7 @@ html.br-home-js .br-home__section--service-light .br-home__service-card-photo-ro
    ------------------------------------------------------------------------- */
 .br-home__parallax {
 	position: relative;
-	background-color: #fff;
+	background-color: transparent;
 	color: var(--br-home-ink, var(--br-ink, #01101a));
 	min-height: 100vh;
 }
@@ -3504,7 +4207,7 @@ html.br-home-js .br-home__parallax-globe-wrap {
    AI Creative Studio — linked banner (centered; replaces former palarax strip)
    ------------------------------------------------------------------------- */
 .br-home__section.br-home__ai-creative-banner {
-	
+	position: relative;
 	padding-top: calc(var(--br-home-space-section-y) * 0.65);
 	padding-bottom: calc(var(--br-home-space-section-y) * 0.65);
 }
@@ -4931,9 +5634,9 @@ html.br-home-js .br-home__parallax-globe-wrap {
 	}
 
 	.br-home__hero-play-letters {
-		right: clamp(-4.5rem, -28vw, -1rem);
+		right: clamp(-5rem, -32vw, -1rem);
 		top: 4%;
-		width: min(72vw, 17rem);
+		width: min(88vw, 24rem);
 		max-width: none;
 		opacity: 0.35;
 	}
@@ -4949,11 +5652,15 @@ html.br-home-js .br-home__parallax-globe-wrap {
 		--br-hero-blue-cap: clamp(56px, 22vw, 96px);
 		--br-hero-blue-pill02-long: min(92vw, 720px);
 		--br-hero-blue-pill02-thick: calc(var(--br-hero-blue-cap) * 1.95);
+		--br-hero-blue-pill-mid-long: min(76vw, 520px);
+		--br-hero-blue-pill-mid-thick: calc(var(--br-hero-blue-cap) * 1.62);
 		--br-hero-blue-rot-a: -44deg;
 		--br-hero-blue-rot-b: -62deg;
 
-		left: clamp(21%, 27vw, 40%);
-		bottom: clamp(2.5vh, 11vw, 13vh);
+		left: clamp(18%, 26vw, 52%);
+		right: auto;
+		top: auto;
+		bottom: clamp(4vh, 14vw, 18vh);
 		width: min(100vw, 100%);
 		height: min(72vh, 640px);
 	}
