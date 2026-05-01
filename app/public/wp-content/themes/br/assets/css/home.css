@@ -380,12 +380,20 @@
 }
 
 .br-main.br-home {
+	position: relative;
+	z-index: 1;
 	padding-top: 0;
 	padding-bottom: 0;
 	min-height: 0;
 	max-width: none;
 	overflow-wrap: normal;
 	word-break: normal;
+}
+
+/* TOP: fixed hero art sits inside main; lift footer above main stacking context so content is never behind */
+body.home footer.br-footer {
+	position: relative;
+	z-index: 2;
 }
 
 .br-home .br-container {
@@ -568,11 +576,18 @@
 }
 
 .br-home__hero-art {
-	position: absolute;
+	position: fixed;
 	inset: 0;
 	z-index: 0;
 	pointer-events: none;
 	overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.br-home__hero-art {
+		position: absolute;
+		inset: 0;
+	}
 }
 
 .br-home__hero-art-piece {
@@ -908,6 +923,14 @@
 		font-size: 78px;
 		letter-spacing: 0.15em;
 		font-weight: 600;
+	}
+
+	.br-home__hero-title.br-home__hero-title--reveal {
+		font-size: 70px;
+	}
+
+	.br-home__hero-lead-reveal {
+		font-size: 21px;
 	}
 }
 
@@ -2299,7 +2322,7 @@ html.br-home-js .br-home__section--band-reveal.is-active .br-home__band-reveal-i
 }
 
 .br-home__section--service-band.br-home__section--service-light {
-	background: #fff;
+	background: transparent;
 	color: var(--br-ink);
 	padding-top: clamp(2.5rem, 5.56vw, 5rem);
 	padding-bottom: clamp(2.5rem, 5.56vw, 5rem);
@@ -3420,7 +3443,7 @@ html.br-home-js .br-home__section--service-light .br-home__service-card-photo-ro
    ------------------------------------------------------------------------- */
 .br-home__parallax {
 	position: relative;
-	background-color: #fff;
+	background-color: transparent;
 	color: var(--br-home-ink, var(--br-ink, #01101a));
 	min-height: 100vh;
 }
@@ -3504,7 +3527,7 @@ html.br-home-js .br-home__parallax-globe-wrap {
    AI Creative Studio — linked banner (centered; replaces former palarax strip)
    ------------------------------------------------------------------------- */
 .br-home__section.br-home__ai-creative-banner {
-	
+	position: relative;
 	padding-top: calc(var(--br-home-space-section-y) * 0.65);
 	padding-bottom: calc(var(--br-home-space-section-y) * 0.65);
 }
