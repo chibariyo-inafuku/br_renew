@@ -314,10 +314,29 @@
 			var tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
 			if (heroTitleH1) {
 				heroTitleH1.setAttribute('aria-busy', 'true');
-				tl.eventCallback('onComplete', function () {
-					heroTitleH1.removeAttribute('aria-busy');
-				});
 			}
+			tl.eventCallback('onComplete', function () {
+				if (heroTitleH1) {
+					heroTitleH1.removeAttribute('aria-busy');
+				}
+				if (heroArt && hero) {
+					gsap.fromTo(
+						heroArt,
+						{ opacity: 1 },
+						{
+							opacity: 0.32,
+							ease: 'none',
+							scrollTrigger: {
+								trigger: hero,
+								start: 'bottom bottom',
+								end: 'bottom top',
+								scrub: true,
+								invalidateOnRefresh: true,
+							},
+						}
+					);
+				}
+			});
 			if (heroColMedia) {
 				tl.to(heroColMedia, { autoAlpha: 1, y: 0, scale: 1, duration: 0.85 }, 0);
 			}

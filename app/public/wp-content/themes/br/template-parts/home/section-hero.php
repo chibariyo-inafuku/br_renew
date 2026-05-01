@@ -40,6 +40,23 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				</mask>
 			</defs>
 		</svg>
+		<div class="br-home__hero-art-piece br-home__hero-art-piece--blue" aria-hidden="true">
+			<div class="br-home__hero-art-blue-anchor">
+				<span class="br-home__hero-art-blue-ring"></span>
+				<span class="br-home__hero-art-blue-split-dots">
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+					<span class="br-home__hero-art-blue-split-dot"></span>
+				</span>
+			</div>
+		</div>
 		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob">
 			<img
 				class="br-home__hero-art-blob-img"
@@ -49,7 +66,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				decoding="async"
 			/>
 		</div>
-		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob br-home__hero-art-piece--blob--accent" aria-hidden="true">
+		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--blob br-home__hero-art-piece--blob--accent" aria-hidden="true">
 			<img
 				class="br-home__hero-art-blob-img"
 				src="<?php echo esc_url( $img . '/object1.svg' ); ?>"
@@ -57,7 +74,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 				loading="eager"
 				decoding="async"
 			/>
-		</div>
+		</div>-->
 		<script>
 		(function () {
 			document.querySelectorAll('.br-home__hero-art-blob-img').forEach(function (img) {
@@ -77,11 +94,6 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 		}());
 		</script>
 
-		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--blue" aria-hidden="true">
-			<div class="br-home__hero-art-blue-anchor">
-				<span class="br-home__hero-art-blue-ring"></span>
-			</div>
-		</div>-->
 		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>-->
 		<div class="br-home__hero-play-letters" aria-hidden="true">
 			<img
