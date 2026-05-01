@@ -22,8 +22,8 @@ alwaysApply: true
 
 ## 3. タイポグラフィ規定
 - **フォント**: 明朝体（Serif）は一切使用しない。
-  - 日本語: `Noto Sans JP`
-  - 英語: `Inter` または `Helvetica Neue` 系の幾何学的サンセリフ
+  - 日本語: 游ゴシック系のスタック（`--br-font`: `"Yu Gothic"`, `"游ゴシック"`, `YuGothic`, `"ヒラギノ角ゴ Pro"`, `"Hiragino Kaku Gothic Pro"`, `"メイリオ"`, `Meiryo`, `sans-serif`）
+  - 英語: `Poppins`（Google Fonts、`--br-font-en`）— 装飾見出しに `MuseoModerno` を併用する箇所あり
 - **スタイリング**:
   - 英字見出し: 全て大文字（`uppercase`）、字間を広く確保（`letter-spacing: 0.1em` 以上）。
   - 行間: `1.7`〜`2.0` を確保し、リキッド化してもテキストが詰まって見えないようにする。

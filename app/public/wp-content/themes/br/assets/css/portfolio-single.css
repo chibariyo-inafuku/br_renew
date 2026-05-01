@@ -41,7 +41,7 @@
 
 .br-portfolio__kicker {
 	margin: 0 0 clamp(0.25rem, 0.56vw, 0.5rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 12px;
 	font-weight: 600;
 	line-height: 1.45;
@@ -51,7 +51,7 @@
 
 .br-portfolio__title {
 	margin: 0 0 clamp(0.75rem, 1.67vw, 1.25rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 40px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -62,7 +62,7 @@
 .br-portfolio__summary {
 	margin: 0 0 clamp(0.75rem, 1.67vw, 1.25rem);
 	max-width: min(100%, 42rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.85;
@@ -75,7 +75,7 @@
 }
 
 .br-portfolio__external-link {
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 700;
 	letter-spacing: 0.06em;
@@ -99,7 +99,7 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	line-height: 1.4;
 	letter-spacing: 0.08em;
@@ -199,7 +199,7 @@
 
 .br-portfolio__meta-strip-project-terms-label {
 	display: block;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.5;
@@ -209,7 +209,7 @@
 
 .br-portfolio__meta-strip-cat-heading {
 	margin: 0 0 clamp(0.5rem, 1.11vw, 0.75rem);
-	font-family: "Inter", system-ui, sans-serif;
+	font-family: "Poppins", system-ui, sans-serif;
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -237,7 +237,7 @@
 }
 
 .br-portfolio__meta-strip-cats-link {
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.5;
@@ -256,7 +256,7 @@
 
 .br-portfolio__meta-strip-text {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.85;
@@ -271,7 +271,7 @@
 	margin: 0.15em 0;
 	padding: clamp(0.3rem, 0.5vw, 0.4rem) clamp(0.85rem, 1.67vw, 1.2rem);
 	box-sizing: border-box;
-	font-family: "Inter", system-ui, sans-serif;
+	font-family: "Poppins", system-ui, sans-serif;
 	font-size: 12px;
 	font-weight: 600;
 	line-height: 1.2;

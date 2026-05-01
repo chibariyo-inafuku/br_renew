@@ -61,7 +61,7 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	line-height: 1.4;
 	letter-spacing: 0.08em;
@@ -111,7 +111,7 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.5rem;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 700;
 	line-height: 1.07;
@@ -245,7 +245,7 @@
 
 .br-about__heading-tertiary {
 	margin: 0;
-	font-family: "MuseoModerno", system-ui, sans-serif;
+	font-family: "Poppins", "MuseoModerno", system-ui, sans-serif;
 	font-size: 48px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -357,7 +357,7 @@
 
 .br-about__mission-vertical-en {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.4;
@@ -386,7 +386,7 @@
 
 .br-about__mission-lead {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -401,7 +401,7 @@
 
 .br-about__mission-text p {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.6;
@@ -431,7 +431,7 @@
 
 .br-about__vision-vertical-en {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.4;
@@ -460,7 +460,7 @@
 
 .br-about__vision-lead {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -475,7 +475,7 @@
 
 .br-about__vision-text p {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.6;
@@ -520,7 +520,7 @@
 
 .br-about__philosophy-vertical-en {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.4;
@@ -549,7 +549,7 @@
 
 .br-about__philosophy-lead {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 28px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -564,7 +564,7 @@
 
 .br-about__philosophy-body p {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.6;
@@ -658,7 +658,7 @@
 
 .br-about__philosophy-video-caption {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.6;
@@ -676,7 +676,7 @@
 
 .br-about__body {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.75;
@@ -730,7 +730,7 @@
 
 .br-about__values-card-num {
 	display: block;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 1.4;
@@ -740,7 +740,7 @@
 
 .br-about__values-card-label {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 20px;
 	font-weight: 700;
 	line-height: 1.4;
@@ -771,7 +771,7 @@
 
 .br-about__values-card-heading {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 22px;
 	font-weight: 700;
 	line-height: 1.4;
@@ -786,7 +786,7 @@
 
 .br-about__values-card-copy p {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.6;
@@ -855,7 +855,7 @@
 .br-about__overview-heading-jp {
 	display: block;
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.4;
@@ -895,7 +895,7 @@
 
 .br-about__overview-row dt {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 700;
 	color: var(--br-ink);
@@ -903,7 +903,7 @@
 
 .br-about__overview-row dd {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 15px;
 	font-weight: 400;
 	line-height: 1.65;
@@ -1028,7 +1028,7 @@
 
 .br-about__promo-kicker {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 700;
 	line-height: 1.4;
@@ -1038,7 +1038,7 @@
 
 .br-about__promo-title {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 34px;
 	font-weight: 700;
 	line-height: 1.2;
@@ -1051,7 +1051,7 @@
 	margin: 0;
 	flex: 0 0 auto;
 	max-width: 100%;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1.7;

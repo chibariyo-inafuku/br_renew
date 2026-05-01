@@ -40,7 +40,7 @@
 
 .br-thanks__title {
 	margin: 0 0 clamp(1.25rem, 2.78vw, 2rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 24px;
 	font-weight: 700;
 	line-height: 1.5;
@@ -54,7 +54,7 @@
 
 .br-thanks__line {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.75;
@@ -68,7 +68,7 @@
 
 .br-thanks__note {
 	margin: 0 0 clamp(2rem, 4.17vw, 3rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	font-weight: 400;
 	line-height: 1.7;
@@ -89,7 +89,7 @@
 	border: 1px solid var(--br-ink);
 	border-radius: 999px;
 	background: #fff;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 15px;
 	font-weight: 500;
 	line-height: 1.4;

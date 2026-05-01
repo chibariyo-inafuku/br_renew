@@ -82,7 +82,7 @@ function br_enqueue_assets() {
 
 	wp_enqueue_style(
 		'br-google-fonts',
-		'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=MuseoModerno:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@400;500;600;700&family=Zen+Kurenaido&display=swap',
+		'https://fonts.googleapis.com/css2?family=MuseoModerno:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap',
 		array(),
 		null
 	);

@@ -23,7 +23,7 @@ switch ( $v ) {
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" width="120" height="100" focusable="false">
 			<rect x="18" y="22" width="84" height="58" rx="8" fill="#e8ecf8" stroke="#4338ca" stroke-width="2.2"/>
 			<rect x="24" y="30" width="72" height="8" rx="2" fill="#c7d2fe"/>
-			<text x="42" y="72" font-family="Inter,system-ui,sans-serif" font-size="18" font-weight="700" fill="#4338ca">&lt;/&gt;</text>
+			<text x="42" y="72" font-family="Poppins,system-ui,sans-serif" font-size="18" font-weight="700" fill="#4338ca">&lt;/&gt;</text>
 			<path d="M88 48l12 8-12 8" fill="none" stroke="#f97316" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 			<path d="M96 56h-8" stroke="#f97316" stroke-width="2.5" stroke-linecap="round"/>
 		</svg>

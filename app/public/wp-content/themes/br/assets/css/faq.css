@@ -68,7 +68,7 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 14px;
 	line-height: 1.4;
 	letter-spacing: 0.08em;
@@ -103,7 +103,7 @@
 .br-faq__lead {
 	margin: 0;
 	margin-inline: auto;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 500;
 	line-height: 1.75;
@@ -161,7 +161,7 @@
 	padding: clamp(1.6rem, 2.9vw, 2.1rem) clamp(2rem, 4vw, 2.5rem);
 	list-style: none;
 	cursor: pointer;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	transition: padding 0.2s ease;
 }
 
@@ -192,7 +192,7 @@
 
 .br-faq__q-mark {
 	flex: 0 0 auto;
-	font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+	font-family: "Poppins", "Helvetica Neue", Arial, sans-serif;
 	font-size: 24px;
 	font-weight: 800;
 	line-height: 1.2;
@@ -216,7 +216,7 @@
 /* about.css .br-about__philosophy-body p と同型 — 回答文はサイト muted（main.css --br-muted） */
 .br-faq__answer p {
 	margin: 0;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.6;
@@ -230,7 +230,7 @@
 .br-faq__answer-list {
 	margin: 0.5rem 0 0;
 	padding: 0 0 0 1.15rem;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 1.6;
@@ -342,7 +342,7 @@
 
 .br-faq__promo-title {
 	margin: 0 0 clamp(0.6rem, 1.2vw, 0.85rem);
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: clamp(1.125rem, 1.1rem + 0.45vw, 1.4rem);
 	font-weight: 700;
 	line-height: 1.45;
@@ -354,7 +354,7 @@
 .br-faq__promo-text {
 	margin: 0 auto clamp(1.5rem, 2.4vw, 1.9rem);
 	max-width: 32rem;
-	font-family: "Noto Sans JP", system-ui, sans-serif;
+	font-family: var(--br-font);
 	font-size: 15px;
 	font-weight: 500;
 	line-height: 1.8;

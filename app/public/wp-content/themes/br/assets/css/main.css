@@ -1,6 +1,8 @@
 /* BR theme — minimal layout. Replace variables for brand colors. */
 :root {
-	--br-font: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--br-font: "Yu Gothic", "游ゴシック", YuGothic, "ヒラギノ角ゴ Pro", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, sans-serif;
+	/* 欧文 UI・見出し用（Web フォント） */
+	--br-font-en: "Poppins", "Helvetica Neue", Arial, sans-serif;
 	--br-text: #1a1a1a;
 	--br-muted: #5c5c5c;
 	--br-bg: #ffffff;
@@ -467,7 +469,7 @@ html.br-nav-open .br-header__menu-x {
 		align-items: center;
 		justify-content: center;
 		gap: clamp(28px, 3.2vw, 48px);
-		font-family: "Inter", var(--br-font);
+		font-family: var(--br-font-en), var(--br-font);
 		font-size: 14px;
 		font-weight: 700;
 	line-height: 1;
@@ -538,7 +540,7 @@ html.br-nav-open .br-header__menu-x {
 	height: 46px;
 	padding: 0 0.85rem;
 	margin: 0;
-	font-family: "Inter", var(--br-font);
+	font-family: var(--br-font-en), var(--br-font);
 	font-size: 14px;
 	font-weight: 500;
 	line-height: 1;
@@ -1902,7 +1904,7 @@ footer.br-footer .br-container {
 }
 
 .br-svg-heading__text {
-	font-family: "MuseoModerno", "Inter", system-ui, sans-serif;
+	font-family: "Poppins", "MuseoModerno", system-ui, sans-serif;
 	/* ~1.2× former 56px (PC) */
 	font-size: 67px;
 	paint-order: stroke fill;
