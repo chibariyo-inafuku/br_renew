@@ -41,20 +41,22 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 			</defs>
 		</svg>
 		<div class="br-home__hero-art-piece br-home__hero-art-piece--blue" aria-hidden="true">
-			<div class="br-home__hero-art-blue-anchor">
-				<span class="br-home__hero-art-blue-ring"></span>
-				<span class="br-home__hero-art-blue-split-dots">
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-					<span class="br-home__hero-art-blue-split-dot"></span>
-				</span>
+			<div class="br-home__hero-art-blue-spin">
+				<div class="br-home__hero-art-blue-anchor">
+					<span class="br-home__hero-art-blue-ring"></span>
+					<span class="br-home__hero-art-blue-split-dots">
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+						<span class="br-home__hero-art-blue-split-dot"></span>
+					</span>
+				</div>
 			</div>
 		</div>
 		<div class="br-home__hero-art-piece br-home__hero-art-piece--blob">
@@ -96,13 +98,7 @@ if ( function_exists( 'mb_strpos' ) && function_exists( 'mb_strlen' ) && functio
 
 		<!--<div class="br-home__hero-art-piece br-home__hero-art-piece--scribble"></div>-->
 		<div class="br-home__hero-play-letters" aria-hidden="true">
-			<img
-				class="br-home__hero-play-letters-img"
-				src="<?php echo esc_url( $img . '/txt.svg' ); ?>"
-				alt=""
-				loading="eager"
-				decoding="async"
-			/>
+			<?php get_template_part( 'template-parts/home/hero-play-letters-svg' ); ?>
 		</div>
 	</div>
 
